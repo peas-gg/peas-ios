@@ -53,6 +53,11 @@
 		D017617C2A86216600926960 /* PEAS */ = {
 			isa = PBXGroup;
 			children = (
+				D02659912A868D8F00655C23 /* Clients */,
+				D02659922A868DDC00655C23 /* Model */,
+				D02659942A868DF300655C23 /* View */,
+				D02659932A868DE600655C23 /* ViewModel */,
+				D02659962A868E5800655C23 /* Utilities */,
 				D017617D2A86216600926960 /* PEASApp.swift */,
 				D017617F2A86216600926960 /* ContentView.swift */,
 				D01761812A86216700926960 /* Assets.xcassets */,
@@ -68,6 +73,41 @@
 				D01761842A86216700926960 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D02659912A868D8F00655C23 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		D02659922A868DDC00655C23 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D02659932A868DE600655C23 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D02659942A868DF300655C23 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D02659962A868E5800655C23 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
