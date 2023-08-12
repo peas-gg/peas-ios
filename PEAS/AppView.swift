@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  AppView.swift
 //  PEAS
 //
 //  Created by Kingsley Okeke on 2023-08-11.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct AppView: View {
 	var body: some View {
 		VStack {
 			Image(systemName: "globe")
@@ -19,8 +19,8 @@ struct ContentView: View {
 	}
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct AppView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView()
+		AppView()
 	}
 }
