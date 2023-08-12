@@ -10,6 +10,20 @@ import Foundation
 class CalendarClient {
 	static let shared: CalendarClient = CalendarClient()
 	
-	let startDate: Date = Date(year: 2023)
-	let endDate: Date =  Calendar.current.date(byAdding: .year, value: 2, to: Date()) ?? Date()
+	let startDate: Date = Calendar.current.date(byAdding: .month, value: -1, to: Date(year: 2023)) ?? Date()
+	let endDate: Date = Calendar.current.date(byAdding: .year, value: 2, to: Date()) ?? Date()
+	
+	var months: [Date] = []
+	
+	init() {
+		Calendar.current.enumerateDates(startingAfter: startDate, matching: DateComponents(weekOfMonth: 1), matchingPolicy: .nextTime) { date, _, stop in
+			if let date = date {
+				if date <= endDate {
+					months.append(date)
+				} else {
+					stop = true
+				}
+			}
+		}
+	}
 }
