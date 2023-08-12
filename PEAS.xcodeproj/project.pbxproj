@@ -25,6 +25,7 @@
 		D02659B22A87372500655C23 /* CustomersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B12A87372500655C23 /* CustomersView.swift */; };
 		D02659B42A87373700655C23 /* CustomersVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B32A87373700655C23 /* CustomersVM.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
+		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		D02659B12A87372500655C23 /* CustomersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersView.swift; sourceTree = "<group>"; };
 		D02659B32A87373700655C23 /* CustomersVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersVM.swift; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				D026599A2A8731D000655C23 /* FeedbackClient.swift */,
+				D0987D632A8825C900C2CBC5 /* CalendarClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				D02659AD2A87369C00655C23 /* PortalView.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
+				D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */,
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D02659A82A87363300655C23 /* CalendarView.swift in Sources */,
