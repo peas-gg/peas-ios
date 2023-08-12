@@ -12,6 +12,7 @@
 		D01761822A86216700926960 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D01761812A86216700926960 /* Assets.xcassets */; };
 		D01761852A86216700926960 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D01761842A86216700926960 /* Preview Assets.xcassets */; };
 		D017618C2A86245800926960 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D017618B2A86245800926960 /* LaunchScreen.storyboard */; };
+		D02659992A87313900655C23 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659982A87313900655C23 /* Font+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		D01761812A86216700926960 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D01761842A86216700926960 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D017618B2A86245800926960 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D02659982A87313900655C23 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +108,17 @@
 		D02659962A868E5800655C23 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				D02659972A87311000655C23 /* Extensions */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		D02659972A87311000655C23 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D02659982A87313900655C23 /* Font+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,6 +194,7 @@
 			files = (
 				D01761802A86216600926960 /* ContentView.swift in Sources */,
 				D017617E2A86216600926960 /* PEASApp.swift in Sources */,
+				D02659992A87313900655C23 /* Font+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
