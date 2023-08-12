@@ -9,13 +9,26 @@ import SwiftUI
 
 struct AppView: View {
 	var body: some View {
-		VStack {
-			Image(systemName: "globe")
-				.imageScale(.large)
-				.foregroundColor(.accentColor)
-			Text("Hello, world!")
+		TabView {
+			DashboardView(viewModel: DashboardView.ViewModel())
+				.tabItem {
+					Label("Dashboard", systemImage: "tray.full.fill")
+				}
+			CalendarView(viewModel: CalendarView.ViewModel())
+				.tabItem {
+					Label("Calendar", systemImage: "calendar")
+				}
+			PortalView(viewModel: PortalView.ViewModel())
+				.tabItem {
+					Label("Portal", systemImage: "globe")
+				}
+			CustomersView(viewModel: CustomersView.ViewModel())
+				.tabItem {
+					Label("Customers", systemImage: "person.text.rectangle")
+						.environment(\.symbolVariants, .none)
+				}
 		}
-		.padding()
+		.tint(Color.black)
 	}
 }
 

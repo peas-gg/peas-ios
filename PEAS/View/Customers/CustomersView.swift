@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CustomersView: View {
+	@StateObject var viewModel: ViewModel
+	
 	var body: some View {
 		Text("Hello, World!")
 	}
@@ -15,6 +17,6 @@ struct CustomersView: View {
 
 struct CustomersView_Previews: PreviewProvider {
 	static var previews: some View {
-		CustomersView()
+		CustomersView(viewModel: .init())
 	}
 }
