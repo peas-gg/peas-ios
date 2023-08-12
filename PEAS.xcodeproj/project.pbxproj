@@ -22,6 +22,8 @@
 		D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659A92A87363E00655C23 /* CalendarVM.swift */; };
 		D02659AD2A87369C00655C23 /* PortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659AC2A87369C00655C23 /* PortalView.swift */; };
 		D02659AF2A8736AD00655C23 /* PortalVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659AE2A8736AD00655C23 /* PortalVM.swift */; };
+		D02659B22A87372500655C23 /* CustomersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B12A87372500655C23 /* CustomersView.swift */; };
+		D02659B42A87373700655C23 /* CustomersVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B32A87373700655C23 /* CustomersVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		D02659A92A87363E00655C23 /* CalendarVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVM.swift; sourceTree = "<group>"; };
 		D02659AC2A87369C00655C23 /* PortalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalView.swift; sourceTree = "<group>"; };
 		D02659AE2A8736AD00655C23 /* PortalVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalVM.swift; sourceTree = "<group>"; };
+		D02659B12A87372500655C23 /* CustomersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersView.swift; sourceTree = "<group>"; };
+		D02659B32A87373700655C23 /* CustomersVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 		D02659942A868DF300655C23 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D02659B02A87371700655C23 /* Customers */,
 				D02659AB2A87368F00655C23 /* Portal */,
 				D02659A62A87350100655C23 /* Calendar */,
 				D02659A12A8733F300655C23 /* Dashboard */,
@@ -178,6 +183,15 @@
 				D02659AE2A8736AD00655C23 /* PortalVM.swift */,
 			);
 			path = Portal;
+			sourceTree = "<group>";
+		};
+		D02659B02A87371700655C23 /* Customers */ = {
+			isa = PBXGroup;
+			children = (
+				D02659B12A87372500655C23 /* CustomersView.swift */,
+				D02659B32A87373700655C23 /* CustomersVM.swift */,
+			);
+			path = Customers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,12 +271,14 @@
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
 				D017617E2A86216600926960 /* PEASApp.swift in Sources */,
 				D02659AD2A87369C00655C23 /* PortalView.swift in Sources */,
+				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D02659A82A87363300655C23 /* CalendarView.swift in Sources */,
 				D02659992A87313900655C23 /* Font+Extension.swift in Sources */,
 				D026599B2A8731D000655C23 /* FeedbackClient.swift in Sources */,
 				D02659A32A87341300655C23 /* DashboardVM.swift in Sources */,
+				D02659B22A87372500655C23 /* CustomersView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
