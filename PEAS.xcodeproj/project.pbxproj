@@ -20,6 +20,8 @@
 		D02659A52A87342100655C23 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659A42A87342100655C23 /* DashboardView.swift */; };
 		D02659A82A87363300655C23 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659A72A87363300655C23 /* CalendarView.swift */; };
 		D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659A92A87363E00655C23 /* CalendarVM.swift */; };
+		D02659AD2A87369C00655C23 /* PortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659AC2A87369C00655C23 /* PortalView.swift */; };
+		D02659AF2A8736AD00655C23 /* PortalVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659AE2A8736AD00655C23 /* PortalVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		D02659A42A87342100655C23 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		D02659A72A87363300655C23 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		D02659A92A87363E00655C23 /* CalendarVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVM.swift; sourceTree = "<group>"; };
+		D02659AC2A87369C00655C23 /* PortalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalView.swift; sourceTree = "<group>"; };
+		D02659AE2A8736AD00655C23 /* PortalVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,7 @@
 		D02659942A868DF300655C23 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D02659AB2A87368F00655C23 /* Portal */,
 				D02659A62A87350100655C23 /* Calendar */,
 				D02659A12A8733F300655C23 /* Dashboard */,
 			);
@@ -164,6 +169,15 @@
 				D02659A92A87363E00655C23 /* CalendarVM.swift */,
 			);
 			path = Calendar;
+			sourceTree = "<group>";
+		};
+		D02659AB2A87368F00655C23 /* Portal */ = {
+			isa = PBXGroup;
+			children = (
+				D02659AC2A87369C00655C23 /* PortalView.swift */,
+				D02659AE2A8736AD00655C23 /* PortalVM.swift */,
+			);
+			path = Portal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,8 +253,10 @@
 			files = (
 				D01761802A86216600926960 /* AppView.swift in Sources */,
 				D02659A52A87342100655C23 /* DashboardView.swift in Sources */,
+				D02659AF2A8736AD00655C23 /* PortalVM.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
 				D017617E2A86216600926960 /* PEASApp.swift in Sources */,
+				D02659AD2A87369C00655C23 /* PortalView.swift in Sources */,
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D02659A82A87363300655C23 /* CalendarView.swift in Sources */,
