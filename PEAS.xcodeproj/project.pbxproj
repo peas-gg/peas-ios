@@ -18,6 +18,8 @@
 		D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D026599F2A87333000655C23 /* UIColor+Extension.swift */; };
 		D02659A32A87341300655C23 /* DashboardVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659A22A87341300655C23 /* DashboardVM.swift */; };
 		D02659A52A87342100655C23 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659A42A87342100655C23 /* DashboardView.swift */; };
+		D02659A82A87363300655C23 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659A72A87363300655C23 /* CalendarView.swift */; };
+		D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659A92A87363E00655C23 /* CalendarVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,8 @@
 		D026599F2A87333000655C23 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		D02659A22A87341300655C23 /* DashboardVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardVM.swift; sourceTree = "<group>"; };
 		D02659A42A87342100655C23 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		D02659A72A87363300655C23 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		D02659A92A87363E00655C23 /* CalendarVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +160,8 @@
 		D02659A62A87350100655C23 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				D02659A72A87363300655C23 /* CalendarView.swift */,
+				D02659A92A87363E00655C23 /* CalendarVM.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -235,7 +241,9 @@
 				D02659A52A87342100655C23 /* DashboardView.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
 				D017617E2A86216600926960 /* PEASApp.swift in Sources */,
+				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
+				D02659A82A87363300655C23 /* CalendarView.swift in Sources */,
 				D02659992A87313900655C23 /* Font+Extension.swift in Sources */,
 				D026599B2A8731D000655C23 /* FeedbackClient.swift in Sources */,
 				D02659A32A87341300655C23 /* DashboardVM.swift in Sources */,
