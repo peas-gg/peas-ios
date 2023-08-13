@@ -27,6 +27,7 @@
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
+		D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D32A8863E9001FCC05 /* View+Frame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
+		D0BF26D32A8863E9001FCC05 /* View+Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Frame.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 				D02659982A87313900655C23 /* Font+Extension.swift */,
 				D026599F2A87333000655C23 /* UIColor+Extension.swift */,
 				D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */,
+				D0BF26D32A8863E9001FCC05 /* View+Frame.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
 				D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */,
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
+				D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */,
 				D02659A82A87363300655C23 /* CalendarView.swift in Sources */,
