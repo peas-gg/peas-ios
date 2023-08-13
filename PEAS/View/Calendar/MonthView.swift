@@ -12,6 +12,8 @@ struct MonthView: View {
 	let days: [Date]
 	let weekDays: [String]
 	
+	let dateNow: Date = Calendar.current.startOfDay(for: Date.now)
+	
 	let formatter: DateFormatter = CalendarClient.shared.monthFormatter
 	
 	init(month: Date) {
@@ -34,7 +36,7 @@ struct MonthView: View {
 				}
 				daysOffsetView()
 				ForEach(days, id: \.self) { day in
-					dayView(dayOfMonth: day.dayOfMonth)
+					dayView(date: day)
 				}
 			}
 			.padding(.horizontal)
@@ -42,15 +44,25 @@ struct MonthView: View {
 	}
 	
 	@ViewBuilder
-	func dayView(dayOfMonth: Int) -> some View {
+	func dayView(date: Date) -> some View {
+		let foregroundColor: Color = Color.app.secondaryText
 		Button(action: {}) {
-			RoundedRectangle(cornerRadius: 10)
-				.frame(dimension: 35)
-				.overlay (
-					Text("\(dayOfMonth)")
-						.font(Font.app.bodySemiBold)
-						.foregroundColor(Color.app.secondaryText)
-				)
+			ZStack {
+				let cornerRadius: CGFloat = 10
+				if Calendar.current.isDateInToday(date) {
+					RoundedRectangle(cornerRadius: cornerRadius)
+						.stroke(Color.app.darkGreen, lineWidth: 2)
+				} else {
+					RoundedRectangle(cornerRadius: cornerRadius)
+				}
+			}
+			.frame(dimension: 35)
+			.overlay (
+				Text("\(date.dayOfMonth)")
+					.strikethrough(date < dateNow, color: foregroundColor)
+					.font(Font.app.bodySemiBold)
+					.foregroundColor(foregroundColor)
+			)
 		}
 	}
 	

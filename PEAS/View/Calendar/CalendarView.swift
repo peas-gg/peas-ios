@@ -15,7 +15,7 @@ struct CalendarView: View {
 	var body: some View {
 		VerticalTabView {
 			ForEach(0..<months.count, id: \.self) {
-				monthView(currentIndex: $0)
+				monthsView(currentIndex: $0)
 			}
 		}
 		.background(Color.accentColor)
@@ -23,7 +23,7 @@ struct CalendarView: View {
 	}
 	
 	@ViewBuilder
-	func monthView(currentIndex: Int) -> some View {
+	func monthsView(currentIndex: Int) -> some View {
 		Group {
 			let count = months.count
 			let nextIndex = currentIndex + 1
