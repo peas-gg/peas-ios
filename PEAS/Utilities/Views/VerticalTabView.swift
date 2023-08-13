@@ -5,7 +5,7 @@
 //  Created by Kingsley Okeke on 2023-08-12.
 //
 
-//https://github.com/lorenzofiamingo/swiftui-vertical-tab-view
+//SOURCE: https://github.com/lorenzofiamingo/swiftui-vertical-tab-view
 
 import SwiftUI
 
