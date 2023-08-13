@@ -37,6 +37,7 @@ struct MonthView: View {
 					dayView(dayOfMonth: day.dayOfMonth)
 				}
 			}
+			.padding(.horizontal)
 		}
 	}
 	
@@ -44,7 +45,6 @@ struct MonthView: View {
 	func dayView(dayOfMonth: Int) -> some View {
 		Button(action: {}) {
 			RoundedRectangle(cornerRadius: 10)
-				.fill(Color.app.darkGreen)
 				.frame(dimension: 35)
 				.overlay (
 					Text("\(dayOfMonth)")
