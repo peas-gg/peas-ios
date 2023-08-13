@@ -8,22 +8,40 @@
 import SwiftUI
 
 struct MonthView: View {
-	let date: Date
+	let month: Date
+	let days: [Date]
+	let weekDays: [String]
+	
 	let formatter: DateFormatter = CalendarClient.shared.monthFormatter
 	
+	init(month: Date) {
+		self.month = month
+		self.days = CalendarClient.shared.getDaysInMonth(month)
+		self.weekDays = CalendarClient.shared.monthFormatter.shortWeekdaySymbols ?? []
+	}
+	
 	var body: some View {
-		Text(formatter.string(from: date))
-			.font(Font.app.largeTitle)
-			.foregroundColor(Color.app.secondaryText)
+		VStack(spacing: 20) {
+			Text(formatter.string(from: month))
+				.font(Font.app.largeTitle)
+				.foregroundColor(Color.app.secondaryText)
+			HStack {
+				ForEach(weekDays, id: \.self) { day in
+					Spacer()
+					Text(day)
+						.textCase(.uppercase)
+						.font(Font.app.semiBoldBody)
+						.foregroundColor(Color.app.darkGreen)
+					Spacer()
+				}
+			}
+		}
 	}
 }
 
 struct MonthView_Previews: PreviewProvider {
 	static var previews: some View {
-		VStack {
-			MonthView(date: Date.now)
-		}
-		.frame(maxWidth: .infinity, maxHeight: .infinity)
-		.background(Color.accentColor)
+		MonthView(month: Date.now)
+			.background(Color.accentColor)
 	}
 }
