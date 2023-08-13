@@ -31,7 +31,7 @@ extension Font.app {
 	static var footnote: Font { .system(size: FontSizes.footnote, weight: .regular, design: .rounded) }
 	static var callout: Font { .system(size: FontSizes.callout, weight: .regular, design: .rounded) }
 	static var body: Font { .system(size: FontSizes.body, weight: .regular, design: .rounded) }
-	static var semiBoldBody: Font { .system(size: FontSizes.body, weight: .semibold, design: .rounded) }
+	static var bodySemiBold: Font { .system(size: FontSizes.body, weight: .semibold, design: .rounded) }
 	static var subHeader: Font { .system(size: FontSizes.title3, weight: .regular, design: .rounded) }
 	static var title3: Font { .system(size: FontSizes.title3, weight: .medium, design: .rounded) }
 	static var title2: Font { .system(size: FontSizes.title2, weight: .semibold, design: .rounded) }
