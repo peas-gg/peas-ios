@@ -13,15 +13,19 @@ class CalendarClient {
 	let startDate: Date = Calendar.current.date(byAdding: .month, value: -1, to: Date(year: 2023)) ?? Date()
 	let endDate: Date = Calendar.current.date(byAdding: .year, value: 2, to: Date()) ?? Date()
 	
-	let monthFormatter: DateFormatter = {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "MMMM yyyy"
-		return dateFormatter
-	}()
+	let monthFormatter: DateFormatter
+	
+	let weekDays: [String]
 	
 	var months: [Date] = []
 	
 	init() {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "MMMM yyyy"
+		
+		self.monthFormatter = dateFormatter
+		self.weekDays = dateFormatter.shortWeekdaySymbols ?? []
+		
 		Calendar.current.enumerateDates(startingAfter: startDate, matching: DateComponents(weekOfMonth: 1), matchingPolicy: .nextTime) { date, _, stop in
 			if let date = date {
 				if date <= endDate {
@@ -31,6 +35,23 @@ class CalendarClient {
 				}
 			}
 		}
+	}
+	
+	func getDaysInWeek(_ day: Date) -> [Date] {
+		let firstDayOfTheWeek: Int = 1
+		var calendar = Calendar.current
+		calendar.firstWeekday = firstDayOfTheWeek
+		let date = calendar.startOfDay(for: day)
+		
+		var week = [Date]()
+		if let weekInterval = calendar.dateInterval(of: .weekOfYear, for: date) {
+			for i in firstDayOfTheWeek...weekDays.count {
+				if let day = calendar.date(byAdding: .day, value: i, to: weekInterval.start) {
+					week += [day]
+				}
+			}
+		}
+		return week
 	}
 	
 	func getDaysInMonth(_ month: Date) -> [Date] {

@@ -19,7 +19,7 @@ struct MonthView: View {
 	init(month: Date) {
 		self.month = month
 		self.days = CalendarClient.shared.getDaysInMonth(month)
-		self.weekDays = CalendarClient.shared.monthFormatter.shortWeekdaySymbols ?? []
+		self.weekDays = CalendarClient.shared.weekDays
 	}
 	
 	var body: some View {
