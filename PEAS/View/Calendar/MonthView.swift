@@ -32,6 +32,7 @@ struct MonthView: View {
 						.font(Font.app.bodySemiBold)
 						.foregroundColor(Color.app.darkGreen)
 				}
+				daysPaddingView()
 				ForEach(days, id: \.self) { day in
 					dayView(dayOfMonth: day.dayOfMonth)
 				}
@@ -50,6 +51,15 @@ struct MonthView: View {
 						.font(Font.app.bodySemiBold)
 						.foregroundColor(Color.app.secondaryText)
 				)
+		}
+	}
+	
+	@ViewBuilder
+	func daysPaddingView() -> some View {
+		let padding = Calendar.current.component(.weekday, from: days.first ?? Date()) - 1
+		ForEach(0..<padding, id: \.self) {
+			Color.clear
+				.id($0)
 		}
 	}
 }
