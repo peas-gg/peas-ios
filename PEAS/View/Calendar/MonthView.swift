@@ -21,20 +21,35 @@ struct MonthView: View {
 	}
 	
 	var body: some View {
-		VStack(spacing: 20) {
+		VStack {
 			Text(formatter.string(from: month))
 				.font(Font.app.largeTitle)
 				.foregroundColor(Color.app.secondaryText)
-			HStack {
+			LazyVGrid(columns: Array(repeating: GridItem(), count: weekDays.count)) {
 				ForEach(weekDays, id: \.self) { day in
-					Spacer()
 					Text(day)
 						.textCase(.uppercase)
-						.font(Font.app.semiBoldBody)
+						.font(Font.app.bodySemiBold)
 						.foregroundColor(Color.app.darkGreen)
-					Spacer()
+				}
+				ForEach(days, id: \.self) { day in
+					dayView(dayOfMonth: day.dayOfMonth)
 				}
 			}
+		}
+	}
+	
+	@ViewBuilder
+	func dayView(dayOfMonth: Int) -> some View {
+		Button(action: {}) {
+			RoundedRectangle(cornerRadius: 10)
+				.fill(Color.app.darkGreen)
+				.frame(dimension: 35)
+				.overlay (
+					Text("\(dayOfMonth)")
+						.font(Font.app.bodySemiBold)
+						.foregroundColor(Color.app.secondaryText)
+				)
 		}
 	}
 }
