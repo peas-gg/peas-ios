@@ -13,6 +13,7 @@ extension Color {
 
 extension Color.app {
 	//Main
+	static let accent: Color = Color(uiColor: UIColor(hex: "61D361"))
 	static let primaryBackground: Color = Color.white
 	
 	//Others

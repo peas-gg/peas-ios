@@ -54,6 +54,7 @@ struct MonthView: View {
 						.stroke(Color.app.darkGreen, lineWidth: 2)
 				} else {
 					RoundedRectangle(cornerRadius: cornerRadius)
+						.fill(Color.clear)
 				}
 			}
 			.frame(dimension: 35)
@@ -79,6 +80,6 @@ struct MonthView: View {
 struct MonthView_Previews: PreviewProvider {
 	static var previews: some View {
 		MonthView(month: Date.now)
-			.background(Color.accentColor)
+			.background(Color.app.accent)
 	}
 }

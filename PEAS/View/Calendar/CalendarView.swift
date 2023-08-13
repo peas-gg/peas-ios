@@ -17,9 +17,10 @@ struct CalendarView: View {
 			ForEach(0..<months.count, id: \.self) {
 				monthsView(currentIndex: $0)
 			}
+			.tint(Color.clear)
 		}
-		.background(Color.accentColor)
 		.tabViewStyle(.page(indexDisplayMode: .never))
+		.background(Color.app.accent.edgesIgnoringSafeArea(.top))
 	}
 	
 	@ViewBuilder
