@@ -28,6 +28,7 @@
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
 		D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D32A8863E9001FCC05 /* View+Frame.swift */; };
+		D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
 		D0BF26D32A8863E9001FCC05 /* View+Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Frame.swift"; sourceTree = "<group>"; };
+		D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 		D02659962A868E5800655C23 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				D0BF26D92A888AA4001FCC05 /* Views */,
 				D026599C2A87328500655C23 /* Styles */,
 				D02659972A87311000655C23 /* Extensions */,
 			);
@@ -204,6 +207,14 @@
 				D02659B32A87373700655C23 /* CustomersVM.swift */,
 			);
 			path = Customers;
+			sourceTree = "<group>";
+		};
+		D0BF26D92A888AA4001FCC05 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,6 +293,7 @@
 				D02659AF2A8736AD00655C23 /* PortalVM.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
 				D017617E2A86216600926960 /* PEASApp.swift in Sources */,
+				D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */,
 				D02659AD2A87369C00655C23 /* PortalView.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
