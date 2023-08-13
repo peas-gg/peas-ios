@@ -23,6 +23,7 @@ struct FontSizes {
 	static let title3: CGFloat = 18
 	static let title2: CGFloat = 20
 	static let title1: CGFloat = 25
+	static let largeTitle: CGFloat = 30
 }
 
 extension Font.app {
@@ -34,4 +35,5 @@ extension Font.app {
 	static var title3: Font { .system(size: FontSizes.title3, weight: .medium, design: .rounded) }
 	static var title2: Font { .system(size: FontSizes.title2, weight: .semibold, design: .rounded) }
 	static var title1: Font { .system(size: FontSizes.title1, weight: .medium, design: .rounded) }
+	static var largeTitle: Font { .system(size: FontSizes.largeTitle, weight: .semibold, design: .rounded) }
 }
