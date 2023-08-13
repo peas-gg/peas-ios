@@ -12,15 +12,38 @@ struct CalendarView: View {
 	
 	let months: [Date] = CalendarClient.shared.months
 	
+	@State var isExpanded: Bool = false
+	
+	@State var selectedDate: Date = Date.now
+	
 	var body: some View {
-		VerticalTabView {
-			ForEach(0..<months.count, id: \.self) {
-				monthsView(currentIndex: $0)
+		VStack {
+			if isExpanded {
+				VerticalTabView {
+					ForEach(0..<months.count, id: \.self) {
+						monthsView(currentIndex: $0)
+					}
+					.tint(Color.clear)
+				}
+				.tabViewStyle(.page(indexDisplayMode: .never))
+				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+			} else {
+				VStack {
+					MonthView(month: Date.now, selectedDate: Date.now, isCollapsed: true)
+						.padding(.bottom)
+						.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+					Spacer()
+				}
 			}
-			.tint(Color.clear)
 		}
-		.tabViewStyle(.page(indexDisplayMode: .never))
-		.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+		.overlay(alignment: .topTrailing) {
+			Button(action: { self.isExpanded.toggle() }) {
+				Image(systemName: isExpanded ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
+					.font(Font.app.largeTitle)
+					.foregroundColor(Color.white)
+			}
+			.padding(.trailing)
+		}
 	}
 	
 	@ViewBuilder
