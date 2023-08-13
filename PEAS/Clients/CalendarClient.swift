@@ -45,9 +45,11 @@ class CalendarClient {
 		
 		var week = [Date]()
 		if let weekInterval = calendar.dateInterval(of: .weekOfYear, for: date) {
-			for i in firstDayOfTheWeek...weekDays.count {
+			for i in 0...weekDays.count - firstDayOfTheWeek {
 				if let day = calendar.date(byAdding: .day, value: i, to: weekInterval.start) {
-					week += [day]
+					if Calendar.current.isDate(day, equalTo: date, toGranularity: .month) {
+						week += [day]
+					}
 				}
 			}
 		}
@@ -58,12 +60,12 @@ class CalendarClient {
 		//get the current Calendar for our calculations
 		let calendar = Calendar.current
 		//get the days in the month as a range, e.g. 1..<32 for March
-		let monthRange = calendar.range(of: .day, in: .month, for: month)!
+		let monthRange = calendar.range(of: .day, in: .month, for: month) ?? 0..<1
 		//get first day of the month
 		let components = calendar.dateComponents([.year, .month], from: month)
 		//start with the first day
 		//building a date from just a year and a month gets us day 1
-		var date = calendar.date(from: components)!
+		var date = calendar.date(from: components) ?? Date()
 		
 		//somewhere to store our output
 		var dates: [Date] = []
@@ -72,7 +74,7 @@ class CalendarClient {
 			//add to our output array...
 			dates.append(date)
 			//and increment the day
-			date = calendar.date(byAdding: .day, value: 1, to: date)!
+			date = calendar.date(byAdding: .day, value: 1, to: date) ?? Date()
 		}
 		return dates
 	}
