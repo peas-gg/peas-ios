@@ -32,4 +32,27 @@ class CalendarClient {
 			}
 		}
 	}
+	
+	func getDaysInMonth(_ month: Date) -> [Date] {
+		//get the current Calendar for our calculations
+		let calendar = Calendar.current
+		//get the days in the month as a range, e.g. 1..<32 for March
+		let monthRange = calendar.range(of: .day, in: .month, for: month)!
+		//get first day of the month
+		let components = calendar.dateComponents([.year, .month], from: month)
+		//start with the first day
+		//building a date from just a year and a month gets us day 1
+		var date = calendar.date(from: components)!
+		
+		//somewhere to store our output
+		var dates: [Date] = []
+		//loop thru the days of the month
+		for _ in monthRange {
+			//add to our output array...
+			dates.append(date)
+			//and increment the day
+			date = calendar.date(byAdding: .day, value: 1, to: date)!
+		}
+		return dates
+	}
 }
