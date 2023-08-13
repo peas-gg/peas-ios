@@ -47,9 +47,7 @@ class CalendarClient {
 		if let weekInterval = calendar.dateInterval(of: .weekOfYear, for: date) {
 			for i in 0...weekDays.count - firstDayOfTheWeek {
 				if let day = calendar.date(byAdding: .day, value: i, to: weekInterval.start) {
-					if Calendar.current.isDate(day, equalTo: date, toGranularity: .month) {
-						week += [day]
-					}
+					week += [day]
 				}
 			}
 		}

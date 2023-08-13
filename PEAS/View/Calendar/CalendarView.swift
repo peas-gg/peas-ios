@@ -15,11 +15,12 @@ struct CalendarView: View {
 	@State var isExpanded: Bool = false
 	
 	@State var selectedDate: Date = Date.now
+	@State var selectedDateIndex: Int = 0
 	
 	var body: some View {
 		VStack {
 			if isExpanded {
-				VerticalTabView {
+				VerticalTabView(selection: $selectedDateIndex) {
 					ForEach(0..<months.count, id: \.self) {
 						monthsView(currentIndex: $0)
 					}
@@ -27,22 +28,35 @@ struct CalendarView: View {
 				}
 				.tabViewStyle(.page(indexDisplayMode: .never))
 				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+				.transition(.identity)
 			} else {
 				VStack {
-					MonthView(month: Date.now, selectedDate: Date.now, isCollapsed: true)
-						.padding(.bottom)
-						.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+					MonthView(month: selectedDate, selectedDate: selectedDate, isCollapsed: true) { date in
+						self.selectedDate = date
+					}
+					.padding(.bottom)
+					.background(Color.app.accent.edgesIgnoringSafeArea(.top))
 					Spacer()
 				}
+				.transition(.identity)
 			}
 		}
 		.overlay(alignment: .topTrailing) {
-			Button(action: { self.isExpanded.toggle() }) {
+			Button(action: {
+				setSelectedDateIndex()
+				withAnimation(.default) {
+					self.isExpanded.toggle()
+				}
+			}) {
 				Image(systemName: isExpanded ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
 					.font(Font.app.largeTitle)
 					.foregroundColor(Color.white)
 			}
 			.padding(.trailing)
+		}
+		.onAppear { self.setSelectedDateIndex() }
+		.onChange(of: self.selectedDate) { _ in
+			self.setSelectedDateIndex()
 		}
 	}
 	
@@ -52,26 +66,53 @@ struct CalendarView: View {
 			let count = months.count
 			let nextIndex = currentIndex + 1
 			if count == 1 {
-				MonthView(month: months[currentIndex])
+				MonthView(month: months[currentIndex], selectedDate: selectedDate) { date in
+					dateSelected(date: date)
+				}
 			} else if currentIndex % 2 == 0, nextIndex < count {
 				VStack {
-					MonthView(month: months[currentIndex])
+					MonthView(month: months[currentIndex], selectedDate: selectedDate) { date in
+						dateSelected(date: date)
+					}
 					Spacer()
-					MonthView(month: months[nextIndex])
+					MonthView(month: months[nextIndex], selectedDate: selectedDate) { date in
+						dateSelected(date: date)
+					}
 					Spacer()
 				}
 			} else if currentIndex % 2 == 0, nextIndex >= count {
 				VStack {
-					MonthView(month: months[currentIndex])
+					MonthView(month: months[currentIndex], selectedDate: selectedDate) { date in
+						dateSelected(date: date)
+					}
 					Spacer()
 				}
 			}
+		}
+	}
+	
+	func setSelectedDateIndex() {
+		let month: Date = selectedDate.startOfMonth()
+		let adjuster = (months.firstIndex(of: month) ?? 0) / 2
+		if adjuster % 2 > 0 {
+			self.selectedDateIndex = adjuster + 3
+		} else {
+			self.selectedDateIndex = adjuster
+		}
+	}
+	
+	func dateSelected(date: Date) {
+		self.selectedDate = date
+		withAnimation(.default) {
+			self.isExpanded.toggle()
 		}
 	}
 }
 
 struct CalendarView_Previews: PreviewProvider {
 	static var previews: some View {
-		CalendarView(viewModel: .init())
+		VStack {
+			CalendarView(viewModel: .init())
+		}
 	}
 }

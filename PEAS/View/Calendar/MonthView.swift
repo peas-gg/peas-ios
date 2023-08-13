@@ -19,7 +19,9 @@ struct MonthView: View {
 	let isCollapsed: Bool
 	let selectedDate: Date?
 	
-	init(month: Date, selectedDate: Date? = nil, isCollapsed: Bool = false) {
+	let dateTapped: (Date) -> ()
+	
+	init(month: Date, selectedDate: Date? = nil, isCollapsed: Bool = false, dateTapped: @escaping (Date) -> ()) {
 		self.month = month
 		self.days = CalendarClient.shared.getDaysInMonth(month)
 		self.weekDays = CalendarClient.shared.weekDays
@@ -30,6 +32,7 @@ struct MonthView: View {
 			}
 			return nil
 		}()
+		self.dateTapped = dateTapped
 	}
 	
 	var body: some View {
@@ -46,10 +49,10 @@ struct MonthView: View {
 				}
 				if let selectedDate = selectedDate, isCollapsed {
 					let dates: [Date] = CalendarClient.shared.getDaysInWeek(selectedDate)
-					let offSet: Int = weekDays.count - dates.count
-					weekOffsetForSelectedDate(offset: offSet)
 					ForEach(dates, id: \.self) { day in
+						let isDateInMonth: Bool = Calendar.current.isDate(day, equalTo: selectedDate, toGranularity: .month)
 						dayView(date: day)
+							.opacity(isDateInMonth ? 1.0 : 0.0)
 					}
 				} else {
 					daysOffsetView()
@@ -65,7 +68,7 @@ struct MonthView: View {
 	@ViewBuilder
 	func dayView(date: Date) -> some View {
 		let foregroundColor: Color = Color.app.secondaryText
-		Button(action: {}) {
+		Button(action: { self.dateTapped(date) }) {
 			ZStack {
 				let cornerRadius: CGFloat = 10
 				let isDateSelected: Bool = selectedDate == date
@@ -101,25 +104,21 @@ struct MonthView: View {
 				.id($0)
 		}
 	}
-	
-	@ViewBuilder
-	func weekOffsetForSelectedDate(offset: Int) -> some View {
-		ForEach(0..<offset, id: \.self) {
-			Color.clear
-				.id($0)
-		}
-	}
 }
 
 struct MonthView_Previews: PreviewProvider {
 	static var previews: some View {
-		MonthView(month: Date.now)
-			.background(Color.app.accent)
+		MonthView(month: Date.now) { _ in
+			
+		}
+		.background(Color.app.accent)
 		MonthView(
 			month: Date.now,
-			selectedDate: Calendar.current.date(byAdding: .init(day: 2), to: Date.now),
+			selectedDate: Calendar.current.date(byAdding: .init(day: -10), to: Date.now),
 			isCollapsed: true
-		)
+		) { _ in
+			
+		}
 		.background(Color.app.accent)
 	}
 }
