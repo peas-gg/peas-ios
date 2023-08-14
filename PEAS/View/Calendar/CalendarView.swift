@@ -11,35 +11,45 @@ struct CalendarView: View {
 	@StateObject var viewModel: ViewModel
 	
 	let months: [Date] = CalendarClient.shared.months
+	let yOffsetPadding: CGFloat = 200
 	
 	@State var isExpanded: Bool = false
 	
 	@State var selectedDate: Date = Date.now
 	@State var selectedDateIndex: Int = 0
 	
+	@State var yOffset: CGFloat
+	
+	init(viewModel: ViewModel) {
+		self._viewModel = StateObject(wrappedValue: viewModel)
+		self._yOffset = State(initialValue: UIScreen.main.bounds.size.height - yOffsetPadding)
+	}
+	
 	var body: some View {
-		VStack {
-			if isExpanded {
-				VerticalTabView(selection: $selectedDateIndex) {
-					ForEach(0..<months.count, id: \.self) {
-						monthsView(currentIndex: $0)
-					}
-					.tint(Color.clear)
+		ZStack {
+			VerticalTabView(selection: $selectedDateIndex, hasOffset: yOffset > 0) {
+				ForEach(0..<months.count, id: \.self) {
+					monthsView(currentIndex: $0)
 				}
-				.tabViewStyle(.page(indexDisplayMode: .never))
-				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
-				.transition(.identity)
-			} else {
-				VStack {
-					MonthView(month: selectedDate, selectedDate: selectedDate, isCollapsed: true) { date in
-						self.selectedDate = date
-					}
-					.padding(.bottom)
-					.background(Color.app.accent.edgesIgnoringSafeArea(.top))
-					Spacer()
-				}
-				.transition(.identity)
+				.tint(Color.clear)
+				.opacity(isExpanded ? 1.0 : 0.0)
+				.animation(.easeInOut, value: isExpanded)
 			}
+			.tabViewStyle(.page(indexDisplayMode: .never))
+			.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+			.offset(y: -yOffset)
+			.animation(.linear.speed(2.0), value: yOffset)
+			
+			VStack {
+				MonthView(month: selectedDate, selectedDate: selectedDate, isCollapsed: true) { date in
+					self.selectedDate = date
+				}
+				.padding(.bottom)
+				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+				Spacer()
+			}
+			.opacity(isExpanded ? 0.0 : 1.0)
+			.animation(.linear.speed(4.0), value: isExpanded)
 		}
 		.overlay(alignment: .topTrailing) {
 			Button(action: {
@@ -48,15 +58,20 @@ struct CalendarView: View {
 					self.isExpanded.toggle()
 				}
 			}) {
-				Image(systemName: isExpanded ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
+				Image(systemName: "chevron.down.circle.fill")
 					.font(Font.app.largeTitle)
 					.foregroundColor(Color.white)
+					.rotationEffect(isExpanded ? .degrees(180) : .degrees(0))
+					.animation(.easeInOut, value: isExpanded)
 			}
 			.padding(.trailing)
 		}
 		.onAppear { self.setSelectedDateIndex() }
 		.onChange(of: self.selectedDate) { _ in
 			self.setSelectedDateIndex()
+		}
+		.onChange(of: isExpanded) { _ in
+			setYOffset()
 		}
 	}
 	
@@ -105,6 +120,14 @@ struct CalendarView: View {
 		self.selectedDate = date
 		withAnimation(.default) {
 			self.isExpanded.toggle()
+		}
+	}
+	
+	func setYOffset() {
+		if isExpanded {
+			yOffset = 0
+		} else {
+			yOffset = UIScreen.main.bounds.size.height - yOffsetPadding
 		}
 	}
 }
