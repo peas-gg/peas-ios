@@ -30,6 +30,7 @@ struct CalendarView: View {
 			VerticalTabView(selection: $selectedDateIndex, hasOffset: yOffset > 0) {
 				ForEach(0..<months.count, id: \.self) {
 					monthsView(currentIndex: $0)
+						.tag($0 / 2)
 				}
 				.tint(Color.clear)
 				.opacity(isExpanded ? 1.0 : 0.0)
@@ -77,27 +78,15 @@ struct CalendarView: View {
 	
 	@ViewBuilder
 	func monthsView(currentIndex: Int) -> some View {
-		Group {
-			let count = months.count
-			let nextIndex = currentIndex + 1
-			if count == 1 {
+		let nextIndex = currentIndex + 1
+		if currentIndex % 2 == 0 || currentIndex == 0 {
+			VStack {
 				MonthView(month: months[currentIndex], selectedDate: selectedDate) { date in
 					dateSelected(date: date)
 				}
-			} else if currentIndex % 2 == 0, nextIndex < count {
-				VStack {
-					MonthView(month: months[currentIndex], selectedDate: selectedDate) { date in
-						dateSelected(date: date)
-					}
-					Spacer()
+				Spacer()
+				if nextIndex < months.count {
 					MonthView(month: months[nextIndex], selectedDate: selectedDate) { date in
-						dateSelected(date: date)
-					}
-					Spacer()
-				}
-			} else if currentIndex % 2 == 0, nextIndex >= count {
-				VStack {
-					MonthView(month: months[currentIndex], selectedDate: selectedDate) { date in
 						dateSelected(date: date)
 					}
 					Spacer()
@@ -108,12 +97,8 @@ struct CalendarView: View {
 	
 	func setSelectedDateIndex() {
 		let month: Date = selectedDate.startOfMonth()
-		let adjuster = (months.firstIndex(of: month) ?? 0) / 2
-		if adjuster % 2 > 0 {
-			self.selectedDateIndex = adjuster + 3
-		} else {
-			self.selectedDateIndex = adjuster
-		}
+		let index = (months.firstIndex(of: month) ?? 0)
+		self.selectedDateIndex = index / 2
 	}
 	
 	func dateSelected(date: Date) {
