@@ -33,6 +33,7 @@
 		D0FB0AFC2A8FEDE500C56178 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */; };
 		D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */; };
 		D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0B002A8FF26200C56178 /* KeychainClient.swift */; };
+		D0FB0B032A8FF61500C56178 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0B022A8FF61500C56178 /* Token.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Overlay.swift"; sourceTree = "<group>"; };
 		D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		D0FB0B002A8FF26200C56178 /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
+		D0FB0B022A8FF61500C56178 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 		D02659922A868DDC00655C23 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D0FB0B022A8FF61500C56178 /* Token.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */,
 				D02659A82A87363300655C23 /* CalendarView.swift in Sources */,
 				D02659992A87313900655C23 /* Font+Extension.swift in Sources */,
+				D0FB0B032A8FF61500C56178 /* Token.swift in Sources */,
 				D026599B2A8731D000655C23 /* FeedbackClient.swift in Sources */,
 				D02659A32A87341300655C23 /* DashboardVM.swift in Sources */,
 				D02659B22A87372500655C23 /* CustomersView.swift in Sources */,

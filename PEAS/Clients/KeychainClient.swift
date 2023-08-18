@@ -17,7 +17,7 @@ struct KeychainClientKey<T: Codable> {
 }
 
 extension KeychainClientKey {
-	static var token: KeychainClientKey<String> { .init(name: KeyDefinitions.token.rawValue) }
+	static var token: KeychainClientKey<Token> { .init(name: KeyDefinitions.token.rawValue) }
 }
 
 protocol KeychainClientProtocol {
