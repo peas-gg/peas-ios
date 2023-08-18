@@ -32,6 +32,7 @@
 		D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */; };
 		D0FB0AFC2A8FEDE500C56178 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */; };
 		D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */; };
+		D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0B002A8FF26200C56178 /* KeychainClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabView.swift; sourceTree = "<group>"; };
 		D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Overlay.swift"; sourceTree = "<group>"; };
 		D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		D0FB0B002A8FF26200C56178 /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				D0FB0AFD2A8FEF5E00C56178 /* APIClient */,
 				D026599A2A8731D000655C23 /* FeedbackClient.swift */,
 				D0987D632A8825C900C2CBC5 /* CalendarClient.swift */,
+				D0FB0B002A8FF26200C56178 /* KeychainClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */,
 				D02659AD2A87369C00655C23 /* PortalView.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
+				D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */,
 				D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */,
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
 				D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */,
