@@ -9,7 +9,8 @@ import SwiftUI
 
 struct DashboardView: View {
 	@StateObject var viewModel: ViewModel
-	
+    let url = URL(string: "https://en.gravatar.com/userimage/238873705/657a6a16307fd0a8c47e1d7792173277.jpeg?size=256")
+    
 	var body: some View {
         VStack {
             HStack {
@@ -21,6 +22,26 @@ struct DashboardView: View {
                 }
                 .font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
                 Spacer()
+                
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                    case .success(let returnImage):
+                        returnImage
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                            //.clipShape(Circle())
+                            .cornerRadius(30)
+                    case .failure:
+                        Image(systemName: "questionmark")
+                            .font(.headline)
+                    default:
+                        Image(systemName: "questionmark")
+                            .font(.headline)
+                    }
+                }
                 
             }
             .padding(.horizontal)
