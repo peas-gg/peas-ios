@@ -49,8 +49,8 @@ struct DashboardView: View {
 					case .success(let returnImage):
 						returnImage
 							.resizable()
-							.scaledToFit()
 							.frame(width: 50, height: 60)
+							.scaledToFit()
 							.clipShape(RoundedRectangle(cornerRadius: 20))
 						//cornerRadius(30)
 					case .failure:
@@ -71,58 +71,66 @@ struct DashboardView: View {
 				.foregroundColor(.green)
 				.font(.system(size: 50, weight: .semibold, design: .rounded))
 			
-			List(services){
-				service in
-				HStack {
-					HStack() {
-						AsyncImage(url: URL(string: service.imageUrl)) { phase in
-							switch phase {
-							case .empty:
-								ProgressView()
-							case .success(let returnImage):
-								returnImage
-									.resizable()
-									.scaledToFit()
-									.frame(width: 50, height: 60)
-									.clipShape(RoundedRectangle(cornerRadius: 20))
-								//cornerRadius(30)
-							case .failure:
-								Image(systemName: "questionmark")
-									.font(.headline)
-							default:
-								Image(systemName: "questionmark")
-									.font(.headline)
-							}
-						}
-						
-						VStack(alignment: .leading){
+			VStack {
+				ScrollView {
+					LazyVStack {
+						ForEach(services) { service in
 							HStack {
-								Text(service.name)
-									.font(.headline)
-								Spacer()
-								
-								Text(service.status)
-									.font(.headline)
-								
+								HStack() {
+									AsyncImage(url: URL(string: service.imageUrl)) { phase in
+										switch phase {
+										case .empty:
+											ProgressView()
+										case .success(let returnImage):
+											returnImage
+												.resizable()
+												.frame(width: 50, height: 60)
+												.scaledToFill()
+												.clipShape(RoundedRectangle(cornerRadius: 20))
+											//cornerRadius(30)
+										case .failure:
+											Image(systemName: "questionmark")
+												.font(.headline)
+										default:
+											Image(systemName: "questionmark")
+												.font(.headline)
+										}
+									}
+									
+									VStack(alignment: .leading){
+										Text(service.name)
+											.font(.headline)
+										Text(service.price)
+											.foregroundColor(Color.app.tertiaryText)
+									}
+									Spacer()
+									Text(service.status)
+										.font(.headline)
+								}
 							}
-							
-							Text(service.price)
-								.foregroundColor(Color.app.tertiaryText)
-							
 						}
-						
-						
 					}
 				}
+				.padding(.top)
+				.padding(.horizontal, 30)
+			}
+			.background {
+				ZStack {
+					let cornerRadius: CGFloat = 10
+					RoundedRectangle(cornerRadius: cornerRadius)
+						.fill(Color.white)
+					RoundedRectangle(cornerRadius: cornerRadius)
+						.stroke(Color(uiColor: UIColor(hex: "E5E5E5")))
+				}
+				.padding(.horizontal, 10)
 			}
 			
 			Spacer()
 		}
 		.foregroundColor(Color.app.primaryText)
-		.background(Color.app.primaryBackground)
+		.background(Color(uiColor: UIColor(hex: "F4F4F6")))
 		
 	}
-	
 }
 
 struct DashboardView_Previews: PreviewProvider {
