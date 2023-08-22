@@ -37,6 +37,7 @@
 		D066F82E2A9571C300B65CA4 /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = D066F82D2A9571C300B65CA4 /* IdentifiedCollections */; };
 		D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F82F2A95723500B65CA4 /* CacheTrimmer.swift */; };
 		D066F8322A95741B00B65CA4 /* CachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8312A95741B00B65CA4 /* CachedImage.swift */; };
+		D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8332A957A4800B65CA4 /* ButtonStyles.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
@@ -84,6 +85,7 @@
 		D066F8292A95716800B65CA4 /* DefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsClient.swift; sourceTree = "<group>"; };
 		D066F82F2A95723500B65CA4 /* CacheTrimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTrimmer.swift; sourceTree = "<group>"; };
 		D066F8312A95741B00B65CA4 /* CachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImage.swift; sourceTree = "<group>"; };
+		D066F8332A957A4800B65CA4 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				D026599D2A87328D00655C23 /* Colors.swift */,
+				D066F8332A957A4800B65CA4 /* ButtonStyles.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				D066F8282A956E4400B65CA4 /* Cache.swift in Sources */,
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
 				D02659AD2A87369C00655C23 /* PortalView.swift in Sources */,
+				D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
 				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
