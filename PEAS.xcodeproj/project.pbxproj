@@ -25,6 +25,10 @@
 		D02659B22A87372500655C23 /* CustomersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B12A87372500655C23 /* CustomersView.swift */; };
 		D02659B42A87373700655C23 /* CustomersVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B32A87373700655C23 /* CustomersVM.swift */; };
 		D066F8172A9457EC00B65CA4 /* PortalOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8162A9457EC00B65CA4 /* PortalOnboardingView.swift */; };
+		D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8182A948EA000B65CA4 /* TokenManager.swift */; };
+		D066F81B2A948F0600B65CA4 /* AppUrlRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F81A2A948F0600B65CA4 /* AppUrlRequest.swift */; };
+		D066F81D2A948F8D00B65CA4 /* Authenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F81C2A948F8D00B65CA4 /* Authenticate.swift */; };
+		D066F81F2A9490E500B65CA4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F81E2A9490E500B65CA4 /* User.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
@@ -61,6 +65,10 @@
 		D02659B12A87372500655C23 /* CustomersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersView.swift; sourceTree = "<group>"; };
 		D02659B32A87373700655C23 /* CustomersVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersVM.swift; sourceTree = "<group>"; };
 		D066F8162A9457EC00B65CA4 /* PortalOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalOnboardingView.swift; sourceTree = "<group>"; };
+		D066F8182A948EA000B65CA4 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		D066F81A2A948F0600B65CA4 /* AppUrlRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUrlRequest.swift; sourceTree = "<group>"; };
+		D066F81C2A948F8D00B65CA4 /* Authenticate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticate.swift; sourceTree = "<group>"; };
+		D066F81E2A9490E500B65CA4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
@@ -146,6 +154,7 @@
 				D0FB0B0B2A8FFC8400C56178 /* API */,
 				D0FB0B022A8FF61500C56178 /* Token.swift */,
 				D0FB0B092A8FFBA500C56178 /* AppError.swift */,
+				D066F81E2A9490E500B65CA4 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -258,6 +267,8 @@
 			children = (
 				D0FB0B052A8FFB2E00C56178 /* HTTPMethod.swift */,
 				D0FB0B072A8FFB8100C56178 /* URLSession+Validation.swift */,
+				D066F8182A948EA000B65CA4 /* TokenManager.swift */,
+				D066F81A2A948F0600B65CA4 /* AppUrlRequest.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -266,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				D0FB0B0C2A8FFC9500C56178 /* ResponseTypes.swift */,
+				D066F81C2A948F8D00B65CA4 /* Authenticate.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -351,11 +363,13 @@
 				D02659A52A87342100655C23 /* DashboardView.swift in Sources */,
 				D02659AF2A8736AD00655C23 /* PortalVM.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
+				D066F81F2A9490E500B65CA4 /* User.swift in Sources */,
 				D0FB0B0A2A8FFBA500C56178 /* AppError.swift in Sources */,
 				D017617E2A86216600926960 /* PEASApp.swift in Sources */,
 				D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */,
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
 				D02659AD2A87369C00655C23 /* PortalView.swift in Sources */,
+				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
 				D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */,
 				D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */,
@@ -363,6 +377,8 @@
 				D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */,
 				D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */,
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
+				D066F81B2A948F0600B65CA4 /* AppUrlRequest.swift in Sources */,
+				D066F81D2A948F8D00B65CA4 /* Authenticate.swift in Sources */,
 				D0FB0B082A8FFB8100C56178 /* URLSession+Validation.swift in Sources */,
 				D066F8172A9457EC00B65CA4 /* PortalOnboardingView.swift in Sources */,
 				D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */,
