@@ -11,24 +11,30 @@ struct PortalOnboardingView: View {
 	var body: some View {
 		VStack {
 			VStack {
-				Text("Select your art to start setting up your business profile")
-					.font(Font.app.body)
-					.multilineTextAlignment(.leading)
-				Spacer()
-				
 				ScrollView(showsIndicators: false) {
+					Text("Select your art to start setting up your business profile")
+						.font(Font.app.body)
+						.multilineTextAlignment(.leading)
+						.padding(.top, 20)
 					LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
 						ForEach(0..<10, id: \.self) { index in
 							Button(action: {}) {
 								RoundedRectangle(cornerRadius: 20)
-									.frame(height: 170)
+									.frame(minHeight: 170)
 							}
 						}
 					}
 				}
-				.padding(.top, 20)
 			}
 			.padding(.horizontal, 10)
+		}
+		.navigationBarTitleDisplayMode(.inline)
+		.toolbar {
+			ToolbarItem(placement: .principal) {
+				Text("What is your art?")
+					.font(Font.title2)
+					.foregroundColor(Color.app.primaryText)
+			}
 		}
 	}
 }
@@ -45,7 +51,9 @@ fileprivate struct TestView: View {
 					.background(Color.app.accent)
 					.cornerRadius(20)
 			}
+			.navigationTitle("")
 		}
+		.tint(Color.app.primaryText)
 	}
 }
 
