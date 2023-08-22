@@ -31,6 +31,12 @@
 		D066F81F2A9490E500B65CA4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F81E2A9490E500B65CA4 /* User.swift */; };
 		D066F8212A94937C00B65CA4 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8202A94937C00B65CA4 /* Template.swift */; };
 		D066F8232A9493DA00B65CA4 /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8222A9493DA00B65CA4 /* Business.swift */; };
+		D066F8262A956DA800B65CA4 /* CacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8252A956DA800B65CA4 /* CacheClient.swift */; };
+		D066F8282A956E4400B65CA4 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8272A956E4400B65CA4 /* Cache.swift */; };
+		D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8292A95716800B65CA4 /* DefaultsClient.swift */; };
+		D066F82E2A9571C300B65CA4 /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = D066F82D2A9571C300B65CA4 /* IdentifiedCollections */; };
+		D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F82F2A95723500B65CA4 /* CacheTrimmer.swift */; };
+		D066F8322A95741B00B65CA4 /* CachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8312A95741B00B65CA4 /* CachedImage.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
@@ -73,6 +79,11 @@
 		D066F81E2A9490E500B65CA4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D066F8202A94937C00B65CA4 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		D066F8222A9493DA00B65CA4 /* Business.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
+		D066F8252A956DA800B65CA4 /* CacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheClient.swift; sourceTree = "<group>"; };
+		D066F8272A956E4400B65CA4 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		D066F8292A95716800B65CA4 /* DefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsClient.swift; sourceTree = "<group>"; };
+		D066F82F2A95723500B65CA4 /* CacheTrimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheTrimmer.swift; sourceTree = "<group>"; };
+		D066F8312A95741B00B65CA4 /* CachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImage.swift; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
@@ -94,6 +105,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0FB0AFC2A8FEDE500C56178 /* SwiftKeychainWrapper in Frameworks */,
+				D066F82E2A9571C300B65CA4 /* IdentifiedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,10 +156,12 @@
 		D02659912A868D8F00655C23 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				D066F8242A956D9500B65CA4 /* CacheClient */,
 				D0FB0AFD2A8FEF5E00C56178 /* APIClient */,
 				D026599A2A8731D000655C23 /* FeedbackClient.swift */,
 				D0987D632A8825C900C2CBC5 /* CalendarClient.swift */,
 				D0FB0B002A8FF26200C56178 /* KeychainClient.swift */,
+				D066F8292A95716800B65CA4 /* DefaultsClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -249,10 +263,21 @@
 			path = Customers;
 			sourceTree = "<group>";
 		};
+		D066F8242A956D9500B65CA4 /* CacheClient */ = {
+			isa = PBXGroup;
+			children = (
+				D066F8252A956DA800B65CA4 /* CacheClient.swift */,
+				D066F8272A956E4400B65CA4 /* Cache.swift */,
+				D066F82F2A95723500B65CA4 /* CacheTrimmer.swift */,
+			);
+			path = CacheClient;
+			sourceTree = "<group>";
+		};
 		D0BF26D92A888AA4001FCC05 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */,
+				D066F8312A95741B00B65CA4 /* CachedImage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -306,6 +331,7 @@
 			name = PEAS;
 			packageProductDependencies = (
 				D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */,
+				D066F82D2A9571C300B65CA4 /* IdentifiedCollections */,
 			);
 			productName = PEAS;
 			productReference = D017617A2A86216600926960 /* PEAS.app */;
@@ -337,6 +363,7 @@
 			mainGroup = D01761712A86216600926960;
 			packageReferences = (
 				D0FB0AFA2A8FEDE500C56178 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+				D066F82C2A9571C300B65CA4 /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
 			);
 			productRefGroup = D017617B2A86216600926960 /* Products */;
 			projectDirPath = "";
@@ -369,13 +396,16 @@
 				D02659A52A87342100655C23 /* DashboardView.swift in Sources */,
 				D02659AF2A8736AD00655C23 /* PortalVM.swift in Sources */,
 				D066F8232A9493DA00B65CA4 /* Business.swift in Sources */,
+				D066F8262A956DA800B65CA4 /* CacheClient.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
 				D066F81F2A9490E500B65CA4 /* User.swift in Sources */,
 				D0FB0B0A2A8FFBA500C56178 /* AppError.swift in Sources */,
 				D017617E2A86216600926960 /* PEASApp.swift in Sources */,
 				D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */,
+				D066F8282A956E4400B65CA4 /* Cache.swift in Sources */,
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
 				D02659AD2A87369C00655C23 /* PortalView.swift in Sources */,
+				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
 				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
 				D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */,
@@ -383,6 +413,7 @@
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
 				D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */,
 				D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */,
+				D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */,
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
 				D066F8212A94937C00B65CA4 /* Template.swift in Sources */,
 				D066F81B2A948F0600B65CA4 /* AppUrlRequest.swift in Sources */,
@@ -399,6 +430,7 @@
 				D026599B2A8731D000655C23 /* FeedbackClient.swift in Sources */,
 				D02659A32A87341300655C23 /* DashboardVM.swift in Sources */,
 				D02659B22A87372500655C23 /* CustomersView.swift in Sources */,
+				D066F8322A95741B00B65CA4 /* CachedImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,6 +645,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D066F82C2A9571C300B65CA4 /* XCRemoteSwiftPackageReference "swift-identified-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-identified-collections";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		D0FB0AFA2A8FEDE500C56178 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
@@ -624,6 +664,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D066F82D2A9571C300B65CA4 /* IdentifiedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D066F82C2A9571C300B65CA4 /* XCRemoteSwiftPackageReference "swift-identified-collections" */;
+			productName = IdentifiedCollections;
+		};
 		D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0FB0AFA2A8FEDE500C56178 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;

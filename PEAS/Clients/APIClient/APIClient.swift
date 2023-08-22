@@ -7,21 +7,47 @@
 
 import Combine
 import Foundation
+import UIKit
 
 typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
 	//Business
+	func getImage(url: URL) async -> UIImage?
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
 }
 
 final class APIClient: APIRequests {
-	
 	static let shared: APIClient = APIClient()
+	
+	private let queue = DispatchQueue(label: "com.strikingFinancial.business.peas.api.sessionQueue", target: .global())
 	
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	
 	let decoder: JSONDecoder = JSONDecoder()
+	
+	func getImage(url: URL) async -> UIImage? {
+		await withCheckedContinuation { continuation in
+			queue.async { [weak self] in
+				guard let self = self else { return }
+				self.urlRequest(urlRequest: URLRequest(url: url))
+					.sink(
+						receiveCompletion: { completion in
+							switch completion {
+							case .finished: return
+							case .failure:
+								continuation.resume(with: .success(nil))
+								return
+							}
+						},
+						receiveValue: { data in
+							continuation.resume(with: .success(UIImage(data: data)))
+						}
+					)
+					.store(in: &self.cancellables)
+			}
+		}
+	}
 	
 	func getTemplates() -> AnyPublisher<[Template], APIClientError> {
 		let getTemplates = APPUrlRequest(
