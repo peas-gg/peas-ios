@@ -22,3 +22,23 @@ struct Business: Codable {
 	let timeZone: String
 	let isActive: Bool
 }
+
+extension Business {
+	static let noOp1: Self = {
+		return Business(
+			id: UUID().uuidString,
+			sign: "testBusiness",
+			name: "The Hair shop",
+			category: "Hair",
+			color: "#9ED2BE",
+			description: "Box braids, cornrows, twists? I got you covered. I offer all forms of braiding styles for both men and women. Select a package and I will transform ya",
+			profilePhoto: "https://peasfilesdev.blob.core.windows.net/images/Jenny.jpg",
+			twitter: "",
+			instagram: "",
+			tiktok: "",
+			location: "Vancouver, BC. Canada",
+			timeZone: "America/Los Angeles",
+			isActive: true
+		)
+	}()
+}

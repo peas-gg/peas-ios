@@ -7,10 +7,23 @@
 
 import Foundation
 
-struct Template: Codable {
+struct Template: Codable, Identifiable {
 	let id: String
 	let category: String
 	let details: String
-	let photo: String
+	let photo: URL
 	let business: Business
+}
+
+
+extension Template {
+	static let noOp1: Self = {
+		return Template(
+			id: "A",
+			category: "Hair",
+			details: "",
+			photo: URL(string: "https://peasfilesdev.blob.core.windows.net/templates/Model.jpg")!,
+			business: Business.noOp1
+		)
+	}()
 }
