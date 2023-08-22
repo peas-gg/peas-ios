@@ -10,13 +10,26 @@ import Foundation
 
 typealias APIClientError = AppError.APIClientError
 
-final class APIClient {
+protocol APIRequests {
+	//Business
+	func getTemplates() -> AnyPublisher<[Template], APIClientError>
+}
+
+final class APIClient: APIRequests {
 	
 	static let shared: APIClient = APIClient()
 	
 	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
 	
 	let decoder: JSONDecoder = JSONDecoder()
+	
+	func getTemplates() -> AnyPublisher<[Template], APIClientError> {
+		let getTemplates = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["business", "doesAccountExist"]
+		)
+		return apiRequest(appRequest: getTemplates, output: [Template].self)
+	}
 	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
 		do {
