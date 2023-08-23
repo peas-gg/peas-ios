@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import IdentifiedCollections
 
 struct PortalOnboardingView: View {
+	let templates: IdentifiedArrayOf<Template>
 	var body: some View {
 		VStack {
 			VStack {
@@ -15,13 +17,10 @@ struct PortalOnboardingView: View {
 					Text("Select your art to start setting up your business profile")
 						.font(Font.app.body)
 						.multilineTextAlignment(.leading)
-						.padding(.top, 20)
+						.padding(.vertical, 20)
 					LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
-						ForEach(0..<10, id: \.self) { index in
-							Button(action: {}) {
-								RoundedRectangle(cornerRadius: 20)
-									.frame(minHeight: 170)
-							}
+						ForEach(templates) { template in
+							templateView(template)
 						}
 					}
 				}
@@ -37,6 +36,44 @@ struct PortalOnboardingView: View {
 			}
 		}
 	}
+	
+	@ViewBuilder
+	func templateView(_ template: Template) -> some View {
+		Button(action: {}) {
+			CachedImage(
+				url: template.photo,
+				content: { uiImage in
+					Image(uiImage: uiImage)
+						.resizable()
+						.aspectRatio(contentMode: .fit)
+				},
+				placeHolder: {
+					Color.gray
+						.overlay(ProgressView())
+				}
+			)
+			.clipShape(RoundedRectangle(cornerRadius: 20))
+			.frame(minHeight: 170)
+			.overlay(
+				RoundedRectangle(cornerRadius: 20)
+					.fill(
+						LinearGradient(
+							colors: [Color.black.opacity(0.1), Color.black.opacity(0.6)],
+							startPoint: .top,
+							endPoint: .bottom
+						)
+					)
+					.overlay(
+						VStack {
+							Text(template.category)
+								.font(Font.app.title1)
+								.foregroundColor(Color.app.secondaryText)
+						}
+					)
+			)
+		}
+		.buttonStyle(.insideScaling)
+	}
 }
 
 fileprivate struct TestView: View {
@@ -44,7 +81,7 @@ fileprivate struct TestView: View {
 		NavigationStack {
 			NavigationLink(
 				destination: {
-				PortalOnboardingView()
+				PortalOnboardingView(templates: [])
 			} ) {
 				Text("Tap Me")
 					.padding()
@@ -59,6 +96,6 @@ fileprivate struct TestView: View {
 
 struct PortalOnboardingView_Previews: PreviewProvider {
 	static var previews: some View {
-		TestView()
+		PortalOnboardingView(templates: [Template.mock1])
 	}
 }

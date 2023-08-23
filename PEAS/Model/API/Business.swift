@@ -24,7 +24,7 @@ struct Business: Codable {
 }
 
 extension Business {
-	static let noOp1: Self = {
+	static let mock1: Self = {
 		return Business(
 			id: UUID().uuidString,
 			sign: "testBusiness",

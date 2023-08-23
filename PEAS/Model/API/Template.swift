@@ -17,13 +17,13 @@ struct Template: Codable, Identifiable {
 
 
 extension Template {
-	static let noOp1: Self = {
+	static let mock1: Self = {
 		return Template(
 			id: "A",
-			category: "Hair",
+			category: "Model",
 			details: "",
 			photo: URL(string: "https://peasfilesdev.blob.core.windows.net/templates/Model.jpg")!,
-			business: Business.noOp1
+			business: Business.mock1
 		)
 	}()
 }
