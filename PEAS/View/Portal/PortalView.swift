@@ -17,6 +17,6 @@ struct PortalView: View {
 
 struct PortalView_Previews: PreviewProvider {
 	static var previews: some View {
-		PortalView(viewModel: .init())
+		PortalView(viewModel: .init(isTemplate: true, business: Business.mock1))
 	}
 }

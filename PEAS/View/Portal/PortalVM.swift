@@ -9,6 +9,13 @@ import Foundation
 
 extension PortalView {
 	@MainActor class ViewModel: ObservableObject {
+		let isTemplate: Bool
 		
+		@Published var business: Business
+		
+		init(isTemplate: Bool, business: Business) {
+			self.isTemplate = isTemplate
+			self.business = business
+		}
 	}
 }

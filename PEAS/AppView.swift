@@ -18,7 +18,7 @@ struct AppView: View {
 				.tabItem {
 					Label("Calendar", systemImage: "calendar")
 				}
-			PortalView(viewModel: PortalView.ViewModel())
+			PortalView(viewModel: PortalView.ViewModel(isTemplate: true, business: Business.mock1))
 				.tabItem {
 					Label("Portal", systemImage: "globe")
 				}

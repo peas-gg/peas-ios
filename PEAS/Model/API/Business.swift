@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Business: Codable {
-	struct Block: Codable {
+struct Business: Codable, Equatable {
+	struct Block: Codable, Equatable {
 		let id: String
 		let blockType: String
 		let image: URL
