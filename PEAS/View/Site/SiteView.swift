@@ -10,8 +10,30 @@ import SwiftUI
 struct SiteView: View {
 	@StateObject var viewModel: ViewModel
 	
+	var backgroundColour: Color {
+		let colorHex: String? = viewModel.colours[viewModel.business.color]
+		if let colorHex = colorHex {
+			return Color(uiColor: UIColor(hex: colorHex))
+		}
+		return Color.white
+	}
+	
 	var body: some View {
-		Text("Hello, World!")
+		VStack {
+			VStack {
+				HStack {
+					Image("siteLogo")
+						.resizable()
+						.scaledToFit()
+						.frame(dimension: 40)
+					Spacer()
+				}
+				Spacer()
+			}
+			.padding(.horizontal)
+		}
+		.background(backgroundColour)
+		.animation(.easeInOut, value: backgroundColour)
 	}
 }
 

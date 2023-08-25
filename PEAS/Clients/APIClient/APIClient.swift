@@ -15,6 +15,7 @@ protocol APIRequests {
 	//Business
 	func getImage(url: URL) async -> UIImage?
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
+	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError>
 }
 
 final class APIClient: APIRequests {
@@ -55,6 +56,14 @@ final class APIClient: APIRequests {
 			pathComponents: ["business", "doesAccountExist"]
 		)
 		return apiRequest(appRequest: getTemplates, output: [Template].self)
+	}
+	
+	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError> {
+		let getColors = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["business", "colours"]
+		)
+		return apiRequest(appRequest: getColors, output: Dictionary<String, String>.self)
 	}
 	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {

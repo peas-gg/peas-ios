@@ -41,7 +41,7 @@ extension Business {
 			sign: "testBusiness",
 			name: "The Hair shop",
 			category: "Hair",
-			color: "#9ED2BE",
+			color: "Berry",
 			description: "Box braids, cornrows, twists? I got you covered. I offer all forms of braiding styles for both men and women. Select a package and I will transform ya",
 			profilePhoto: "https://peasfilesdev.blob.core.windows.net/images/Jenny.jpg",
 			twitter: "",
