@@ -23,7 +23,7 @@ final class APIClient: APIRequests {
 	
 	private let queue = DispatchQueue(label: "com.strikingFinancial.business.peas.api.sessionQueue", target: .global())
 	
-	private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+	private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 	
 	let decoder: JSONDecoder = JSONDecoder()
 	
@@ -45,7 +45,7 @@ final class APIClient: APIRequests {
 							continuation.resume(with: .success(UIImage(data: data)))
 						}
 					)
-					.store(in: &self.cancellables)
+					.store(in: &self.cancellableBag)
 			}
 		}
 	}

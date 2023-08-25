@@ -15,7 +15,7 @@ extension APIClient {
 		
 		private let decoder: JSONDecoder = JSONDecoder()
 		
-		private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		private var isRefreshing: Bool = false
 		private var lastRefreshed: Date?
 		
@@ -81,7 +81,7 @@ extension APIClient {
 									self.isRefreshing = false
 									promise(.success(true))
 								})
-								.store(in: &self.cancellables)
+								.store(in: &self.cancellableBag)
 						} else {
 							promise(.success(true))
 						}
