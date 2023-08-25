@@ -18,6 +18,10 @@ struct SiteView: View {
 		return Color.white
 	}
 	
+	var business: Business {
+		viewModel.business
+	}
+	
 	var body: some View {
 		VStack {
 			VStack {
@@ -26,14 +30,56 @@ struct SiteView: View {
 						.resizable()
 						.scaledToFit()
 						.frame(dimension: 40)
+					Text("/\(business.sign)")
+						.font(Font.app.title2)
 					Spacer()
 				}
+				HStack(alignment: .top) {
+					CachedAvatar(url: business.profilePhoto, height: 60)
+					VStack {
+						Text("\(business.name)")
+							.font(Font.app.title2Display)
+						ScrollView(.horizontal, showsIndicators: false) {
+							HStack {
+								ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
+									colorButton(colorName: colorName)
+								}
+							}
+						}
+					}
+					.padding(.top, 4)
+					Spacer()
+				}
+				.padding(.vertical)
+				
 				Spacer()
 			}
 			.padding(.horizontal)
 		}
-		.background(backgroundColour)
-		.animation(.easeInOut, value: backgroundColour)
+		.background(backgroundColour.ignoresSafeArea().animation(.easeOut, value: backgroundColour))
+	}
+	
+	@ViewBuilder
+	func colorButton(colorName: String) -> some View {
+		let color: Color = {
+			let colorHex: String? = viewModel.colours[colorName]
+			if let colorHex = colorHex {
+				return Color(uiColor: UIColor(hex: colorHex))
+			}
+			return Color.gray
+		}()
+		let isCurrentColor: Bool = color == backgroundColour
+		Button(action: { viewModel.setBackgroundColor(colorName: colorName) }) {
+			ZStack{
+				Circle()
+					.fill(Color.white)
+				Circle()
+					.fill(color)
+					.padding(isCurrentColor ? 2 : 0)
+			}
+			.frame(dimension: 36)
+		}
+		.buttonStyle(.insideScaling)
 	}
 }
 

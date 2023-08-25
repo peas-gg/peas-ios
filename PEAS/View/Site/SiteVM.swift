@@ -33,5 +33,9 @@ extension SiteView {
 				})
 				.store(in: &cancellableBag)
 		}
+		
+		func setBackgroundColor(colorName: String) {
+			self.business.color = colorName
+		}
 	}
 }

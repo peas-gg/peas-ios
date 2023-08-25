@@ -11,4 +11,8 @@ extension View {
 	func frame(dimension: CGFloat?, alignment: Alignment = .center) -> some View {
 		frame(width: dimension, height: dimension, alignment: alignment)
 	}
+	
+	func frame(size: CGSize, alignment: Alignment = .center) -> some View {
+		frame(width: size.width, height: size.height, alignment: alignment)
+	}
 }
