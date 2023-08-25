@@ -24,7 +24,7 @@ struct SiteView: View {
 	
 	var body: some View {
 		VStack {
-			VStack {
+			VStack(alignment: .leading) {
 				HStack {
 					Image("siteLogo")
 						.resizable()
@@ -32,7 +32,6 @@ struct SiteView: View {
 						.frame(dimension: 40)
 					Text("/\(business.sign)")
 						.font(Font.app.title2)
-					Spacer()
 				}
 				HStack(alignment: .top) {
 					CachedAvatar(url: business.profilePhoto, height: 60)
@@ -51,14 +50,24 @@ struct SiteView: View {
 						}
 					}
 					.padding(.top, 4)
-					Spacer()
 				}
 				.padding(.vertical)
 				
-				Spacer()
+				Text(business.description)
+					.font(.system(size: FontSizes.body, weight: .regular, design: .default))
+				
+				HStack {
+					Image(systemName: "mappin.and.ellipse")
+						.font(Font.app.bodySemiBold)
+					Text(business.location)
+						.font(.system(size: FontSizes.body, weight: .semibold, design: .default))
+				}
+				.padding(.vertical, 2)
 			}
 			.padding(.horizontal)
+			Spacer()
 		}
+		.foregroundColor(Color.app.primaryText)
 		.background(backgroundColour.ignoresSafeArea().animation(.easeOut, value: backgroundColour))
 	}
 	
@@ -90,7 +99,6 @@ struct SiteView: View {
 		Button(action: {}) {
 			Text("@")
 				.font(Font.app.bodySemiBold)
-				.foregroundColor(Color.app.primaryText)
 				.padding(8)
 				.background(
 					RoundedRectangle(cornerRadius: 10)
