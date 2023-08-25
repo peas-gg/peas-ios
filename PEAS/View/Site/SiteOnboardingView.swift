@@ -12,28 +12,24 @@ struct SiteOnboardingView: View {
 	let templates: IdentifiedArrayOf<Template>
 	var body: some View {
 		VStack {
+			Text("What is your art?")
+				.font(Font.app.title2)
+				.foregroundColor(Color.app.primaryText)
+			Text("Select your art to start setting up your business site")
+				.font(Font.app.body)
+				.multilineTextAlignment(.leading)
+				.padding(.top, 10)
 			VStack {
 				ScrollView(showsIndicators: false) {
-					Text("Select your art to start setting up your business profile")
-						.font(Font.app.body)
-						.multilineTextAlignment(.leading)
-						.padding(.vertical, 20)
 					LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
 						ForEach(templates) { template in
 							templateView(template)
 						}
 					}
+					.padding(.top, 10)
 				}
 			}
 			.padding(.horizontal, 10)
-		}
-		.navigationBarTitleDisplayMode(.inline)
-		.toolbar {
-			ToolbarItem(placement: .principal) {
-				Text("What is your art?")
-					.font(Font.title2)
-					.foregroundColor(Color.app.primaryText)
-			}
 		}
 	}
 	
@@ -78,19 +74,7 @@ struct SiteOnboardingView: View {
 
 fileprivate struct TestView: View {
 	var body: some View {
-		NavigationStack {
-			NavigationLink(
-				destination: {
-					SiteOnboardingView(templates: [])
-			} ) {
-				Text("Tap Me")
-					.padding()
-					.background(Color.app.accent)
-					.cornerRadius(20)
-			}
-			.navigationTitle("")
-		}
-		.tint(Color.app.primaryText)
+		SiteOnboardingView(templates: [])
 	}
 }
 
