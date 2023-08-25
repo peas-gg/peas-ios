@@ -36,15 +36,18 @@ struct SiteView: View {
 				}
 				HStack(alignment: .top) {
 					CachedAvatar(url: business.profilePhoto, height: 60)
-					VStack {
+					VStack(alignment: .leading) {
 						Text("\(business.name)")
 							.font(Font.app.title2Display)
-						ScrollView(.horizontal, showsIndicators: false) {
-							HStack {
-								ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
-									colorButton(colorName: colorName)
+						HStack {
+							ScrollView(.horizontal, showsIndicators: false) {
+								HStack {
+									ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
+										colorButton(colorName: colorName)
+									}
 								}
 							}
+							linksButton()
 						}
 					}
 					.padding(.top, 4)
@@ -75,9 +78,25 @@ struct SiteView: View {
 					.fill(Color.white)
 				Circle()
 					.fill(color)
-					.padding(isCurrentColor ? 2 : 0)
+					.padding(isCurrentColor ? 2 : 0.2)
 			}
 			.frame(dimension: 36)
+		}
+		.buttonStyle(.insideScaling)
+	}
+	
+	@ViewBuilder
+	func linksButton() -> some View {
+		Button(action: {}) {
+			Text("@")
+				.font(Font.app.bodySemiBold)
+				.foregroundColor(Color.app.primaryText)
+				.padding(8)
+				.background(
+					RoundedRectangle(cornerRadius: 10)
+						.fill(Color.white)
+						.frame(dimension: 36)
+				)
 		}
 		.buttonStyle(.insideScaling)
 	}
