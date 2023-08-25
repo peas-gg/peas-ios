@@ -15,7 +15,7 @@ struct AppView: View {
 		case .welcome:
 			Text("WELCOME")
 		case .template:
-			PortalView(viewModel: .init(isTemplate: true, business: Business.mock1))
+			SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
 		case .home:
 			HomeView(viewModel: .init())
 		}

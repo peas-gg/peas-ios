@@ -1,5 +1,5 @@
 //
-//  PortalOnboardingView.swift
+//  SiteOnboardingView.swift
 //  PEAS
 //
 //  Created by Kingsley Okeke on 2023-08-21.
@@ -8,7 +8,7 @@
 import SwiftUI
 import IdentifiedCollections
 
-struct PortalOnboardingView: View {
+struct SiteOnboardingView: View {
 	let templates: IdentifiedArrayOf<Template>
 	var body: some View {
 		VStack {
@@ -81,7 +81,7 @@ fileprivate struct TestView: View {
 		NavigationStack {
 			NavigationLink(
 				destination: {
-				PortalOnboardingView(templates: [])
+					SiteOnboardingView(templates: [])
 			} ) {
 				Text("Tap Me")
 					.padding()
@@ -94,8 +94,8 @@ fileprivate struct TestView: View {
 	}
 }
 
-struct PortalOnboardingView_Previews: PreviewProvider {
+struct SiteOnboardingView_Previews: PreviewProvider {
 	static var previews: some View {
-		PortalOnboardingView(templates: [Template.mock1])
+		SiteOnboardingView(templates: [Template.mock1])
 	}
 }

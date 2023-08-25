@@ -1,5 +1,5 @@
 //
-//  PortalView.swift
+//  SiteView.swift
 //  PEAS
 //
 //  Created by Kingsley Okeke on 2023-08-11.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PortalView: View {
+struct SiteView: View {
 	@StateObject var viewModel: ViewModel
 	
 	var body: some View {
@@ -15,8 +15,8 @@ struct PortalView: View {
 	}
 }
 
-struct PortalView_Previews: PreviewProvider {
+struct SiteView_Previews: PreviewProvider {
 	static var previews: some View {
-		PortalView(viewModel: .init(isTemplate: true, business: Business.mock1))
+		SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
 	}
 }

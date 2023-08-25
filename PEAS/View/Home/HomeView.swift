@@ -24,14 +24,14 @@ struct HomeView: View {
 				.tabItem {
 					Label("Calendar", systemImage: "calendar")
 				}
-			PortalView(viewModel: PortalView.ViewModel(isTemplate: true, business: Business.mock1))
-				.tabItem {
-					Label("Portal", systemImage: "globe")
-				}
 			CustomersView(viewModel: CustomersView.ViewModel())
 				.tabItem {
 					Label("Customers", systemImage: "person.text.rectangle")
 						.environment(\.symbolVariants, .none)
+				}
+			SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: Business.mock1))
+				.tabItem {
+					Label("Site", systemImage: "globe")
 				}
 		}
 		.tint(Color.black)
