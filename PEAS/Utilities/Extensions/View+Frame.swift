@@ -15,4 +15,8 @@ extension View {
 	func frame(size: CGSize, alignment: Alignment = .center) -> some View {
 		frame(width: size.width, height: size.height, alignment: alignment)
 	}
+	
+	func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+		ModifiedContent(content: self, modifier: CornerRadiusStyle(radius: radius, corners: corners))
+	}
 }
