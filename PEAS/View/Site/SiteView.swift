@@ -23,52 +23,71 @@ struct SiteView: View {
 	}
 	
 	var body: some View {
-		VStack {
-			VStack(alignment: .leading) {
-				HStack {
-					Image("siteLogo")
-						.resizable()
-						.scaledToFit()
-						.frame(dimension: 40)
-					Text("/\(business.sign)")
-						.font(Font.app.title2)
-				}
-				HStack(alignment: .top) {
-					CachedAvatar(url: business.profilePhoto, height: 60)
-					VStack(alignment: .leading) {
-						Text("\(business.name)")
-							.font(Font.app.title2Display)
-						HStack {
-							ScrollView(.horizontal, showsIndicators: false) {
-								HStack {
-									ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
-										colorButton(colorName: colorName)
+		ScrollView(showsIndicators: false) {
+			VStack {
+				VStack(alignment: .leading) {
+					HStack {
+						Image("siteLogo")
+							.resizable()
+							.scaledToFit()
+							.frame(dimension: 40)
+						Text("/\(business.sign)")
+							.font(Font.app.title2)
+					}
+					HStack(alignment: .top) {
+						CachedAvatar(url: business.profilePhoto, height: 60)
+						VStack(alignment: .leading) {
+							Text("\(business.name)")
+								.font(Font.app.title2Display)
+							HStack {
+								ScrollView(.horizontal, showsIndicators: false) {
+									HStack {
+										ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
+											colorButton(colorName: colorName)
+										}
 									}
 								}
+								linksButton()
 							}
-							linksButton()
 						}
+						.padding(.top, 4)
 					}
-					.padding(.top, 4)
+					.padding(.vertical)
+					
+					Text(business.description)
+						.font(.system(size: FontSizes.body, weight: .regular, design: .default))
+					
+					HStack {
+						Image(systemName: "mappin.and.ellipse")
+							.font(Font.app.bodySemiBold)
+						Text(business.location)
+							.font(.system(size: FontSizes.body, weight: .semibold, design: .default))
+					}
+					.padding(.vertical, 2)
 				}
-				.padding(.vertical)
-				
-				Text(business.description)
-					.font(.system(size: FontSizes.body, weight: .regular, design: .default))
-				
-				HStack {
-					Image(systemName: "mappin.and.ellipse")
-						.font(Font.app.bodySemiBold)
-					Text(business.location)
-						.font(.system(size: FontSizes.body, weight: .semibold, design: .default))
+				.padding(.horizontal)
+				LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2), spacing: 10) {
+					ForEach(business.blocks) { block in
+						blockView(block)
+					}
 				}
-				.padding(.vertical, 2)
+				.padding(14)
+				.background {
+					Color.white
+						.cornerRadius(30, corners: [.topLeft, .topRight])
+						.edgesIgnoringSafeArea(.bottom)
+				}
 			}
-			.padding(.horizontal)
-			Spacer()
 		}
 		.foregroundColor(Color.app.primaryText)
-		.background(backgroundColour.ignoresSafeArea().animation(.easeOut, value: backgroundColour))
+		.background {
+			VStack {
+				backgroundColour
+				Color.white
+			}
+			.ignoresSafeArea()
+			.animation(.easeOut, value: backgroundColour)
+		}
 	}
 	
 	@ViewBuilder
@@ -82,7 +101,7 @@ struct SiteView: View {
 		}()
 		let isCurrentColor: Bool = color == backgroundColour
 		Button(action: { viewModel.setBackgroundColor(colorName: colorName) }) {
-			ZStack{
+			ZStack {
 				Circle()
 					.fill(Color.white)
 				Circle()
@@ -107,6 +126,27 @@ struct SiteView: View {
 				)
 		}
 		.buttonStyle(.insideScaling)
+	}
+	
+	@ViewBuilder
+	func blockView(_ block: Business.Block) -> some View {
+		Button(action: {}) {
+			CachedImage(
+				url: block.image,
+				content: { uiImage in
+					Image(uiImage: uiImage)
+						.resizable()
+						.scaledToFit()
+						.clipShape(RoundedRectangle(cornerRadius: 20))
+				},
+				placeHolder: {
+					RoundedRectangle(cornerRadius: 20)
+						.fill(Color.white.opacity(0.2))
+				}
+			)
+			.frame(minHeight: 230)
+		}
+		.buttonStyle(.bright)
 	}
 }
 
