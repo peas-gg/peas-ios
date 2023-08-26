@@ -130,6 +130,15 @@ struct SiteView: View {
 	@ViewBuilder
 	func blockView(_ block: Business.Block) -> some View {
 		let height: CGFloat = 230
+		let time: String = {
+			let formatter = DateComponentsFormatter()
+			formatter.allowedUnits = [.hour, .minute]
+			formatter.unitsStyle = .brief
+			if let formattedString = formatter.string(from: TimeInterval(block.duration)) {
+				return formattedString
+			}
+			return  ""
+		}()
 		Button(action: {}) {
 			CachedImage(
 				url: block.image,
@@ -146,6 +155,31 @@ struct SiteView: View {
 						.frame(maxHeight: height)
 						.overlay(ProgressView())
 				}
+			)
+			.overlay(
+				RoundedRectangle(cornerRadius: 20)
+					.fill(
+						LinearGradient(
+							colors: [Color.clear, Color.black.opacity(0.8)],
+							startPoint: .top,
+							endPoint: .bottom
+						)
+					)
+					.overlay(alignment: .bottom) {
+						VStack(alignment: .leading) {
+							Text(block.title)
+								.font(Font.app.title2)
+								.foregroundColor(Color.app.secondaryText)
+								.padding(.leading)
+							HStack(spacing: 2) {
+								Spacer()
+								Text("\(time)")
+									.font(.system(size: FontSizes.footnote, weight: .medium, design: .rounded))
+									.foregroundColor(Color.gray)
+									.padding([.horizontal, .bottom])
+							}
+						}
+					}
 			)
 		}
 		.buttonStyle(.bright)
