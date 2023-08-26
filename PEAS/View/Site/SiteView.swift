@@ -27,7 +27,7 @@ struct SiteView: View {
 			VStack {
 				VStack(alignment: .leading) {
 					HStack {
-						Image("siteLogo")
+						Image("SiteLogo")
 							.resizable()
 							.scaledToFit()
 							.frame(dimension: 40)
