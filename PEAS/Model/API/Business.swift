@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Business: Codable, Equatable {
-	struct Block: Codable, Equatable {
+struct Business: Codable, Equatable, Identifiable {
+	struct Block: Codable, Equatable, Identifiable {
 		let id: String
 		let blockType: String
 		var image: URL
@@ -43,7 +43,7 @@ extension Business {
 			category: "Hair",
 			color: "Celery",
 			description: "Box braids, cornrows, twists? I got you covered. I offer all forms of braiding styles for both men and women. Select a package and I will transform ya",
-			profilePhoto: URL(string: "https://peasfilesdev.blob.core.windows.net/images/Jenny.jpg")!,
+			profilePhoto: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny.jpg")!,
 			twitter: "",
 			instagram: "",
 			tiktok: "",
@@ -54,7 +54,34 @@ extension Business {
 				Block(
 					id: "1",
 					blockType: "Genesis",
-					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/Jenny.jpg")!,
+					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_1.jpg")!,
+					price: 40.0,
+					duration: 14000,
+					title: "Haircuts & hair dyes",
+					description: "This will take approximately 4 hours on average. But please add a note if you have any special request."
+				),
+				Block(
+					id: "2",
+					blockType: "Genesis",
+					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_2.jpg")!,
+					price: 40.0,
+					duration: 14000,
+					title: "I am just trying this out",
+					description: "This will take approximately 4 hours on average. But please add a note if you have any special request."
+				),
+				Block(
+					id: "3",
+					blockType: "Genesis",
+					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_2.jpg")!,
+					price: 40.0,
+					duration: 14000,
+					title: "I am just trying this out",
+					description: "This will take approximately 4 hours on average. But please add a note if you have any special request."
+				),
+				Block(
+					id: "4",
+					blockType: "Genesis",
+					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_2.jpg")!,
 					price: 40.0,
 					duration: 14000,
 					title: "I am just trying this out",
