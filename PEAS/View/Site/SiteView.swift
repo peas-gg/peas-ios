@@ -53,10 +53,8 @@ struct SiteView: View {
 						.padding(.top, 4)
 					}
 					.padding(.vertical)
-					
 					Text(business.description)
 						.font(.system(size: FontSizes.body, weight: .regular, design: .default))
-					
 					HStack {
 						Image(systemName: "mappin.and.ellipse")
 							.font(Font.app.bodySemiBold)
@@ -66,7 +64,7 @@ struct SiteView: View {
 					.padding(.vertical, 2)
 				}
 				.padding(.horizontal)
-				LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2), spacing: 10) {
+				LazyVGrid(columns: Array(repeating: GridItem(spacing: 15), count: 2), spacing: 15) {
 					ForEach(business.blocks) { block in
 						blockView(block)
 					}
@@ -77,6 +75,7 @@ struct SiteView: View {
 						.cornerRadius(30, corners: [.topLeft, .topRight])
 						.edgesIgnoringSafeArea(.bottom)
 				}
+				.padding(.top, 10)
 			}
 		}
 		.foregroundColor(Color.app.primaryText)
@@ -130,21 +129,24 @@ struct SiteView: View {
 	
 	@ViewBuilder
 	func blockView(_ block: Business.Block) -> some View {
+		let height: CGFloat = 230
 		Button(action: {}) {
 			CachedImage(
 				url: block.image,
 				content: { uiImage in
 					Image(uiImage: uiImage)
 						.resizable()
-						.scaledToFit()
+						.scaledToFill()
+						.frame(maxHeight: height)
 						.clipShape(RoundedRectangle(cornerRadius: 20))
 				},
 				placeHolder: {
 					RoundedRectangle(cornerRadius: 20)
-						.fill(Color.white.opacity(0.2))
+						.fill(Color.gray.opacity(0.2))
+						.frame(maxHeight: height)
+						.overlay(ProgressView())
 				}
 			)
-			.frame(minHeight: 230)
 		}
 		.buttonStyle(.bright)
 	}
