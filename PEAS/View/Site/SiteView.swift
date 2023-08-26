@@ -124,7 +124,6 @@ struct SiteView: View {
 						.frame(dimension: 36)
 				)
 		}
-		.buttonStyle(.insideScaling)
 	}
 	
 	@ViewBuilder
@@ -179,6 +178,17 @@ struct SiteView: View {
 									.padding([.horizontal, .bottom])
 							}
 						}
+					}
+					.overlay(alignment: .topTrailing) {
+						Text("$\(block.price, specifier: "%.2f")")
+							.font(Font.app.bodySemiBold)
+							.padding(.horizontal, 6)
+							.padding(.vertical, 10)
+							.background(
+								RoundedRectangle(cornerRadius: 10)
+									.fill(Color.white)
+							)
+							.padding([.top, .trailing], 10)
 					}
 			)
 		}

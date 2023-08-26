@@ -55,7 +55,7 @@ extension Business {
 					id: "1",
 					blockType: "Genesis",
 					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_1.jpg")!,
-					price: 40.0,
+					price: 132.99,
 					duration: 14400,
 					title: "Haircuts & hair dyes",
 					description: "This will take approximately 4 hours on average. But please add a note if you have any special request."
@@ -64,7 +64,7 @@ extension Business {
 					id: "2",
 					blockType: "Genesis",
 					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_2.jpg")!,
-					price: 40.0,
+					price: 29.99,
 					duration: 7200,
 					title: "I am just trying this out",
 					description: "This will take approximately 4 hours on average. But please add a note if you have any special request."
