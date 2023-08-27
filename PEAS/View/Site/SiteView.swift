@@ -79,7 +79,7 @@ struct SiteView: View {
 				}
 				.padding(14)
 				.background {
-					Color.white
+					Color.white.opacity(viewModel.isInEditMode ? 0.0 : 1.0)
 						.cornerRadius(30, corners: [.topLeft, .topRight])
 						.edgesIgnoringSafeArea(.bottom)
 				}
@@ -93,7 +93,9 @@ struct SiteView: View {
 		.background {
 			VStack {
 				backgroundColour
-				Color.white
+				if !viewModel.isInEditMode {
+					Color.white
+				}
 			}
 			.ignoresSafeArea()
 			.animation(.easeOut, value: backgroundColour)
@@ -141,6 +143,7 @@ struct SiteView: View {
 	@ViewBuilder
 	func blockView(_ block: Business.Block) -> some View {
 		let height: CGFloat = 230
+		let cornerRadius: CGFloat = 20
 		Button(action: {}) {
 			CachedImage(
 				url: block.image,
@@ -149,17 +152,17 @@ struct SiteView: View {
 						.resizable()
 						.scaledToFill()
 						.frame(maxHeight: height)
-						.clipShape(RoundedRectangle(cornerRadius: 20))
+						.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
 				},
 				placeHolder: {
-					RoundedRectangle(cornerRadius: 20)
+					RoundedRectangle(cornerRadius: cornerRadius)
 						.fill(Color.gray.opacity(0.2))
 						.frame(maxHeight: height)
 						.overlay(ProgressView())
 				}
 			)
 			.overlay(
-				RoundedRectangle(cornerRadius: 20)
+				RoundedRectangle(cornerRadius: cornerRadius)
 					.fill(
 						LinearGradient(
 							colors: [Color.clear, Color.black.opacity(0.8)],
@@ -171,6 +174,7 @@ struct SiteView: View {
 						VStack(alignment: .leading) {
 							Text(block.title)
 								.font(Font.app.title2)
+								.multilineTextAlignment(.leading)
 								.foregroundColor(Color.app.secondaryText)
 								.padding(.leading)
 							HStack(spacing: 2) {
@@ -195,7 +199,11 @@ struct SiteView: View {
 					}
 			)
 		}
-		.buttonStyle(.bright)
+		.background(
+			RoundedRectangle(cornerRadius: cornerRadius)
+				.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 0.0))
+				.padding(-5)
+		)
 	}
 	
 	@ViewBuilder
