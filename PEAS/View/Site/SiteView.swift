@@ -131,9 +131,10 @@ struct SiteView: View {
 				.padding(8)
 				.background(
 					RoundedRectangle(cornerRadius: 10)
-						.fill(Color.white)
+						.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 1.0))
 						.frame(dimension: 36)
 				)
+				.animation(.easeInOut, value: viewModel.isInEditMode)
 		}
 	}
 	
