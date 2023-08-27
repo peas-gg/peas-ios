@@ -18,6 +18,8 @@ extension SiteView {
 		
 		@Published var business: Business
 		
+		@Published var isInEditMode: Bool = false
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		
@@ -36,6 +38,10 @@ extension SiteView {
 		
 		func setBackgroundColor(colorName: String) {
 			self.business.color = colorName
+		}
+		
+		func toggleEditMode() {
+			self.isInEditMode.toggle()
 		}
 	}
 }

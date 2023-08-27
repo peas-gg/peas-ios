@@ -79,6 +79,9 @@ struct SiteView: View {
 			}
 		}
 		.foregroundColor(Color.app.primaryText)
+		.overlay (alignment: .bottom){
+			toolbar()
+		}
 		.background {
 			VStack {
 				backgroundColour
@@ -184,6 +187,46 @@ struct SiteView: View {
 			)
 		}
 		.buttonStyle(.bright)
+	}
+	
+	@ViewBuilder
+	func toolbar() -> some View {
+		HStack(spacing: 30) {
+			if viewModel.isInEditMode {
+				Button(action: { viewModel.toggleEditMode() }) {
+					toolbarImage("xmark")
+				}
+			} else {
+				Button(action: {}) {
+					toolbarImage("globe")
+				}
+				Button(action: {}) {
+					toolbarImage("calendar.badge.clock")
+				}
+				Button(action: { viewModel.toggleEditMode() }) {
+					toolbarImage("pencil")
+				}
+			}
+		}
+		.transition(.asymmetric(insertion: .scale, removal: .identity))
+		.font(.system(size: FontSizes.title2))
+		.foregroundColor(Color.black)
+		.padding()
+		.background {
+			ZStack {
+				Capsule()
+					.fill(.bar)
+				Capsule()
+					.stroke(Color.white, lineWidth: 1)
+			}
+		}
+		.animation(.easeInOut, value: viewModel.isInEditMode)
+	}
+	
+	@ViewBuilder
+	func toolbarImage(_ imageName: String) -> some View {
+		Image(systemName: imageName)
+			.frame(dimension: 20.0)
 	}
 }
 
