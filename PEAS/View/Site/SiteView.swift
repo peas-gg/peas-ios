@@ -198,12 +198,25 @@ struct SiteView: View {
 							.padding([.top, .trailing], 10)
 					}
 			)
+			.overlay(isShown: viewModel.isInEditMode) {
+				RoundedRectangle(cornerRadius: cornerRadius)
+					.fill(Color.black.opacity(0.5))
+					.overlay {
+						HStack{
+							Image(systemName: "square.on.square.intersection.dashed")
+							Text("Edit")
+						}
+						.font(Font.app.title2Display)
+						.foregroundColor(Color.app.secondaryText)
+					}
+			}
 		}
 		.background(
 			RoundedRectangle(cornerRadius: cornerRadius)
 				.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 0.0))
 				.padding(-5)
 		)
+		.buttonStyle(.plain)
 	}
 	
 	@ViewBuilder
