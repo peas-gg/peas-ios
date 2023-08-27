@@ -31,14 +31,19 @@ struct SiteView: View {
 							.resizable()
 							.scaledToFit()
 							.frame(dimension: 40)
-						Text("/\(business.sign)")
-							.font(Font.app.title2)
+						labelContainer {
+							Text("/\(business.sign)")
+								.font(Font.app.title2)
+						}
 					}
+					.padding(.bottom, 30)
 					HStack(alignment: .top) {
 						CachedAvatar(url: business.profilePhoto, height: 60)
 						VStack(alignment: .leading) {
-							Text("\(business.name)")
-								.font(Font.app.title2Display)
+							labelContainer {
+								Text("\(business.name)")
+									.font(Font.app.title2Display)
+							}
 							HStack {
 								ScrollView(.horizontal, showsIndicators: false) {
 									HStack {
@@ -52,14 +57,17 @@ struct SiteView: View {
 						}
 						.padding(.top, 4)
 					}
-					.padding(.vertical)
-					Text(business.description)
-						.font(.system(size: FontSizes.body, weight: .regular, design: .default))
-					HStack {
-						Image(systemName: "mappin.and.ellipse")
-							.font(Font.app.bodySemiBold)
-						Text(business.location)
-							.font(.system(size: FontSizes.body, weight: .semibold, design: .default))
+					labelContainer {
+						Text(business.description)
+							.font(.system(size: FontSizes.body, weight: .regular, design: .default))
+					}
+					labelContainer {
+						HStack {
+							Image(systemName: "mappin.and.ellipse")
+								.font(Font.app.bodySemiBold)
+							Text(business.location)
+								.font(.system(size: FontSizes.body, weight: .semibold, design: .default))
+						}
 					}
 					.padding(.vertical, 2)
 				}
@@ -227,6 +235,21 @@ struct SiteView: View {
 	func toolbarImage(_ imageName: String) -> some View {
 		Image(systemName: imageName)
 			.frame(dimension: 20.0)
+	}
+	
+	@ViewBuilder
+	func labelContainer<Content: View>(content: () -> Content) -> some View {
+		Button(action: {}) {
+			content()
+				.padding(.vertical, 8)
+				.padding(.horizontal, 8)
+				.background(
+					RoundedRectangle(cornerRadius: 10)
+						.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 0.0))
+						.animation(.easeInOut, value: viewModel.isInEditMode)
+				)
+		}
+		.disabled(!viewModel.isInEditMode)
 	}
 }
 
