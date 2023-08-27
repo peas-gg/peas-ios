@@ -129,15 +129,6 @@ struct SiteView: View {
 	@ViewBuilder
 	func blockView(_ block: Business.Block) -> some View {
 		let height: CGFloat = 230
-		let time: String = {
-			let formatter = DateComponentsFormatter()
-			formatter.allowedUnits = [.hour, .minute]
-			formatter.unitsStyle = .brief
-			if let formattedString = formatter.string(from: TimeInterval(block.duration)) {
-				return formattedString
-			}
-			return  ""
-		}()
 		Button(action: {}) {
 			CachedImage(
 				url: block.image,
@@ -172,7 +163,7 @@ struct SiteView: View {
 								.padding(.leading)
 							HStack(spacing: 2) {
 								Spacer()
-								Text("\(time)")
+								Text("\(block.duration.timeSpan)")
 									.font(.system(size: FontSizes.footnote, weight: .medium, design: .rounded))
 									.foregroundColor(Color.gray)
 									.padding([.horizontal, .bottom])

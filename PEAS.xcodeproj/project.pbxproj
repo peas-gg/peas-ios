@@ -49,6 +49,7 @@
 		D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */; };
 		D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */; };
 		D0E220F52A996977003864E3 /* CornerRadiusStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F42A996977003864E3 /* CornerRadiusStyle.swift */; };
+		D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F62A9BA456003864E3 /* Int+Extension.swift */; };
 		D0FB0AFC2A8FEDE500C56178 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */; };
 		D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */; };
 		D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0B002A8FF26200C56178 /* KeychainClient.swift */; };
@@ -102,6 +103,7 @@
 		D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabView.swift; sourceTree = "<group>"; };
 		D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Overlay.swift"; sourceTree = "<group>"; };
 		D0E220F42A996977003864E3 /* CornerRadiusStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusStyle.swift; sourceTree = "<group>"; };
+		D0E220F62A9BA456003864E3 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		D0FB0B002A8FF26200C56178 /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 		D0FB0B022A8FF61500C56178 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */,
 				D0BF26D32A8863E9001FCC05 /* View+Frame.swift */,
 				D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */,
+				D0E220F62A9BA456003864E3 /* Int+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 				D02659AD2A87369C00655C23 /* SiteView.swift in Sources */,
 				D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */,
 				D064557B2A97D09C003E342C /* HomeView.swift in Sources */,
+				D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
 				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
