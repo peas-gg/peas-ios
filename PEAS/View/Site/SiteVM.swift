@@ -34,6 +34,7 @@ extension SiteView {
 			self.business = business
 			self.apiClient
 				.getColours()
+				.receive(on: DispatchQueue.main)
 				.sink(
 					receiveCompletion: { _ in },
 					receiveValue: { colours in
