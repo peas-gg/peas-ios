@@ -177,7 +177,7 @@ struct SiteView: View {
 	@ViewBuilder
 	func blockView(_ block: Business.Block) -> some View {
 		let height: CGFloat = 230
-		let cornerRadius: CGFloat = 20
+		let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
 		Button(action: {}) {
 			CachedImage(
 				url: block.image,
@@ -226,7 +226,7 @@ struct SiteView: View {
 							.padding(.horizontal, 6)
 							.padding(.vertical, 10)
 							.background(
-								RoundedRectangle(cornerRadius: 10)
+								RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
 									.fill(Color.white)
 							)
 							.padding([.top, .trailing], 10)
@@ -300,7 +300,7 @@ struct SiteView: View {
 				.padding(.vertical, 8)
 				.padding(.horizontal, 8)
 				.background(
-					RoundedRectangle(cornerRadius: 10)
+					RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
 						.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 0.0))
 						.animation(.easeInOut, value: viewModel.isInEditMode)
 				)

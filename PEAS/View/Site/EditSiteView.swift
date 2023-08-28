@@ -14,11 +14,13 @@ struct EditSiteView: View {
 		case sign
 		case name
 		case description
+		case block
 		
 		var title: String {
 			switch self {
 			case .sign, .name: return "Peas Sign & Name"
 			case .description: return "Description"
+			case .block: return "Block"
 			}
 		}
 	}
@@ -57,34 +59,20 @@ struct EditSiteView: View {
 					}
 				case .description:
 					VStack(alignment: .center, spacing: spacing) {
-						let textLimit: Int = 120
+						HStack {
+							Spacer()
+						}
+						hintText(content: "Tell people about what you do and what services you offer here. Don't sell yourself short ;)")
+						verticalTextField(hint: "Describe your business here", text: $viewModel.description)
+						Spacer()
+					}
+				case .block:
+					VStack(alignment: .center, spacing: spacing) {
 						HStack {
 							Spacer()
 						}
 						hintText(content: "Tell people about what you do and what services you offer here. Don't sell yourself short ;)")
 						
-						ZStack(alignment: .center) {
-							HStack {
-								Image(systemName: "text.viewfinder")
-								Text("Describe your business here")
-							}
-							.foregroundColor(Color.app.tertiaryText)
-							.opacity(viewModel.description.count > 0 ? 0.0 : 1.0)
-							VStack {
-								TextField("", text: $viewModel.description.max(textLimit), axis: .vertical)
-									.font(.system(size: FontSizes.body, weight: .regular, design: .default))
-									.lineLimit(4, reservesSpace: true)
-									.focused($focusedField, equals: .description)
-								HStack {
-									Spacer()
-									Text("\(viewModel.description.count)/\(textLimit)")
-										.foregroundColor(Color.app.tertiaryText)
-								}
-							}
-						}
-						.font(Font.app.footnote)
-						.padding()
-						.background(textBackground())
 						Spacer()
 					}
 				}
@@ -130,8 +118,35 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
+	func verticalTextField(hint: String, text: Binding<String>) -> some View {
+		let textLimit: Int = SizeConstants.textDescriptionLimit
+		ZStack(alignment: .center) {
+			HStack {
+				Image(systemName: "text.viewfinder")
+				Text(hint)
+			}
+			.foregroundColor(Color.app.tertiaryText)
+			.opacity(viewModel.description.count > 0 ? 0.0 : 1.0)
+			VStack {
+				TextField("", text: text.max(textLimit), axis: .vertical)
+					.font(.system(size: FontSizes.body, weight: .regular, design: .default))
+					.lineLimit(4, reservesSpace: true)
+					.focused($focusedField, equals: .description)
+				HStack {
+					Spacer()
+					Text("\(text.wrappedValue.count)/\(textLimit)")
+						.foregroundColor(Color.app.tertiaryText)
+				}
+			}
+		}
+		.font(Font.app.footnote)
+		.padding()
+		.background(textBackground())
+	}
+	
+	@ViewBuilder
 	func textBackground() -> some View {
-		let cornerRadius: CGFloat = 10
+		let cornerRadius: CGFloat = SizeConstants.textCornerRadius
 		RoundedRectangle(cornerRadius: cornerRadius)
 			.fill(Color.white)
 		RoundedRectangle(cornerRadius: cornerRadius)
