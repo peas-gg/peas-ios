@@ -192,7 +192,6 @@ struct SiteView: View {
 					RoundedRectangle(cornerRadius: cornerRadius)
 						.fill(Color.gray.opacity(0.2))
 						.frame(maxHeight: height)
-						.overlay(ProgressView())
 				}
 			)
 			.overlay(

@@ -45,7 +45,6 @@ struct SiteOnboardingView: View {
 				},
 				placeHolder: {
 					Color.gray
-						.overlay(ProgressView())
 				}
 			)
 			.clipShape(RoundedRectangle(cornerRadius: 20))

@@ -41,7 +41,6 @@ struct CachedAvatar: View {
 					},
 					placeHolder: {
 						Color.gray
-							.overlay(ProgressView())
 					}
 				)
 				.frame(width: width, height: height)

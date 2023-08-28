@@ -14,6 +14,7 @@ struct CachedImage<Content: View, PlaceHolder: View>: View {
 	@ViewBuilder let placeHolder: () -> PlaceHolder
 	
 	@State var image: UIImage?
+	@State var isLoadingImage: Bool = true
 	
 	//Clients
 	let apiClient: APIClient = APIClient.shared
@@ -35,6 +36,9 @@ struct CachedImage<Content: View, PlaceHolder: View>: View {
 				content(uiImage)
 			} else {
 				placeHolder()
+					.overlay(isShown: isLoadingImage) {
+						ProgressView()
+					}
 			}
 		}
 		.onChange(of: url) { _ in
@@ -51,9 +55,11 @@ struct CachedImage<Content: View, PlaceHolder: View>: View {
 			guard image == nil else { return }
 			if let image = await cacheClient.getImage(url: url) {
 				self.image = image
+				self.isLoadingImage = false
 				return
 			}
 			self.image = await apiClient.getImage(url: url)
+			self.isLoadingImage = false
 			if let image = self.image {
 				await cacheClient.setImage(url: url, image: image)
 			}
