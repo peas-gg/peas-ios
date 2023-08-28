@@ -20,6 +20,10 @@ extension SiteView {
 		
 		@Published var isInEditMode: Bool = false
 		
+		@Published var peasSign: String = ""
+		
+		@Published var businessName: String = ""
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		
