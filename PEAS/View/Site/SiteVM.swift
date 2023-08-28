@@ -21,8 +21,9 @@ extension SiteView {
 		@Published var isInEditMode: Bool = false
 		
 		@Published var peasSign: String = ""
-		
 		@Published var businessName: String = ""
+		
+		@Published var editModeContext: EditSiteView.Context?
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
@@ -42,6 +43,10 @@ extension SiteView {
 		
 		func setBackgroundColor(colorName: String) {
 			self.business.color = colorName
+		}
+		
+		func setEditModeContext(_ context: EditSiteView.Context?) {
+			self.editModeContext = context
 		}
 		
 		func toggleEditMode() {

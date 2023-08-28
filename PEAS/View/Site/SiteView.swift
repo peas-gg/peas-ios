@@ -31,7 +31,7 @@ struct SiteView: View {
 							.resizable()
 							.scaledToFit()
 							.frame(dimension: 40)
-						labelContainer {
+						labelContainer(action: { viewModel.setEditModeContext(.name) }) {
 							Text("/\(business.sign)")
 								.font(Font.app.title2)
 						}
@@ -59,7 +59,7 @@ struct SiteView: View {
 						.buttonStyle(.plain)
 						
 						VStack(alignment: .leading) {
-							labelContainer {
+							labelContainer(action: { viewModel.setEditModeContext(.name) }) {
 								Text("\(business.name)")
 									.font(Font.app.title2Display)
 							}
@@ -76,12 +76,12 @@ struct SiteView: View {
 						}
 						.padding(.top, 4)
 					}
-					labelContainer {
+					labelContainer(action: { viewModel.setEditModeContext(nil) }) {
 						Text(business.description)
 							.font(.system(size: FontSizes.body, weight: .regular, design: .default))
 							.multilineTextAlignment(.leading)
 					}
-					labelContainer {
+					labelContainer(action: { viewModel.setEditModeContext(nil) }) {
 						HStack {
 							Image(systemName: "mappin.and.ellipse")
 								.font(Font.app.bodySemiBold)
@@ -119,6 +119,20 @@ struct SiteView: View {
 			}
 			.ignoresSafeArea()
 			.animation(.easeOut, value: backgroundColour)
+		}
+		.sheet(
+			isPresented: Binding(
+				get: { return viewModel.editModeContext == .name },
+				set: { value in
+					if value == false {
+						viewModel.setEditModeContext(nil)
+					}
+				}
+			)
+		) {
+			if let context = viewModel.editModeContext {
+				EditSiteView(viewModel: viewModel, context: context)
+			}
 		}
 	}
 	
@@ -280,8 +294,8 @@ struct SiteView: View {
 	}
 	
 	@ViewBuilder
-	func labelContainer<Content: View>(content: () -> Content) -> some View {
-		Button(action: {}) {
+	func labelContainer<Content: View>(action: @escaping () -> (), content: () -> Content) -> some View {
+		Button(action: { action() }) {
 			content()
 				.padding(.vertical, 8)
 				.padding(.horizontal, 8)

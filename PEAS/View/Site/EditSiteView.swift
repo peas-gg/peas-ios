@@ -26,12 +26,13 @@ struct EditSiteView: View {
 		VStack(spacing: 0) {
 			Text(context.title)
 				.font(Font.app.title2)
+				.padding(.top)
 			Divider()
 				.padding(.top)
 			VStack {
 				switch context {
 				case .name:
-					VStack(alignment: .leading, spacing: 30) {
+					VStack(alignment: .leading, spacing: 20) {
 						hintText(content: "Choose a unique peas sign to make it easy for people to find you")
 						HStack {
 							Image("SiteLogo")
@@ -40,6 +41,7 @@ struct EditSiteView: View {
 								.frame(dimension: 50)
 							textField(hint: "Your Sign", isPeaceSign: true, text: $viewModel.peasSign)
 						}
+						.padding(.bottom, 40)
 						hintText(content: "Feel free to get a little creative with your business name")
 						textField(hint: "Business Name", text: $viewModel.businessName)
 						Spacer()
@@ -47,6 +49,7 @@ struct EditSiteView: View {
 					.padding(.top)
 				}
 			}
+			.padding(.horizontal, 25)
 			.background(Color.app.secondaryBackground)
 		}
 		.multilineTextAlignment(.leading)
