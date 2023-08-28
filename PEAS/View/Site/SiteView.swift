@@ -191,7 +191,7 @@ struct SiteView: View {
 				placeHolder: {
 					RoundedRectangle(cornerRadius: cornerRadius)
 						.fill(Color.gray.opacity(0.2))
-						.frame(maxHeight: height)
+						.frame(height: height)
 				}
 			)
 			.overlay(
