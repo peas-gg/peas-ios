@@ -10,11 +10,17 @@ import SwiftUI
 struct EditSiteView: View {
 	@StateObject var viewModel: SiteView.ViewModel
 	
+	enum FocusField: Hashable {
+		case sign
+		case name
+		case description
+	}
+	
 	enum Context {
 		case sign
 		case name
 		case description
-		case block
+		case block(_ block: Business.Block)
 		
 		var title: String {
 			switch self {
@@ -25,10 +31,9 @@ struct EditSiteView: View {
 		}
 	}
 	
-	
 	let context: Context
 	
-	@FocusState private var focusedField: Context?
+	@FocusState private var focusedField: FocusField?
 	
 	var body: some View {
 		VStack(spacing: 0) {
@@ -57,6 +62,7 @@ struct EditSiteView: View {
 							.focused($focusedField, equals: .name)
 						Spacer()
 					}
+					.padding(.top)
 				case .description:
 					VStack(alignment: .center, spacing: spacing) {
 						HStack {
@@ -66,25 +72,65 @@ struct EditSiteView: View {
 						verticalTextField(hint: "Describe your business here", text: $viewModel.description)
 						Spacer()
 					}
-				case .block:
-					VStack(alignment: .center, spacing: spacing) {
-						HStack {
+					.padding(.top)
+				case .block(let block):
+					ScrollView(showsIndicators: false) {
+						VStack(alignment: .leading, spacing: spacing) {
+							HStack {
+								let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
+								Spacer()
+								Button(action: {}) {
+									CachedImage(
+										url: block.image,
+										content: { uiImage in
+											Image(uiImage: uiImage)
+												.resizable()
+												.scaledToFit()
+												.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+												.opacity(0.8)
+										},
+										placeHolder: {
+											ZStack {
+												RoundedRectangle(cornerRadius: cornerRadius)
+													.fill(Color.app.primaryBackground)
+												RoundedRectangle(cornerRadius: cornerRadius)
+													.stroke(Color.app.tertiaryText.opacity(0.5), lineWidth: 1)
+											}
+										}
+									)
+									.frame(size: CGSize(width: 180, height: 260))
+									.overlay {
+										Image(systemName: "photo")
+											.font(Font.app.largeTitle)
+											.foregroundColor(Color.app.tertiaryText)
+									}
+								}
+								.buttonStyle(.plain)
+								Spacer()
+							}
+							.padding(.top, 30)
+							hintText(content: "Pricing")
 							Spacer()
 						}
-						hintText(content: "Tell people about what you do and what services you offer here. Don't sell yourself short ;)")
-						
-						Spacer()
 					}
 				}
 			}
-			.padding(.top)
 			.padding(.horizontal, 25)
 			.background(Color.app.secondaryBackground)
 		}
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
 		.onAppear {
-			self.focusedField = context
+			switch context {
+			case .sign:
+				self.focusedField = .sign
+			case .name:
+				self.focusedField = .name
+			case .description:
+				self.focusedField = .description
+			case .block:
+				self.focusedField = nil
+			}
 		}
 	}
 	
@@ -156,6 +202,6 @@ struct EditSiteView: View {
 
 struct EditSiteView_Previews: PreviewProvider {
 	static var previews: some View {
-		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .description)
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .block(Business.mock1.blocks.first!))
 	}
 }
