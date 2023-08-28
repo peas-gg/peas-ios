@@ -79,6 +79,7 @@ struct SiteView: View {
 					labelContainer {
 						Text(business.description)
 							.font(.system(size: FontSizes.body, weight: .regular, design: .default))
+							.multilineTextAlignment(.leading)
 					}
 					labelContainer {
 						HStack {
