@@ -12,6 +12,7 @@ struct PEASApp: App {
 	var body: some Scene {
 		WindowGroup {
 			AppView()
+				.environment(\.colorScheme, .light)
 		}
 	}
 }
