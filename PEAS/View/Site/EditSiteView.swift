@@ -51,6 +51,7 @@ struct EditSiteView: View {
 					}
 				case .description:
 					VStack(alignment: .center, spacing: spacing) {
+						let textLimit: Int = 120
 						HStack {
 							Spacer()
 						}
@@ -61,13 +62,20 @@ struct EditSiteView: View {
 								Image(systemName: "text.viewfinder")
 								Text("Describe your business here")
 							}
-							.font(Font.app.footnote)
 							.foregroundColor(Color.app.tertiaryText)
 							.opacity(viewModel.description.count > 0 ? 0.0 : 1.0)
-							TextField("", text: $viewModel.description, axis: .vertical)
-								.font(.system(size: FontSizes.body, weight: .regular, design: .default))
-								.lineLimit(4, reservesSpace: true)
+							VStack {
+								TextField("", text: $viewModel.description.max(textLimit), axis: .vertical)
+									.font(.system(size: FontSizes.body, weight: .regular, design: .default))
+									.lineLimit(4, reservesSpace: true)
+								HStack {
+									Spacer()
+									Text("\(viewModel.description.count)/\(textLimit)")
+										.foregroundColor(Color.app.tertiaryText)
+								}
+							}
 						}
+						.font(Font.app.footnote)
 						.padding()
 						.background(textBackground())
 						Spacer()
