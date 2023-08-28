@@ -22,6 +22,7 @@ extension SiteView {
 		
 		@Published var peasSign: String = ""
 		@Published var businessName: String = ""
+		@Published var description: String = ""
 		
 		@Published var editModeContext: EditSiteView.Context?
 		
