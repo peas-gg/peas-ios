@@ -31,7 +31,7 @@ struct SiteView: View {
 							.resizable()
 							.scaledToFit()
 							.frame(dimension: 40)
-						labelContainer(action: { viewModel.setEditModeContext(.name) }) {
+						labelContainer(action: { viewModel.setEditModeContext(.sign) }) {
 							Text("/\(business.sign)")
 								.font(Font.app.title2)
 						}

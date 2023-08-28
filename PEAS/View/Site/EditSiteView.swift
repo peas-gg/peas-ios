@@ -11,18 +11,22 @@ struct EditSiteView: View {
 	@StateObject var viewModel: SiteView.ViewModel
 	
 	enum Context {
+		case sign
 		case name
 		case description
 		
 		var title: String {
 			switch self {
-			case .name: return "Peas Sign & Name"
+			case .sign, .name: return "Peas Sign & Name"
 			case .description: return "Description"
 			}
 		}
 	}
 	
+	
 	let context: Context
+	
+	@FocusState private var focusedField: Context?
 	
 	var body: some View {
 		VStack(spacing: 0) {
@@ -34,7 +38,7 @@ struct EditSiteView: View {
 			VStack {
 				let spacing: CGFloat = 20
 				switch context {
-				case .name:
+				case .sign, .name:
 					VStack(alignment: .leading, spacing: spacing) {
 						hintText(content: "Choose a unique peas sign to make it easy for people to find you")
 						HStack {
@@ -43,10 +47,12 @@ struct EditSiteView: View {
 								.scaledToFit()
 								.frame(dimension: 50)
 							textField(hint: "Your Sign", isPeaceSign: true, text: $viewModel.peasSign)
+								.focused($focusedField, equals: .sign)
 						}
 						.padding(.bottom, 40)
 						hintText(content: "Feel free to get a little creative with your business name")
 						textField(hint: "Business Name", text: $viewModel.businessName)
+							.focused($focusedField, equals: .name)
 						Spacer()
 					}
 				case .description:
@@ -68,6 +74,7 @@ struct EditSiteView: View {
 								TextField("", text: $viewModel.description.max(textLimit), axis: .vertical)
 									.font(.system(size: FontSizes.body, weight: .regular, design: .default))
 									.lineLimit(4, reservesSpace: true)
+									.focused($focusedField, equals: .description)
 								HStack {
 									Spacer()
 									Text("\(viewModel.description.count)/\(textLimit)")
@@ -88,6 +95,9 @@ struct EditSiteView: View {
 		}
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
+		.onAppear {
+			self.focusedField = context
+		}
 	}
 	
 	@ViewBuilder
