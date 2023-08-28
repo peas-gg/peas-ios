@@ -14,6 +14,7 @@ struct EditSiteView: View {
 		case sign
 		case name
 		case description
+		case blockPrice
 	}
 	
 	enum Context {
@@ -32,8 +33,12 @@ struct EditSiteView: View {
 	}
 	
 	let context: Context
+	let textfieldVerticalPadding: CGFloat = 12
 	
 	@FocusState private var focusedField: FocusField?
+	
+	@State private var blockPrice: String = ""
+	@State private var isPriceKeyboardFocused: Bool = false
 	
 	var body: some View {
 		VStack(spacing: 0) {
@@ -79,7 +84,11 @@ struct EditSiteView: View {
 							HStack {
 								let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
 								Spacer()
-								Button(action: {}) {
+								Button(action: {
+									DispatchQueue.main.async {
+										self.focusedField = .blockPrice
+									}
+								}) {
 									CachedImage(
 										url: block.image,
 										content: { uiImage in
@@ -110,6 +119,24 @@ struct EditSiteView: View {
 							}
 							.padding(.top, 30)
 							hintText(content: "Pricing")
+							
+							HStack {
+								Text("$")
+									.foregroundColor(Color.app.tertiaryText)
+								PriceTextField(isFocused: $isPriceKeyboardFocused, priceText: $blockPrice)
+							}
+							.font(Font.app.bodySemiBold)
+							.padding(.horizontal)
+							.padding(.vertical, textfieldVerticalPadding)
+							.background(textBackground())
+							.onTapGesture {
+								DispatchQueue.main.async {
+									self.isPriceKeyboardFocused = true
+								}
+							}
+							
+							hintText(content: "How long will it take you to deliver this service?")
+							hintText(content: "Service")
 							Spacer()
 						}
 					}
@@ -159,7 +186,7 @@ struct EditSiteView: View {
 		}
 		.foregroundColor(Color.app.primaryText)
 		.padding(.horizontal)
-		.padding(.vertical, 12)
+		.padding(.vertical, textfieldVerticalPadding)
 		.background(textBackground())
 	}
 	
