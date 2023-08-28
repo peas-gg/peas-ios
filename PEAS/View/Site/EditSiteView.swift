@@ -87,6 +87,7 @@ struct EditSiteView: View {
 			.background(Color.app.secondaryBackground)
 		}
 		.multilineTextAlignment(.leading)
+		.tint(Color.app.primaryText)
 	}
 	
 	@ViewBuilder
@@ -113,7 +114,6 @@ struct EditSiteView: View {
 			}
 		}
 		.foregroundColor(Color.app.primaryText)
-		.tint(Color.app.primaryText)
 		.padding(.horizontal)
 		.padding(.vertical, 12)
 		.background(textBackground())

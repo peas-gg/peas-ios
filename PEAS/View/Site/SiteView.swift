@@ -76,7 +76,7 @@ struct SiteView: View {
 						}
 						.padding(.top, 4)
 					}
-					labelContainer(action: { viewModel.setEditModeContext(nil) }) {
+					labelContainer(action: { viewModel.setEditModeContext(.description) }) {
 						Text(business.description)
 							.font(.system(size: FontSizes.body, weight: .regular, design: .default))
 							.multilineTextAlignment(.leading)
@@ -122,7 +122,7 @@ struct SiteView: View {
 		}
 		.sheet(
 			isPresented: Binding(
-				get: { return viewModel.editModeContext == .name },
+				get: { return viewModel.editModeContext != nil },
 				set: { value in
 					if value == false {
 						viewModel.setEditModeContext(nil)
