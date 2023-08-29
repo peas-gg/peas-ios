@@ -38,11 +38,13 @@ struct EditSiteView: View {
 	@FocusState private var focusedField: FocusField?
 	
 	@State private var blockPriceText: String = ""
+	@State private var blockTimeDuration = 0
 	
 	@State private var isPriceKeyboardFocused: Bool = false
 	
 	var body: some View {
 		VStack(spacing: 0) {
+			let horizontalPadding: CGFloat = 25
 			Text(context.title)
 				.font(Font.app.title2)
 				.padding(.top)
@@ -69,6 +71,7 @@ struct EditSiteView: View {
 						Spacer()
 					}
 					.padding(.top)
+					.padding(.horizontal, horizontalPadding)
 				case .description:
 					VStack(alignment: .center, spacing: spacing) {
 						HStack {
@@ -79,10 +82,11 @@ struct EditSiteView: View {
 						Spacer()
 					}
 					.padding(.top)
+					.padding(.horizontal, horizontalPadding)
 				case .block(let blockId):
 					if let block: Business.Block = viewModel.business.blocks[id: blockId] {
 						ScrollView(showsIndicators: false) {
-							VStack(alignment: .leading, spacing: spacing) {
+							VStack(alignment: .leading, spacing: 30) {
 								HStack {
 									let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
 									Spacer()
@@ -120,28 +124,16 @@ struct EditSiteView: View {
 									Spacer()
 								}
 								.padding(.top, 30)
-								hintText(content: "Pricing")
-								HStack {
-									Text("$")
-										.foregroundColor(Color.app.tertiaryText)
-									PriceTextField(isFocused: $isPriceKeyboardFocused, priceText: $blockPriceText)
-								}
-								.font(Font.app.bodySemiBold)
-								.padding(.horizontal)
-								.padding(.vertical, textfieldVerticalPadding)
-								.background(textBackground())
-								.onTapGesture {
-									self.isPriceKeyboardFocused.toggle()
-								}
-								hintText(content: "How long will it take you to deliver this service?")
+								blockPricingSection()
+								blockTimeSection()
 								hintText(content: "Service")
 								Spacer()
 							}
+							.padding(.horizontal, horizontalPadding)
 						}
 					}
 				}
 			}
-			.padding(.horizontal, 25)
 			.background(Color.app.secondaryBackground)
 		}
 		.multilineTextAlignment(.leading)
@@ -157,6 +149,7 @@ struct EditSiteView: View {
 			case .block(let id):
 				self.focusedField = nil
 				self.blockPriceText = viewModel.business.blocks[id: id]?.price.priceToText ?? ""
+				self.blockTimeDuration = viewModel.business.blocks[id: id]?.duration ?? 0
 			}
 		}
 	}
@@ -215,6 +208,45 @@ struct EditSiteView: View {
 		.font(Font.app.footnote)
 		.padding()
 		.background(textBackground())
+	}
+	
+	@ViewBuilder
+	func blockPricingSection() -> some View {
+		VStack(alignment: .leading, spacing: 6) {
+			hintText(content: "Pricing")
+			HStack {
+				Text("$")
+					.foregroundColor(Color.app.tertiaryText)
+				PriceTextField(isFocused: $isPriceKeyboardFocused, priceText: $blockPriceText)
+			}
+			.font(Font.app.bodySemiBold)
+			.padding(.horizontal)
+			.padding(.vertical, textfieldVerticalPadding)
+			.background(textBackground())
+			.onTapGesture {
+				self.isPriceKeyboardFocused.toggle()
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func blockTimeSection() -> some View {
+		VStack(alignment: .leading, spacing: 10) {
+			let step = 300
+			let range = 0...86400
+			hintText(content: "How long will it take you to deliver this service?")
+			VStack {
+				Stepper(
+					value: $blockTimeDuration,
+					in: range,
+					step: step
+				) {
+					Text("\(blockTimeDuration.timeSpan)")
+						.font(Font.app.title2Display)
+						.foregroundColor(Color.app.primaryText)
+				}
+			}
+		}
 	}
 	
 	@ViewBuilder
