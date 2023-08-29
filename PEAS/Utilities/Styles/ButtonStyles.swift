@@ -61,7 +61,7 @@ struct ExpandedButtonStyle: ButtonStyle {
 			configuration.label
 				.font(Font.app.title2Display)
 				.foregroundColor(isEnabled ? style.foregroundColor : style.disabledForegroundColor)
-				.padding()
+				.padding(.vertical, 14)
 			Spacer()
 		}
 		.background {
