@@ -8,45 +8,69 @@
 import SwiftUI
 
 struct ExpandedButtonStyle: ButtonStyle {
+	enum Style {
+		case white
+		case black
+		case green
+		
+		var color: Color {
+			switch self {
+			case .white: return Color.white
+			case .black: return Color.black
+			case .green: return Color.app.accent
+			}
+		}
+		
+		var foregroundColor: Color {
+			switch self {
+			case .white: return Color.app.primaryText
+			case .black: return Color.app.secondaryText
+			case .green: return Color.app.secondaryText
+			}
+		}
+		
+		var disabledColor: Color {
+			switch self {
+			case .white, .black: return Color.gray
+			case .green: return Color.app.accent
+			}
+		}
+		
+		var disabledForegroundColor: Color {
+			switch self {
+			case .white: return Color.gray
+			case .black: return Color.gray
+			case .green: return Color.app.accent
+			}
+		}
+	}
 	
 	let shouldAnimate: Bool
-	let invertedStyle: Bool
+	let style: Style
 	
 	@Environment(\.isEnabled) private var isEnabled
 	
-	init (shouldAnimate: Bool = true, invertedStyle: Bool = false) {
+	init (shouldAnimate: Bool = true, style: ExpandedButtonStyle.Style) {
 		self.shouldAnimate = shouldAnimate
-		self.invertedStyle = invertedStyle
+		self.style = style
 	}
 	
 	func makeBody(configuration: Configuration) -> some View {
-		let foregroundColor: Color = {
-			if self.isEnabled {
-				return self.invertedStyle ? Color.black : Color.app.tertiaryText
-			} else {
-				return .gray
-			}
-		}()
-		
 		HStack {
 			Spacer()
 			configuration.label
-				.font(Font.app.title3)
-				.textCase(.uppercase)
-				.foregroundColor(foregroundColor)
+				.font(Font.app.title2Display)
+				.foregroundColor(isEnabled ? style.foregroundColor : style.disabledForegroundColor)
 				.padding()
 			Spacer()
 		}
 		.background {
-			if invertedStyle {
-				invertedButtonStyleView()
+			if isEnabled {
+				shape()
+					.fill(style.color)
 			} else {
-				if isEnabled {
-					shape()
-						.fill(Color.app.accent)
-				} else {
-					invertedButtonStyleView()
-				}
+				shape()
+					.stroke(style.disabledColor, lineWidth: 1)
 			}
 		}
 		.padding(.horizontal)
@@ -57,22 +81,12 @@ struct ExpandedButtonStyle: ButtonStyle {
 	private func shape() -> some Shape {
 		RoundedRectangle(cornerRadius: 10)
 	}
-	
-	private func invertedButtonStyleView() -> some View {
-		shape()
-			.fill(Color.black)
-			.overlay(
-				shape()
-					.stroke(lineWidth: 1)
-					.fill(isEnabled ? Color.app.accent : Color.gray)
-			)
-	}
 }
 
 extension ButtonStyle where Self == ExpandedButtonStyle {
-	static var expanded: Self { ExpandedButtonStyle() }
-	static func expanded(shouldAnimate: Bool = true, invertedStyle: Bool) -> Self {
-		return ExpandedButtonStyle(shouldAnimate: shouldAnimate, invertedStyle: invertedStyle)
+	static var expanded: Self { ExpandedButtonStyle(style: .black) }
+	static func expanded(shouldAnimate: Bool = true, style: ExpandedButtonStyle.Style) -> Self {
+		return ExpandedButtonStyle(shouldAnimate: shouldAnimate, style: style)
 	}
 }
 

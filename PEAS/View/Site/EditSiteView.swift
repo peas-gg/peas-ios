@@ -197,6 +197,13 @@ struct EditSiteView: View {
 				}
 			}
 			.background(Color.app.secondaryBackground)
+			
+			Spacer()
+			
+			Button(action: {}) {
+				Text("Save")
+			}
+			.buttonStyle(.expanded(style: .black))
 		}
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
