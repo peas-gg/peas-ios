@@ -178,7 +178,11 @@ struct SiteView: View {
 	func blockView(_ block: Business.Block) -> some View {
 		let height: CGFloat = 230
 		let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
-		Button(action: {}) {
+		Button(action: {
+			if viewModel.isInEditMode {
+				viewModel.setEditModeContext(.block(block.id))
+			}
+		}) {
 			CachedImage(
 				url: block.image,
 				content: { uiImage in

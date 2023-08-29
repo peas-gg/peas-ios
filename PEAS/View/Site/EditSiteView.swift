@@ -21,12 +21,14 @@ struct EditSiteView: View {
 		case sign
 		case name
 		case description
+		case links
 		case block(_ blockId: Business.Block.ID)
 		
 		var title: String {
 			switch self {
 			case .sign, .name: return "Peas Sign & Name"
 			case .description: return "Description"
+			case .links: return "Link your socials"
 			case .block: return "Block"
 			}
 		}
@@ -37,12 +39,22 @@ struct EditSiteView: View {
 	
 	@FocusState private var focusedField: FocusField?
 	
+	//Business
+	@State var sign: String = ""
+	@State var name: String = ""
+	@State var description: String = ""
+	
+	//Block
 	@State private var blockPriceText: String = ""
 	@State private var blockTimeDuration: Int = 0
 	@State private var blockTitle: String = ""
 	@State private var blockDescription: String = ""
-	
 	@State private var isPriceKeyboardFocused: Bool = false
+	
+	//Links
+	@State private var twitter: String = ""
+	@State private var instagram: String = ""
+	@State private var tiktok: String = ""
 	
 	var body: some View {
 		VStack(spacing: 0) {
@@ -64,13 +76,13 @@ struct EditSiteView: View {
 								.resizable()
 								.scaledToFit()
 								.frame(dimension: 50)
-							textField(hint: "Your Sign", isPeaceSign: true, text: $viewModel.peasSign)
+							textField(hint: "Your Sign", leadingHint: "/", text: $sign)
 								.font(Font.app.bodySemiBold)
 								.focused($focusedField, equals: .sign)
 						}
 						.padding(.bottom, 40)
 						hintText(content: "Feel free to get a little creative with your business name")
-						textField(hint: "Business Name", text: $viewModel.businessName)
+						textField(hint: "Business Name", text: $name)
 							.font(Font.app.bodySemiBold)
 							.focused($focusedField, equals: .name)
 						Spacer()
@@ -83,7 +95,7 @@ struct EditSiteView: View {
 							Spacer()
 						}
 						hintText(content: "Tell people about what you do and what services you offer here. Don't sell yourself short ;)")
-						descriptionTextField(hint: "Describe your business here", text: $viewModel.description)
+						descriptionTextField(hint: "Describe your business here", text: $description)
 						Spacer()
 					}
 					.padding(.top)
@@ -143,6 +155,16 @@ struct EditSiteView: View {
 							.padding(.horizontal, horizontalPadding)
 						}
 					}
+				case .links:
+					VStack(alignment: .leading, spacing: spacing) {
+						hintText(content: "Link your social media accounts below so people can follow you and stay up to date on your journey")
+						linkField(image: "X", text: $twitter)
+						linkField(image: "Instagram", text: $instagram)
+						linkField(image: "Tiktok", text: $tiktok)
+						Spacer()
+					}
+					.padding(.top)
+					.padding(.horizontal, horizontalPadding)
 				}
 			}
 			.background(Color.app.secondaryBackground)
@@ -150,6 +172,14 @@ struct EditSiteView: View {
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
 		.onAppear {
+			self.sign = viewModel.business.name
+			self.name = viewModel.business.name
+			self.description = viewModel.business.description
+			
+			self.twitter = viewModel.business.twitter
+			self.instagram = viewModel.business.instagram
+			self.tiktok = viewModel.business.tiktok
+			
 			switch context {
 			case .sign:
 				self.focusedField = .sign
@@ -157,6 +187,8 @@ struct EditSiteView: View {
 				self.focusedField = .name
 			case .description:
 				self.focusedField = .description
+			case .links:
+				self.focusedField = nil
 			case .block(let id):
 				self.focusedField = nil
 				self.blockPriceText = viewModel.business.blocks[id: id]?.price.priceToText ?? ""
@@ -175,10 +207,10 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func textField(hint: String, hintImage: String? = nil, isPeaceSign: Bool = false, text: Binding<String>) -> some View {
+	func textField(hint: String, hintImage: String? = nil, leadingHint: String? = nil, text: Binding<String>) -> some View {
 		HStack {
-			if isPeaceSign {
-				Text("/")
+			if let leadingHint = leadingHint {
+				Text("\(leadingHint)")
 					.font(Font.app.title2)
 					.foregroundColor(Color.app.tertiaryText)
 			}
@@ -249,6 +281,18 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
+	func linkField(image: String, text: Binding<String>) -> some View {
+		HStack(spacing: 20) {
+			Image(image)
+				.resizable()
+				.scaledToFit()
+				.frame(dimension: 46)
+			textField(hint: "", leadingHint: "@", text: text)
+				.font(Font.app.bodySemiBold)
+		}
+	}
+	
+	@ViewBuilder
 	func textHint(image: String?, hint: String, text: String) -> some View {
 		HStack {
 			if let image = image {
@@ -273,6 +317,7 @@ struct EditSiteView: View {
 
 struct EditSiteView_Previews: PreviewProvider {
 	static var previews: some View {
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .links)
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .block(Business.mock1.blocks.first!.id))
 	}
 }
