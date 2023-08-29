@@ -192,7 +192,7 @@ struct EditSiteView: View {
 				Text(hint)
 			}
 			.foregroundColor(Color.app.tertiaryText)
-			.opacity(viewModel.description.count > 0 ? 0.0 : 1.0)
+			.opacity(text.wrappedValue.count > 0 ? 0.0 : 1.0)
 			VStack {
 				TextField("", text: text.max(textLimit), axis: .vertical)
 					.font(.system(size: FontSizes.body, weight: .regular, design: .default))
@@ -232,19 +232,13 @@ struct EditSiteView: View {
 	@ViewBuilder
 	func blockTimeSection() -> some View {
 		VStack(alignment: .leading, spacing: 10) {
-			let step = 300
-			let range = 0...86400
 			hintText(content: "How long will it take you to deliver this service?")
-			VStack {
-				Stepper(
-					value: $blockTimeDuration,
-					in: range,
-					step: step
-				) {
-					Text("\(blockTimeDuration.timeSpan)")
-						.font(Font.app.title2Display)
-						.foregroundColor(Color.app.primaryText)
-				}
+			HStack {
+				Text("\(blockTimeDuration.timeSpan)")
+					.font(Font.app.largeTitle)
+					.foregroundColor(Color.app.primaryText)
+				Spacer()
+				StepperView(min: 0, max: 86400, step: 300, value: $blockTimeDuration)
 			}
 		}
 	}
