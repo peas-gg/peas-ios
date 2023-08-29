@@ -21,7 +21,7 @@ struct EditSiteView: View {
 		case sign
 		case name
 		case description
-		case block(_ block: Business.Block)
+		case block(_ blockId: Business.Block.ID)
 		
 		var title: String {
 			switch self {
@@ -37,7 +37,8 @@ struct EditSiteView: View {
 	
 	@FocusState private var focusedField: FocusField?
 	
-	@State private var blockPrice: String = ""
+	@State private var blockPriceText: String = ""
+	
 	@State private var isPriceKeyboardFocused: Bool = false
 	
 	var body: some View {
@@ -78,66 +79,66 @@ struct EditSiteView: View {
 						Spacer()
 					}
 					.padding(.top)
-				case .block(let block):
-					ScrollView(showsIndicators: false) {
-						VStack(alignment: .leading, spacing: spacing) {
-							HStack {
-								let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
-								Spacer()
-								Button(action: {
-									DispatchQueue.main.async {
-										self.focusedField = .blockPrice
-									}
-								}) {
-									CachedImage(
-										url: block.image,
-										content: { uiImage in
-											Image(uiImage: uiImage)
-												.resizable()
-												.scaledToFit()
-												.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-												.opacity(0.8)
-										},
-										placeHolder: {
-											ZStack {
-												RoundedRectangle(cornerRadius: cornerRadius)
-													.fill(Color.app.primaryBackground)
-												RoundedRectangle(cornerRadius: cornerRadius)
-													.stroke(Color.app.tertiaryText.opacity(0.5), lineWidth: 1)
-											}
+				case .block(let blockId):
+					if let block: Business.Block = viewModel.business.blocks[id: blockId] {
+						ScrollView(showsIndicators: false) {
+							VStack(alignment: .leading, spacing: spacing) {
+								HStack {
+									let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
+									Spacer()
+									Button(action: {
+										DispatchQueue.main.async {
+											self.focusedField = .blockPrice
 										}
-									)
-									.frame(size: CGSize(width: 180, height: 260))
-									.overlay {
-										Image(systemName: "photo")
-											.font(Font.app.largeTitle)
-											.foregroundColor(Color.app.tertiaryText)
+									}) {
+										CachedImage(
+											url: block.image,
+											content: { uiImage in
+												Image(uiImage: uiImage)
+													.resizable()
+													.scaledToFit()
+													.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+													.opacity(0.8)
+											},
+											placeHolder: {
+												ZStack {
+													RoundedRectangle(cornerRadius: cornerRadius)
+														.fill(Color.app.primaryBackground)
+													RoundedRectangle(cornerRadius: cornerRadius)
+														.stroke(Color.app.tertiaryText.opacity(0.5), lineWidth: 1)
+												}
+											}
+										)
+										.frame(size: CGSize(width: 180, height: 260))
+										.overlay {
+											Image(systemName: "photo")
+												.font(Font.app.largeTitle)
+												.foregroundColor(Color.app.tertiaryText)
+										}
+									}
+									.buttonStyle(.plain)
+									Spacer()
+								}
+								.padding(.top, 30)
+								hintText(content: "Pricing")
+								HStack {
+									Text("$")
+										.foregroundColor(Color.app.tertiaryText)
+									PriceTextField(isFocused: $isPriceKeyboardFocused, priceText: $blockPriceText)
+								}
+								.font(Font.app.bodySemiBold)
+								.padding(.horizontal)
+								.padding(.vertical, textfieldVerticalPadding)
+								.background(textBackground())
+								.onTapGesture {
+									DispatchQueue.main.async {
+										self.isPriceKeyboardFocused = true
 									}
 								}
-								.buttonStyle(.plain)
+								hintText(content: "How long will it take you to deliver this service?")
+								hintText(content: "Service")
 								Spacer()
 							}
-							.padding(.top, 30)
-							hintText(content: "Pricing")
-							
-							HStack {
-								Text("$")
-									.foregroundColor(Color.app.tertiaryText)
-								PriceTextField(isFocused: $isPriceKeyboardFocused, priceText: $blockPrice)
-							}
-							.font(Font.app.bodySemiBold)
-							.padding(.horizontal)
-							.padding(.vertical, textfieldVerticalPadding)
-							.background(textBackground())
-							.onTapGesture {
-								DispatchQueue.main.async {
-									self.isPriceKeyboardFocused = true
-								}
-							}
-							
-							hintText(content: "How long will it take you to deliver this service?")
-							hintText(content: "Service")
-							Spacer()
 						}
 					}
 				}
@@ -155,8 +156,9 @@ struct EditSiteView: View {
 				self.focusedField = .name
 			case .description:
 				self.focusedField = .description
-			case .block:
+			case .block(let id):
 				self.focusedField = nil
+				self.blockPriceText = viewModel.business.blocks[id: id]?.price.priceToText ?? ""
 			}
 		}
 	}
@@ -229,6 +231,6 @@ struct EditSiteView: View {
 
 struct EditSiteView_Previews: PreviewProvider {
 	static var previews: some View {
-		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .block(Business.mock1.blocks.first!))
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .block(Business.mock1.blocks.first!.id))
 	}
 }

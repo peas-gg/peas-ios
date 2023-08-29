@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import IdentifiedCollections
 
 struct Business: Codable, Equatable, Identifiable {
 	struct Block: Codable, Equatable, Identifiable {
@@ -31,7 +32,7 @@ struct Business: Codable, Equatable, Identifiable {
 	let location: String
 	let timeZone: String
 	let isActive: Bool
-	let blocks: [Block]
+	var blocks: IdentifiedArrayOf<Block>
 }
 
 extension Business {
