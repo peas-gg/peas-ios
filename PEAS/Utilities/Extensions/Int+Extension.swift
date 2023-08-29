@@ -23,7 +23,7 @@ extension Int {
 			result += ", \(minute) \(minuteDescription)"
 		}
 		
-		if hour <= 0 && minute > 0 {
+		if hour <= 0 && minute >= 0 {
 			result += "\(minute) \(minuteDescription)"
 		}
 		
