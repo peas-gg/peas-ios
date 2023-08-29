@@ -38,7 +38,9 @@ struct EditSiteView: View {
 	@FocusState private var focusedField: FocusField?
 	
 	@State private var blockPriceText: String = ""
-	@State private var blockTimeDuration = 0
+	@State private var blockTimeDuration: Int = 0
+	@State private var blockTitle: String = ""
+	@State private var blockDescription: String = ""
 	
 	@State private var isPriceKeyboardFocused: Bool = false
 	
@@ -47,6 +49,7 @@ struct EditSiteView: View {
 			let horizontalPadding: CGFloat = 25
 			Text(context.title)
 				.font(Font.app.title2)
+				.foregroundColor(Color.app.primaryText)
 				.padding(.top)
 			Divider()
 				.padding(.top)
@@ -62,11 +65,13 @@ struct EditSiteView: View {
 								.scaledToFit()
 								.frame(dimension: 50)
 							textField(hint: "Your Sign", isPeaceSign: true, text: $viewModel.peasSign)
+								.font(Font.app.bodySemiBold)
 								.focused($focusedField, equals: .sign)
 						}
 						.padding(.bottom, 40)
 						hintText(content: "Feel free to get a little creative with your business name")
 						textField(hint: "Business Name", text: $viewModel.businessName)
+							.font(Font.app.bodySemiBold)
 							.focused($focusedField, equals: .name)
 						Spacer()
 					}
@@ -78,7 +83,7 @@ struct EditSiteView: View {
 							Spacer()
 						}
 						hintText(content: "Tell people about what you do and what services you offer here. Don't sell yourself short ;)")
-						verticalTextField(hint: "Describe your business here", text: $viewModel.description)
+						descriptionTextField(hint: "Describe your business here", text: $viewModel.description)
 						Spacer()
 					}
 					.padding(.top)
@@ -126,7 +131,13 @@ struct EditSiteView: View {
 								.padding(.top, 30)
 								blockPricingSection()
 								blockTimeSection()
-								hintText(content: "Service")
+								VStack(alignment: .leading, spacing: 10) {
+									hintText(content: "Service")
+									textField(hint: "Add a title for your package", hintImage: "text.insert", text: $blockTitle)
+										.font(Font.app.title2Display)
+										.multilineTextAlignment(.center)
+									descriptionTextField(hint: "Describe the package", text: $blockDescription)
+								}
 								Spacer()
 							}
 							.padding(.horizontal, horizontalPadding)
@@ -150,6 +161,8 @@ struct EditSiteView: View {
 				self.focusedField = nil
 				self.blockPriceText = viewModel.business.blocks[id: id]?.price.priceToText ?? ""
 				self.blockTimeDuration = viewModel.business.blocks[id: id]?.duration ?? 0
+				self.blockTitle = viewModel.business.blocks[id: id]?.title ?? ""
+				self.blockDescription = viewModel.business.blocks[id: id]?.description ?? ""
 			}
 		}
 	}
@@ -162,19 +175,16 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func textField(hint: String, isPeaceSign: Bool = false, text: Binding<String>) -> some View {
+	func textField(hint: String, hintImage: String? = nil, isPeaceSign: Bool = false, text: Binding<String>) -> some View {
 		HStack {
 			if isPeaceSign {
 				Text("/")
 					.font(Font.app.title2)
 					.foregroundColor(Color.app.tertiaryText)
 			}
-			ZStack(alignment: .leading) {
-				Text(hint)
-					.foregroundColor(Color.app.tertiaryText)
-					.opacity(text.wrappedValue.isEmpty ? 1.0 : 0.0)
+			ZStack(alignment: hintImage == nil ? .leading : .center) {
+				textHint(image: hintImage, hint: hint, text: text.wrappedValue)
 				TextField("", text: text)
-					.font(Font.app.bodySemiBold)
 			}
 		}
 		.foregroundColor(Color.app.primaryText)
@@ -184,15 +194,10 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func verticalTextField(hint: String, text: Binding<String>) -> some View {
+	func descriptionTextField(hint: String, text: Binding<String>) -> some View {
 		let textLimit: Int = SizeConstants.textDescriptionLimit
 		ZStack(alignment: .center) {
-			HStack {
-				Image(systemName: "text.viewfinder")
-				Text(hint)
-			}
-			.foregroundColor(Color.app.tertiaryText)
-			.opacity(text.wrappedValue.count > 0 ? 0.0 : 1.0)
+			textHint(image: "text.viewfinder", hint: hint, text: text.wrappedValue)
 			VStack {
 				TextField("", text: text.max(textLimit), axis: .vertical)
 					.font(.system(size: FontSizes.body, weight: .regular, design: .default))
@@ -241,6 +246,19 @@ struct EditSiteView: View {
 				StepperView(min: 0, max: 86400, step: 300, value: $blockTimeDuration)
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func textHint(image: String?, hint: String, text: String) -> some View {
+		HStack {
+			if let image = image {
+				Image(systemName: image)
+			}
+			Text(hint)
+		}
+		.font(Font.app.callout)
+		.foregroundColor(Color.app.tertiaryText)
+		.opacity(text.count > 0 ? 0.0 : 1.0)
 	}
 	
 	@ViewBuilder
