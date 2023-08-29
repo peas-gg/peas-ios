@@ -161,7 +161,11 @@ struct SiteView: View {
 	
 	@ViewBuilder
 	func linksButton() -> some View {
-		Button(action: {}) {
+		Button(action: {
+			if viewModel.isInEditMode {
+				viewModel.setEditModeContext(.links)
+			}
+		}) {
 			Text("@")
 				.font(Font.app.bodySemiBold)
 				.padding(8)

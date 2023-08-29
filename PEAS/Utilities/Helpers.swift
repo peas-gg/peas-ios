@@ -10,5 +10,6 @@ import Foundation
 struct SizeConstants {
 	static let blockCornerRadius: CGFloat = 20
 	static let textCornerRadius: CGFloat = 10
-	static let textDescriptionLimit: Int = 120
+	static let businessDescriptionLimit: Int = 160
+	static let descriptionLimit: Int = 120
 }

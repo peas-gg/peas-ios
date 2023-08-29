@@ -22,7 +22,7 @@ struct EditSiteView: View {
 		case name
 		case description
 		case links
-		case block(_ blockId: Business.Block.ID)
+		case block(_ blockId: Business.Block.ID?)
 		
 		var title: String {
 			switch self {
@@ -45,16 +45,47 @@ struct EditSiteView: View {
 	@State var description: String = ""
 	
 	//Block
-	@State private var blockPriceText: String = ""
-	@State private var blockTimeDuration: Int = 0
-	@State private var blockTitle: String = ""
-	@State private var blockDescription: String = ""
+	@State private var blockPriceText: String
+	@State private var blockTimeDuration: Int
+	@State private var blockTitle: String
+	@State private var blockDescription: String
+	@State private var blockImage: URL
 	@State private var isPriceKeyboardFocused: Bool = false
 	
 	//Links
 	@State private var twitter: String = ""
 	@State private var instagram: String = ""
 	@State private var tiktok: String = ""
+	
+	init(viewModel: SiteView.ViewModel, context: Context) {
+		self._viewModel = StateObject(wrappedValue: viewModel)
+		self.context = context
+		
+		self._sign = State(initialValue: viewModel.business.sign)
+		self._name = State(initialValue: viewModel.business.name)
+		self._description = State(initialValue: viewModel.business.description)
+		
+		self._twitter = State(initialValue: viewModel.business.twitter)
+		self._instagram = State(initialValue: viewModel.business.instagram)
+		self._tiktok = State(initialValue: viewModel.business.tiktok)
+		
+		//Block
+		let block: Business.Block? = {
+			switch context {
+			case .block(let id):
+				if let id = id, let existingBlock = viewModel.business.blocks[id: id] {
+					return existingBlock
+				}
+				return nil
+			default: return nil
+			}
+		}()
+		self._blockPriceText = State(initialValue: block?.price.priceToText ?? "")
+		self._blockTimeDuration = State(initialValue: block?.duration ?? 0)
+		self._blockTitle = State(initialValue: block?.title ?? "")
+		self._blockDescription = State(initialValue: block?.description ?? "")
+		self._blockImage = State(initialValue: block?.image ?? "".unwrappedContentUrl)
+	}
 	
 	var body: some View {
 		VStack(spacing: 0) {
@@ -95,65 +126,63 @@ struct EditSiteView: View {
 							Spacer()
 						}
 						hintText(content: "Tell people about what you do and what services you offer here. Don't sell yourself short ;)")
-						descriptionTextField(hint: "Describe your business here", text: $description)
+						descriptionTextField(hint: "Describe your business here", text: $description, textLimit: SizeConstants.businessDescriptionLimit)
 						Spacer()
 					}
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
-				case .block(let blockId):
-					if let block: Business.Block = viewModel.business.blocks[id: blockId] {
-						ScrollView(showsIndicators: false) {
-							VStack(alignment: .leading, spacing: 30) {
-								HStack {
-									let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
-									Spacer()
-									Button(action: {
-										DispatchQueue.main.async {
-											self.focusedField = .blockPrice
-										}
-									}) {
-										CachedImage(
-											url: block.image,
-											content: { uiImage in
-												Image(uiImage: uiImage)
-													.resizable()
-													.scaledToFit()
-													.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-													.opacity(0.8)
-											},
-											placeHolder: {
-												ZStack {
-													RoundedRectangle(cornerRadius: cornerRadius)
-														.fill(Color.app.primaryBackground)
-													RoundedRectangle(cornerRadius: cornerRadius)
-														.stroke(Color.app.tertiaryText.opacity(0.5), lineWidth: 1)
-												}
-											}
-										)
-										.frame(size: CGSize(width: 180, height: 260))
-										.overlay {
-											Image(systemName: "photo")
-												.font(Font.app.largeTitle)
-												.foregroundColor(Color.app.tertiaryText)
-										}
+				case .block:
+					ScrollView(showsIndicators: false) {
+						VStack(alignment: .leading, spacing: 30) {
+							HStack {
+								let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
+								Spacer()
+								Button(action: {
+									DispatchQueue.main.async {
+										self.focusedField = .blockPrice
 									}
-									.buttonStyle(.plain)
-									Spacer()
+								}) {
+									CachedImage(
+										url: blockImage,
+										content: { uiImage in
+											Image(uiImage: uiImage)
+												.resizable()
+												.scaledToFit()
+												.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+												.opacity(0.8)
+										},
+										placeHolder: {
+											ZStack {
+												RoundedRectangle(cornerRadius: cornerRadius)
+													.fill(Color.app.primaryBackground)
+												RoundedRectangle(cornerRadius: cornerRadius)
+													.stroke(Color.app.tertiaryText.opacity(0.5), lineWidth: 1)
+											}
+										}
+									)
+									.frame(size: CGSize(width: 180, height: 260))
+									.overlay {
+										Image(systemName: "photo")
+											.font(Font.app.largeTitle)
+											.foregroundColor(Color.app.tertiaryText)
+									}
 								}
-								.padding(.top, 30)
-								blockPricingSection()
-								blockTimeSection()
-								VStack(alignment: .leading, spacing: 10) {
-									hintText(content: "Service")
-									textField(hint: "Add a title for your package", hintImage: "text.insert", text: $blockTitle)
-										.font(Font.app.title2Display)
-										.multilineTextAlignment(.center)
-									descriptionTextField(hint: "Describe the package", text: $blockDescription)
-								}
+								.buttonStyle(.plain)
 								Spacer()
 							}
-							.padding(.horizontal, horizontalPadding)
+							.padding(.top, 30)
+							blockPricingSection()
+							blockTimeSection()
+							VStack(alignment: .leading, spacing: 10) {
+								hintText(content: "Service")
+								textField(hint: "Add a title for your package", hintImage: "text.insert", text: $blockTitle)
+									.font(Font.app.title2Display)
+									.multilineTextAlignment(.center)
+								descriptionTextField(hint: "Describe the package", text: $blockDescription, textLimit: SizeConstants.descriptionLimit)
+							}
+							Spacer()
 						}
+						.padding(.horizontal, horizontalPadding)
 					}
 				case .links:
 					VStack(alignment: .leading, spacing: spacing) {
@@ -172,14 +201,6 @@ struct EditSiteView: View {
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
 		.onAppear {
-			self.sign = viewModel.business.name
-			self.name = viewModel.business.name
-			self.description = viewModel.business.description
-			
-			self.twitter = viewModel.business.twitter
-			self.instagram = viewModel.business.instagram
-			self.tiktok = viewModel.business.tiktok
-			
 			switch context {
 			case .sign:
 				self.focusedField = .sign
@@ -189,12 +210,8 @@ struct EditSiteView: View {
 				self.focusedField = .description
 			case .links:
 				self.focusedField = nil
-			case .block(let id):
-				self.focusedField = nil
-				self.blockPriceText = viewModel.business.blocks[id: id]?.price.priceToText ?? ""
-				self.blockTimeDuration = viewModel.business.blocks[id: id]?.duration ?? 0
-				self.blockTitle = viewModel.business.blocks[id: id]?.title ?? ""
-				self.blockDescription = viewModel.business.blocks[id: id]?.description ?? ""
+			case .block:
+				return
 			}
 		}
 	}
@@ -226,8 +243,7 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func descriptionTextField(hint: String, text: Binding<String>) -> some View {
-		let textLimit: Int = SizeConstants.textDescriptionLimit
+	func descriptionTextField(hint: String, text: Binding<String>, textLimit: Int) -> some View {
 		ZStack(alignment: .center) {
 			textHint(image: "text.viewfinder", hint: hint, text: text.wrappedValue)
 			VStack {

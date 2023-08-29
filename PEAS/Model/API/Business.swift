@@ -10,8 +10,14 @@ import IdentifiedCollections
 
 struct Business: Codable, Equatable, Identifiable {
 	struct Block: Codable, Equatable, Identifiable {
+		enum BlockType: String, Codable, Equatable, Identifiable {
+			case Genesis
+			
+			var id: String { self.rawValue }
+		}
+		
 		let id: String
-		let blockType: String
+		let blockType: BlockType
 		var image: URL
 		var price: Double
 		var duration: Int
@@ -54,7 +60,7 @@ extension Business {
 			blocks: [
 				Block(
 					id: "1",
-					blockType: "Genesis",
+					blockType: .Genesis,
 					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_1.jpg")!,
 					price: 132.99,
 					duration: 14400,
@@ -63,7 +69,7 @@ extension Business {
 				),
 				Block(
 					id: "2",
-					blockType: "Genesis",
+					blockType: .Genesis,
 					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_2.jpg")!,
 					price: 29.99,
 					duration: 7200,
@@ -72,7 +78,7 @@ extension Business {
 				),
 				Block(
 					id: "3",
-					blockType: "Genesis",
+					blockType: .Genesis,
 					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_2.jpg")!,
 					price: 40.0,
 					duration: 600,
@@ -81,7 +87,7 @@ extension Business {
 				),
 				Block(
 					id: "4",
-					blockType: "Genesis",
+					blockType: .Genesis,
 					image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_2.jpg")!,
 					price: 40.0,
 					duration: 14000,
