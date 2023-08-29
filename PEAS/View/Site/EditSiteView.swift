@@ -131,9 +131,7 @@ struct EditSiteView: View {
 								.padding(.vertical, textfieldVerticalPadding)
 								.background(textBackground())
 								.onTapGesture {
-									DispatchQueue.main.async {
-										self.isPriceKeyboardFocused = true
-									}
+									self.isPriceKeyboardFocused.toggle()
 								}
 								hintText(content: "How long will it take you to deliver this service?")
 								hintText(content: "Service")

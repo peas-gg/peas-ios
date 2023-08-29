@@ -30,7 +30,7 @@ struct PriceTextField: View {
 				.overlay(alignment: .bottomTrailing) {
 					Rectangle()
 						.frame(width: 10, height: 1, alignment: .trailing)
-						.opacity(isShowingCursor ? 1.0 : 0.0)
+						.opacity(isShowingCursor && isFocused ? 1.0 : 0.0)
 						.animation(.easeOut.speed(0.75).repeatForever(), value: isShowingCursor)
 				}
 			TextField("", text: $priceText)
