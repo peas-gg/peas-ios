@@ -17,11 +17,12 @@ struct EditSiteView: View {
 		case blockPrice
 	}
 	
-	enum Context {
+	enum Context: Equatable {
 		case sign
 		case name
 		case description
 		case links
+		case location
 		case block(_ blockId: Business.Block.ID?)
 		
 		var title: String {
@@ -29,6 +30,7 @@ struct EditSiteView: View {
 			case .sign, .name: return "Peas Sign & Name"
 			case .description: return "Description"
 			case .links: return "Link your socials"
+			case .location: return "Location"
 			case .block: return "Block"
 			}
 		}
@@ -194,11 +196,43 @@ struct EditSiteView: View {
 					}
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
+				case .location:
+					VStack {
+						HStack {
+							Spacer()
+							Button(action: {}) {
+								HStack {
+									Image(systemName: "arrow.clockwise")
+									Text("Update")
+										.textCase(.uppercase)
+								}
+								.font(Font.app.caption)
+								.foregroundColor(Color.app.primaryText)
+								.padding(8)
+								.background(
+									RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
+										.stroke(Color.app.tertiaryText)
+								)
+							}
+							.padding(.trailing)
+							.padding(.trailing)
+						}
+						ZStack(alignment: .bottom) {
+							PulseView(size: 200)
+							Text(viewModel.business.location)
+								.font(Font.app.title1)
+								.foregroundColor(Color.app.primaryText)
+								.padding(.bottom, 30)
+						}
+					}
+					.padding(.vertical)
 				}
 			}
-			.background(Color.app.secondaryBackground)
+			.background(context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
 			
-			Spacer()
+			if context != .location {
+				Spacer()
+			}
 			
 			Button(action: {}) {
 				Text("Save")
@@ -218,7 +252,7 @@ struct EditSiteView: View {
 				self.focusedField = .description
 			case .links:
 				self.focusedField = nil
-			case .block:
+			case .block, .location:
 				return
 			}
 		}
@@ -341,6 +375,7 @@ struct EditSiteView: View {
 
 struct EditSiteView_Previews: PreviewProvider {
 	static var previews: some View {
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .location)
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .links)
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .block(Business.mock1.blocks.first!.id))
 	}
