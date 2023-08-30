@@ -225,7 +225,9 @@ struct EditSiteView: View {
 								.padding(.bottom, 30)
 						}
 					}
-					.padding(.vertical)
+					.padding(.top)
+					.presentationDetents([.medium])
+					.presentationDragIndicator(.visible)
 				}
 			}
 			.background(context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)

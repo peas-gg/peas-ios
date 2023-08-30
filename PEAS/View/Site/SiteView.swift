@@ -81,7 +81,7 @@ struct SiteView: View {
 							.font(.system(size: FontSizes.body, weight: .regular, design: .default))
 							.multilineTextAlignment(.leading)
 					}
-					labelContainer(action: { viewModel.setEditModeContext(nil) }) {
+					labelContainer(action: { viewModel.setEditModeContext(.location) }) {
 						HStack {
 							Image(systemName: "mappin.and.ellipse")
 								.font(Font.app.bodySemiBold)
