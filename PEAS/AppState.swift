@@ -10,9 +10,13 @@ import Foundation
 @MainActor class AppState: ObservableObject {
 	enum AppMode {
 		case welcome
-		case template
+		case onboarding
 		case home
 	}
 	
 	@Published var mode: AppMode = .welcome
+	
+	func setAppMode(_ mode: AppMode) {
+		self.mode = mode
+	}
 }

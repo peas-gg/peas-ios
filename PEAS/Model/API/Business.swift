@@ -32,9 +32,9 @@ struct Business: Codable, Equatable, Identifiable {
 	var color: String
 	var description: String
 	var profilePhoto: URL
-	var twitter: String
-	var instagram: String
-	var tiktok: String
+	var twitter: String?
+	var instagram: String?
+	var tiktok: String?
 	let location: String
 	let timeZone: String
 	let isActive: Bool

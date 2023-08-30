@@ -13,9 +13,11 @@ struct AppView: View {
 	var body: some View {
 		switch appState.mode {
 		case .welcome:
-			Text("WELCOME")
-		case .template:
-			SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
+			Button(action: { appState.setAppMode(.onboarding) }) {
+				Text("Start")
+			}
+		case .onboarding:
+			SiteOnboardingView(viewModel: SiteOnboardingView.ViewModel())
 		case .home:
 			HomeView(viewModel: .init())
 		}

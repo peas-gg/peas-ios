@@ -53,7 +53,7 @@ final class APIClient: APIRequests {
 	func getTemplates() -> AnyPublisher<[Template], APIClientError> {
 		let getTemplates = APPUrlRequest(
 			httpMethod: .get,
-			pathComponents: ["business", "doesAccountExist"]
+			pathComponents: ["business", "templates"]
 		)
 		return apiRequest(appRequest: getTemplates, output: [Template].self)
 	}

@@ -58,9 +58,9 @@ struct EditSiteView: View {
 	@State private var isPriceKeyboardFocused: Bool = false
 	
 	//Links
-	@State private var twitter: String = ""
-	@State private var instagram: String = ""
-	@State private var tiktok: String = ""
+	@State private var twitter: String
+	@State private var instagram: String
+	@State private var tiktok: String
 	
 	init(viewModel: SiteView.ViewModel, context: Context) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
@@ -71,9 +71,9 @@ struct EditSiteView: View {
 		self._name = State(initialValue: viewModel.business.name)
 		self._description = State(initialValue: viewModel.business.description)
 		
-		self._twitter = State(initialValue: viewModel.business.twitter)
-		self._instagram = State(initialValue: viewModel.business.instagram)
-		self._tiktok = State(initialValue: viewModel.business.tiktok)
+		self._twitter = State(initialValue: viewModel.business.twitter ?? "")
+		self._instagram = State(initialValue: viewModel.business.instagram ?? "")
+		self._tiktok = State(initialValue: viewModel.business.tiktok ?? "")
 		
 		//Block
 		let block: Business.Block? = {

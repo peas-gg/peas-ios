@@ -9,27 +9,31 @@ import SwiftUI
 import IdentifiedCollections
 
 struct SiteOnboardingView: View {
-	let templates: IdentifiedArrayOf<Template>
+	@StateObject var viewModel: ViewModel
+	
 	var body: some View {
 		VStack {
+			let padding: CGFloat = 10
 			Text("What is your art?")
 				.font(Font.app.title2)
 				.foregroundColor(Color.app.primaryText)
 			Text("Select your art to start setting up your business site")
 				.font(Font.app.body)
 				.multilineTextAlignment(.leading)
-				.padding(.top, 10)
+				.padding(.top, padding)
 			VStack {
 				ScrollView(showsIndicators: false) {
 					LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
-						ForEach(templates) { template in
+						ForEach(viewModel.templates) { template in
 							templateView(template)
+								.transition(.scale)
 						}
 					}
-					.padding(.top, 10)
+					.padding(.top, padding)
 				}
 			}
-			.padding(.horizontal, 10)
+			.padding(.horizontal, padding)
+			.animation(.spring(dampingFraction: 1.22), value: viewModel.templates)
 		}
 	}
 	
@@ -73,12 +77,12 @@ struct SiteOnboardingView: View {
 
 fileprivate struct TestView: View {
 	var body: some View {
-		SiteOnboardingView(templates: [])
+		SiteOnboardingView(viewModel: .init())
 	}
 }
 
 struct SiteOnboardingView_Previews: PreviewProvider {
 	static var previews: some View {
-		SiteOnboardingView(templates: [Template.mock1])
+		SiteOnboardingView(viewModel: .init())
 	}
 }
