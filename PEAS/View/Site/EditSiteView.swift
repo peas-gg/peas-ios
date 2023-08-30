@@ -18,6 +18,7 @@ struct EditSiteView: View {
 	}
 	
 	enum Context: Equatable {
+		case photo
 		case sign
 		case name
 		case description
@@ -27,6 +28,7 @@ struct EditSiteView: View {
 		
 		var title: String {
 			switch self {
+			case .photo: return "Photo"
 			case .sign, .name: return "Peas Sign & Name"
 			case .description: return "Description"
 			case .links: return "Link your socials"
@@ -42,9 +44,10 @@ struct EditSiteView: View {
 	@FocusState private var focusedField: FocusField?
 	
 	//Business
-	@State var sign: String = ""
-	@State var name: String = ""
-	@State var description: String = ""
+	@State var photo: URL
+	@State var sign: String
+	@State var name: String
+	@State var description: String
 	
 	//Block
 	@State private var blockPriceText: String
@@ -63,6 +66,7 @@ struct EditSiteView: View {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 		self.context = context
 		
+		self._photo = State(initialValue: viewModel.business.profilePhoto)
 		self._sign = State(initialValue: viewModel.business.sign)
 		self._name = State(initialValue: viewModel.business.name)
 		self._description = State(initialValue: viewModel.business.description)
@@ -101,6 +105,28 @@ struct EditSiteView: View {
 			VStack {
 				let spacing: CGFloat = 20
 				switch context {
+				case .photo:
+					VStack(alignment: .center, spacing: spacing) {
+						hintText(content: "Think of your business photo as your brand image")
+						HStack {
+							Spacer()
+							Button(action: {}) {
+								CachedAvatar(url: photo, height: 200)
+									.overlay {
+										Image(systemName: "photo")
+											.font(Font.app.largeTitle)
+											.foregroundColor(Color.app.tertiaryText)
+									}
+							}
+							.buttonStyle(.plain)
+							Spacer()
+						}
+						hintText(content: "We recommend a photo of yourself because a face helps to build trust")
+						Spacer()
+					}
+					.multilineTextAlignment(.center)
+					.padding(.top)
+					.padding(.horizontal, horizontalPadding)
 				case .sign, .name:
 					VStack(alignment: .leading, spacing: spacing) {
 						hintText(content: "Choose a unique peas sign to make it easy for people to find you")
@@ -268,7 +294,7 @@ struct EditSiteView: View {
 				self.focusedField = .description
 			case .links:
 				self.focusedField = nil
-			case .block, .location:
+			case .photo, .block, .location:
 				return
 			}
 		}
@@ -391,6 +417,7 @@ struct EditSiteView: View {
 
 struct EditSiteView_Previews: PreviewProvider {
 	static var previews: some View {
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .photo)
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .location)
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .links)
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .block(Business.mock1.blocks.first!.id))
