@@ -257,6 +257,7 @@ struct EditSiteView: View {
 							.padding(.trailing)
 							.padding(.trailing)
 						}
+						Spacer()
 						ZStack(alignment: .bottom) {
 							PulseView(size: 200)
 							Text(viewModel.business.location)
@@ -264,10 +265,10 @@ struct EditSiteView: View {
 								.foregroundColor(Color.app.primaryText)
 								.padding(.bottom, 30)
 						}
+						Spacer()
 					}
 					.padding(.top)
-					.presentationDetents([.medium])
-					.presentationDragIndicator(.visible)
+					.presentationDetents([.height(400)])
 				}
 			}
 			.background(context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
