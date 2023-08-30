@@ -38,7 +38,11 @@ struct SiteView: View {
 					}
 					.padding(.bottom, 30)
 					HStack(alignment: .top) {
-						Button(action: { viewModel.setEditModeContext(.photo) }) {
+						Button(action: {
+							if viewModel.isInEditMode {
+								viewModel.setEditModeContext(.photo)
+							}
+						}) {
 							CachedAvatar(url: business.profilePhoto, height: 60)
 								.overlay(isShown: viewModel.isInEditMode) {
 									RoundedRectangle(cornerRadius: 50)

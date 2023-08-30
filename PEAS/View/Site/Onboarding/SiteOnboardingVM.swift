@@ -14,6 +14,7 @@ extension SiteOnboardingView {
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var templates: IdentifiedArrayOf<Template> = []
+		@Published var selectedTemplate: Template?
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
@@ -28,6 +29,14 @@ extension SiteOnboardingView {
 					self.templates = IdentifiedArray(uniqueElements: templates)
 				})
 				.store(in: &cancellableBag)
+		}
+		
+		func selectTemplate(_ template: Template) {
+			self.selectedTemplate = template
+		}
+		
+		func resetTemplate() {
+			self.selectedTemplate = nil
 		}
 		
 		func backToWelcomeScreen() {

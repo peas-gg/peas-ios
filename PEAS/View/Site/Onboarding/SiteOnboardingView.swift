@@ -12,47 +12,66 @@ struct SiteOnboardingView: View {
 	@StateObject var viewModel: ViewModel
 	
 	var body: some View {
-		VStack {
-			let padding: CGFloat = 10
-			SymmetricHStack(
-				content: {
-					Text("What is your art?")
-						.font(Font.app.title2)
-						.foregroundColor(Color.app.primaryText)
-				},
-				leading: { EmptyView() },
-				trailing: {
-					Button(action: { viewModel.backToWelcomeScreen() }) {
-						Text("Cancel")
-							.font(.system(size: FontSizes.title3, weight: .regular, design: .rounded))
-							.foregroundColor(Color.app.primaryText.opacity(0.8))
-					}
-				}
-			)
-			.padding(.horizontal)
-			Text("Select your art to start setting up your business site")
-				.font(Font.app.body)
-				.multilineTextAlignment(.leading)
-				.padding(.top, padding)
+		if let selectedTemplate = viewModel.selectedTemplate {
 			VStack {
-				ScrollView(showsIndicators: false) {
-					LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
-						ForEach(viewModel.templates) { template in
-							templateView(template)
-								.transition(.scale)
-						}
+				SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: selectedTemplate.business))
+				Spacer()
+				VStack {
+					Button(action: { viewModel.resetTemplate() }) {
+						Image(systemName: "arrow.counterclockwise")
+						Text("Reset")
 					}
-					.padding(.top, padding)
+					.font(Font.app.title3)
+					.foregroundColor(Color.app.tertiaryText)
+					Button(action: {}) {
+						Text("Create")
+					}
+					.buttonStyle(.expanded(style: .black))
 				}
 			}
-			.padding(.horizontal, padding)
-			.animation(.spring(dampingFraction: 1.22), value: viewModel.templates)
+		} else {
+			VStack {
+				let padding: CGFloat = 10
+				SymmetricHStack(
+					content: {
+						Text("What is your art?")
+							.font(Font.app.title2)
+							.foregroundColor(Color.app.primaryText)
+					},
+					leading: { EmptyView() },
+					trailing: {
+						Button(action: { viewModel.backToWelcomeScreen() }) {
+							Text("Cancel")
+								.font(.system(size: FontSizes.title3, weight: .regular, design: .rounded))
+								.foregroundColor(Color.app.primaryText.opacity(0.8))
+						}
+					}
+				)
+				.padding(.horizontal)
+				Text("Select your art to start setting up your business site")
+					.font(Font.app.body)
+					.multilineTextAlignment(.leading)
+					.padding(.top, padding)
+				VStack {
+					ScrollView(showsIndicators: false) {
+						LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
+							ForEach(viewModel.templates) { template in
+								templateView(template)
+									.transition(.scale)
+							}
+						}
+						.padding(.top, padding)
+					}
+				}
+				.padding(.horizontal, padding)
+				.animation(.spring(dampingFraction: 1.22), value: viewModel.templates)
+			}
 		}
 	}
 	
 	@ViewBuilder
 	func templateView(_ template: Template) -> some View {
-		Button(action: {}) {
+		Button(action: { viewModel.selectTemplate(template) }) {
 			CachedImage(
 				url: template.photo,
 				content: { uiImage in
