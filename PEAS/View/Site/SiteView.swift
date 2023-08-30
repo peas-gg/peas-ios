@@ -112,6 +112,7 @@ struct SiteView: View {
 		.foregroundColor(Color.app.primaryText)
 		.overlay (alignment: .bottom){
 			toolbar()
+				.padding(.bottom)
 		}
 		.background {
 			VStack {
@@ -271,12 +272,16 @@ struct SiteView: View {
 					toolbarImage("xmark")
 				}
 			} else {
-				Button(action: {}) {
-					toolbarImage("globe")
+				Group {
+					Button(action: {}) {
+						toolbarImage("globe")
+					}
+					Button(action: {}) {
+						toolbarImage("calendar.badge.clock")
+					}
 				}
-				Button(action: {}) {
-					toolbarImage("calendar.badge.clock")
-				}
+				.disabled(viewModel.isTemplate)
+				.opacity(viewModel.isTemplate ? 0.5 : 1.0)
 				Button(action: { viewModel.toggleEditMode() }) {
 					toolbarImage("pencil")
 				}
