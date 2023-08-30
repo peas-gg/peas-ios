@@ -181,6 +181,20 @@ struct EditSiteView: View {
 									.font(Font.app.title2Display)
 									.multilineTextAlignment(.center)
 								descriptionTextField(hint: "Describe the package", text: $blockDescription, textLimit: SizeConstants.descriptionLimit)
+								HStack {
+									Spacer()
+									Button(action: {}) {
+										HStack {
+											Image(systemName: "trash")
+											Text("Delete")
+										}
+										.font(Font.app.body)
+										.padding()
+										.background(textBackground())
+									}
+									Spacer()
+								}
+								.padding(.top)
 							}
 							Spacer()
 						}
