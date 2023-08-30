@@ -29,5 +29,9 @@ extension SiteOnboardingView {
 				})
 				.store(in: &cancellableBag)
 		}
+		
+		func backToWelcomeScreen() {
+			AppState.updateAppState(with: .changeAppMode(.welcome))
+		}
 	}
 }

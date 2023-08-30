@@ -51,6 +51,7 @@
 		D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8332A957A4800B65CA4 /* ButtonStyles.swift */; };
 		D066F8362A97CEC800B65CA4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8352A97CEC800B65CA4 /* AppState.swift */; };
 		D0793D232A9FBC7500139783 /* SiteOnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */; };
+		D0793D252A9FC69600139783 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D242A9FC69600139783 /* Notification+Name.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
@@ -115,6 +116,7 @@
 		D066F8332A957A4800B65CA4 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		D066F8352A97CEC800B65CA4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteOnboardingVM.swift; sourceTree = "<group>"; };
+		D0793D242A9FC69600139783 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				D04F11542A9C99670011242C /* Binding+Extension.swift */,
 				D04F115A2A9D7B240011242C /* Double+Extension.swift */,
 				D04F115E2A9E7C420011242C /* String+Extension.swift */,
+				D0793D242A9FC69600139783 /* Notification+Name.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
 				D066F8212A94937C00B65CA4 /* Template.swift in Sources */,
 				D066F81B2A948F0600B65CA4 /* AppUrlRequest.swift in Sources */,
+				D0793D252A9FC69600139783 /* Notification+Name.swift in Sources */,
 				D066F81D2A948F8D00B65CA4 /* Authenticate.swift in Sources */,
 				D0FB0B082A8FFB8100C56178 /* URLSession+Validation.swift in Sources */,
 				D066F8172A9457EC00B65CA4 /* SiteOnboardingView.swift in Sources */,

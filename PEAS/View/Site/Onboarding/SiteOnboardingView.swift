@@ -14,9 +14,22 @@ struct SiteOnboardingView: View {
 	var body: some View {
 		VStack {
 			let padding: CGFloat = 10
-			Text("What is your art?")
-				.font(Font.app.title2)
-				.foregroundColor(Color.app.primaryText)
+			SymmetricHStack(
+				content: {
+					Text("What is your art?")
+						.font(Font.app.title2)
+						.foregroundColor(Color.app.primaryText)
+				},
+				leading: { EmptyView() },
+				trailing: {
+					Button(action: { viewModel.backToWelcomeScreen() }) {
+						Text("Cancel")
+							.font(.system(size: FontSizes.title3, weight: .regular, design: .rounded))
+							.foregroundColor(Color.app.primaryText.opacity(0.8))
+					}
+				}
+			)
+			.padding(.horizontal)
 			Text("Select your art to start setting up your business site")
 				.font(Font.app.body)
 				.multilineTextAlignment(.leading)

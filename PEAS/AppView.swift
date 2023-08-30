@@ -13,11 +13,17 @@ struct AppView: View {
 	var body: some View {
 		switch appState.mode {
 		case .welcome:
-			Button(action: { appState.setAppMode(.onboarding) }) {
+			Button(action: { appState.setAppMode(.onboarding(.init())) }) {
 				Text("Start")
 			}
 		case .onboarding:
 			SiteOnboardingView(viewModel: SiteOnboardingView.ViewModel())
+				.transition(
+					.asymmetric(
+						insertion: .push(from: .bottom),
+						removal: .move(edge: .bottom)
+					)
+				)
 		case .home:
 			HomeView(viewModel: .init())
 		}
