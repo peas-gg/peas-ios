@@ -240,7 +240,7 @@ struct EditSiteView: View {
 				Text("Save")
 			}
 			.buttonStyle(.expanded(style: .black))
-			.padding(.horizontal)
+			.padding([.horizontal, .bottom])
 		}
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
