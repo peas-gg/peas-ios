@@ -38,7 +38,7 @@ struct SiteView: View {
 					}
 					.padding(.bottom, 30)
 					HStack(alignment: .top) {
-						Button(action: {}) {
+						Button(action: { viewModel.setEditModeContext(.photo) }) {
 							CachedAvatar(url: business.profilePhoto, height: 60)
 								.overlay(isShown: viewModel.isInEditMode) {
 									RoundedRectangle(cornerRadius: 50)
@@ -57,7 +57,6 @@ struct SiteView: View {
 								.opacity(viewModel.isInEditMode ? 1.0 : 0.0)
 						}
 						.buttonStyle(.plain)
-						
 						VStack(alignment: .leading) {
 							labelContainer(action: { viewModel.setEditModeContext(.name) }) {
 								Text("\(business.name)")
