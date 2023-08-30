@@ -18,12 +18,6 @@ struct AppView: View {
 			}
 		case .onboarding:
 			SiteOnboardingView(viewModel: SiteOnboardingView.ViewModel())
-				.transition(
-					.asymmetric(
-						insertion: .push(from: .bottom),
-						removal: .move(edge: .bottom)
-					)
-				)
 		case .home:
 			HomeView(viewModel: .init())
 		}
@@ -32,6 +26,8 @@ struct AppView: View {
 
 struct AppView_Previews: PreviewProvider {
 	static var previews: some View {
-		AppView()
+		VStack {
+			AppView()
+		}
 	}
 }

@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 import IdentifiedCollections
+import SwiftUI
 
 extension SiteOnboardingView {
 	@MainActor class ViewModel: ObservableObject {
@@ -32,11 +33,15 @@ extension SiteOnboardingView {
 		}
 		
 		func selectTemplate(_ template: Template) {
-			self.selectedTemplate = template
+			withAnimation(.default) {
+				self.selectedTemplate = template
+			}
 		}
 		
 		func resetTemplate() {
-			self.selectedTemplate = nil
+			withAnimation(.default) {
+				self.selectedTemplate = nil
+			}
 		}
 		
 		func backToWelcomeScreen() {
