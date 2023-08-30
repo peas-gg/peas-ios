@@ -10,6 +10,8 @@ import SwiftUI
 struct DashboardView: View {
 	@StateObject var viewModel: ViewModel
 	
+	@State private var buttonPressed = false
+	
 	struct Service: Identifiable {
 		let id = UUID()
 		let imageUrl: String
@@ -97,108 +99,154 @@ struct DashboardView: View {
 			}
 			.padding(.horizontal)
 			.padding(.top)
-			Spacer().frame(height: 30)
+			Spacer().frame(height: 20)
 			Text("$2,378.56")
 				.foregroundColor(.green)
 				.font(.system(size: 50, weight: .semibold, design: .rounded))
-			
-			VStack(spacing: 0){
-				HStack {
-					Text("Services (7 pending)")
-						.font(.headline)
+				.padding(-1)
+			HStack{
+				Button(action: {}) {
+					Text("CashOut")
+						.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
+						.foregroundColor(Color.app.primaryText)
+						.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
+						.background(
+							RoundedRectangle(cornerRadius: 10)
+								.fill(Color.white)
+						)
+				}
+				.padding(-2)
+
+				Button(action: {}) {
+					Text("Transcations")
+						.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
+						.foregroundColor(Color.app.primaryText)
+						.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
+						.background(
+							RoundedRectangle(cornerRadius: 10)
+								.fill(Color.white)
+						)
+				}
+			}
+			ZStack (alignment: .topTrailing){
+				VStack(spacing: 0){
+					HStack {
+						Text("Services (7 pending)")
+							.font(.headline)
+							.padding()
+						Spacer()
+						
+						Button(action: {
+							// Add sorting action
+							buttonPressed = !buttonPressed
+						}) {
+							if buttonPressed {
+								Image(systemName: "line.3.horizontal.decrease.circle.fill")
+									.font(.system(size: 24)) // Adjust font size
+									.frame(width: 30, height: 30) // Adjust button size
+							}
+							else {
+								Image(systemName: "line.3.horizontal.decrease.circle")
+									.font(.system(size: 24)) // Adjust font size
+									.frame(width: 30, height: 30) // Adjust button size
+							}
+							
+						}
 						.padding()
-					Spacer()
-					Button(action: {
-						// Add sorting action
-					}) {
-						Image(systemName: "line.3.horizontal.decrease.circle")
-							.font(.system(size: 24)) // Adjust font size
-							.frame(width: 30, height: 30) // Adjust button size
+						
 					}
-					.padding()
-					
-				}
-				.background{
-					CustomRoundedRectangle(cornerRadius: 10, corners: [.topLeft, .topRight])
-						.fill(Color.white)
-				}
-				Rectangle()
-					.fill(Color.gray)
-					.frame(height: 0.2)
-					.padding(.horizontal)
-				
-				VStack{
-					ScrollView {
-						LazyVStack {
-							ForEach(services) { service in
-								HStack {
-									HStack() {
-										AsyncImage(url: URL(string: service.imageUrl)) { phase in
-											switch phase {
-											case .empty:
-												ProgressView()
-											case .success(let returnImage):
-												returnImage
-													.resizable()
-													.frame(width: 50, height: 60)
-													.scaledToFill()
-													.clipShape(RoundedRectangle(cornerRadius: 20))
-												//cornerRadius(30)
-											case .failure:
-												Image(systemName: "questionmark")
-													.font(.headline)
-											default:
-												Image(systemName: "questionmark")
-													.font(.headline)
+					.background{
+						CustomRoundedRectangle(cornerRadius: 10, corners: [.topLeft, .topRight])
+							.fill(Color.white)
+					}
+					Rectangle()
+						.fill(Color.gray)
+						.frame(height: 0.5)
+						.padding(.horizontal)
+					VStack{
+						ScrollView {
+							LazyVStack {
+								ForEach(services) { service in
+									HStack {
+										HStack() {
+											AsyncImage(url: URL(string: service.imageUrl)) { phase in
+												switch phase {
+												case .empty:
+													ProgressView()
+												case .success(let returnImage):
+													returnImage
+														.resizable()
+														.frame(width: 50, height: 60)
+														.scaledToFill()
+														.clipShape(RoundedRectangle(cornerRadius: 20))
+													//cornerRadius(30)
+												case .failure:
+													Image(systemName: "questionmark")
+														.font(.headline)
+												default:
+													Image(systemName: "questionmark")
+														.font(.headline)
+												}
+											}
+											
+											VStack(alignment: .leading){
+												HStack {
+													Text(service.name)
+														.font(.headline)
+													
+													Spacer()
+													
+													Text(service.status)
+														.font(.system(size: 10))
+														.foregroundColor(getTextColor(for: service.status))
+														.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
+														.background{
+															RoundedRectangle(cornerRadius: 4)
+																.fill(getStatusColor(for: service.status))
+														}
+												}
+												Text(service.price)
+													.foregroundColor(Color.app.tertiaryText)
 											}
 										}
-										
-										VStack(alignment: .leading){
-											HStack {
-												Text(service.name)
-													.font(.headline)
-												
-												Spacer()
-												
-												Text(service.status)
-													.font(.system(size: 10))
-													.foregroundColor(getTextColor(for: service.status))
-													.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
-													.background{
-														RoundedRectangle(cornerRadius: 4)
-															.fill(getStatusColor(for: service.status))
-													}
-											}
-											Text(service.price)
-												.foregroundColor(Color.app.tertiaryText)
-										}
-										
-										
 									}
 								}
 							}
+							
+						}
+						.padding(.top)
+						.padding(.horizontal, 30)
+					}
+					.background(Color.white)
+					.overlay (alignment: .topTrailing){}
+				}
+				.padding(.horizontal)
+				
+				if buttonPressed {
+					VStack(alignment: .leading) {
+						VStack(alignment: .leading) {
+							ForEach(SortButtonView.SortStyle.allCases) { style in
+								SortButtonView(style: style)
+							}
+						}
+						.frame(maxWidth: 200)
+					}
+					.padding()
+					.background {
+						ZStack {
+							RoundedRectangle(cornerRadius: 10)
+								.fill(Color.white)
+							
+							RoundedRectangle(cornerRadius: 10)
+								.stroke(Color(uiColor: UIColor(hex: "E5E5E5")))
 						}
 					}
-					.padding(.top)
-					.padding(.horizontal, 30)
-					
+					.padding(50)
+					.padding(.trailing, -10)
+					//.disabled(buttonPressed)
 				}
-				.background(Color.white)
 				
 			}
-			.padding(.horizontal)
-			/*
-			 .background {
-			 ZStack {
-			 let cornerRadius: CGFloat = 10
-			 CustomRoundedRectangle(cornerRadius: cornerRadius, corners: [.topLeft, .topRight])
-			 .fill(Color.white)
-			 CustomRoundedRectangle(cornerRadius: cornerRadius, corners: [.topLeft, .topRight])
-			 .stroke(Color(uiColor: UIColor(hex: "E5E5E5")))
-			 }
-			 .padding(.horizontal, 10)
-			 }
-			 */
 		}
 		.foregroundColor(Color.app.primaryText)
 		.background(Color(uiColor: UIColor(hex: "F4F4F6")))
@@ -223,5 +271,59 @@ struct CustomRoundedRectangle: Shape {
 			cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)
 		)
 		return Path(path.cgPath)
+	}
+}
+
+struct SortButtonView: View {
+	enum SortStyle: String, CaseIterable, Identifiable {
+		case Approved
+		case Pending
+		case Completed
+		case Declined
+		
+		var opacity: Double {
+			0.1
+		}
+		
+		var id: String {
+			self.rawValue
+		}
+		
+		var color: Color {
+			switch self {
+			case .Approved: return Color.green.opacity(opacity)
+			case .Pending: return Color.yellow.opacity(opacity)
+			case .Completed: return Color.gray.opacity(opacity)
+			case .Declined: return Color.red.opacity(opacity)
+			}
+		}
+		
+		var strokeColor: Color {
+			switch self {
+			case .Approved: return Color.green
+			case .Pending: return Color.yellow
+			case .Completed: return Color.gray
+			case .Declined: return Color.red
+			}
+		}
+	}
+	
+	let style: SortStyle
+	
+	var body: some View {
+		Button(action: {  }) {
+			HStack(spacing: 25) {
+				Text(style.rawValue)
+					.foregroundColor(Color.black)
+				Spacer()
+				ZStack {
+					Circle()
+						.fill(style.color)
+					Circle()
+						.stroke(style.strokeColor)
+				}
+				.frame(dimension: 20)
+			}
+		}
 	}
 }
