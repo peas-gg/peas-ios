@@ -17,4 +17,6 @@ enum AppError: Error {
 		
 		var title: String { "API Error" }
 	}
+	
+	case apiClientError(APIClientError)
 }

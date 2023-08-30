@@ -10,6 +10,7 @@ import SwiftKeychainWrapper
 
 fileprivate enum KeyDefinitions: String, CaseIterable {
 	case token
+	case user
 }
 
 struct KeychainClientKey<T: Codable> {
@@ -18,6 +19,7 @@ struct KeychainClientKey<T: Codable> {
 
 extension KeychainClientKey {
 	static var token: KeychainClientKey<Token> { .init(name: KeyDefinitions.token.rawValue) }
+	static var user: KeychainClientKey<User> { .init(name: KeyDefinitions.user.rawValue) }
 }
 
 protocol KeychainClientProtocol {

@@ -8,27 +8,17 @@
 import SwiftUI
 
 struct AppView: View {
+	@StateObject var appState = AppState()
+	
 	var body: some View {
-		TabView {
-			DashboardView(viewModel: DashboardView.ViewModel())
-				.tabItem {
-					Label("Dashboard", systemImage: "tray.full.fill")
-				}
-			CalendarView(viewModel: CalendarView.ViewModel())
-				.tabItem {
-					Label("Calendar", systemImage: "calendar")
-				}
-			PortalView(viewModel: PortalView.ViewModel())
-				.tabItem {
-					Label("Portal", systemImage: "globe")
-				}
-			CustomersView(viewModel: CustomersView.ViewModel())
-				.tabItem {
-					Label("Customers", systemImage: "person.text.rectangle")
-						.environment(\.symbolVariants, .none)
-				}
+		switch appState.mode {
+		case .welcome:
+			Text("WELCOME")
+		case .template:
+			SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
+		case .home:
+			HomeView(viewModel: .init())
 		}
-		.tint(Color.black)
 	}
 }
 
