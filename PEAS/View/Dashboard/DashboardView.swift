@@ -11,6 +11,7 @@ struct DashboardView: View {
 	@StateObject var viewModel: ViewModel
 	
 	@State private var buttonPressed = false
+	@State private var buttonPress = false
 	
 	struct Service: Identifiable {
 		let id = UUID()
@@ -75,6 +76,7 @@ struct DashboardView: View {
 				.padding()
 				Spacer()
 				
+				
 				AsyncImage(url: url) { phase in
 					switch phase {
 					case .empty:
@@ -96,6 +98,9 @@ struct DashboardView: View {
 				}
 				.padding()
 				
+				
+				//CachedAvatar(url: url, height: 20)
+				
 			}
 			.padding(.horizontal)
 			.padding(.top)
@@ -106,28 +111,41 @@ struct DashboardView: View {
 				.padding(-1)
 			HStack{
 				Button(action: {}) {
-					Text("CashOut")
-						.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
-						.foregroundColor(Color.app.primaryText)
-						.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
-						.background(
-							RoundedRectangle(cornerRadius: 10)
-								.fill(Color.white)
-						)
+					HStack(spacing: -4) {
+						Image(systemName: "dollarsign.circle")
+						Text("CashOut")
+							.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
+							.foregroundColor(Color.app.primaryText)
+							.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
+						
+					}
+					.padding(5)
+					.background(
+						RoundedRectangle(cornerRadius: 10)
+							.fill(Color.white)
+					)
 				}
-				.padding(-2)
-
+				
+				
 				Button(action: {}) {
-					Text("Transcations")
-						.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
-						.foregroundColor(Color.app.primaryText)
-						.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
-						.background(
-							RoundedRectangle(cornerRadius: 10)
-								.fill(Color.white)
-						)
+					HStack(spacing: -4) {
+						Image(systemName: "doc.text")
+						
+						Text("Transcations")
+							.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
+							.foregroundColor(Color.app.primaryText)
+							.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
+						
+					}
+					.padding(5)
+					.background(
+						RoundedRectangle(cornerRadius: 10)
+							.fill(Color.white)
+					)
 				}
+				
 			}
+			.padding()
 			ZStack (alignment: .topTrailing){
 				VStack(spacing: 0){
 					HStack {
@@ -140,7 +158,7 @@ struct DashboardView: View {
 							// Add sorting action
 							buttonPressed = !buttonPressed
 						}) {
-							if buttonPressed {
+							if buttonPress{
 								Image(systemName: "line.3.horizontal.decrease.circle.fill")
 									.font(.system(size: 24)) // Adjust font size
 									.frame(width: 30, height: 30) // Adjust button size
@@ -226,10 +244,10 @@ struct DashboardView: View {
 					VStack(alignment: .leading) {
 						VStack(alignment: .leading) {
 							ForEach(SortButtonView.SortStyle.allCases) { style in
-								SortButtonView(style: style)
+								SortButtonView(sortButtonPressed: $buttonPress, style: style)
 							}
 						}
-						.frame(maxWidth: 200)
+						.frame(maxWidth: 190)
 					}
 					.padding()
 					.background {
@@ -244,6 +262,8 @@ struct DashboardView: View {
 					.padding(50)
 					.padding(.trailing, -10)
 					//.disabled(buttonPressed)
+					
+					
 				}
 				
 			}
@@ -275,6 +295,8 @@ struct CustomRoundedRectangle: Shape {
 }
 
 struct SortButtonView: View {
+	//@State private var sortButtonPressed = false
+	@Binding var sortButtonPressed: Bool
 	enum SortStyle: String, CaseIterable, Identifiable {
 		case Approved
 		case Pending
@@ -311,7 +333,9 @@ struct SortButtonView: View {
 	let style: SortStyle
 	
 	var body: some View {
-		Button(action: {  }) {
+		Button(action: {
+			sortButtonPressed.toggle()
+		}) {
 			HStack(spacing: 25) {
 				Text(style.rawValue)
 					.foregroundColor(Color.black)
