@@ -38,7 +38,11 @@ struct SiteView: View {
 					}
 					.padding(.bottom, 30)
 					HStack(alignment: .top) {
-						Button(action: {}) {
+						Button(action: {
+							if viewModel.isInEditMode {
+								viewModel.setEditModeContext(.photo)
+							}
+						}) {
 							CachedAvatar(url: business.profilePhoto, height: 60)
 								.overlay(isShown: viewModel.isInEditMode) {
 									RoundedRectangle(cornerRadius: 50)
@@ -57,7 +61,6 @@ struct SiteView: View {
 								.opacity(viewModel.isInEditMode ? 1.0 : 0.0)
 						}
 						.buttonStyle(.plain)
-						
 						VStack(alignment: .leading) {
 							labelContainer(action: { viewModel.setEditModeContext(.name) }) {
 								Text("\(business.name)")
@@ -81,7 +84,7 @@ struct SiteView: View {
 							.font(.system(size: FontSizes.body, weight: .regular, design: .default))
 							.multilineTextAlignment(.leading)
 					}
-					labelContainer(action: { viewModel.setEditModeContext(nil) }) {
+					labelContainer(action: { viewModel.setEditModeContext(.location) }) {
 						HStack {
 							Image(systemName: "mappin.and.ellipse")
 								.font(Font.app.bodySemiBold)
@@ -109,6 +112,7 @@ struct SiteView: View {
 		.foregroundColor(Color.app.primaryText)
 		.overlay (alignment: .bottom){
 			toolbar()
+				.padding(.bottom)
 		}
 		.background {
 			VStack {
@@ -268,12 +272,16 @@ struct SiteView: View {
 					toolbarImage("xmark")
 				}
 			} else {
-				Button(action: {}) {
-					toolbarImage("globe")
+				Group {
+					Button(action: {}) {
+						toolbarImage("globe")
+					}
+					Button(action: {}) {
+						toolbarImage("calendar.badge.clock")
+					}
 				}
-				Button(action: {}) {
-					toolbarImage("calendar.badge.clock")
-				}
+				.disabled(viewModel.isTemplate)
+				.opacity(viewModel.isTemplate ? 0.5 : 1.0)
 				Button(action: { viewModel.toggleEditMode() }) {
 					toolbarImage("pencil")
 				}

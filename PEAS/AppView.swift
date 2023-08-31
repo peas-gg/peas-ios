@@ -13,9 +13,11 @@ struct AppView: View {
 	var body: some View {
 		switch appState.mode {
 		case .welcome:
-			Text("WELCOME")
-		case .template:
-			SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
+			Button(action: { appState.setAppMode(.onboarding(.init())) }) {
+				Text("Start")
+			}
+		case .onboarding:
+			SiteOnboardingView(viewModel: SiteOnboardingView.ViewModel())
 		case .home:
 			HomeView(viewModel: .init())
 		}
@@ -24,6 +26,8 @@ struct AppView: View {
 
 struct AppView_Previews: PreviewProvider {
 	static var previews: some View {
-		AppView()
+		VStack {
+			AppView()
+		}
 	}
 }

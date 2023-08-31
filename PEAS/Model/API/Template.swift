@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Template: Codable, Identifiable {
+struct Template: Codable, Equatable, Identifiable {
 	let id: String
 	let category: String
 	let details: String
@@ -15,14 +15,13 @@ struct Template: Codable, Identifiable {
 	let business: Business
 }
 
-
 extension Template {
 	static let mock1: Self = {
 		return Template(
 			id: "A",
-			category: "Model",
+			category: "Modelling",
 			details: "",
-			photo: URL(string: "https://peasfilesdev.blob.core.windows.net/templates/Model.jpg")!,
+			photo: URL(string: "https://peasfilesdev.blob.core.windows.net/templates/Modelling.jpg")!,
 			business: Business.mock1
 		)
 	}()
