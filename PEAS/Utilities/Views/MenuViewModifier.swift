@@ -44,7 +44,7 @@ struct MenuViewModifier<Menu: View>: ViewModifier {
 								.offset(x: -(rect.width - parentRect.width) / 2, y: (rect.height - parentRect.height) / 2)
 								.padding(.top, topPadding)
 						}
-						.transition(.identity)
+						.transition(.opacity)
 						.animation(.easeInOut, value: isShowing)
 				}
 			}
@@ -61,7 +61,11 @@ fileprivate struct TestView: View {
 			Spacer()
 			HStack {
 				Spacer()
-				Button(action: { self.isShowingMenu.toggle() }) {
+				Button(action: {
+					withAnimation(.default) {
+						self.isShowingMenu.toggle()
+					}
+				}) {
 					Text("@")
 						.font(Font.app.title1)
 						.foregroundColor(Color.white)
@@ -79,18 +83,6 @@ fileprivate struct TestView: View {
 		}
 		.menu(isShowing: $isShowingMenu, parentRect: menuButtonRect, topPadding: -20) {
 			VStack {
-				Button(action: {}) {
-					Text("Tap me")
-				}
-				Button(action: {}) {
-					Text("Tap me")
-				}
-				Button(action: {}) {
-					Text("Tap me")
-				}
-				Button(action: {}) {
-					Text("Tap me")
-				}
 				Button(action: {}) {
 					Text("Tap me")
 				}
