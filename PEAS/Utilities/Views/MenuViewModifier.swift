@@ -30,11 +30,11 @@ struct MenuViewModifier<Menu: View>: ViewModifier {
 							menu()
 								.background {
 									ZStack {
-										let cornerRadius: CGFloat = 10
+										let cornerRadius: CGFloat = SizeConstants.textCornerRadius
 										RoundedRectangle(cornerRadius: cornerRadius)
 											.fill(Color.white)
 										RoundedRectangle(cornerRadius: cornerRadius)
-											.stroke(Color.gray, lineWidth: 2)
+											.stroke(Color.app.tertiaryText.opacity(0.5))
 									}
 								}
 								.readSize {

@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 extension SiteView {
 	@MainActor class ViewModel: ObservableObject {
@@ -21,6 +22,8 @@ extension SiteView {
 		@Published var isInEditMode: Bool = false
 		
 		@Published var editModeContext: EditSiteView.Context?
+		
+		@Published var isShowingSocialLinksMenu: Bool = false
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
@@ -45,6 +48,12 @@ extension SiteView {
 		
 		func setEditModeContext(_ context: EditSiteView.Context?) {
 			self.editModeContext = context
+		}
+		
+		func showSocialLinks() {
+			withAnimation(.default) {
+				self.isShowingSocialLinksMenu = true
+			}
 		}
 		
 		func toggleEditMode() {

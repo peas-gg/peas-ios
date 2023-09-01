@@ -10,6 +10,8 @@ import SwiftUI
 struct SiteView: View {
 	@StateObject var viewModel: ViewModel
 	
+	@State var socialLinksButtonRect: CGRect = .zero
+	
 	var backgroundColour: Color {
 		let colorHex: String? = viewModel.colours[viewModel.business.color]
 		if let colorHex = colorHex {
@@ -124,6 +126,20 @@ struct SiteView: View {
 			.ignoresSafeArea()
 			.animation(.easeOut, value: backgroundColour)
 		}
+		.menu(
+			isShowing: $viewModel.isShowingSocialLinksMenu,
+			parentRect: socialLinksButtonRect,
+			topPadding: -30,
+			content: {
+				VStack {
+					socialLink(title: "X")
+					socialLink(title: "Instagram")
+					socialLink(title: "Tiktok")
+				}
+				.padding()
+				.frame(width: 200)
+			}
+		)
 		.sheet(
 			isPresented: Binding(
 				get: { return viewModel.editModeContext != nil },
@@ -168,6 +184,8 @@ struct SiteView: View {
 		Button(action: {
 			if viewModel.isInEditMode {
 				viewModel.setEditModeContext(.links)
+			} else {
+				viewModel.showSocialLinks()
 			}
 		}) {
 			Text("@")
@@ -180,6 +198,7 @@ struct SiteView: View {
 				)
 				.animation(.easeInOut, value: viewModel.isInEditMode)
 		}
+		.readSize { self.socialLinksButtonRect = $0 }
 	}
 	
 	@ViewBuilder
@@ -321,6 +340,22 @@ struct SiteView: View {
 				)
 		}
 		.disabled(!viewModel.isInEditMode)
+	}
+	
+	@ViewBuilder
+	func socialLink(title: String) -> some View {
+		Button(action: {}) {
+			HStack {
+				Text("\(title)")
+					.font(Font.app.body)
+				Spacer()
+				Image(title)
+					.resizable()
+					.scaledToFit()
+					.frame(dimension: 24)
+			}
+			.foregroundColor(Color.app.primaryText)
+		}
 	}
 }
 
