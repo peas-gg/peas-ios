@@ -12,8 +12,10 @@ import UIKit
 typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
-	//Business
+	//Media
+	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	func getImage(url: URL) async -> UIImage?
+	//Business
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
 	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError>
 }
@@ -48,6 +50,15 @@ final class APIClient: APIRequests {
 					.store(in: &self.cancellableBag)
 			}
 		}
+	}
+	
+	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError> {
+		let imageUploadRequest = APPUrlRequest(
+			httpMethod: .put,
+			pathComponents: ["media", "image"],
+			body: imageData
+		)
+		return apiRequest(appRequest: imageUploadRequest, output: URL.self)
 	}
 	
 	func getTemplates() -> AnyPublisher<[Template], APIClientError> {
