@@ -259,7 +259,7 @@ struct EditSiteView: View {
 						}
 						Spacer()
 						ZStack(alignment: .bottom) {
-							PulseView(size: 200)
+							PulseView(size: 200, isActive: true)
 							Text(viewModel.business.location)
 								.font(Font.app.title1)
 								.foregroundColor(Color.app.primaryText)
