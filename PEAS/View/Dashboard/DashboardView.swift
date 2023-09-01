@@ -10,48 +10,43 @@ import SwiftUI
 struct DashboardView: View {
 	@StateObject var viewModel: ViewModel
 	
-	@State private var buttonPressed = false
-	@State private var buttonPress = false
-	
+	@State private var isShowingFilter = false
+	@State private var selectedFilter: FilterButtonView.Filter?
 	struct Service: Identifiable {
 		let id = UUID()
 		let imageUrl: String
 		let name: String
 		let price: String
 		let status: String
+	}
+	enum StatusColor: String, CaseIterable, Identifiable {
+		case approved
+		case pending
+		case completed
+		case declined
 		
+		var id: String{
+			self.rawValue
+		}
+		var rectanglecolor: Color{
+			switch self {
+					case .approved: return Color(UIColor(hex: "#F3FAF2"))
+					case .pending: return Color(UIColor(hex: "#FCF7C9"))
+					case .completed: return Color(UIColor(hex: "#F8F8F8"))
+					case .declined: return Color(UIColor(hex: "#FAF2F2"))
+					}
+		}
+		var textColor: Color {
+			   switch self {
+			   case .approved: return Color(UIColor(hex: "#2BA72A"))
+			   case .pending: return Color(UIColor(hex: "#A79A2A"))
+			   case .completed: return Color(UIColor(hex: "#858585"))
+			   case .declined: return Color(UIColor(hex: "#A72A2A"))
+			   }
+		   }
 	}
 	
-	func getStatusColor(for status: String) -> Color {
-		switch status {
-		case "APPROVED":
-			return Color(UIColor(hex: "#F3FAF2"))
-		case "PENDING":
-			return Color(UIColor(hex: "#FCF7C9"))
-		case "COMPLETED":
-			return Color(UIColor(hex: "#F8F8F8"))
-		case "DECLINED":
-			return Color(UIColor(hex: "#FAF2F2"))
-		default:
-			return Color.clear
-		}
-	}
-	func getTextColor(for status: String) -> Color {
-		switch status {
-		case "APPROVED":
-			return Color(UIColor(hex: "#2BA72A"))
-		case "PENDING":
-			return Color(UIColor(hex: "#A79A2A"))
-		case "COMPLETED":
-			return Color(UIColor(hex: "#858585"))
-		case "DECLINED":
-			return Color(UIColor(hex: "#A72A2A"))
-		default:
-			return Color.clear
-		}
-	}
-	
-	let url = URL(string: "https://en.gravatar.com/userimage/238873705/657a6a16307fd0a8c47e1d7792173277.jpeg?size=256")
+	let url = URL(string: "https://en.gravatar.com/userimage/238873705/657a6a16307fd0a8c47e1d7792173277.jpeg?size=256")!
 	
 	let services: [Service] = [
 		Service(imageUrl:"https://en.gravatar.com/userimage/238873705/657a6a16307fd0a8c47e1d7792173277.jpeg?size=256", name: "Sweet cut", price: "$300", status: "PENDING"),
@@ -75,32 +70,8 @@ struct DashboardView: View {
 				.font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
 				.padding()
 				Spacer()
-				
-				
-				AsyncImage(url: url) { phase in
-					switch phase {
-					case .empty:
-						ProgressView()
-					case .success(let returnImage):
-						returnImage
-							.resizable()
-							.frame(width: 50, height: 60)
-							.scaledToFit()
-							.clipShape(RoundedRectangle(cornerRadius: 20))
-						//cornerRadius(30)
-					case .failure:
-						Image(systemName: "questionmark")
-							.font(.headline)
-					default:
-						Image(systemName: "questionmark")
-							.font(.headline)
-					}
-				}
-				.padding()
-				
-				
-				//CachedAvatar(url: url, height: 20)
-				
+				CachedAvatar(url: url, height: 60)
+					.padding()
 			}
 			.padding(.horizontal)
 			.padding(.top)
@@ -117,7 +88,6 @@ struct DashboardView: View {
 							.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
 							.foregroundColor(Color.app.primaryText)
 							.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
-						
 					}
 					.padding(5)
 					.background(
@@ -125,8 +95,6 @@ struct DashboardView: View {
 							.fill(Color.white)
 					)
 				}
-				
-				
 				Button(action: {}) {
 					HStack(spacing: -4) {
 						Image(systemName: "doc.text")
@@ -135,7 +103,6 @@ struct DashboardView: View {
 							.font(.system(size: FontSizes.title2, weight: .semibold, design: .rounded))
 							.foregroundColor(Color.app.primaryText)
 							.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
-						
 					}
 					.padding(5)
 					.background(
@@ -143,7 +110,6 @@ struct DashboardView: View {
 							.fill(Color.white)
 					)
 				}
-				
 			}
 			.padding()
 			ZStack (alignment: .topTrailing){
@@ -153,25 +119,17 @@ struct DashboardView: View {
 							.font(.headline)
 							.padding()
 						Spacer()
-						
-						Button(action: {
-							// Add sorting action
-							buttonPressed = !buttonPressed
-						}) {
-							if buttonPress{
-								Image(systemName: "line.3.horizontal.decrease.circle.fill")
-									.font(.system(size: 24)) // Adjust font size
-									.frame(width: 30, height: 30) // Adjust button size
-							}
-							else {
-								Image(systemName: "line.3.horizontal.decrease.circle")
-									.font(.system(size: 24)) // Adjust font size
-									.frame(width: 30, height: 30) // Adjust button size
-							}
-							
+						if let selectedFilter{
+							FilterButtonView.IndicatorView(filter: selectedFilter)
 						}
-						.padding()
-						
+						Button(action: {
+							isShowingFilter.toggle()
+						}) {
+							Image(systemName: selectedFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+								.font(.system(size: 24)) // Adjust font size
+								.frame(width: 30, height: 30) // Adjust button size
+						}
+						.padding(.trailing)
 					}
 					.background{
 						CustomRoundedRectangle(cornerRadius: 10, corners: [.topLeft, .topRight])
@@ -187,26 +145,20 @@ struct DashboardView: View {
 								ForEach(services) { service in
 									HStack {
 										HStack() {
-											AsyncImage(url: URL(string: service.imageUrl)) { phase in
-												switch phase {
-												case .empty:
-													ProgressView()
-												case .success(let returnImage):
-													returnImage
+											CachedImage(
+												url: URL(string: service.imageUrl)!,
+												content: { uiImage in
+													Image(uiImage: uiImage)
 														.resizable()
 														.frame(width: 50, height: 60)
 														.scaledToFill()
 														.clipShape(RoundedRectangle(cornerRadius: 20))
-													//cornerRadius(30)
-												case .failure:
-													Image(systemName: "questionmark")
-														.font(.headline)
-												default:
-													Image(systemName: "questionmark")
-														.font(.headline)
+												},
+												placeHolder: {
+													RoundedRectangle(cornerRadius: 20)
+														.fill(Color.gray)
 												}
-											}
-											
+											)
 											VStack(alignment: .leading){
 												HStack {
 													Text(service.name)
@@ -216,11 +168,11 @@ struct DashboardView: View {
 													
 													Text(service.status)
 														.font(.system(size: 10))
-														.foregroundColor(getTextColor(for: service.status))
+														.foregroundColor(StatusColor(rawValue: service.status.lowercased())?.textColor ?? .clear)
 														.padding(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
 														.background{
 															RoundedRectangle(cornerRadius: 4)
-																.fill(getStatusColor(for: service.status))
+																.fill(StatusColor(rawValue: service.status.lowercased())?.rectanglecolor ?? .clear)
 														}
 												}
 												Text(service.price)
@@ -239,12 +191,19 @@ struct DashboardView: View {
 					.overlay (alignment: .topTrailing){}
 				}
 				.padding(.horizontal)
-				
-				if buttonPressed {
+				if isShowingFilter {
 					VStack(alignment: .leading) {
 						VStack(alignment: .leading) {
-							ForEach(SortButtonView.SortStyle.allCases) { style in
-								SortButtonView(sortButtonPressed: $buttonPress, style: style)
+							ForEach(FilterButtonView.Filter.allCases) { filter in
+								FilterButtonView(filter: filter, action: {
+									if selectedFilter ==  filter {
+										self.selectedFilter = nil
+									}
+									else {
+										self.selectedFilter = filter
+									}
+									self.isShowingFilter = false
+								})
 							}
 						}
 						.frame(maxWidth: 190)
@@ -254,23 +213,17 @@ struct DashboardView: View {
 						ZStack {
 							RoundedRectangle(cornerRadius: 10)
 								.fill(Color.white)
-							
 							RoundedRectangle(cornerRadius: 10)
 								.stroke(Color(uiColor: UIColor(hex: "E5E5E5")))
 						}
 					}
 					.padding(50)
 					.padding(.trailing, -10)
-					//.disabled(buttonPressed)
-					
-					
 				}
-				
 			}
 		}
 		.foregroundColor(Color.app.primaryText)
 		.background(Color(uiColor: UIColor(hex: "F4F4F6")))
-		
 	}
 }
 
@@ -293,24 +246,18 @@ struct CustomRoundedRectangle: Shape {
 		return Path(path.cgPath)
 	}
 }
-
-struct SortButtonView: View {
-	//@State private var sortButtonPressed = false
-	@Binding var sortButtonPressed: Bool
-	enum SortStyle: String, CaseIterable, Identifiable {
+struct FilterButtonView: View {
+	enum Filter: String, CaseIterable, Identifiable {
 		case Approved
 		case Pending
 		case Completed
 		case Declined
-		
 		var opacity: Double {
 			0.1
 		}
-		
 		var id: String {
 			self.rawValue
 		}
-		
 		var color: Color {
 			switch self {
 			case .Approved: return Color.green.opacity(opacity)
@@ -319,7 +266,6 @@ struct SortButtonView: View {
 			case .Declined: return Color.red.opacity(opacity)
 			}
 		}
-		
 		var strokeColor: Color {
 			switch self {
 			case .Approved: return Color.green
@@ -329,24 +275,29 @@ struct SortButtonView: View {
 			}
 		}
 	}
-	
-	let style: SortStyle
-	
+	struct IndicatorView: View {
+		let filter: Filter
+		var body: some View {
+			ZStack {
+				Circle()
+					.fill(filter.color)
+				Circle()
+					.stroke(filter.strokeColor)
+			}
+			.frame(dimension: 20)
+		}
+	}
+	let filter: Filter
+	var action: () -> ()
 	var body: some View {
 		Button(action: {
-			sortButtonPressed.toggle()
+			action()
 		}) {
 			HStack(spacing: 25) {
-				Text(style.rawValue)
+				Text(filter.rawValue)
 					.foregroundColor(Color.black)
 				Spacer()
-				ZStack {
-					Circle()
-						.fill(style.color)
-					Circle()
-						.stroke(style.strokeColor)
-				}
-				.frame(dimension: 20)
+				IndicatorView(filter: filter)
 			}
 		}
 	}
