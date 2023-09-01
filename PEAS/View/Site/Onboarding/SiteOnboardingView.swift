@@ -77,6 +77,7 @@ struct SiteOnboardingView: View {
 				}
 			}
 		}
+		.progressView(isShowing: viewModel.isLoading, style: .black)
 		.confirmationDialog(
 			"",
 			isPresented: $viewModel.isShowingResetWarning,

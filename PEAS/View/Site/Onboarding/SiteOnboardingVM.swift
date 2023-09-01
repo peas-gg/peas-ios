@@ -18,6 +18,8 @@ extension SiteOnboardingView {
 		@Published var businessDraft: BusinessDraft?
 		@Published var isShowingResetWarning: Bool = false
 		
+		@Published var isLoading: Bool = true
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		
@@ -26,9 +28,16 @@ extension SiteOnboardingView {
 				.getTemplates()
 				.receive(on: DispatchQueue.main)
 				.sink(
-					receiveCompletion: { _ in },
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure:
+							self.isLoading = false
+						}
+					},
 					receiveValue: { templates in
 					self.templates = IdentifiedArray(uniqueElements: templates)
+					self.isLoading = false
 				})
 				.store(in: &cancellableBag)
 		}
