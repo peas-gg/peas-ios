@@ -24,6 +24,20 @@ extension SiteOnboardingView {
 		private let apiClient: APIClient = APIClient.shared
 		
 		init() {
+			refreshTemplates()
+		}
+		
+		func showResetWarning() {
+			self.isShowingResetWarning = true
+		}
+		
+		func selectTemplate(_ template: Template) {
+			withAnimation(.default) {
+				self.businessDraft = BusinessDraft(business: template.business)
+			}
+		}
+		
+		func refreshTemplates() {
 			self.apiClient
 				.getTemplates()
 				.receive(on: DispatchQueue.main)
@@ -36,20 +50,12 @@ extension SiteOnboardingView {
 						}
 					},
 					receiveValue: { templates in
-					self.templates = IdentifiedArray(uniqueElements: templates)
-					self.isLoading = false
+						if templates != self.templates.elements {
+							self.templates = IdentifiedArray(uniqueElements: templates)
+						}
+						self.isLoading = false
 				})
 				.store(in: &cancellableBag)
-		}
-		
-		func showResetWarning() {
-			self.isShowingResetWarning = true
-		}
-		
-		func selectTemplate(_ template: Template) {
-			withAnimation(.default) {
-				self.businessDraft = BusinessDraft(business: template.business)
-			}
 		}
 		
 		func resetBusinessDraft() {

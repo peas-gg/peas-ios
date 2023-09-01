@@ -96,6 +96,7 @@ struct SiteOnboardingView: View {
 				removal: .move(edge: .bottom)
 			)
 		)
+		.onAppear { viewModel.refreshTemplates() }
 	}
 	
 	@ViewBuilder
