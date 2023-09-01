@@ -16,6 +16,7 @@ extension SiteOnboardingView {
 		
 		@Published var templates: IdentifiedArrayOf<Template> = []
 		@Published var selectedTemplate: Template?
+		@Published var isShowingResetWarning: Bool = false
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
@@ -30,6 +31,10 @@ extension SiteOnboardingView {
 					self.templates = IdentifiedArray(uniqueElements: templates)
 				})
 				.store(in: &cancellableBag)
+		}
+		
+		func showResetWarning() {
+			self.isShowingResetWarning = true
 		}
 		
 		func selectTemplate(_ template: Template) {

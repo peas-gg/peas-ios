@@ -18,7 +18,7 @@ struct SiteOnboardingView: View {
 					SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: selectedTemplate.business))
 					Spacer()
 					VStack {
-						Button(action: { viewModel.resetTemplate() }) {
+						Button(action: { viewModel.showResetWarning() }) {
 							Image(systemName: "arrow.counterclockwise")
 							Text("Reset")
 						}
@@ -76,6 +76,18 @@ struct SiteOnboardingView: View {
 				}
 			}
 		}
+		.confirmationDialog(
+			"",
+			isPresented: $viewModel.isShowingResetWarning,
+			actions: {
+				Button("Reset", role: .destructive) {
+					viewModel.resetTemplate()
+				}
+			},
+			message: {
+				Text("Are you sure? Please note you will lose all of your progress")
+			}
+		)
 		.transition(
 			.asymmetric(
 				insertion: .push(from: .bottom),
