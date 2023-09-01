@@ -57,6 +57,7 @@
 		D0793D2B2AA279E500139783 /* CreateBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2A2AA279E500139783 /* CreateBusiness.swift */; };
 		D0793D2D2AA29CD400139783 /* BusinessDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2C2AA29CD400139783 /* BusinessDraft.swift */; };
 		D0793D302AA29FA100139783 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */; };
+		D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D312AA2A1FD00139783 /* AppProgressView.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
@@ -127,6 +128,7 @@
 		D0793D2A2AA279E500139783 /* CreateBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBusiness.swift; sourceTree = "<group>"; };
 		D0793D2C2AA29CD400139783 /* BusinessDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessDraft.swift; sourceTree = "<group>"; };
 		D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		D0793D312AA2A1FD00139783 /* AppProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressView.swift; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				D04F11622A9F2F750011242C /* PulseView.swift */,
 				D0793D262AA0554400139783 /* MenuViewModifier.swift */,
 				D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */,
+				D0793D312AA2A1FD00139783 /* AppProgressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */,
 				D04F11572A9D0E840011242C /* Helpers.swift in Sources */,
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
+				D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */,
 				D066F8212A94937C00B65CA4 /* Template.swift in Sources */,
 				D066F81B2A948F0600B65CA4 /* AppUrlRequest.swift in Sources */,
 				D0793D252A9FC69600139783 /* Notification+Name.swift in Sources */,

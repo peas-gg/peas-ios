@@ -13,7 +13,7 @@ private struct CGRectPreferenceKey: PreferenceKey {
 }
 
 extension View {
-	func readSize(onChange: @escaping (CGRect) -> Void) -> some View {
+	func readRect(onChange: @escaping (CGRect) -> Void) -> some View {
 		background(
 			GeometryReader { geometryProxy in
 				Color.clear
@@ -25,5 +25,12 @@ extension View {
 	
 	func menu<Content: View>(isShowing: Binding<Bool>, parentRect: CGRect, topPadding: CGFloat = 0.0, @ViewBuilder content: @escaping () -> Content) -> some View {
 		self.modifier(MenuViewModifier(parentRect: parentRect, topPadding: topPadding, isShowing: isShowing, menu: content))
+	}
+	
+	func progressView(isShowing: Bool, style: LoadingIndicator.Style) -> some View {
+		self
+			.overlay {
+				AppProgressView(isShowing: isShowing, style: style)
+			}
 	}
 }

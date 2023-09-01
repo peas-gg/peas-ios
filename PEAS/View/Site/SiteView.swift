@@ -211,7 +211,7 @@ struct SiteView: View {
 				)
 				.animation(.easeInOut, value: viewModel.isInEditMode)
 		}
-		.readSize { self.socialLinksButtonRect = $0 }
+		.readRect { self.socialLinksButtonRect = $0 }
 	}
 	
 	@ViewBuilder

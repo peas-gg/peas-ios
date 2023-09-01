@@ -37,7 +37,7 @@ struct MenuViewModifier<Menu: View>: ViewModifier {
 											.stroke(Color.app.tertiaryText.opacity(0.5))
 									}
 								}
-								.readSize {
+								.readRect {
 									self.rect = $0
 								}
 								.position(x: parentRect.midX, y: parentRect.maxY)
@@ -74,7 +74,7 @@ fileprivate struct TestView: View {
 							RoundedRectangle(cornerRadius: 10)
 								.fill(Color.white.opacity(0.5))
 						)
-						.readSize { self.menuButtonRect = $0 }
+						.readRect { self.menuButtonRect = $0 }
 				}
 				Spacer()
 			}
