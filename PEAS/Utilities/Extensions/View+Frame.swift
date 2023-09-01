@@ -19,4 +19,8 @@ extension View {
 	func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
 		ModifiedContent(content: self, modifier: CornerRadiusStyle(radius: radius, corners: corners))
 	}
+	
+	func pushOutFrame(alignment: Alignment = .center) -> some View {
+		frame(maxWidth: .infinity, maxHeight: .infinity, alignment: alignment)
+	}
 }

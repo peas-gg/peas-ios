@@ -13,3 +13,9 @@ struct SizeConstants {
 	static let businessDescriptionLimit: Int = 160
 	static let descriptionLimit: Int = 120
 }
+
+struct AppConstants {
+	static let twitterUrlString: String = "https://x.com/"
+	static let instagramUrlString: String = "https://instagram.com/"
+	static let tiktokUrlString: String = "https://tiktok.com/"
+}

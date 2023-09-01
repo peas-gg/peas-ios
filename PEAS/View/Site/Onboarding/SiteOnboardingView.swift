@@ -13,12 +13,12 @@ struct SiteOnboardingView: View {
 	
 	var body: some View {
 		VStack {
-			if let selectedTemplate = viewModel.selectedTemplate {
+			if let businessDraft = viewModel.businessDraft {
 				VStack {
-					SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: selectedTemplate.business))
+					SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: businessDraft.business))
 					Spacer()
 					VStack {
-						Button(action: { viewModel.resetTemplate() }) {
+						Button(action: { viewModel.showResetWarning() }) {
 							Image(systemName: "arrow.counterclockwise")
 							Text("Reset")
 						}
@@ -29,6 +29,7 @@ struct SiteOnboardingView: View {
 						}
 						.buttonStyle(.expanded(style: .black))
 					}
+					.padding(.top, 8)
 				}
 				.transition(
 					.asymmetric(
@@ -36,7 +37,7 @@ struct SiteOnboardingView: View {
 						removal: .identity
 					)
 				)
-				.animation(.easeIn, value: viewModel.selectedTemplate)
+				.animation(.easeIn, value: viewModel.businessDraft)
 			} else {
 				VStack {
 					let padding: CGFloat = 10
@@ -76,12 +77,26 @@ struct SiteOnboardingView: View {
 				}
 			}
 		}
+		.progressView(isShowing: viewModel.isLoading, style: .black)
+		.confirmationDialog(
+			"",
+			isPresented: $viewModel.isShowingResetWarning,
+			actions: {
+				Button("Reset", role: .destructive) {
+					viewModel.resetBusinessDraft()
+				}
+			},
+			message: {
+				Text("Are you sure? Please note you will lose all of your progress")
+			}
+		)
 		.transition(
 			.asymmetric(
 				insertion: .push(from: .bottom),
 				removal: .move(edge: .bottom)
 			)
 		)
+		.onAppear { viewModel.refreshTemplates() }
 	}
 	
 	@ViewBuilder

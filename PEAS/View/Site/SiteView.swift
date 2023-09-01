@@ -10,6 +10,10 @@ import SwiftUI
 struct SiteView: View {
 	@StateObject var viewModel: ViewModel
 	
+	@State var socialLinksButtonRect: CGRect = .zero
+	
+	@Environment(\.openURL) var openURL
+	
 	var backgroundColour: Color {
 		let colorHex: String? = viewModel.colours[viewModel.business.color]
 		if let colorHex = colorHex {
@@ -124,6 +128,31 @@ struct SiteView: View {
 			.ignoresSafeArea()
 			.animation(.easeOut, value: backgroundColour)
 		}
+		.menu(
+			isShowing: $viewModel.isShowingSocialLinksMenu,
+			parentRect: socialLinksButtonRect,
+			topPadding: -30,
+			content: {
+				VStack {
+					if let twitter = business.twitter {
+						socialLink(title: "X", link: "\(AppConstants.twitterUrlString + twitter)")
+					}
+					if let instagram = business.instagram {
+						socialLink(title: "Instagram", link: "\(AppConstants.instagramUrlString + instagram)")
+					}
+					if let tiktok = business.tiktok {
+						socialLink(title: "Tiktok", link: "\(AppConstants.tiktokUrlString + tiktok)")
+					}
+					if !viewModel.hasSocialLink {
+						Text("Go into edit mode to add a link")
+							.font(Font.app.body)
+							.foregroundColor(Color.app.primaryText)
+					}
+				}
+				.padding()
+				.frame(width: 200)
+			}
+		)
 		.sheet(
 			isPresented: Binding(
 				get: { return viewModel.editModeContext != nil },
@@ -168,6 +197,8 @@ struct SiteView: View {
 		Button(action: {
 			if viewModel.isInEditMode {
 				viewModel.setEditModeContext(.links)
+			} else {
+				viewModel.showSocialLinks()
 			}
 		}) {
 			Text("@")
@@ -180,6 +211,7 @@ struct SiteView: View {
 				)
 				.animation(.easeInOut, value: viewModel.isInEditMode)
 		}
+		.readRect { self.socialLinksButtonRect = $0 }
 	}
 	
 	@ViewBuilder
@@ -321,6 +353,24 @@ struct SiteView: View {
 				)
 		}
 		.disabled(!viewModel.isInEditMode)
+	}
+	
+	@ViewBuilder
+	func socialLink(title: String, link: String) -> some View {
+		if let url = URL(string: link) {
+			Button(action: { openURL(url) }) {
+				HStack {
+					Text("\(title)")
+						.font(Font.app.body)
+					Spacer()
+					Image(title)
+						.resizable()
+						.scaledToFit()
+						.frame(dimension: 24)
+				}
+				.foregroundColor(Color.app.primaryText)
+			}
+		}
 	}
 }
 

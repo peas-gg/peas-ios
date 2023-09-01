@@ -52,6 +52,12 @@
 		D066F8362A97CEC800B65CA4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8352A97CEC800B65CA4 /* AppState.swift */; };
 		D0793D232A9FBC7500139783 /* SiteOnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */; };
 		D0793D252A9FC69600139783 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D242A9FC69600139783 /* Notification+Name.swift */; };
+		D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D262AA0554400139783 /* MenuViewModifier.swift */; };
+		D0793D292AA1A6D500139783 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D282AA1A6D500139783 /* View+Extensions.swift */; };
+		D0793D2B2AA279E500139783 /* CreateBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2A2AA279E500139783 /* CreateBusiness.swift */; };
+		D0793D2D2AA29CD400139783 /* BusinessDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2C2AA29CD400139783 /* BusinessDraft.swift */; };
+		D0793D302AA29FA100139783 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */; };
+		D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D312AA2A1FD00139783 /* AppProgressView.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
@@ -117,6 +123,12 @@
 		D066F8352A97CEC800B65CA4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteOnboardingVM.swift; sourceTree = "<group>"; };
 		D0793D242A9FC69600139783 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
+		D0793D262AA0554400139783 /* MenuViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModifier.swift; sourceTree = "<group>"; };
+		D0793D282AA1A6D500139783 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		D0793D2A2AA279E500139783 /* CreateBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBusiness.swift; sourceTree = "<group>"; };
+		D0793D2C2AA29CD400139783 /* BusinessDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessDraft.swift; sourceTree = "<group>"; };
+		D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		D0793D312AA2A1FD00139783 /* AppProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressView.swift; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
@@ -206,6 +218,7 @@
 		D02659922A868DDC00655C23 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D0793D2E2AA29D0800139783 /* Business */,
 				D0FB0B0B2A8FFC8400C56178 /* API */,
 				D0FB0B022A8FF61500C56178 /* Token.swift */,
 				D0FB0B092A8FFBA500C56178 /* AppError.swift */,
@@ -257,6 +270,7 @@
 				D04F115A2A9D7B240011242C /* Double+Extension.swift */,
 				D04F115E2A9E7C420011242C /* String+Extension.swift */,
 				D0793D242A9FC69600139783 /* Notification+Name.swift */,
+				D0793D282AA1A6D500139783 /* View+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -338,6 +352,17 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		D0793D2E2AA29D0800139783 /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				D0793D2A2AA279E500139783 /* CreateBusiness.swift */,
+				D066F8222A9493DA00B65CA4 /* Business.swift */,
+				D066F8202A94937C00B65CA4 /* Template.swift */,
+				D0793D2C2AA29CD400139783 /* BusinessDraft.swift */,
+			);
+			path = Business;
+			sourceTree = "<group>";
+		};
 		D0BF26D92A888AA4001FCC05 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +373,9 @@
 				D04F115C2A9E4A0B0011242C /* StepperView.swift */,
 				D04F11602A9F2C4D0011242C /* SymmetricHStack.swift */,
 				D04F11622A9F2F750011242C /* PulseView.swift */,
+				D0793D262AA0554400139783 /* MenuViewModifier.swift */,
+				D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */,
+				D0793D312AA2A1FD00139783 /* AppProgressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -377,8 +405,6 @@
 			children = (
 				D0FB0B0C2A8FFC9500C56178 /* ResponseTypes.swift */,
 				D066F81C2A948F8D00B65CA4 /* Authenticate.swift */,
-				D066F8202A94937C00B65CA4 /* Template.swift */,
-				D066F8222A9493DA00B65CA4 /* Business.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -468,6 +494,7 @@
 				D066F8232A9493DA00B65CA4 /* Business.swift in Sources */,
 				D066F8262A956DA800B65CA4 /* CacheClient.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
+				D0793D302AA29FA100139783 /* LoadingIndicator.swift in Sources */,
 				D0793D232A9FBC7500139783 /* SiteOnboardingVM.swift in Sources */,
 				D066F8362A97CEC800B65CA4 /* AppState.swift in Sources */,
 				D066F81F2A9490E500B65CA4 /* User.swift in Sources */,
@@ -479,6 +506,7 @@
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
 				D04F115D2A9E4A0B0011242C /* StepperView.swift in Sources */,
 				D02659AD2A87369C00655C23 /* SiteView.swift in Sources */,
+				D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */,
 				D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */,
 				D064557B2A97D09C003E342C /* HomeView.swift in Sources */,
 				D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */,
@@ -492,12 +520,15 @@
 				D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */,
 				D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */,
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
+				D0793D2B2AA279E500139783 /* CreateBusiness.swift in Sources */,
 				D0E220F92A9C59B2003864E3 /* EditSiteView.swift in Sources */,
+				D0793D292AA1A6D500139783 /* View+Extensions.swift in Sources */,
 				D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */,
 				D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */,
 				D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */,
 				D04F11572A9D0E840011242C /* Helpers.swift in Sources */,
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
+				D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */,
 				D066F8212A94937C00B65CA4 /* Template.swift in Sources */,
 				D066F81B2A948F0600B65CA4 /* AppUrlRequest.swift in Sources */,
 				D0793D252A9FC69600139783 /* Notification+Name.swift in Sources */,
@@ -509,6 +540,7 @@
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */,
 				D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */,
+				D0793D2D2AA29CD400139783 /* BusinessDraft.swift in Sources */,
 				D02659A82A87363300655C23 /* CalendarView.swift in Sources */,
 				D02659992A87313900655C23 /* Font+Extension.swift in Sources */,
 				D0FB0B032A8FF61500C56178 /* Token.swift in Sources */,

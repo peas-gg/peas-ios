@@ -15,32 +15,52 @@ extension SiteOnboardingView {
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var templates: IdentifiedArrayOf<Template> = []
-		@Published var selectedTemplate: Template?
+		@Published var businessDraft: BusinessDraft?
+		@Published var isShowingResetWarning: Bool = false
+		
+		@Published var isLoading: Bool = true
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		
 		init() {
-			self.apiClient
-				.getTemplates()
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { _ in },
-					receiveValue: { templates in
-					self.templates = IdentifiedArray(uniqueElements: templates)
-				})
-				.store(in: &cancellableBag)
+			refreshTemplates()
+		}
+		
+		func showResetWarning() {
+			self.isShowingResetWarning = true
 		}
 		
 		func selectTemplate(_ template: Template) {
 			withAnimation(.default) {
-				self.selectedTemplate = template
+				self.businessDraft = BusinessDraft(business: template.business)
 			}
 		}
 		
-		func resetTemplate() {
+		func refreshTemplates() {
+			self.apiClient
+				.getTemplates()
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure:
+							self.isLoading = false
+						}
+					},
+					receiveValue: { templates in
+						if templates != self.templates.elements {
+							self.templates = IdentifiedArray(uniqueElements: templates)
+						}
+						self.isLoading = false
+				})
+				.store(in: &cancellableBag)
+		}
+		
+		func resetBusinessDraft() {
 			withAnimation(.default) {
-				self.selectedTemplate = nil
+				self.businessDraft = nil
 			}
 		}
 		
