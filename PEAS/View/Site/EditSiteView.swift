@@ -129,7 +129,7 @@ struct EditSiteView: View {
 					.padding(.horizontal, horizontalPadding)
 				case .sign, .name:
 					VStack(alignment: .leading, spacing: spacing) {
-						hintText(content: "Choose a unique peas sign to make it easy for people to find you")
+						hintText(content: "Choose a unique peas sign to make it easy for people to find and remember you")
 						HStack {
 							Image("SiteLogo")
 								.resizable()
