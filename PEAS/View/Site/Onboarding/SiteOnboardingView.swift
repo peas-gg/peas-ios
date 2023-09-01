@@ -29,6 +29,7 @@ struct SiteOnboardingView: View {
 						}
 						.buttonStyle(.expanded(style: .black))
 					}
+					.padding(.top, 8)
 				}
 				.transition(
 					.asymmetric(
