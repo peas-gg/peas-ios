@@ -15,7 +15,7 @@ extension SiteOnboardingView {
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var templates: IdentifiedArrayOf<Template> = []
-		@Published var selectedTemplate: Template?
+		@Published var businessDraft: BusinessDraft?
 		@Published var isShowingResetWarning: Bool = false
 		
 		//Clients
@@ -39,13 +39,13 @@ extension SiteOnboardingView {
 		
 		func selectTemplate(_ template: Template) {
 			withAnimation(.default) {
-				self.selectedTemplate = template
+				self.businessDraft = BusinessDraft(business: template.business)
 			}
 		}
 		
-		func resetTemplate() {
+		func resetBusinessDraft() {
 			withAnimation(.default) {
-				self.selectedTemplate = nil
+				self.businessDraft = nil
 			}
 		}
 		
