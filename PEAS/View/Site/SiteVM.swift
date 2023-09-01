@@ -15,6 +15,10 @@ extension SiteView {
 		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		var hasSocialLink: Bool {
+			business.twitter != nil || business.instagram != nil || business.tiktok != nil
+		}
+		
 		@Published var colours: Dictionary<String, String> = Dictionary<String, String>()
 		
 		@Published var business: Business

@@ -12,6 +12,8 @@ struct SiteView: View {
 	
 	@State var socialLinksButtonRect: CGRect = .zero
 	
+	@Environment(\.openURL) var openURL
+	
 	var backgroundColour: Color {
 		let colorHex: String? = viewModel.colours[viewModel.business.color]
 		if let colorHex = colorHex {
@@ -132,9 +134,20 @@ struct SiteView: View {
 			topPadding: -30,
 			content: {
 				VStack {
-					socialLink(title: "X")
-					socialLink(title: "Instagram")
-					socialLink(title: "Tiktok")
+					if let twitter = business.twitter {
+						socialLink(title: "X", link: "\(AppConstants.twitterUrlString + twitter)")
+					}
+					if let instagram = business.instagram {
+						socialLink(title: "Instagram", link: "\(AppConstants.instagramUrlString + instagram)")
+					}
+					if let tiktok = business.tiktok {
+						socialLink(title: "Tiktok", link: "\(AppConstants.tiktokUrlString + tiktok)")
+					}
+					if !viewModel.hasSocialLink {
+						Text("Go into edit mode to add a link")
+							.font(Font.app.body)
+							.foregroundColor(Color.app.primaryText)
+					}
 				}
 				.padding()
 				.frame(width: 200)
@@ -343,18 +356,20 @@ struct SiteView: View {
 	}
 	
 	@ViewBuilder
-	func socialLink(title: String) -> some View {
-		Button(action: {}) {
-			HStack {
-				Text("\(title)")
-					.font(Font.app.body)
-				Spacer()
-				Image(title)
-					.resizable()
-					.scaledToFit()
-					.frame(dimension: 24)
+	func socialLink(title: String, link: String) -> some View {
+		if let url = URL(string: link) {
+			Button(action: { openURL(url) }) {
+				HStack {
+					Text("\(title)")
+						.font(Font.app.body)
+					Spacer()
+					Image(title)
+						.resizable()
+						.scaledToFit()
+						.frame(dimension: 24)
+				}
+				.foregroundColor(Color.app.primaryText)
 			}
-			.foregroundColor(Color.app.primaryText)
 		}
 	}
 }
