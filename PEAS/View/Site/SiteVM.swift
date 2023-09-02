@@ -20,13 +20,9 @@ extension SiteView {
 		}
 		
 		@Published var colours: Dictionary<String, String> = Dictionary<String, String>()
-		
 		@Published var business: Business
-		
 		@Published var isInEditMode: Bool = false
-		
-		@Published var editModeContext: EditSiteView.Context?
-		
+		@Published var editModeContext: EditSiteView.ViewModel.Context?
 		@Published var isShowingSocialLinksMenu: Bool = false
 		
 		//Clients
@@ -50,7 +46,7 @@ extension SiteView {
 			self.business.color = colorName
 		}
 		
-		func setEditModeContext(_ context: EditSiteView.Context?) {
+		func setEditModeContext(_ context: EditSiteView.ViewModel.Context?) {
 			self.editModeContext = context
 		}
 		

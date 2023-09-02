@@ -55,7 +55,6 @@
 		D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D262AA0554400139783 /* MenuViewModifier.swift */; };
 		D0793D292AA1A6D500139783 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D282AA1A6D500139783 /* View+Extensions.swift */; };
 		D0793D2B2AA279E500139783 /* CreateBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2A2AA279E500139783 /* CreateBusiness.swift */; };
-		D0793D2D2AA29CD400139783 /* BusinessDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2C2AA29CD400139783 /* BusinessDraft.swift */; };
 		D0793D302AA29FA100139783 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */; };
 		D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D312AA2A1FD00139783 /* AppProgressView.swift */; };
 		D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D342AA2B0DF00139783 /* WelcomeView.swift */; };
@@ -69,6 +68,7 @@
 		D0E220F52A996977003864E3 /* CornerRadiusStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F42A996977003864E3 /* CornerRadiusStyle.swift */; };
 		D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F62A9BA456003864E3 /* Int+Extension.swift */; };
 		D0E220F92A9C59B2003864E3 /* EditSiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F82A9C59B2003864E3 /* EditSiteView.swift */; };
+		D0E562842AA34E25000965B6 /* EditSiteVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E562832AA34E25000965B6 /* EditSiteVM.swift */; };
 		D0FB0AFC2A8FEDE500C56178 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */; };
 		D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */; };
 		D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0B002A8FF26200C56178 /* KeychainClient.swift */; };
@@ -128,7 +128,6 @@
 		D0793D262AA0554400139783 /* MenuViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModifier.swift; sourceTree = "<group>"; };
 		D0793D282AA1A6D500139783 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		D0793D2A2AA279E500139783 /* CreateBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBusiness.swift; sourceTree = "<group>"; };
-		D0793D2C2AA29CD400139783 /* BusinessDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessDraft.swift; sourceTree = "<group>"; };
 		D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		D0793D312AA2A1FD00139783 /* AppProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressView.swift; sourceTree = "<group>"; };
 		D0793D342AA2B0DF00139783 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -142,6 +141,7 @@
 		D0E220F42A996977003864E3 /* CornerRadiusStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusStyle.swift; sourceTree = "<group>"; };
 		D0E220F62A9BA456003864E3 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		D0E220F82A9C59B2003864E3 /* EditSiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSiteView.swift; sourceTree = "<group>"; };
+		D0E562832AA34E25000965B6 /* EditSiteVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSiteVM.swift; sourceTree = "<group>"; };
 		D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		D0FB0B002A8FF26200C56178 /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 		D0FB0B022A8FF61500C56178 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -312,10 +312,10 @@
 		D02659AB2A87368F00655C23 /* Site */ = {
 			isa = PBXGroup;
 			children = (
+				D0E562822AA34E14000965B6 /* Edit */,
 				D0793D212A9FBC6500139783 /* Onboarding */,
 				D02659AC2A87369C00655C23 /* SiteView.swift */,
 				D02659AE2A8736AD00655C23 /* SiteVM.swift */,
-				D0E220F82A9C59B2003864E3 /* EditSiteView.swift */,
 			);
 			path = Site;
 			sourceTree = "<group>";
@@ -363,7 +363,6 @@
 				D0793D2A2AA279E500139783 /* CreateBusiness.swift */,
 				D066F8222A9493DA00B65CA4 /* Business.swift */,
 				D066F8202A94937C00B65CA4 /* Template.swift */,
-				D0793D2C2AA29CD400139783 /* BusinessDraft.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -392,6 +391,15 @@
 				D0793D312AA2A1FD00139783 /* AppProgressView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D0E562822AA34E14000965B6 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				D0E220F82A9C59B2003864E3 /* EditSiteView.swift */,
+				D0E562832AA34E25000965B6 /* EditSiteVM.swift */,
+			);
+			path = Edit;
 			sourceTree = "<group>";
 		};
 		D0FB0AFD2A8FEF5E00C56178 /* APIClient */ = {
@@ -553,10 +561,10 @@
 				D066F8172A9457EC00B65CA4 /* SiteOnboardingView.swift in Sources */,
 				D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */,
 				D04F115B2A9D7B240011242C /* Double+Extension.swift in Sources */,
+				D0E562842AA34E25000965B6 /* EditSiteVM.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */,
 				D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */,
-				D0793D2D2AA29CD400139783 /* BusinessDraft.swift in Sources */,
 				D02659A82A87363300655C23 /* CalendarView.swift in Sources */,
 				D02659992A87313900655C23 /* Font+Extension.swift in Sources */,
 				D0FB0B032A8FF61500C56178 /* Token.swift in Sources */,

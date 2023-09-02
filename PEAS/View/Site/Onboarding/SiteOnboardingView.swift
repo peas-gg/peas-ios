@@ -15,7 +15,7 @@ struct SiteOnboardingView: View {
 		VStack {
 			if let businessDraft = viewModel.businessDraft {
 				VStack {
-					SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: businessDraft.business))
+					SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: businessDraft))
 					Spacer()
 					VStack {
 						Button(action: { viewModel.showResetWarning() }) {

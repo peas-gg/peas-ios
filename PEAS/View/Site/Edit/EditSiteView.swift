@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditSiteView: View {
-	@StateObject var viewModel: SiteView.ViewModel
+	@StateObject var viewModel: EditSiteView.ViewModel
 	
 	enum FocusField: Hashable {
 		case sign
@@ -17,86 +17,20 @@ struct EditSiteView: View {
 		case blockPrice
 	}
 	
-	enum Context: Equatable {
-		case photo
-		case sign
-		case name
-		case description
-		case links
-		case location
-		case block(_ blockId: Business.Block.ID?)
-		
-		var title: String {
-			switch self {
-			case .photo: return "Photo"
-			case .sign, .name: return "Peas Sign & Name"
-			case .description: return "Description"
-			case .links: return "Link your socials"
-			case .location: return "Location"
-			case .block: return "Block"
-			}
-		}
-	}
-	
-	let context: Context
 	let textfieldVerticalPadding: CGFloat = 12
 	
 	@FocusState private var focusedField: FocusField?
 	
-	//Business
-	@State var photo: URL
-	@State var sign: String
-	@State var name: String
-	@State var description: String
+	@State var isPriceKeyboardFocused: Bool = false
 	
-	//Block
-	@State private var blockPriceText: String
-	@State private var blockTimeDuration: Int
-	@State private var blockTitle: String
-	@State private var blockDescription: String
-	@State private var blockImage: URL
-	@State private var isPriceKeyboardFocused: Bool = false
-	
-	//Links
-	@State private var twitter: String
-	@State private var instagram: String
-	@State private var tiktok: String
-	
-	init(viewModel: SiteView.ViewModel, context: Context) {
+	init(viewModel: EditSiteView.ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
-		self.context = context
-		
-		self._photo = State(initialValue: viewModel.business.profilePhoto)
-		self._sign = State(initialValue: viewModel.business.sign)
-		self._name = State(initialValue: viewModel.business.name)
-		self._description = State(initialValue: viewModel.business.description)
-		
-		self._twitter = State(initialValue: viewModel.business.twitter ?? "")
-		self._instagram = State(initialValue: viewModel.business.instagram ?? "")
-		self._tiktok = State(initialValue: viewModel.business.tiktok ?? "")
-		
-		//Block
-		let block: Business.Block? = {
-			switch context {
-			case .block(let id):
-				if let id = id, let existingBlock = viewModel.business.blocks[id: id] {
-					return existingBlock
-				}
-				return nil
-			default: return nil
-			}
-		}()
-		self._blockPriceText = State(initialValue: block?.price.priceToText ?? "")
-		self._blockTimeDuration = State(initialValue: block?.duration ?? 0)
-		self._blockTitle = State(initialValue: block?.title ?? "")
-		self._blockDescription = State(initialValue: block?.description ?? "")
-		self._blockImage = State(initialValue: block?.image ?? "".unwrappedContentUrl)
 	}
 	
 	var body: some View {
 		VStack(spacing: 0) {
 			let horizontalPadding: CGFloat = 25
-			Text(context.title)
+			Text(viewModel.context.title)
 				.font(Font.app.title2)
 				.foregroundColor(Color.app.primaryText)
 				.padding(.top)
@@ -104,14 +38,14 @@ struct EditSiteView: View {
 				.padding(.top)
 			VStack {
 				let spacing: CGFloat = 20
-				switch context {
+				switch viewModel.context {
 				case .photo:
 					VStack(alignment: .center, spacing: spacing) {
 						hintText(content: "Think of your business photo as your brand image")
 						HStack {
 							Spacer()
 							Button(action: {}) {
-								CachedAvatar(url: photo, height: 200)
+								CachedAvatar(url: viewModel.photo, height: 200)
 									.overlay {
 										Image(systemName: "photo")
 											.font(Font.app.largeTitle)
@@ -135,13 +69,13 @@ struct EditSiteView: View {
 								.resizable()
 								.scaledToFit()
 								.frame(dimension: 50)
-							textField(hint: "Your Sign", leadingHint: "/", text: $sign)
+							textField(hint: "Your Sign", leadingHint: "/", text: $viewModel.sign)
 								.font(Font.app.bodySemiBold)
 								.focused($focusedField, equals: .sign)
 						}
 						.padding(.bottom, 40)
 						hintText(content: "Feel free to get a little creative with your business name")
-						textField(hint: "Business Name", text: $name)
+						textField(hint: "Business Name", text: $viewModel.name)
 							.font(Font.app.bodySemiBold)
 							.focused($focusedField, equals: .name)
 						Spacer()
@@ -154,7 +88,7 @@ struct EditSiteView: View {
 							Spacer()
 						}
 						hintText(content: "Tell people about what you do and what services you offer here. Don't sell yourself short ;)")
-						descriptionTextField(hint: "Describe your business here", text: $description, textLimit: SizeConstants.businessDescriptionLimit)
+						descriptionTextField(hint: "Describe your business here", text: $viewModel.description, textLimit: SizeConstants.businessDescriptionLimit)
 						Spacer()
 					}
 					.padding(.top)
@@ -171,7 +105,7 @@ struct EditSiteView: View {
 									}
 								}) {
 									CachedImage(
-										url: blockImage,
+										url: viewModel.blockImage,
 										content: { uiImage in
 											Image(uiImage: uiImage)
 												.resizable()
@@ -203,10 +137,10 @@ struct EditSiteView: View {
 							blockTimeSection()
 							VStack(alignment: .leading, spacing: 10) {
 								hintText(content: "Service")
-								textField(hint: "Add a title for your package", hintImage: "text.insert", text: $blockTitle)
+								textField(hint: "Add a title for your package", hintImage: "text.insert", text: $viewModel.blockTitle)
 									.font(Font.app.title2Display)
 									.multilineTextAlignment(.center)
-								descriptionTextField(hint: "Describe the package", text: $blockDescription, textLimit: SizeConstants.descriptionLimit)
+								descriptionTextField(hint: "Describe the package", text: $viewModel.blockDescription, textLimit: SizeConstants.descriptionLimit)
 								HStack {
 									Spacer()
 									Button(action: {}) {
@@ -229,9 +163,9 @@ struct EditSiteView: View {
 				case .links:
 					VStack(alignment: .leading, spacing: spacing) {
 						hintText(content: "Link your social media accounts below so people can follow you and stay up to date on your journey")
-						linkField(image: "X", text: $twitter)
-						linkField(image: "Instagram", text: $instagram)
-						linkField(image: "Tiktok", text: $tiktok)
+						linkField(image: "X", text: $viewModel.twitter)
+						linkField(image: "Instagram", text: $viewModel.instagram)
+						linkField(image: "Tiktok", text: $viewModel.tiktok)
 						Spacer()
 					}
 					.padding(.top)
@@ -260,7 +194,7 @@ struct EditSiteView: View {
 						Spacer()
 						ZStack(alignment: .bottom) {
 							PulseView(size: 200, isActive: true)
-							Text(viewModel.business.location)
+							Text(viewModel.location)
 								.font(Font.app.title1)
 								.foregroundColor(Color.app.primaryText)
 								.padding(.bottom, 30)
@@ -271,9 +205,9 @@ struct EditSiteView: View {
 					.presentationDetents([.height(400)])
 				}
 			}
-			.background(context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
+			.background(viewModel.context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
 			
-			if context != .location {
+			if viewModel.context != .location {
 				Spacer()
 			}
 			
@@ -286,7 +220,7 @@ struct EditSiteView: View {
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
 		.onAppear {
-			switch context {
+			switch viewModel.context {
 			case .sign:
 				self.focusedField = .sign
 			case .name:
@@ -355,7 +289,7 @@ struct EditSiteView: View {
 			HStack {
 				Text("$")
 					.foregroundColor(Color.app.tertiaryText)
-				PriceTextField(isFocused: $isPriceKeyboardFocused, priceText: $blockPriceText)
+				PriceTextField(isFocused: $isPriceKeyboardFocused, priceText: $viewModel.blockPriceText)
 			}
 			.font(Font.app.bodySemiBold)
 			.padding(.horizontal)
@@ -372,11 +306,11 @@ struct EditSiteView: View {
 		VStack(alignment: .leading, spacing: 10) {
 			hintText(content: "How long will it take you to deliver this service?")
 			HStack {
-				Text("\(blockTimeDuration.timeSpan)")
+				Text("\(viewModel.blockTimeDuration.timeSpan)")
 					.font(Font.app.largeTitle)
 					.foregroundColor(Color.app.primaryText)
 				Spacer()
-				StepperView(min: 0, max: 86400, step: 300, value: $blockTimeDuration)
+				StepperView(min: 0, max: 86400, step: 300, value: $viewModel.blockTimeDuration)
 			}
 		}
 	}
@@ -418,9 +352,9 @@ struct EditSiteView: View {
 
 struct EditSiteView_Previews: PreviewProvider {
 	static var previews: some View {
-		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .photo)
-		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .location)
-		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .links)
-		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1), context: .block(Business.mock1.blocks.first!.id))
+		EditSiteView(viewModel: .init(business: Business.mock1, context: .photo))
+		EditSiteView(viewModel: .init(business: Business.mock1, context: .location))
+		EditSiteView(viewModel: .init(business: Business.mock1, context: .links))
+		EditSiteView(viewModel: .init( business: Business.mock1, context: .block(Business.mock1.blocks.first!.id)))
 	}
 }

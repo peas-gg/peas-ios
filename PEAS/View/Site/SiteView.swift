@@ -164,7 +164,7 @@ struct SiteView: View {
 			)
 		) {
 			if let context = viewModel.editModeContext {
-				EditSiteView(viewModel: viewModel, context: context)
+				EditSiteView(viewModel: .init(business: viewModel.business, context: context))
 			}
 		}
 	}

@@ -20,5 +20,5 @@ struct CacheKey<Object: Codable> {
 }
 
 extension CacheKey {
-	static var businessDraft: CacheKey<BusinessDraft> { .init(name: "businessDraft") }
+	static var businessDraft: CacheKey<Business> { .init(name: "businessDraft") }
 }

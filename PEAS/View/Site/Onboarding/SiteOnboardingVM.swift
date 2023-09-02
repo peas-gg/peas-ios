@@ -15,7 +15,7 @@ extension SiteOnboardingView {
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var templates: IdentifiedArrayOf<Template> = []
-		@Published var businessDraft: BusinessDraft?
+		@Published var businessDraft: Business?
 		@Published var isShowingResetWarning: Bool = false
 		
 		@Published var isLoading: Bool = true
@@ -24,7 +24,7 @@ extension SiteOnboardingView {
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
 		
-		init(draft: BusinessDraft? = nil) {
+		init(draft: Business? = nil) {
 			self.businessDraft = draft
 			refreshTemplates()
 		}
@@ -35,7 +35,7 @@ extension SiteOnboardingView {
 		
 		func selectTemplate(_ template: Template) {
 			Task {
-				let businessDraft: BusinessDraft = BusinessDraft(business: template.business)
+				let businessDraft: Business = template.business
 				await cacheClient.setData(key: .businessDraft, value: businessDraft)
 				withAnimation(.default) {
 					self.businessDraft = businessDraft
