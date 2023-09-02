@@ -26,7 +26,6 @@ extension SiteOnboardingView {
 		
 		init(draft: Business? = nil) {
 			self.businessDraft = draft
-			refreshTemplates()
 		}
 		
 		func showResetWarning() {

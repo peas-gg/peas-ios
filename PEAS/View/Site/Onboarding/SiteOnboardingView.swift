@@ -66,6 +66,12 @@ struct SiteOnboardingView: View {
 						Color.clear
 							.progressView(isShowing: viewModel.isLoading, style: .black, coverOpacity: 0.0)
 							.opacity(viewModel.isLoading ? 1.0 : 0.0)
+							.transition(
+								.asymmetric(
+									insertion: .opacity.animation(.easeIn.delay(0.1)),
+									removal: .identity
+								)
+							)
 						VStack {
 							ScrollView(showsIndicators: false) {
 								LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
