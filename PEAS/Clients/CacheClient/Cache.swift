@@ -18,3 +18,7 @@ struct Cache: Identifiable {
 struct CacheKey<Object: Codable> {
 	let name: String
 }
+
+extension CacheKey {
+	static var businessDraft: CacheKey<BusinessDraft> { .init(name: "businessDraft") }
+}

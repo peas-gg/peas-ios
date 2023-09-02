@@ -22,6 +22,7 @@ extension SiteOnboardingView {
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
+		private let cacheClient: CacheClient = CacheClient.shared
 		
 		init() {
 			refreshTemplates()
@@ -32,8 +33,12 @@ extension SiteOnboardingView {
 		}
 		
 		func selectTemplate(_ template: Template) {
-			withAnimation(.default) {
-				self.businessDraft = BusinessDraft(business: template.business)
+			Task {
+				let businessDraft: BusinessDraft = BusinessDraft(business: template.business)
+				await cacheClient.setData(key: .businessDraft, value: businessDraft)
+				withAnimation(.default) {
+					self.businessDraft = businessDraft
+				}
 			}
 		}
 		
@@ -59,8 +64,11 @@ extension SiteOnboardingView {
 		}
 		
 		func resetBusinessDraft() {
-			withAnimation(.default) {
-				self.businessDraft = nil
+			Task {
+				await cacheClient.delete(key: .businessDraft)
+				withAnimation(.default) {
+					self.businessDraft = nil
+				}
 			}
 		}
 		

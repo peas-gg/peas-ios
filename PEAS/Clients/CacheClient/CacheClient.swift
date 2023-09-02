@@ -44,6 +44,10 @@ extension CacheClientProtocol {
 	func getData<Data: Codable>(key: CacheKey<Data>) async -> Data? {
 		await get(key: key.name, type: Data.self)
 	}
+	
+	func delete<Object: Codable>(key: CacheKey<Object>) async -> Void {
+		await delete(key: key.name)
+	}
 }
 
 class CacheClient: CacheClientProtocol {
