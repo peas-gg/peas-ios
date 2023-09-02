@@ -11,14 +11,16 @@ struct AppView: View {
 	@StateObject var appState = AppState()
 	
 	var body: some View {
-		let siteOnboardingVM: SiteOnboardingView.ViewModel = SiteOnboardingView.ViewModel()
 		switch appState.mode {
-		case .welcome:
-			WelcomeView(viewModel: WelcomeView.ViewModel(onboardingVM: siteOnboardingVM))
-		case .onboarding:
-			SiteOnboardingView(viewModel: siteOnboardingVM)
-		case .home:
-			HomeView(viewModel: .init())
+		case .welcome(let viewModel):
+			WelcomeView(viewModel: viewModel)
+		case .onboarding(let viewModel):
+			SiteOnboardingView(viewModel: viewModel)
+		case .home(let viewModel):
+			HomeView(viewModel: viewModel)
+		case .none:
+			Color.black
+				.progressView(isShowing: true, style: .white)
 		}
 	}
 }

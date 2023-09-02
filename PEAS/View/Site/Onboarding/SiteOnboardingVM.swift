@@ -24,7 +24,7 @@ extension SiteOnboardingView {
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
 		
-		init() {
+		init(draft: BusinessDraft? = nil) {
 			refreshTemplates()
 		}
 		
@@ -73,7 +73,7 @@ extension SiteOnboardingView {
 		}
 		
 		func backToWelcomeScreen() {
-			AppState.updateAppState(with: .changeAppMode(.welcome))
+			AppState.updateAppState(with: .changeAppMode(.welcome(.init(onboardingVM: .init()))))
 		}
 	}
 }

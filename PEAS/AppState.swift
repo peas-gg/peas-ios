@@ -12,18 +12,31 @@ fileprivate let appStateKeyNotification: String = "appState"
 
 @MainActor class AppState: ObservableObject {
 	enum AppMode {
-		case welcome
+		case welcome(WelcomeView.ViewModel)
 		case onboarding(SiteOnboardingView.ViewModel)
-		case home
+		case home(HomeView.ViewModel)
 	}
 	
 	enum AppAction {
 		case changeAppMode(AppMode)
 	}
 	
-	@Published var mode: AppMode = .welcome
+	@Published var mode: AppMode?
+	
+	//Clients
+	let cacheClient = CacheClient.shared
 	
 	init() {
+		Task(priority: .high) {
+			let businessDraft = await cacheClient.getData(key: .businessDraft)
+			let onboardingVM = SiteOnboardingView.ViewModel(draft: businessDraft)
+			
+			if businessDraft != nil {
+				self.mode = .onboarding(onboardingVM)
+			} else {
+				self.mode = .welcome(WelcomeView.ViewModel(onboardingVM: onboardingVM))
+			}
+		}
 		NotificationCenter
 			.default.addObserver(
 				self,
