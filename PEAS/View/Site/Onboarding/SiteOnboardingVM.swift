@@ -25,6 +25,7 @@ extension SiteOnboardingView {
 		private let cacheClient: CacheClient = CacheClient.shared
 		
 		init(draft: BusinessDraft? = nil) {
+			self.businessDraft = draft
 			refreshTemplates()
 		}
 		
