@@ -58,6 +58,8 @@
 		D0793D2D2AA29CD400139783 /* BusinessDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2C2AA29CD400139783 /* BusinessDraft.swift */; };
 		D0793D302AA29FA100139783 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */; };
 		D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D312AA2A1FD00139783 /* AppProgressView.swift */; };
+		D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D342AA2B0DF00139783 /* WelcomeView.swift */; };
+		D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D362AA2B0F700139783 /* WelcomeVM.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
@@ -129,6 +131,8 @@
 		D0793D2C2AA29CD400139783 /* BusinessDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessDraft.swift; sourceTree = "<group>"; };
 		D0793D2F2AA29FA100139783 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		D0793D312AA2A1FD00139783 /* AppProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressView.swift; sourceTree = "<group>"; };
+		D0793D342AA2B0DF00139783 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		D0793D362AA2B0F700139783 /* WelcomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVM.swift; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
@@ -237,6 +241,7 @@
 		D02659942A868DF300655C23 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D0793D332AA2B0D300139783 /* Welcome */,
 				D06455772A97D052003E342C /* Home */,
 				D02659B02A87371700655C23 /* Customers */,
 				D02659AB2A87368F00655C23 /* Site */,
@@ -361,6 +366,15 @@
 				D0793D2C2AA29CD400139783 /* BusinessDraft.swift */,
 			);
 			path = Business;
+			sourceTree = "<group>";
+		};
+		D0793D332AA2B0D300139783 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				D0793D342AA2B0DF00139783 /* WelcomeView.swift */,
+				D0793D362AA2B0F700139783 /* WelcomeVM.swift */,
+			);
+			path = Welcome;
 			sourceTree = "<group>";
 		};
 		D0BF26D92A888AA4001FCC05 /* Views */ = {
@@ -489,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D01761802A86216600926960 /* AppView.swift in Sources */,
+				D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */,
 				D02659A52A87342100655C23 /* DashboardView.swift in Sources */,
 				D02659AF2A8736AD00655C23 /* SiteVM.swift in Sources */,
 				D066F8232A9493DA00B65CA4 /* Business.swift in Sources */,
@@ -507,6 +522,7 @@
 				D04F115D2A9E4A0B0011242C /* StepperView.swift in Sources */,
 				D02659AD2A87369C00655C23 /* SiteView.swift in Sources */,
 				D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */,
+				D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */,
 				D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */,
 				D064557B2A97D09C003E342C /* HomeView.swift in Sources */,
 				D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */,

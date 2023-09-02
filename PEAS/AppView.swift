@@ -14,9 +14,7 @@ struct AppView: View {
 		let siteOnboardingVM: SiteOnboardingView.ViewModel = SiteOnboardingView.ViewModel()
 		switch appState.mode {
 		case .welcome:
-			Button(action: { appState.setAppMode(.onboarding(siteOnboardingVM)) }) {
-				Text("Start")
-			}
+			WelcomeView(viewModel: WelcomeView.ViewModel(onboardingVM: siteOnboardingVM))
 		case .onboarding:
 			SiteOnboardingView(viewModel: siteOnboardingVM)
 		case .home:
