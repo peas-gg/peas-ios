@@ -59,5 +59,10 @@ extension SiteView {
 		func toggleEditMode() {
 			self.isInEditMode.toggle()
 		}
+		
+		func dismissEditContext(_ business: Business) {
+			self.business = business
+			self.editModeContext = nil
+		}
 	}
 }

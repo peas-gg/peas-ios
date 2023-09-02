@@ -36,8 +36,8 @@ struct Business: Codable, Equatable, Identifiable {
 	var instagram: String?
 	var tiktok: String?
 	let location: String
-	let latitude: Double?
-	let longitude: Double?
+	var latitude: Double?
+	var longitude: Double?
 	let timeZone: String
 	let isActive: Bool
 	var blocks: IdentifiedArrayOf<Block>

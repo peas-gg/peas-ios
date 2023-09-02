@@ -211,7 +211,7 @@ struct EditSiteView: View {
 				Spacer()
 			}
 			
-			Button(action: {}) {
+			Button(action: { viewModel.saveChanges() }) {
 				Text("Save")
 			}
 			.buttonStyle(.expanded(style: .black))
@@ -219,6 +219,7 @@ struct EditSiteView: View {
 		}
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
+		.progressView(isShowing: viewModel.isLoading, style: .black)
 		.onAppear {
 			switch viewModel.context {
 			case .sign:
@@ -352,9 +353,9 @@ struct EditSiteView: View {
 
 struct EditSiteView_Previews: PreviewProvider {
 	static var previews: some View {
-		EditSiteView(viewModel: .init(business: Business.mock1, context: .photo))
-		EditSiteView(viewModel: .init(business: Business.mock1, context: .location))
-		EditSiteView(viewModel: .init(business: Business.mock1, context: .links))
-		EditSiteView(viewModel: .init( business: Business.mock1, context: .block(Business.mock1.blocks.first!.id)))
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1, context: .photo))
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1, context: .location))
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1, context: .links))
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1, context: .block(Business.mock1.blocks.first!.id)))
 	}
 }

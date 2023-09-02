@@ -164,7 +164,16 @@ struct SiteView: View {
 			)
 		) {
 			if let context = viewModel.editModeContext {
-				EditSiteView(viewModel: .init(business: viewModel.business, context: context))
+				EditSiteView(
+					viewModel: .init(
+						isTemplate: viewModel.isTemplate,
+						business: viewModel.business,
+						context: context,
+						onSave: { business in
+							viewModel.dismissEditContext(business)
+						}
+					)
+				)
 			}
 		}
 	}

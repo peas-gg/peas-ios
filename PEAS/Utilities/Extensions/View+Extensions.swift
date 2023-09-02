@@ -27,10 +27,10 @@ extension View {
 		self.modifier(MenuViewModifier(parentRect: parentRect, topPadding: topPadding, isShowing: isShowing, menu: content))
 	}
 	
-	func progressView(isShowing: Bool, style: LoadingIndicator.Style) -> some View {
+	func progressView(isShowing: Bool, style: LoadingIndicator.Style, coverOpacity: CGFloat = 0.1) -> some View {
 		self
 			.overlay {
-				AppProgressView(isShowing: isShowing, style: style)
+				AppProgressView(isShowing: isShowing, style: style, coverOpacity: coverOpacity)
 			}
 	}
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension EditSiteView {
 	@MainActor class ViewModel: ObservableObject {
@@ -30,7 +31,11 @@ extension EditSiteView {
 			}
 		}
 		
+		let isTemplate: Bool
 		let context: Context
+		let onSave: (Business) -> ()
+		
+		@Published var business: Business
 		
 		//Business
 		@Published var photo: URL
@@ -53,8 +58,19 @@ extension EditSiteView {
 		@Published var instagram: String
 		@Published var tiktok: String
 		
-		init(business: Business, context: Context) {
+		@Published var isLoading: Bool = false
+		
+		//Clients
+		private let apiClient: APIClient = APIClient.shared
+		private let cacheClient: CacheClient = CacheClient.shared
+		
+		init(isTemplate: Bool, business: Business, context: Context, onSave: @escaping (Business) -> () = { _ in }) {
+			self.isTemplate = isTemplate
 			self.context = context
+			self.onSave = onSave
+			
+			self.business = business
+			
 			//Business
 			self.photo = business.profilePhoto
 			self.sign = business.sign
@@ -85,6 +101,42 @@ extension EditSiteView {
 			self.twitter = business.twitter ?? ""
 			self.instagram = business.instagram ?? ""
 			self.tiktok = business.tiktok ?? ""
+		}
+		
+		func saveChanges() {
+			if isTemplate {
+				Task {
+					self.isLoading = true
+					switch context {
+					case .sign, .name, .description:
+						self.business.sign = self.sign
+						self.business.name = self.name
+						self.business.description = self.description
+					case .photo:
+						//Upload Photo
+						return
+					case .links:
+						self.business.twitter = self.twitter
+						self.business.instagram = self.instagram
+						self.business.tiktok = self.tiktok
+					case .location:
+						self.business.latitude = self.latitude
+						self.business.longitude = self.longitude
+					case .block(let id):
+						if let id = id {
+							self.business.blocks[id: id]?.price = Double(self.blockPriceText) ?? 0.0
+							self.business.blocks[id: id]?.duration = self.blockTimeDuration
+							self.business.blocks[id: id]?.title = self.blockTitle
+							self.business.blocks[id: id]?.description = self.description
+							//Upload Photo
+							self.business.blocks[id: id]?.image = self.blockImage
+						}
+					}
+					self.isLoading = false
+					await cacheClient.setData(key: .businessDraft, value: self.business)
+					self.onSave(self.business)
+				}
+			}
 		}
 	}
 }

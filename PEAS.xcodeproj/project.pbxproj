@@ -24,6 +24,7 @@
 		D02659AF2A8736AD00655C23 /* SiteVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659AE2A8736AD00655C23 /* SiteVM.swift */; };
 		D02659B22A87372500655C23 /* CustomersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B12A87372500655C23 /* CustomersView.swift */; };
 		D02659B42A87373700655C23 /* CustomersVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B32A87373700655C23 /* CustomersVM.swift */; };
+		D0332A182AA3AC31000E7515 /* UpdateBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A172AA3AC31000E7515 /* UpdateBusiness.swift */; };
 		D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11542A9C99670011242C /* Binding+Extension.swift */; };
 		D04F11572A9D0E840011242C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11562A9D0E840011242C /* Helpers.swift */; };
 		D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11582A9D22B90011242C /* PriceTextField.swift */; };
@@ -98,6 +99,7 @@
 		D02659AE2A8736AD00655C23 /* SiteVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteVM.swift; sourceTree = "<group>"; };
 		D02659B12A87372500655C23 /* CustomersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersView.swift; sourceTree = "<group>"; };
 		D02659B32A87373700655C23 /* CustomersVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersVM.swift; sourceTree = "<group>"; };
+		D0332A172AA3AC31000E7515 /* UpdateBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateBusiness.swift; sourceTree = "<group>"; };
 		D04F11542A9C99670011242C /* Binding+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extension.swift"; sourceTree = "<group>"; };
 		D04F11562A9D0E840011242C /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D04F11582A9D22B90011242C /* PriceTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTextField.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				D0793D2A2AA279E500139783 /* CreateBusiness.swift */,
 				D066F8222A9493DA00B65CA4 /* Business.swift */,
 				D066F8202A94937C00B65CA4 /* Template.swift */,
+				D0332A172AA3AC31000E7515 /* UpdateBusiness.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				D066F8282A956E4400B65CA4 /* Cache.swift in Sources */,
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
 				D04F115D2A9E4A0B0011242C /* StepperView.swift in Sources */,
+				D0332A182AA3AC31000E7515 /* UpdateBusiness.swift in Sources */,
 				D02659AD2A87369C00655C23 /* SiteView.swift in Sources */,
 				D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */,
 				D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */,

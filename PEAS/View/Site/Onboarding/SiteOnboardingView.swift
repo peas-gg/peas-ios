@@ -61,23 +61,28 @@ struct SiteOnboardingView: View {
 						.font(Font.app.body)
 						.multilineTextAlignment(.leading)
 						.padding(.top, padding)
-					VStack {
-						ScrollView(showsIndicators: false) {
-							LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
-								ForEach(viewModel.templates) { template in
-									templateView(template)
-										.transition(.scale)
+					
+					ZStack {
+						Color.clear
+							.progressView(isShowing: viewModel.isLoading, style: .black, coverOpacity: 0.0)
+							.opacity(viewModel.isLoading ? 1.0 : 0.0)
+						VStack {
+							ScrollView(showsIndicators: false) {
+								LazyVGrid(columns: Array(repeating: GridItem(spacing: 10), count: 2)) {
+									ForEach(viewModel.templates) { template in
+										templateView(template)
+											.transition(.scale)
+									}
 								}
+								.padding(.top, padding)
 							}
-							.padding(.top, padding)
 						}
+						.padding(.horizontal, padding)
+						.animation(.spring(dampingFraction: 1.22), value: viewModel.templates)
 					}
-					.padding(.horizontal, padding)
-					.animation(.spring(dampingFraction: 1.22), value: viewModel.templates)
 				}
 			}
 		}
-		.progressView(isShowing: viewModel.isLoading, style: .black)
 		.confirmationDialog(
 			"",
 			isPresented: $viewModel.isShowingResetWarning,
