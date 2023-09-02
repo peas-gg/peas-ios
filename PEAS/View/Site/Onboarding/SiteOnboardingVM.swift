@@ -55,9 +55,7 @@ extension SiteOnboardingView {
 						}
 					},
 					receiveValue: { templates in
-						if templates != self.templates.elements {
-							self.templates = IdentifiedArray(uniqueElements: templates)
-						}
+						self.templates = IdentifiedArray(uniqueElements: templates)
 						self.isLoading = false
 				})
 				.store(in: &cancellableBag)

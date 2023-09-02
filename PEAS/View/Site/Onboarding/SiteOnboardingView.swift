@@ -61,7 +61,6 @@ struct SiteOnboardingView: View {
 						.font(Font.app.body)
 						.multilineTextAlignment(.leading)
 						.padding(.top, padding)
-					
 					ZStack {
 						Color.clear
 							.progressView(isShowing: viewModel.isLoading, style: .black, coverOpacity: 0.0)
