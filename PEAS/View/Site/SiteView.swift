@@ -30,7 +30,7 @@ struct SiteView: View {
 		ScrollView(showsIndicators: false) {
 			VStack {
 				VStack(alignment: .leading) {
-					HStack {
+					HStack(spacing: 0) {
 						Image("SiteLogo")
 							.resizable()
 							.scaledToFit()
