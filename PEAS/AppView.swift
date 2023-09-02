@@ -20,6 +20,7 @@ struct AppView: View {
 			HomeView(viewModel: viewModel)
 		case .none:
 			Color.black
+				.edgesIgnoringSafeArea(.all)
 				.progressView(isShowing: true, style: .white)
 		}
 	}
