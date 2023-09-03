@@ -125,17 +125,16 @@ extension EditSiteView {
 		}
 		
 		func saveChanges() {
-			if isTemplate {
-				Task {
+			Task {
+				if isTemplate {
 					self.isLoading = true
-					switch context {
+					switch self.context {
 					case .sign, .name, .description:
 						self.business.sign = self.sign
 						self.business.name = self.name
 						self.business.description = self.description
 					case .photo:
 						self.business.profilePhoto = self.photo
-						return
 					case .links:
 						self.business.twitter = self.twitter
 						self.business.instagram = self.instagram
