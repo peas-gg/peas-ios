@@ -11,7 +11,15 @@ struct AuthenticateView: View {
 	@StateObject var viewModel: ViewModel
 	
 	var body: some View {
-		Text("Hello, World!")
+		VStack {
+			Spacer()
+			Button(action: {}) {
+				Text("Next")
+			}
+			.buttonStyle(.expanded(style: .white))
+			.padding()
+		}
+		.background(Color.black)
 	}
 }
 
