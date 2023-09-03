@@ -44,11 +44,12 @@ struct AuthenticateView: View {
 	func signUpFlow(_ flow: ViewModel.SignUpFlow) -> some View {
 		switch flow {
 		case .nameAndTerms:
-			VStack {
+			VStack(spacing: 30) {
 				textField(hint: "First name", text: $viewModel.firstName)
 				textField(hint: "Last name", text: $viewModel.lastName)
 			}
 			.multilineTextAlignment(.leading)
+			.padding(.horizontal)
 		case .emailAndPassword:
 			EmptyView()
 		case .phone:
