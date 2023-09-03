@@ -144,7 +144,7 @@ extension EditSiteView {
 						self.business.longitude = self.longitude
 					case .block(let id):
 						if let id = id {
-							self.business.blocks[id: id]?.price = Double(self.blockPriceText) ?? 0.0
+							self.business.blocks[id: id]?.price = self.blockPriceText.textToPrice
 							self.business.blocks[id: id]?.duration = self.blockTimeDuration
 							self.business.blocks[id: id]?.title = self.blockTitle
 							self.business.blocks[id: id]?.description = self.description
