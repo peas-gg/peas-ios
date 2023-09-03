@@ -26,6 +26,8 @@
 		D02659B42A87373700655C23 /* CustomersVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02659B32A87373700655C23 /* CustomersVM.swift */; };
 		D0332A182AA3AC31000E7515 /* UpdateBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A172AA3AC31000E7515 /* UpdateBusiness.swift */; };
 		D0332A1C2AA44485000E7515 /* PriceFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A1B2AA44485000E7515 /* PriceFormatter.swift */; };
+		D0332A1F2AA4502B000E7515 /* AuthenticateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A1E2AA4502B000E7515 /* AuthenticateVM.swift */; };
+		D0332A212AA45040000E7515 /* AuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A202AA45040000E7515 /* AuthenticateView.swift */; };
 		D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11542A9C99670011242C /* Binding+Extension.swift */; };
 		D04F11572A9D0E840011242C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11562A9D0E840011242C /* Helpers.swift */; };
 		D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11582A9D22B90011242C /* PriceTextField.swift */; };
@@ -101,6 +103,8 @@
 		D02659B32A87373700655C23 /* CustomersVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersVM.swift; sourceTree = "<group>"; };
 		D0332A172AA3AC31000E7515 /* UpdateBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateBusiness.swift; sourceTree = "<group>"; };
 		D0332A1B2AA44485000E7515 /* PriceFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceFormatter.swift; sourceTree = "<group>"; };
+		D0332A1E2AA4502B000E7515 /* AuthenticateVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateVM.swift; sourceTree = "<group>"; };
+		D0332A202AA45040000E7515 /* AuthenticateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateView.swift; sourceTree = "<group>"; };
 		D04F11542A9C99670011242C /* Binding+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extension.swift"; sourceTree = "<group>"; };
 		D04F11562A9D0E840011242C /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D04F11582A9D22B90011242C /* PriceTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTextField.swift; sourceTree = "<group>"; };
@@ -243,6 +247,7 @@
 		D02659942A868DF300655C23 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D0332A1D2AA4500E000E7515 /* Authenticate */,
 				D0793D332AA2B0D300139783 /* Welcome */,
 				D06455772A97D052003E342C /* Home */,
 				D02659B02A87371700655C23 /* Customers */,
@@ -329,6 +334,15 @@
 				D02659B32A87373700655C23 /* CustomersVM.swift */,
 			);
 			path = Customers;
+			sourceTree = "<group>";
+		};
+		D0332A1D2AA4500E000E7515 /* Authenticate */ = {
+			isa = PBXGroup;
+			children = (
+				D0332A202AA45040000E7515 /* AuthenticateView.swift */,
+				D0332A1E2AA4502B000E7515 /* AuthenticateVM.swift */,
+			);
+			path = Authenticate;
 			sourceTree = "<group>";
 		};
 		D06455772A97D052003E342C /* Home */ = {
@@ -520,6 +534,7 @@
 				D066F8232A9493DA00B65CA4 /* Business.swift in Sources */,
 				D066F8262A956DA800B65CA4 /* CacheClient.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
+				D0332A1F2AA4502B000E7515 /* AuthenticateVM.swift in Sources */,
 				D0793D302AA29FA100139783 /* LoadingIndicator.swift in Sources */,
 				D0793D232A9FBC7500139783 /* SiteOnboardingVM.swift in Sources */,
 				D066F8362A97CEC800B65CA4 /* AppState.swift in Sources */,
@@ -543,6 +558,7 @@
 				D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
 				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
+				D0332A212AA45040000E7515 /* AuthenticateView.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
 				D04F115F2A9E7C420011242C /* String+Extension.swift in Sources */,
 				D064557D2A991BD0003E342C /* CachedAvatar.swift in Sources */,
