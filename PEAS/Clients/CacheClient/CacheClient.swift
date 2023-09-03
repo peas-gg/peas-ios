@@ -11,18 +11,18 @@ import Foundation
 import IdentifiedCollections
 import UIKit
 
-protocol CacheClientProtocol {
-	func get<Object: Codable>(key: String, type: Object.Type) async -> Object?
-	func set(cache: Cache) async -> URL
-	func delete(key: String) async -> Void
-	func clear()
-}
-
 extension SHA256 {
 	static func getHash(for url: URL) -> String {
 		let hash = SHA256.hash(data: Data(url.absoluteString.utf8))
 		return hash.compactMap { String(format: "%02x", $0) }.joined()
 	}
+}
+
+protocol CacheClientProtocol {
+	func get<Object: Codable>(key: String, type: Object.Type) async -> Object?
+	func set(cache: Cache) async -> URL
+	func delete(key: String) async -> Void
+	func clear()
 }
 
 extension CacheClientProtocol {
@@ -192,7 +192,7 @@ class CacheClient: CacheClientProtocol {
 		}
 	}
 	
-	private func fileName(for key: String) -> URL {
+	func fileName(for key: String) -> URL {
 		return cacheDirectory.appendingPathComponent("cache_\(key)", isDirectory: false)
 	}
 }

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import PhotosUI
+import SwiftUI
 import UIKit
 
 extension EditSiteView {
@@ -58,6 +60,7 @@ extension EditSiteView {
 		@Published var instagram: String
 		@Published var tiktok: String
 		
+		@Published var photoItem: PhotosPickerItem?
 		@Published var isLoading: Bool = false
 		
 		//Clients
@@ -103,6 +106,24 @@ extension EditSiteView {
 			self.tiktok = business.tiktok ?? ""
 		}
 		
+		func imageSelected(_ imageData: Data) {
+			Task {
+				self.isLoading = true
+				let imageUrl: URL = cacheClient.fileName(for: UUID().uuidString)
+				_ = await self.cacheClient.setImage(url: imageUrl, image: UIImage(data: imageData) ?? UIImage())
+				switch context {
+				case .photo:
+					self.photo = imageUrl
+				case .block:
+					self.blockImage = imageUrl
+				case .sign, .name, .description, .links, .location:
+					return
+				}
+				self.photoItem = nil
+				self.isLoading = false
+			}
+		}
+		
 		func saveChanges() {
 			if isTemplate {
 				Task {
@@ -113,7 +134,7 @@ extension EditSiteView {
 						self.business.name = self.name
 						self.business.description = self.description
 					case .photo:
-						//Upload Photo
+						self.business.profilePhoto = self.photo
 						return
 					case .links:
 						self.business.twitter = self.twitter

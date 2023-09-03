@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-08-27.
 //
 
+import PhotosUI
 import SwiftUI
 
 struct EditSiteView: View {
@@ -44,8 +45,9 @@ struct EditSiteView: View {
 						hintText(content: "Think of your business photo as your brand image")
 						HStack {
 							Spacer()
-							Button(action: {}) {
+							PhotosPicker(selection: $viewModel.photoItem, matching: .images) {
 								CachedAvatar(url: viewModel.photo, height: 200)
+									.id(viewModel.photo)
 									.overlay {
 										Image(systemName: "photo")
 											.font(Font.app.largeTitle)
@@ -220,6 +222,13 @@ struct EditSiteView: View {
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
 		.progressView(isShowing: viewModel.isLoading, style: .black)
+		.onChange(of: viewModel.photoItem) { photoItem in
+			Task {
+				if let data = try? await photoItem?.loadTransferable(type: Data.self) {
+					viewModel.imageSelected(data)
+				}
+			}
+		}
 		.onAppear {
 			switch viewModel.context {
 			case .sign:
