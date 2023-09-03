@@ -50,6 +50,9 @@ extension AuthenticateView {
 		
 		@Published var firstName: String = ""
 		@Published var lastName: String = ""
+		@Published var email: String = ""
+		@Published var password: String = ""
+		@Published var verifyPassword: String = ""
 		
 		init(context: Context) {
 			self.context = context

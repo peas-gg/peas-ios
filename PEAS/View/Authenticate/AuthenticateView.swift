@@ -24,14 +24,17 @@ struct AuthenticateView: View {
 			.padding(.vertical)
 			.background(Color.app.darkGray)
 			Spacer()
-			switch viewModel.context {
-			case .signUp(let flow):
-				signUpFlow(flow)
-			case .login(let flow):
-				loginFlow(flow)
-			case .forgotPassword(let flow):
-				forgotPasswordFlow(flow)
+			Group {
+				switch viewModel.context {
+				case .signUp(let flow):
+					signUpFlow(flow)
+				case .login(let flow):
+					loginFlow(flow)
+				case .forgotPassword(let flow):
+					forgotPasswordFlow(flow)
+				}
 			}
+			.padding(.horizontal, 30)
 			Spacer()
 			Button(action: {}) {
 				Text("Next")
@@ -44,9 +47,10 @@ struct AuthenticateView: View {
 	
 	@ViewBuilder
 	func signUpFlow(_ flow: ViewModel.SignUpFlow) -> some View {
+		let spacing: CGFloat = 30
 		switch flow {
 		case .nameAndTerms:
-			VStack(spacing: 30) {
+			VStack(spacing: spacing) {
 				Spacer()
 				textField(hint: "First name", text: $viewModel.firstName) {
 					self.setFocusField(.lastName)
@@ -92,10 +96,26 @@ struct AuthenticateView: View {
 				)
 			}
 			.multilineTextAlignment(.leading)
-			.padding(.horizontal, 30)
 			.onAppear { self.setFocusField(.firstName) }
 		case .emailAndPassword:
-			EmptyView()
+			VStack(spacing: spacing) {
+				VStack {
+					textField(hint: "Email", text: $viewModel.email, onCommit: {})
+					Rectangle()
+						.fill(Color.app.darkGray)
+						.frame(height: 1)
+				}
+				secureTextField(hint: "Password", text: $viewModel.password) {
+					
+				}
+				secureTextField(hint: "Verify password", text: $viewModel.verifyPassword) {
+					
+				}
+				HStack {
+					flowHint(hint: "Must be at least 8 characters")
+					Spacer()
+				}
+			}
 		case .phone:
 			EmptyView()
 		case .otpCode:
@@ -132,12 +152,41 @@ struct AuthenticateView: View {
 				.font(Font.app.title2Display)
 				.foregroundColor(Color.app.secondaryText)
 				.autocorrectionDisabled()
-			Text(hint)
-				.font(Font.app.body)
-				.foregroundColor(Color.app.tertiaryText)
-				.opacity(text.wrappedValue.count > 0 ? 0.0 : 1.0)
+			textFieldHint(hint: hint, text: text)
 		}
 		.tint(Color.app.secondaryText)
+	}
+	
+	@ViewBuilder
+	func secureTextField(hint: String, text: Binding<String>, onCommit: @escaping () -> ()) -> some View {
+		ZStack(alignment: .leading) {
+			SecureField("", text: text)
+				.onSubmit {
+					onCommit()
+				}
+				.font(Font.app.title2Display)
+				.foregroundColor(Color.app.secondaryText)
+			textFieldHint(hint: hint, text: text)
+		}
+		.tint(Color.app.secondaryText)
+	}
+	
+	@ViewBuilder
+	func textFieldHint(hint: String, text: Binding<String>) -> some View {
+		Text(hint)
+			.font(Font.app.body)
+			.foregroundColor(Color.app.tertiaryText)
+			.opacity(text.wrappedValue.count > 0 ? 0.0 : 1.0)
+	}
+	
+	@ViewBuilder
+	func flowHint(hint: String) -> some View {
+		HStack {
+			Image(systemName: "info.circle")
+			Text(hint)
+		}
+		.font(Font.app.body)
+		.foregroundColor(Color.app.secondaryBackground)
 	}
 	
 	func setFocusField(_ focusField: ViewModel.FocusField) {
@@ -147,6 +196,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.nameAndTerms)))
+		AuthenticateView(viewModel: .init(context: .signUp(.emailAndPassword)))
 	}
 }
