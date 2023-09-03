@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import iPhoneNumberField
 
 struct AuthenticateView: View {
 	@StateObject var viewModel: ViewModel
@@ -117,7 +118,18 @@ struct AuthenticateView: View {
 				}
 			}
 		case .phone:
-			EmptyView()
+			iPhoneNumberField(text: $viewModel.phone)
+				.flagHidden(false)
+				.flagSelectable(true)
+				.foregroundColor(Color.white)
+				.font(.systemFont(ofSize: 30, weight: .semibold, width: .standard))
+				.tint(Color.app.secondaryText)
+			
+			Text("You need your phone number to login. Standard message and data rates apply")
+				.font(Font.app.callout)
+				.foregroundColor(Color.app.secondaryText)
+				.padding(.top, 40)
+			
 		case .otpCode:
 			EmptyView()
 		}
@@ -196,6 +208,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.emailAndPassword)))
+		AuthenticateView(viewModel: .init(context: .signUp(.phone)))
 	}
 }

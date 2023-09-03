@@ -28,6 +28,7 @@
 		D0332A1C2AA44485000E7515 /* PriceFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A1B2AA44485000E7515 /* PriceFormatter.swift */; };
 		D0332A1F2AA4502B000E7515 /* AuthenticateVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A1E2AA4502B000E7515 /* AuthenticateVM.swift */; };
 		D0332A212AA45040000E7515 /* AuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A202AA45040000E7515 /* AuthenticateView.swift */; };
+		D0332A242AA4DBE1000E7515 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = D0332A232AA4DBE1000E7515 /* iPhoneNumberField */; };
 		D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11542A9C99670011242C /* Binding+Extension.swift */; };
 		D04F11572A9D0E840011242C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11562A9D0E840011242C /* Helpers.swift */; };
 		D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11582A9D22B90011242C /* PriceTextField.swift */; };
@@ -164,6 +165,7 @@
 			files = (
 				D0FB0AFC2A8FEDE500C56178 /* SwiftKeychainWrapper in Frameworks */,
 				D066F82E2A9571C300B65CA4 /* IdentifiedCollections in Frameworks */,
+				D0332A242AA4DBE1000E7515 /* iPhoneNumberField in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +469,7 @@
 			packageProductDependencies = (
 				D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */,
 				D066F82D2A9571C300B65CA4 /* IdentifiedCollections */,
+				D0332A232AA4DBE1000E7515 /* iPhoneNumberField */,
 			);
 			productName = PEAS;
 			productReference = D017617A2A86216600926960 /* PEAS.app */;
@@ -499,6 +502,7 @@
 			packageReferences = (
 				D0FB0AFA2A8FEDE500C56178 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 				D066F82C2A9571C300B65CA4 /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
+				D0332A222AA4DBE1000E7515 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
 			);
 			productRefGroup = D017617B2A86216600926960 /* Products */;
 			projectDirPath = "";
@@ -809,6 +813,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D0332A222AA4DBE1000E7515 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.1;
+			};
+		};
 		D066F82C2A9571C300B65CA4 /* XCRemoteSwiftPackageReference "swift-identified-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-identified-collections";
@@ -828,6 +840,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D0332A232AA4DBE1000E7515 /* iPhoneNumberField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0332A222AA4DBE1000E7515 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
+			productName = iPhoneNumberField;
+		};
 		D066F82D2A9571C300B65CA4 /* IdentifiedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D066F82C2A9571C300B65CA4 /* XCRemoteSwiftPackageReference "swift-identified-collections" */;

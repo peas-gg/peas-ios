@@ -53,6 +53,7 @@ extension AuthenticateView {
 		@Published var email: String = ""
 		@Published var password: String = ""
 		@Published var verifyPassword: String = ""
+		@Published var phone: String = ""
 		
 		init(context: Context) {
 			self.context = context
