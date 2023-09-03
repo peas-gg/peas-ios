@@ -139,9 +139,9 @@ extension EditSiteView {
 					case .photo:
 						self.business.profilePhoto = self.photo
 					case .links:
-						self.business.twitter = self.twitter
-						self.business.instagram = self.instagram
-						self.business.tiktok = self.tiktok
+						self.business.twitter = self.twitter.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : self.twitter
+						self.business.instagram = self.instagram.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : self.instagram
+						self.business.tiktok = self.tiktok.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : self.tiktok
 					case .location:
 						self.business.latitude = self.latitude
 						self.business.longitude = self.longitude
