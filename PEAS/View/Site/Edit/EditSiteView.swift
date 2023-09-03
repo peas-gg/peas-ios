@@ -309,12 +309,14 @@ struct EditSiteView: View {
 	@ViewBuilder
 	func blockImage(_ imageUrl: URL) -> some View {
 		let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
+		let size: CGSize = CGSize(width: 180, height: 260)
 		CachedImage(
 			url: imageUrl,
 			content: { uiImage in
 				Image(uiImage: uiImage)
 					.resizable()
-					.scaledToFit()
+					.scaledToFill()
+					.frame(size: size)
 					.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
 					.opacity(0.8)
 			},
@@ -325,9 +327,9 @@ struct EditSiteView: View {
 					RoundedRectangle(cornerRadius: cornerRadius)
 						.stroke(Color.app.tertiaryText.opacity(0.5), lineWidth: 1)
 				}
+				.frame(size: size)
 			}
 		)
-		.frame(size: CGSize(width: 180, height: 260))
 		.overlay {
 			Image(systemName: "photo")
 				.font(Font.app.largeTitle)
