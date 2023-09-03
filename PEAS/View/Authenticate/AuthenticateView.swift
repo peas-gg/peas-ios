@@ -118,17 +118,21 @@ struct AuthenticateView: View {
 				}
 			}
 		case .phone:
-			iPhoneNumberField(text: $viewModel.phone)
-				.flagHidden(false)
-				.flagSelectable(true)
-				.foregroundColor(Color.white)
-				.font(.systemFont(ofSize: 30, weight: .semibold, width: .standard))
-				.tint(Color.app.secondaryText)
-			
-			Text("You need your phone number to login. Standard message and data rates apply")
-				.font(Font.app.callout)
-				.foregroundColor(Color.app.secondaryText)
-				.padding(.top, 40)
+			VStack {
+				iPhoneNumberField(text: $viewModel.phone)
+					.flagHidden(false)
+					.flagSelectable(true)
+					.foregroundColor(Color.white)
+					.font(.systemFont(ofSize: 30, weight: .semibold, width: .standard))
+					.tint(Color.app.secondaryText)
+					.focused($focusField, equals: .phone)
+				
+				Text("You need your phone number to login. Standard message and data rates apply")
+					.font(Font.app.callout)
+					.foregroundColor(Color.app.secondaryText)
+					.padding(.top, 40)
+			}
+			.onAppear { self.setFocusField(.phone) }
 			
 		case .otpCode:
 			EmptyView()

@@ -44,6 +44,7 @@ extension AuthenticateView {
 		enum FocusField: Hashable {
 			case firstName
 			case lastName
+			case phone
 		}
 		
 		let context: Context
