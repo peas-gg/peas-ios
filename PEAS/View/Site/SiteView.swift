@@ -225,7 +225,7 @@ struct SiteView: View {
 	
 	@ViewBuilder
 	func blockView(_ block: Business.Block) -> some View {
-		let height: CGFloat = 230
+		let height: CGFloat = 260
 		let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
 		Button(action: {
 			if viewModel.isInEditMode {
