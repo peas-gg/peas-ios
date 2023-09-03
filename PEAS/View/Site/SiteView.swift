@@ -296,6 +296,7 @@ struct SiteView: View {
 						.foregroundColor(Color.app.secondaryText)
 					}
 			}
+			.id(block.image)
 		}
 		.background(
 			RoundedRectangle(cornerRadius: cornerRadius)

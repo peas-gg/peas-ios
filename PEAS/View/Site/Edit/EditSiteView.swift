@@ -45,7 +45,7 @@ struct EditSiteView: View {
 						hintText(content: "Think of your business photo as your brand image")
 						HStack {
 							Spacer()
-							PhotosPicker(selection: $viewModel.photoItem, matching: .images) {
+							photoPickerButton {
 								CachedAvatar(url: viewModel.photo, height: 200)
 									.overlay {
 										Image(systemName: "photo")
@@ -53,7 +53,6 @@ struct EditSiteView: View {
 											.foregroundColor(Color.app.tertiaryText)
 									}
 							}
-							.buttonStyle(.plain)
 							Spacer()
 						}
 						hintText(content: "We recommend a photo of yourself because a face helps to build trust")
@@ -98,39 +97,10 @@ struct EditSiteView: View {
 					ScrollView(showsIndicators: false) {
 						VStack(alignment: .leading, spacing: 30) {
 							HStack {
-								let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
 								Spacer()
-								Button(action: {
-									DispatchQueue.main.async {
-										self.focusedField = .blockPrice
-									}
-								}) {
-									CachedImage(
-										url: viewModel.blockImage,
-										content: { uiImage in
-											Image(uiImage: uiImage)
-												.resizable()
-												.scaledToFit()
-												.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-												.opacity(0.8)
-										},
-										placeHolder: {
-											ZStack {
-												RoundedRectangle(cornerRadius: cornerRadius)
-													.fill(Color.app.primaryBackground)
-												RoundedRectangle(cornerRadius: cornerRadius)
-													.stroke(Color.app.tertiaryText.opacity(0.5), lineWidth: 1)
-											}
-										}
-									)
-									.frame(size: CGSize(width: 180, height: 260))
-									.overlay {
-										Image(systemName: "photo")
-											.font(Font.app.largeTitle)
-											.foregroundColor(Color.app.tertiaryText)
-									}
+								photoPickerButton {
+									blockImage(viewModel.blockImage)
 								}
-								.buttonStyle(.plain)
 								Spacer()
 							}
 							.padding(.top, 30)
@@ -216,7 +186,7 @@ struct EditSiteView: View {
 				Text("Save")
 			}
 			.buttonStyle(.expanded(style: .black))
-			.padding([.horizontal, .bottom])
+			.padding()
 		}
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
@@ -334,6 +304,44 @@ struct EditSiteView: View {
 			textField(hint: "", leadingHint: "@", text: text)
 				.font(Font.app.bodySemiBold)
 		}
+	}
+	
+	@ViewBuilder
+	func blockImage(_ imageUrl: URL) -> some View {
+		let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
+		CachedImage(
+			url: imageUrl,
+			content: { uiImage in
+				Image(uiImage: uiImage)
+					.resizable()
+					.scaledToFit()
+					.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+					.opacity(0.8)
+			},
+			placeHolder: {
+				ZStack {
+					RoundedRectangle(cornerRadius: cornerRadius)
+						.fill(Color.app.primaryBackground)
+					RoundedRectangle(cornerRadius: cornerRadius)
+						.stroke(Color.app.tertiaryText.opacity(0.5), lineWidth: 1)
+				}
+			}
+		)
+		.frame(size: CGSize(width: 180, height: 260))
+		.overlay {
+			Image(systemName: "photo")
+				.font(Font.app.largeTitle)
+				.foregroundColor(Color.app.tertiaryText)
+		}
+		.id(imageUrl)
+	}
+	
+	@ViewBuilder
+	func photoPickerButton<Label: View>(label: @escaping () -> Label) -> some View {
+		PhotosPicker(selection: $viewModel.photoItem, matching: .images) {
+			label()
+		}
+		.buttonStyle(.plain)
 	}
 	
 	@ViewBuilder
