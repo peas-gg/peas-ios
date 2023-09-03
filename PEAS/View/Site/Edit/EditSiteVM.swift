@@ -94,7 +94,10 @@ extension EditSiteView {
 				default: return nil
 				}
 			}()
-			self.blockPriceText = block?.price.priceToText ?? ""
+			self.blockPriceText = {
+				let price = block?.price ?? 0.0
+				return PriceFormatter(price: price).text
+			}()
 			self.blockTimeDuration = block?.duration ?? 0
 			self.blockTitle = block?.title ?? ""
 			self.blockDescription = block?.description ?? ""
@@ -144,7 +147,7 @@ extension EditSiteView {
 						self.business.longitude = self.longitude
 					case .block(let id):
 						if let id = id {
-							self.business.blocks[id: id]?.price = self.blockPriceText.textToPrice
+							self.business.blocks[id: id]?.price = PriceFormatter(text: self.blockPriceText).price
 							self.business.blocks[id: id]?.duration = self.blockTimeDuration
 							self.business.blocks[id: id]?.title = self.blockTitle
 							self.business.blocks[id: id]?.description = self.description

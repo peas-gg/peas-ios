@@ -8,9 +8,5 @@
 import Foundation
 
 extension String {
-	var textToPrice: Double {
-		return Double(Int(self) ?? 0) * 0.01
-	}
-	
 	var unwrappedContentUrl: URL { URL(string: self) ?? URL(string: "https://invalidContent.com")! }
 }
