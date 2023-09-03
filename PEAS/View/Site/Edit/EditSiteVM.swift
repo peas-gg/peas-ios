@@ -150,7 +150,7 @@ extension EditSiteView {
 							self.business.blocks[id: id]?.price = PriceFormatter(text: self.blockPriceText).price
 							self.business.blocks[id: id]?.duration = self.blockTimeDuration
 							self.business.blocks[id: id]?.title = self.blockTitle
-							self.business.blocks[id: id]?.description = self.description
+							self.business.blocks[id: id]?.description = self.blockDescription
 							//Upload Photo
 							self.business.blocks[id: id]?.image = self.blockImage
 						}
