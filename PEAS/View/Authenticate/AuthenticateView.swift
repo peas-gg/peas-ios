@@ -47,6 +47,7 @@ struct AuthenticateView: View {
 		switch flow {
 		case .nameAndTerms:
 			VStack(spacing: 30) {
+				Spacer()
 				textField(hint: "First name", text: $viewModel.firstName) {
 					self.setFocusField(.lastName)
 				}
@@ -55,6 +56,40 @@ struct AuthenticateView: View {
 					self.focusField = .firstName
 				}
 				.focused($focusField, equals: .lastName)
+				Spacer()
+				SymmetricHStack(
+					content: {
+						Group {
+							Button(action: {}) {
+								Text("Privacy")
+									.underline()
+							}
+							Text("&")
+							Button(action: {}) {
+								Text("Terms")
+									.underline()
+							}
+						}
+						.font(Font.app.title2)
+						.foregroundColor(Color.app.tertiaryText)
+					},
+					leading: {
+						Button(action: {}) {
+							ZStack {
+								RoundedRectangle(cornerRadius: 10)
+									.fill(Color.app.darkGray)
+								RoundedRectangle(cornerRadius: 10)
+									.stroke(Color.white.opacity(0.2), lineWidth: 1)
+							}
+							.frame(dimension: 36)
+						}
+						.disabled(true)
+						.opacity(0.5)
+					},
+					trailing: {
+						EmptyView()
+					}
+				)
 			}
 			.multilineTextAlignment(.leading)
 			.padding(.horizontal, 30)
