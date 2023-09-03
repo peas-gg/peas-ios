@@ -10,6 +10,8 @@ import SwiftUI
 struct AuthenticateView: View {
 	@StateObject var viewModel: ViewModel
 	
+	@FocusState var focusField: ViewModel.FocusField?
+	
 	var body: some View {
 		VStack(alignment: .leading) {
 			HStack {
@@ -45,11 +47,18 @@ struct AuthenticateView: View {
 		switch flow {
 		case .nameAndTerms:
 			VStack(spacing: 30) {
-				textField(hint: "First name", text: $viewModel.firstName)
-				textField(hint: "Last name", text: $viewModel.lastName)
+				textField(hint: "First name", text: $viewModel.firstName) {
+					self.setFocusField(.lastName)
+				}
+				.focused($focusField, equals: .firstName)
+				textField(hint: "Last name", text: $viewModel.lastName) {
+					self.focusField = .firstName
+				}
+				.focused($focusField, equals: .lastName)
 			}
 			.multilineTextAlignment(.leading)
-			.padding(.horizontal)
+			.padding(.horizontal, 30)
+			.onAppear { self.setFocusField(.firstName) }
 		case .emailAndPassword:
 			EmptyView()
 		case .phone:
@@ -82,16 +91,22 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
-	func textField(hint: String, text: Binding<String>) -> some View {
+	func textField(hint: String, text: Binding<String>, onCommit: @escaping () -> ()) -> some View {
 		ZStack(alignment: .leading) {
-			TextField("", text: text)
+			TextField("", text: text, onCommit: onCommit)
 				.font(Font.app.title2Display)
 				.foregroundColor(Color.app.secondaryText)
+				.autocorrectionDisabled()
 			Text(hint)
 				.font(Font.app.body)
 				.foregroundColor(Color.app.tertiaryText)
 				.opacity(text.wrappedValue.count > 0 ? 0.0 : 1.0)
 		}
+		.tint(Color.app.secondaryText)
+	}
+	
+	func setFocusField(_ focusField: ViewModel.FocusField) {
+		self.focusField = focusField
 	}
 }
 

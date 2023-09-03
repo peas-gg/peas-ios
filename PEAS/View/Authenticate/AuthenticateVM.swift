@@ -41,6 +41,11 @@ extension AuthenticateView {
 			case password
 		}
 		
+		enum FocusField: Hashable {
+			case firstName
+			case lastName
+		}
+		
 		let context: Context
 		
 		@Published var firstName: String = ""
