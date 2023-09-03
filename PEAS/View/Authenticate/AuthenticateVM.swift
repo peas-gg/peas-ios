@@ -10,9 +10,9 @@ import Foundation
 extension AuthenticateView {
 	@MainActor class ViewModel: ObservableObject {
 		enum Context {
-			case signUp
-			case login
-			case forgotPassword
+			case signUp(SignUpFlow)
+			case login(LoginFlow)
+			case forgotPassword(ForgotPasswordFlow)
 			
 			var title: String {
 				switch self {
@@ -35,10 +35,19 @@ extension AuthenticateView {
 			case otpCode
 		}
 		
-		enum ForgotPassword {
+		enum ForgotPasswordFlow {
 			case email
 			case otpCode
 			case password
+		}
+		
+		let context: Context
+		
+		@Published var firstName: String = ""
+		@Published var lastName: String = ""
+		
+		init(context: Context) {
+			self.context = context
 		}
 	}
 }

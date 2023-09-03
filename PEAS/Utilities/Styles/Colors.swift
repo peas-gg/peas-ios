@@ -17,6 +17,8 @@ extension Color.app {
 	static let primaryBackground: Color = Color.white
 	static let secondaryBackground: Color = Color(uiColor: UIColor(hex: "F9F9F9"))
 	
+	static let darkGray: Color = Color(uiColor: UIColor(hex: "1E1E1E"))
+	
 	//Others
 	static let primaryText: Color = Color.black
 	static let secondaryText: Color = Color.white
