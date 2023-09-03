@@ -191,6 +191,11 @@ struct EditSiteView: View {
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
 		.progressView(isShowing: viewModel.isLoading, style: .black)
+		.onChange(of: focusedField) { focusField in
+			if focusField != nil {
+				self.isPriceKeyboardFocused = false
+			}
+		}
 		.onChange(of: viewModel.photoItem) { photoItem in
 			Task {
 				if let data = try? await photoItem?.loadTransferable(type: Data.self) {
