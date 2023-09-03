@@ -47,7 +47,6 @@ struct EditSiteView: View {
 							Spacer()
 							PhotosPicker(selection: $viewModel.photoItem, matching: .images) {
 								CachedAvatar(url: viewModel.photo, height: 200)
-									.id(viewModel.photo)
 									.overlay {
 										Image(systemName: "photo")
 											.font(Font.app.largeTitle)

@@ -46,6 +46,7 @@ struct CachedAvatar: View {
 				.frame(width: width, height: height)
 				.cornerRadius(width)
 			)
+			.id(url)
 	}
 }
 
