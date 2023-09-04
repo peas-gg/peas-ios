@@ -16,6 +16,29 @@ struct AuthenticateView: View {
 	@FocusState var focusField: ViewModel.FocusField?
 	
 	var body: some View {
+		NavigationStack(path: $viewModel.navStack) {
+			Group {
+				switch viewModel.context {
+				case .signUp:
+					contentView(context: viewModel.context)
+				case .login:
+					contentView(context: viewModel.context)
+				case .forgotPassword:
+					contentView(context: viewModel.context)
+				}
+			}
+			.navigationTitle("")
+			.navigationDestination(for: ViewModel.Context.self) { context in
+				contentView(context: context)
+					.navigationTitle("")
+					.navigationBarTitleDisplayMode(.inline)
+			}
+		}
+		.tint(Color.white)
+	}
+	
+	@ViewBuilder
+	func contentView(context: ViewModel.Context) -> some View {
 		VStack(alignment: .leading) {
 			HStack {
 				Spacer()
@@ -28,7 +51,7 @@ struct AuthenticateView: View {
 			.background(Color.app.darkGray)
 			Spacer()
 			Group {
-				switch viewModel.context {
+				switch context {
 				case .signUp(let flow):
 					signUpFlow(flow)
 				case .login(let flow):
@@ -39,7 +62,7 @@ struct AuthenticateView: View {
 			}
 			.padding(.horizontal, 30)
 			Spacer()
-			Button(action: {}) {
+			Button(action: { viewModel.advance(current: context) }) {
 				Text(viewModel.buttonTitle)
 			}
 			.buttonStyle(.expanded(style: .white))
@@ -319,6 +342,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .forgotPassword(.password)))
+		AuthenticateView(viewModel: .init(context: .signUp(.nameAndTerms)))
 	}
 }

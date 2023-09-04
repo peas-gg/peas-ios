@@ -9,7 +9,7 @@ import Foundation
 
 extension AuthenticateView {
 	@MainActor class ViewModel: ObservableObject {
-		enum Context {
+		enum Context: Hashable {
 			case signUp(SignUpFlow)
 			case login(LoginFlow)
 			case forgotPassword(ForgotPasswordFlow)
@@ -58,9 +58,7 @@ extension AuthenticateView {
 		@Published var phone: String = ""
 		@Published var otpCode: String = "444444"
 		
-		@Published var signUpFlow: [SignUpFlow] = []
-		@Published var loginFlow: [LoginFlow] = []
-		@Published var forgotPasswordFlow: [ForgotPasswordFlow] = []
+		@Published var navStack: [Context] = []
 		
 		var buttonTitle: String {
 			let defaultText: String = "Next"
@@ -93,6 +91,38 @@ extension AuthenticateView {
 		
 		init(context: Context) {
 			self.context = context
+		}
+		
+		func advance(current: Context) {
+			switch current {
+			case .signUp(let signUpFlow):
+				switch signUpFlow {
+				case .nameAndTerms:
+					self.navStack.append(.signUp(.emailAndPassword))
+				case .emailAndPassword:
+					self.navStack.append(.signUp(.phone))
+				case .phone:
+					self.navStack.append(.signUp(.otpCode))
+				case .otpCode:
+					return
+				}
+			case .login(let loginFlow):
+				switch loginFlow {
+				case .emailAndPassword:
+					self.navStack.append(.login(.otpCode))
+				case .otpCode:
+					return
+				}
+			case .forgotPassword(let forgotPasswordFlow):
+				switch forgotPasswordFlow {
+				case .email:
+					self.navStack.append(.forgotPassword(.otpCode))
+				case .otpCode:
+					self.navStack.append(.forgotPassword(.password))
+				case .password:
+					return
+				}
+			}
 		}
 	}
 }
