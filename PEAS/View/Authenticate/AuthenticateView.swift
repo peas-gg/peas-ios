@@ -40,7 +40,7 @@ struct AuthenticateView: View {
 			.padding(.horizontal, 30)
 			Spacer()
 			Button(action: {}) {
-				Text("Next")
+				Text(viewModel.buttonTitle)
 			}
 			.buttonStyle(.expanded(style: .white))
 			.padding()
@@ -319,6 +319,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .forgotPassword(.otpCode)))
+		AuthenticateView(viewModel: .init(context: .forgotPassword(.password)))
 	}
 }

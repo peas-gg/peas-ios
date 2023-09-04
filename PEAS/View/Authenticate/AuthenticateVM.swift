@@ -58,6 +58,35 @@ extension AuthenticateView {
 		@Published var phone: String = ""
 		@Published var otpCode: String = "444444"
 		
+		var buttonTitle: String {
+			let defaultText: String = "Next"
+			switch context {
+			case .signUp(let signUpFlow):
+				switch signUpFlow {
+				case .nameAndTerms, .emailAndPassword, .phone:
+					return defaultText
+				case .otpCode:
+					return "Sign up"
+				}
+			case .login(let loginFlow):
+				switch loginFlow {
+				case .emailAndPassword:
+					return defaultText
+				case .otpCode:
+					return "Login"
+				}
+			case .forgotPassword(let forgotPasswordFlow):
+				switch forgotPasswordFlow {
+				case .email:
+					return defaultText
+				case .otpCode:
+					return "Set password"
+				case .password:
+					return "Reset"
+				}
+			}
+		}
+		
 		init(context: Context) {
 			self.context = context
 		}
