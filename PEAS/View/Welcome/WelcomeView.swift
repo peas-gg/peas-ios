@@ -8,123 +8,72 @@
 import SwiftUI
 
 struct WelcomeView: View {
+	enum Page: String, Identifiable, CaseIterable {
+		case createSite
+		case dropLink
+		case acceptPayment
+		
+		var id: String {
+			return self.rawValue
+		}
+	}
+	
 	@StateObject var viewModel: ViewModel
 	
 	var body: some View {
-		
-		ZStack {
-			/*
-			AngularGradient(
-				gradient: Gradient(colors: [
-					Color(#colorLiteral(red: 0, green: 0.337254902, blue: 0.337254902, alpha: 1)),
-					Color(#colorLiteral(red: 0.368627451, green: 0.6509803922, blue: 0.8078431373, alpha: 1)),
-					Color(#colorLiteral(red: 0.3803921569, green: 0.8274509804, blue: 0.7450980392, alpha: 1)),
-					Color(#colorLiteral(red: 0.6470588235, green: 0.9411764706, blue: 0.9843137255, alpha: 1))
-				]),
-				center: .center)
-			
-			.ignoresSafeArea()
-			*/
-			
-			HStack{
-				VStack{
-					
-					LinearGradient(
-						gradient: Gradient(colors: [
-							Color(#colorLiteral(red: 0, green: 0.337254902, blue: 0.337254902, alpha: 1))
-							//Color(red: 0, green: 0.337254902, blue: 0.337254902),
-							//Color(red: 0.368627451, green: 0.6509803922, blue: 0.8078431373)
-						]),
-						startPoint: .topLeading,
-						endPoint: .bottomLeading
-					)
-					LinearGradient(
-						gradient: Gradient(colors: [
-							Color(#colorLiteral(red: 0.368627451, green: 0.6509803922, blue: 0.8078431373, alpha: 1))
-							//Color(red: 0.368627451, green: 0.6509803922, blue: 0.8078431373),
-							//Color(red: 0.6470588235, green: 0.9411764706, blue: 0.9843137255),
-							//Color(red: 0.3803921569, green: 0.8274509804, blue: 0.7450980392)
-						]),
-						startPoint: .topTrailing,
-						endPoint: .bottomTrailing
-					)
-					
-				}
-				
-				Spacer()
-				
-				VStack{
-					
-					LinearGradient(
-						gradient: Gradient(colors: [
-							Color(#colorLiteral(red: 0.6470588235, green: 0.9411764706, blue: 0.9843137255, alpha: 1)),
-						]),
-						startPoint: .topLeading,
-						endPoint: .bottomLeading
-					)
-					LinearGradient(
-						gradient: Gradient(colors: [
-							Color(#colorLiteral(red: 0.3803921569, green: 0.8274509804, blue: 0.7450980392, alpha: 1))
-						]),
-						startPoint: .topTrailing,
-						endPoint: .bottomTrailing
-					)
-					
-				}
-				
+		TabView {
+			ForEach(Page.allCases) { page in
+				background(page: page)
+					.tag(page)
 			}
-			.ignoresSafeArea()
-			.blur(radius: 40)
-			
-			VStack{
-			
-					LinearGradient(
-						gradient: Gradient(colors: [
-							Color(red: 0, green: 0.337254902, blue: 0.337254902),
-							//Color(red: 0.368627451, green: 0.6509803922, blue: 0.8078431373)
-						]),
-						startPoint: .topLeading,
-						endPoint: .bottomLeading
-					)
-					LinearGradient(
-						gradient: Gradient(colors: [
-							Color(red: 0.368627451, green: 0.6509803922, blue: 0.8078431373),
-							//Color(red: 0.6470588235, green: 0.9411764706, blue: 0.9843137255),
-							//Color(red: 0.3803921569, green: 0.8274509804, blue: 0.7450980392)
-						]),
-						startPoint: .topTrailing,
-						endPoint: .bottomTrailing
-					)
-				
-			}
-			.ignoresSafeArea()
-			.blur(radius: 40)
-			
-			
-			RadialGradient(
-				gradient: Gradient(colors: [
-					//Color.black,
-					.clear,
-					.clear,
-					Color.black,
-				]),
-				center: UnitPoint(x: 0.5, y: 0.3),
-				startRadius: 0,
-				endRadius: 300
-			)
-			.ignoresSafeArea()
-			
-			VStack (alignment: .center){
-				Spacer()
-				Button(action: { viewModel.startOnboarding() }) {
-					Text("Start")
-				}
-				.padding()
-			}
-			// Your content here
 		}
-		
-		
+		.tabViewStyle(.page(indexDisplayMode: .never))
+		.edgesIgnoringSafeArea(.all)
+		.onAppear { UIScrollView.appearance().bounces = false }
+	}
+	
+	@ViewBuilder
+	func background(page: Page) -> some View {
+		let colors: [Color] = {
+			switch page {
+			case .createSite:
+				return [
+					Color(UIColor(hex: "A5F0FB")),
+					Color(UIColor(hex: "61D3BE")),
+					Color(UIColor(hex: "5EA6CE")),
+					Color(UIColor(hex: "005656"))
+				]
+			case .dropLink:
+				return [
+					Color(UIColor(hex: "FBA5E3")),
+					Color(UIColor(hex: "D3618A")),
+					Color(UIColor(hex: "AA5ECE")),
+					Color(UIColor(hex: "560029"))
+				]
+			case .acceptPayment:
+				return [
+					Color(UIColor(hex: "A5FBA5")),
+					Color(UIColor(hex: "BCD361")),
+					Color(UIColor(hex: "CECA5E")),
+					Color(UIColor(hex: "005620"))
+				]
+			}
+		}()
+		VStack {
+			Rectangle()
+				.fill(
+					AngularGradient(
+						colors: colors,
+						center: .center,
+						angle: .degrees(270)
+					)
+				)
+				.frame(maxHeight: 400)
+				.blur(radius: 50)
+				.padding(.top)
+			Spacer()
+		}
+		.background(Color.black)
 	}
 }
 
