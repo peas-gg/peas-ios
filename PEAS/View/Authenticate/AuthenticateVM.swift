@@ -58,6 +58,10 @@ extension AuthenticateView {
 		@Published var phone: String = ""
 		@Published var otpCode: String = "444444"
 		
+		@Published var signUpFlow: [SignUpFlow] = []
+		@Published var loginFlow: [LoginFlow] = []
+		@Published var forgotPasswordFlow: [ForgotPasswordFlow] = []
+		
 		var buttonTitle: String {
 			let defaultText: String = "Next"
 			switch context {
