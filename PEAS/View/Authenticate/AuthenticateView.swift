@@ -17,38 +17,31 @@ struct AuthenticateView: View {
 	
 	var body: some View {
 		NavigationStack(path: $viewModel.navStack) {
-			Group {
-				switch viewModel.context {
-				case .signUp:
-					contentView(context: viewModel.context)
-				case .login:
-					contentView(context: viewModel.context)
-				case .forgotPassword:
-					contentView(context: viewModel.context)
+			contentView(context: viewModel.context, isRootPage: true)
+				.navigationTitle("")
+				.navigationDestination(for: ViewModel.Context.self) { context in
+					contentView(context: context, isRootPage: false)
+						.navigationTitle("")
+						.navigationBarTitleDisplayMode(.inline)
 				}
-			}
-			.navigationTitle("")
-			.navigationDestination(for: ViewModel.Context.self) { context in
-				contentView(context: context)
-					.navigationTitle("")
-					.navigationBarTitleDisplayMode(.inline)
-			}
 		}
 		.tint(Color.white)
 	}
 	
 	@ViewBuilder
-	func contentView(context: ViewModel.Context) -> some View {
+	func contentView(context: ViewModel.Context, isRootPage: Bool) -> some View {
 		VStack(alignment: .leading) {
-			HStack {
-				Spacer()
-				Text(viewModel.context.title)
-					.font(Font.app.title2Display)
-					.foregroundColor(Color.app.secondaryText)
-				Spacer()
+			if isRootPage {
+				HStack {
+					Spacer()
+					Text(viewModel.context.title)
+						.font(Font.app.title2Display)
+						.foregroundColor(Color.app.secondaryText)
+					Spacer()
+				}
+				.padding(.vertical)
+				.background(Color.app.darkGray)
 			}
-			.padding(.vertical)
-			.background(Color.app.darkGray)
 			Spacer()
 			Group {
 				switch context {
