@@ -9,6 +9,8 @@ import SwiftUI
 import iPhoneNumberField
 
 struct AuthenticateView: View {
+	let verticalStackSpacing: CGFloat = 30.0
+	
 	@StateObject var viewModel: ViewModel
 	
 	@FocusState var focusField: ViewModel.FocusField?
@@ -48,10 +50,9 @@ struct AuthenticateView: View {
 	
 	@ViewBuilder
 	func signUpFlow(_ flow: ViewModel.SignUpFlow) -> some View {
-		let spacing: CGFloat = 30
 		switch flow {
 		case .nameAndTerms:
-			VStack(spacing: spacing) {
+			VStack(spacing: verticalStackSpacing) {
 				Spacer()
 				textField(hint: "First name", text: $viewModel.firstName) {
 					self.setFocusField(.lastName)
@@ -99,26 +100,17 @@ struct AuthenticateView: View {
 			.multilineTextAlignment(.leading)
 			.onAppear { self.setFocusField(.firstName) }
 		case .emailAndPassword:
-			VStack(spacing: spacing) {
+			VStack(spacing: verticalStackSpacing) {
 				VStack {
 					textField(hint: "Email", text: $viewModel.email, onCommit: {})
 					Rectangle()
 						.fill(Color.app.darkGray)
 						.frame(height: 1)
 				}
-				secureTextField(hint: "Password", text: $viewModel.password) {
-					
-				}
-				secureTextField(hint: "Verify password", text: $viewModel.verifyPassword) {
-					
-				}
-				HStack {
-					flowHint(hint: "Must be at least 8 characters")
-					Spacer()
-				}
+				setPasswordView()
 			}
 		case .phone:
-			VStack(spacing: 40) {
+			VStack(spacing: verticalStackSpacing + 10) {
 				iPhoneNumberField(text: $viewModel.phone)
 					.flagHidden(false)
 					.flagSelectable(true)
@@ -126,10 +118,7 @@ struct AuthenticateView: View {
 					.font(.systemFont(ofSize: 30, weight: .semibold, width: .standard))
 					.tint(Color.app.secondaryText)
 					.focused($focusField, equals: .phone)
-				
-				Text("You need your phone number to login. Standard message and data rates apply")
-					.font(Font.app.callout)
-					.foregroundColor(Color.app.secondaryText)
+				flowHint(hint: "You need your phone number to sign up. Standard message and data rates apply")
 			}
 			.onAppear { self.setFocusField(.phone) }
 			
@@ -167,11 +156,14 @@ struct AuthenticateView: View {
 	func forgotPasswordFlow(_ flow: ViewModel.ForgotPasswordFlow) -> some View {
 		switch flow {
 		case .email:
-			EmptyView()
+			VStack(alignment: .leading, spacing: verticalStackSpacing) {
+				textField(hint: "Email", text: $viewModel.email, onCommit: {})
+				flowHint(hint: "Enter the email address associated with your Peas account. We’ll send you a 4-digit code to your email for verification.")
+			}
 		case .otpCode:
-			EmptyView()
+			otpCodeView()
 		case .password:
-			EmptyView()
+			setPasswordView()
 		}
 	}
 	
@@ -210,8 +202,24 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
+	func setPasswordView() -> some View {
+		VStack(alignment: .leading, spacing: verticalStackSpacing) {
+			secureTextField(hint: "Password", text: $viewModel.password) {
+				
+			}
+			secureTextField(hint: "Verify password", text: $viewModel.verifyPassword) {
+				
+			}
+			VStack(alignment: .leading, spacing: 6) {
+				flowInfo(info: "Must be at least 8 characters")
+				flowInfo(info: "Passwords must match")
+			}
+		}
+	}
+	
+	@ViewBuilder
 	func otpCodeView() -> some View {
-		VStack(alignment: .leading, spacing: 40) {
+		VStack(alignment: .leading, spacing: verticalStackSpacing + 10) {
 			VStack(alignment: .leading, spacing: 15) {
 				Text("Enter authentication code")
 					.font(Font.app.bodySemiBold)
@@ -289,9 +297,16 @@ struct AuthenticateView: View {
 	
 	@ViewBuilder
 	func flowHint(hint: String) -> some View {
+		Text(hint)
+			.font(Font.app.callout)
+			.foregroundColor(Color.app.secondaryText)
+	}
+	
+	@ViewBuilder
+	func flowInfo(info: String) -> some View {
 		HStack {
 			Image(systemName: "info.circle")
-			Text(hint)
+			Text(info)
 		}
 		.font(Font.app.body)
 		.foregroundColor(Color.app.secondaryBackground)
@@ -304,6 +319,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .login(.otpCode)))
+		AuthenticateView(viewModel: .init(context: .forgotPassword(.otpCode)))
 	}
 }
