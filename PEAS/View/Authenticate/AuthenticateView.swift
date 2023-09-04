@@ -151,6 +151,16 @@ struct AuthenticateView: View {
 						.opacity(0)
 					otpCodeView()
 				}
+				HStack {
+					Spacer()
+					Button(action: {}) {
+						Text("Resend code")
+							.font(Font.app.title2Display)
+							.underline()
+							.foregroundColor(Color.app.secondaryText)
+					}
+					Spacer()
+				}
 			}
 			.padding(.vertical)
 			.onAppear { self.setFocusField(.otpCode) }
