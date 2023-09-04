@@ -105,7 +105,8 @@ struct WelcomeView: View {
 				gradient: Gradient(colors: [
 					//Color.black,
 					.clear,
-					Color.black
+					.clear,
+					Color.black,
 				]),
 				center: UnitPoint(x: 0.5, y: 0.3),
 				startRadius: 0,
