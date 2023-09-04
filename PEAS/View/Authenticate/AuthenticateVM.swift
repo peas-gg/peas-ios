@@ -60,7 +60,11 @@ extension AuthenticateView {
 		
 		@Published var navStack: [Context] = []
 		
-		var buttonTitle: String {
+		init(context: Context) {
+			self.context = context
+		}
+		
+		func advanceButtonTitle(context: Context) -> String {
 			let defaultText: String = "Next"
 			switch context {
 			case .signUp(let signUpFlow):
@@ -87,10 +91,6 @@ extension AuthenticateView {
 					return "Reset"
 				}
 			}
-		}
-		
-		init(context: Context) {
-			self.context = context
 		}
 		
 		func advance(current: Context) {

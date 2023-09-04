@@ -56,7 +56,7 @@ struct AuthenticateView: View {
 			.padding(.horizontal, 30)
 			Spacer()
 			Button(action: { viewModel.advance(current: context) }) {
-				Text(viewModel.buttonTitle)
+				Text(viewModel.advanceButtonTitle(context: context))
 			}
 			.buttonStyle(.expanded(style: .white))
 			.padding()
