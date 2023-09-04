@@ -118,7 +118,7 @@ struct AuthenticateView: View {
 				}
 			}
 		case .phone:
-			VStack {
+			VStack(spacing: 40) {
 				iPhoneNumberField(text: $viewModel.phone)
 					.flagHidden(false)
 					.flagSelectable(true)
@@ -130,12 +130,30 @@ struct AuthenticateView: View {
 				Text("You need your phone number to login. Standard message and data rates apply")
 					.font(Font.app.callout)
 					.foregroundColor(Color.app.secondaryText)
-					.padding(.top, 40)
 			}
 			.onAppear { self.setFocusField(.phone) }
 			
 		case .otpCode:
-			EmptyView()
+			VStack(alignment: .leading, spacing: 40) {
+				VStack(alignment: .leading, spacing: 15) {
+					Text("Enter authentication code")
+						.font(Font.app.bodySemiBold)
+						.foregroundColor(Color.app.secondaryText)
+					Text("Enter the 6 digit code sent to your phone number")
+						.font(Font.app.footnote)
+						.foregroundColor(Color.app.tertiaryText)
+				}
+				ZStack {
+					TextField("", text: $viewModel.otpCode.max(6))
+						.font(.system(size: 40, weight: .semibold))
+						.keyboardType(.numberPad)
+						.focused($focusField, equals: .otpCode)
+						.opacity(0)
+					otpCodeView()
+				}
+			}
+			.padding(.vertical)
+			.onAppear { self.setFocusField(.otpCode) }
 		}
 	}
 	
@@ -196,6 +214,50 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
+	func otpCodeView() -> some View {
+		Button(action: { self.setFocusField(.otpCode) }) {
+			let codes: [Character] = Array(viewModel.otpCode)
+			HStack {
+				ForEach(0..<6) { index in
+					Spacer(minLength: 0)
+					ZStack {
+						let code: Int? = {
+							if let codeChar = codes[safe: index] {
+								return Int(String(codeChar))
+							} else {
+								return nil
+							}
+						}()
+						otpDigitView(digit: index)
+							.opacity(0)
+						otpDigitView(digit: code)
+					}
+					.padding()
+					.background {
+						VStack {
+							Spacer()
+							Capsule()
+								.fill(Color.app.secondaryText)
+								.frame(height: 3, alignment: .top)
+								.padding(.horizontal, 4)
+						}
+					}
+					Spacer(minLength: 0)
+				}
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func otpDigitView(digit: Int?) -> some View {
+		if let digit = digit {
+			Text(String(digit))
+				.font(Font.app.largeTitle)
+				.foregroundColor(Color.app.secondaryText)
+		}
+	}
+	
+	@ViewBuilder
 	func flowHint(hint: String) -> some View {
 		HStack {
 			Image(systemName: "info.circle")
@@ -212,6 +274,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.phone)))
+		AuthenticateView(viewModel: .init(context: .signUp(.otpCode)))
 	}
 }
