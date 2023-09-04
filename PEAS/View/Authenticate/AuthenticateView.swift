@@ -134,36 +134,7 @@ struct AuthenticateView: View {
 			.onAppear { self.setFocusField(.phone) }
 			
 		case .otpCode:
-			VStack(alignment: .leading, spacing: 40) {
-				VStack(alignment: .leading, spacing: 15) {
-					Text("Enter authentication code")
-						.font(Font.app.bodySemiBold)
-						.foregroundColor(Color.app.secondaryText)
-					Text("Enter the 6 digit code sent to your phone number")
-						.font(Font.app.footnote)
-						.foregroundColor(Color.app.tertiaryText)
-				}
-				ZStack {
-					TextField("", text: $viewModel.otpCode.max(6))
-						.font(.system(size: 40, weight: .semibold))
-						.keyboardType(.numberPad)
-						.focused($focusField, equals: .otpCode)
-						.opacity(0)
-					otpCodeView()
-				}
-				HStack {
-					Spacer()
-					Button(action: {}) {
-						Text("Resend code")
-							.font(Font.app.title2Display)
-							.underline()
-							.foregroundColor(Color.app.secondaryText)
-					}
-					Spacer()
-				}
-			}
-			.padding(.vertical)
-			.onAppear { self.setFocusField(.otpCode) }
+			otpCodeView()
 		}
 	}
 	
@@ -171,9 +142,24 @@ struct AuthenticateView: View {
 	func loginFlow(_ flow: ViewModel.LoginFlow) -> some View {
 		switch flow {
 		case .emailAndPassword:
-			EmptyView()
+			VStack(spacing: 30) {
+				textField(hint: "Email", text: $viewModel.email, onCommit: {})
+				Rectangle()
+					.fill(Color.app.darkGray)
+					.frame(height: 1)
+				secureTextField(hint: "Password", text: $viewModel.password) {
+					
+				}
+				Button(action: {}) {
+					Text("Forgot password?")
+						.font(Font.app.body)
+						.foregroundColor(Color.app.secondaryText)
+						.underline()
+				}
+				.padding(.top)
+			}
 		case .otpCode:
-			EmptyView()
+			otpCodeView()
 		}
 	}
 	
@@ -225,6 +211,40 @@ struct AuthenticateView: View {
 	
 	@ViewBuilder
 	func otpCodeView() -> some View {
+		VStack(alignment: .leading, spacing: 40) {
+			VStack(alignment: .leading, spacing: 15) {
+				Text("Enter authentication code")
+					.font(Font.app.bodySemiBold)
+					.foregroundColor(Color.app.secondaryText)
+				Text("Enter the 6 digit code sent to your phone number")
+					.font(Font.app.footnote)
+					.foregroundColor(Color.app.tertiaryText)
+			}
+			ZStack {
+				TextField("", text: $viewModel.otpCode.max(6))
+					.font(.system(size: 40, weight: .semibold))
+					.keyboardType(.numberPad)
+					.focused($focusField, equals: .otpCode)
+					.opacity(0)
+				otpCodeButton()
+			}
+			HStack {
+				Spacer()
+				Button(action: {}) {
+					Text("Resend code")
+						.font(Font.app.title2Display)
+						.underline()
+						.foregroundColor(Color.app.secondaryText)
+				}
+				Spacer()
+			}
+		}
+		.padding(.vertical)
+		.onAppear { self.setFocusField(.otpCode) }
+	}
+	
+	@ViewBuilder
+	func otpCodeButton() -> some View {
 		Button(action: { self.setFocusField(.otpCode) }) {
 			let codes: [Character] = Array(viewModel.otpCode)
 			HStack {
@@ -284,6 +304,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.otpCode)))
+		AuthenticateView(viewModel: .init(context: .login(.otpCode)))
 	}
 }
