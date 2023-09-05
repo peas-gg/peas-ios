@@ -21,6 +21,29 @@ extension AuthenticateView {
 				case .forgotPassword: return "Forgot password"
 				}
 			}
+			
+			var pageTitle: String {
+				switch self {
+				case .signUp(let signUpFlow):
+					switch signUpFlow {
+					case .nameAndTerms: return ""
+					case .emailAndPassword: return "Email & Password"
+					case .phone: return "Phone"
+					case .otpCode: return "Code"
+					}
+				case .login(let loginFlow):
+					switch loginFlow {
+					case .emailAndPassword: return ""
+					case .otpCode: return "Code"
+					}
+				case .forgotPassword(let forgotPasswordFlow):
+					switch forgotPasswordFlow {
+					case .email: return ""
+					case .otpCode: return "Code"
+					case .password: return "New password"
+					}
+				}
+			}
 		}
 		
 		enum SignUpFlow {
@@ -86,7 +109,7 @@ extension AuthenticateView {
 				case .email:
 					return defaultText
 				case .otpCode:
-					return "Set password"
+					return defaultText
 				case .password:
 					return "Reset"
 				}

@@ -23,6 +23,13 @@ struct AuthenticateView: View {
 					contentView(context: context, isRootPage: false)
 						.navigationTitle("")
 						.navigationBarTitleDisplayMode(.inline)
+						.toolbar {
+							ToolbarItem(placement: .principal) {
+								Text(context.pageTitle)
+									.font(Font.app.title2)
+									.foregroundColor(Color.white)
+							}
+						}
 				}
 		}
 		.tint(Color.white)
@@ -335,6 +342,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.nameAndTerms)))
+		AuthenticateView(viewModel: .init(context: .signUp(.emailAndPassword)))
 	}
 }
