@@ -123,6 +123,7 @@ struct SiteView: View {
 				backgroundColour
 				if !viewModel.isInEditMode {
 					Color.white
+						.frame(height: 200)
 				}
 			}
 			.ignoresSafeArea()
