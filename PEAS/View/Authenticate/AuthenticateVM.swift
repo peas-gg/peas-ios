@@ -67,6 +67,9 @@ extension AuthenticateView {
 		enum FocusField: Hashable {
 			case firstName
 			case lastName
+			case email
+			case password
+			case verifyPassword
 			case phone
 			case otpCode
 		}
