@@ -82,7 +82,7 @@ extension AuthenticateView {
 		@Published var password: String = ""
 		@Published var verifyPassword: String = ""
 		@Published var phone: String = ""
-		@Published var otpCode: String = "444444"
+		@Published var otpCode: String = ""
 		
 		@Published var navStack: [Context] = []
 		
