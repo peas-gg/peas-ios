@@ -18,6 +18,7 @@ extension SiteOnboardingView {
 		@Published var businessDraft: Business?
 		@Published var isShowingResetWarning: Bool = false
 		
+		@Published var isShowingAuthenticateView: Bool = false
 		@Published var isLoading: Bool = true
 		
 		//Clients
@@ -68,6 +69,17 @@ extension SiteOnboardingView {
 					self.businessDraft = nil
 				}
 			}
+		}
+		
+		func setIsShowingAuthenticateView(_ isShowing: Bool) {
+			if !isShowing {
+				KeyboardClient.shared.resignKeyboard()
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.isShowingAuthenticateView = isShowing
+				}
+				return
+			}
+			self.isShowingAuthenticateView = isShowing
 		}
 		
 		func backToWelcomeScreen() {

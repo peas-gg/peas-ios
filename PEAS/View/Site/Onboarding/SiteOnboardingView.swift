@@ -24,7 +24,7 @@ struct SiteOnboardingView: View {
 						}
 						.font(Font.app.title3)
 						.foregroundColor(Color.app.tertiaryText)
-						Button(action: {}) {
+						Button(action: { viewModel.setIsShowingAuthenticateView(true) }) {
 							Text("Create")
 						}
 						.buttonStyle(.expanded(style: .black))
@@ -106,7 +106,23 @@ struct SiteOnboardingView: View {
 				removal: .move(edge: .bottom)
 			)
 		)
+		.sheet(
+			isPresented: Binding(
+				get: { viewModel.isShowingAuthenticateView },
+				set: { viewModel.setIsShowingAuthenticateView($0) }
+			)
+		) {
+			AuthenticateView(
+				viewModel: .init(context: .signUp(.nameAndTerms)),
+				dismiss: { viewModel.setIsShowingAuthenticateView(false) }
+			)
+		}
 		.onAppear { viewModel.refreshTemplates() }
+		.onChange(of: viewModel.isShowingAuthenticateView) { isShowing in
+			if !isShowing {
+				KeyboardClient.shared.resignKeyboard()
+			}
+		}
 	}
 	
 	@ViewBuilder

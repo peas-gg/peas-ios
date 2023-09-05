@@ -10,10 +10,16 @@ import iPhoneNumberField
 
 struct AuthenticateView: View {
 	let verticalStackSpacing: CGFloat = 30.0
+	let dismiss: () -> ()
 	
 	@StateObject var viewModel: ViewModel
 	
 	@FocusState var focusField: ViewModel.FocusField?
+	
+	init(viewModel: ViewModel, dismiss: @escaping () -> Void) {
+		self._viewModel = StateObject(wrappedValue: viewModel)
+		self.dismiss = dismiss
+	}
 	
 	var body: some View {
 		NavigationStack(path: $viewModel.navStack) {
@@ -33,19 +39,25 @@ struct AuthenticateView: View {
 				}
 		}
 		.tint(Color.white)
+		.interactiveDismissDisabled()
 	}
 	
 	@ViewBuilder
 	func contentView(context: ViewModel.Context, isRootPage: Bool) -> some View {
 		VStack(alignment: .leading) {
 			if isRootPage {
-				HStack {
-					Spacer()
-					Text(viewModel.context.title)
-						.font(Font.app.title2Display)
-						.foregroundColor(Color.app.secondaryText)
-					Spacer()
-				}
+				SymmetricHStack(
+					content: {
+						Text(viewModel.context.title)
+							.font(Font.app.title2Display)
+							.foregroundColor(Color.app.secondaryText)
+					},
+					leading: { EmptyView() },
+					trailing: {
+						dismissButton()
+							.padding(.trailing)
+					}
+				)
 				.padding(.vertical)
 				.background(Color.app.darkGray)
 			}
@@ -78,6 +90,13 @@ struct AuthenticateView: View {
 			.padding()
 		}
 		.background(Color.black)
+		.toolbar {
+			if !isRootPage {
+				ToolbarItem(placement: .navigationBarTrailing) {
+					dismissButton()
+				}
+			}
+		}
 	}
 	
 	@ViewBuilder
@@ -351,6 +370,15 @@ struct AuthenticateView: View {
 		.foregroundColor(Color.app.secondaryBackground)
 	}
 	
+	@ViewBuilder
+	func dismissButton() -> some View {
+		Button(action: dismiss) {
+			Text("Cancel")
+				.font(Font.app.body)
+				.foregroundColor(Color.white)
+		}
+	}
+	
 	func setFocusField(_ focusField: ViewModel.FocusField?) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 			self.focusField = focusField
@@ -360,6 +388,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.emailAndPassword)))
+		AuthenticateView(viewModel: .init(context: .signUp(.emailAndPassword)), dismiss: {})
 	}
 }
