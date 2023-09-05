@@ -66,6 +66,7 @@
 		D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D362AA2B0F700139783 /* WelcomeVM.swift */; };
 		D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */; };
 		D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0987D632A8825C900C2CBC5 /* CalendarClient.swift */; };
+		D0B23CA72AA7A76600CBDA26 /* KeyboardClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B23CA62AA7A76600CBDA26 /* KeyboardClient.swift */; };
 		D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D12A885834001FCC05 /* MonthView.swift */; };
 		D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D32A8863E9001FCC05 /* View+Frame.swift */; };
 		D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */; };
@@ -143,6 +144,7 @@
 		D0793D362AA2B0F700139783 /* WelcomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVM.swift; sourceTree = "<group>"; };
 		D0987D612A880DAC00C2CBC5 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		D0987D632A8825C900C2CBC5 /* CalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarClient.swift; sourceTree = "<group>"; };
+		D0B23CA62AA7A76600CBDA26 /* KeyboardClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardClient.swift; sourceTree = "<group>"; };
 		D0BF26D12A885834001FCC05 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
 		D0BF26D32A8863E9001FCC05 /* View+Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Frame.swift"; sourceTree = "<group>"; };
 		D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabView.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				D0987D632A8825C900C2CBC5 /* CalendarClient.swift */,
 				D0FB0B002A8FF26200C56178 /* KeychainClient.swift */,
 				D066F8292A95716800B65CA4 /* DefaultsClient.swift */,
+				D0B23CA62AA7A76600CBDA26 /* KeyboardClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				D0E220F92A9C59B2003864E3 /* EditSiteView.swift in Sources */,
 				D0793D292AA1A6D500139783 /* View+Extensions.swift in Sources */,
 				D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */,
+				D0B23CA72AA7A76600CBDA26 /* KeyboardClient.swift in Sources */,
 				D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */,
 				D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */,
 				D04F11572A9D0E840011242C /* Helpers.swift in Sources */,
