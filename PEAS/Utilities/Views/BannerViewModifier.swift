@@ -29,6 +29,7 @@ struct BannerViewModifier: ViewModifier {
 							if isShowing {
 								HStack {
 									Image(systemName: "info.circle.fill")
+										.font(Font.app.title2)
 									Text(data.detail)
 										.font(Font.app.body)
 										.foregroundColor(Color.app.primaryText)
