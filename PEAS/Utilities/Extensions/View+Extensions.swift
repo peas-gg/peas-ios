@@ -33,4 +33,8 @@ extension View {
 				AppProgressView(isShowing: isShowing, style: style, coverOpacity: coverOpacity)
 			}
 	}
+	
+	func banner(data: Binding<BannerData?>) -> some View {
+		self.modifier(BannerViewModifier(data: data))
+	}
 }
