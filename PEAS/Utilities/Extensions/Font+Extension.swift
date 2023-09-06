@@ -28,6 +28,7 @@ struct FontSizes {
 
 extension Font.app {
 	static var caption: Font { .system(size: FontSizes.caption, weight: .regular, design: .rounded) }
+	static var captionSemiBold: Font { .system(size: FontSizes.caption, weight: .semibold, design: .rounded) }
 	static var footnote: Font { .system(size: FontSizes.footnote, weight: .regular, design: .rounded) }
 	static var callout: Font { .system(size: FontSizes.callout, weight: .regular, design: .rounded) }
 	static var body: Font { .system(size: FontSizes.body, weight: .regular, design: .rounded) }

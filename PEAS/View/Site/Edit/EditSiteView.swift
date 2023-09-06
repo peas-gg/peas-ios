@@ -151,12 +151,12 @@ struct EditSiteView: View {
 									Text("Update")
 										.textCase(.uppercase)
 								}
-								.font(Font.app.caption)
-								.foregroundColor(Color.app.primaryText)
+								.font(Font.app.captionSemiBold)
+								.foregroundColor(Color.app.secondaryText)
 								.padding(8)
 								.background(
 									RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
-										.stroke(Color.app.tertiaryText)
+										.fill(Color.black)
 								)
 							}
 							.padding(.trailing)
