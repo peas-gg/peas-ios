@@ -44,6 +44,12 @@ struct Business: Codable, Equatable, Identifiable {
 }
 
 extension Business {
+	var hasSetLocation: Bool {
+		latitude != nil && longitude != nil
+	}
+}
+
+extension Business {
 	static let mock1: Self = {
 		return Business(
 			id: UUID().uuidString,
