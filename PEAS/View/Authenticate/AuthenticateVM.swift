@@ -74,7 +74,7 @@ extension AuthenticateView {
 			case otpCode
 		}
 		
-		let context: Context
+		@Published var context: Context
 		
 		@Published var firstName: String = ""
 		@Published var lastName: String = ""
@@ -149,6 +149,10 @@ extension AuthenticateView {
 					return
 				}
 			}
+		}
+		
+		func switchToLoginContext() {
+			self.context = .login(.emailAndPassword)
 		}
 	}
 }

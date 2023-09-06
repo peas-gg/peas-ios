@@ -104,7 +104,7 @@ struct AuthenticateView: View {
 		switch flow {
 		case .nameAndTerms:
 			VStack(spacing: verticalStackSpacing) {
-				Spacer()
+				Spacer(minLength: 0)
 				textField(hint: "First name", text: $viewModel.firstName) {
 					self.setFocusField(.lastName)
 				}
@@ -113,7 +113,18 @@ struct AuthenticateView: View {
 					self.focusField = .firstName
 				}
 				.focused($focusField, equals: .lastName)
-				Spacer()
+				Spacer(minLength: 0)
+				VStack(spacing: 2) {
+					Text("Already have an account?")
+						.font(Font.app.body)
+						.foregroundColor(Color.app.tertiaryText)
+					Button(action: { viewModel.switchToLoginContext() }) {
+						Text("Login")
+							.font(Font.app.title2)
+							.foregroundColor(Color.app.secondaryText)
+							.underline()
+					}
+				}
 				SymmetricHStack(
 					content: {
 						Group {
@@ -388,6 +399,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.emailAndPassword)), dismiss: {})
+		AuthenticateView(viewModel: .init(context: .signUp(.nameAndTerms)), dismiss: {})
 	}
 }

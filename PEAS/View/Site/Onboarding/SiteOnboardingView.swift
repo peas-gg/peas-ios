@@ -109,7 +109,7 @@ struct SiteOnboardingView: View {
 		.sheet(
 			isPresented: Binding(
 				get: { viewModel.isShowingAuthenticateView },
-				set: { viewModel.setIsShowingAuthenticateView($0) }
+				set: { _ in }
 			)
 		) {
 			AuthenticateView(
