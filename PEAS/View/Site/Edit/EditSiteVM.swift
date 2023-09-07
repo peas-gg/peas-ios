@@ -197,13 +197,18 @@ extension EditSiteView {
 		}
 		
 		func requestToDeleteBlock() {
-			self.isShowingDeleteBlockAlert = true
+			if business.blocks.count == 1 {
+				self.bannerData = BannerData(detail: "You cannot delete the last block. You need to offer at least ☝️ service on your site")
+			} else {
+				self.isShowingDeleteBlockAlert = true
+			}
 		}
 		
 		func deleteBlock() {
 			if case .block(let blockId) = self.context {
 				if let blockIdToDelete = blockId {
 					self.business.blocks.remove(id: blockIdToDelete)
+					saveChanges()
 				}
 			}
 		}
