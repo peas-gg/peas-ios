@@ -136,31 +136,41 @@ struct AuthenticateView: View {
 				SymmetricHStack(
 					content: {
 						Group {
+							let animation: Animation = {
+								return .easeInOut.speed(0.5).repeatForever()
+							}()
 							Button(action: {}) {
 								Text("Privacy")
 									.underline()
 							}
+							.foregroundColor(viewModel.isAnimatingPrivacyButton ? Color.app.secondaryText : Color.app.tertiaryText)
+							.animation(animation, value: viewModel.isAnimatingPrivacyButton)
 							Text("&")
+								.foregroundColor(Color.app.tertiaryText)
 							Button(action: {}) {
 								Text("Terms")
 									.underline()
 							}
+							.foregroundColor(viewModel.isAnimatingTermsButton ? Color.app.secondaryText : Color.app.tertiaryText)
+							.animation(animation, value: viewModel.isAnimatingTermsButton)
 						}
 						.font(Font.app.title2)
-						.foregroundColor(Color.app.tertiaryText)
 					},
 					leading: {
-						Button(action: {}) {
+						Button(action: {
+							viewModel.acceptTerms()
+						}) {
 							ZStack {
 								RoundedRectangle(cornerRadius: 10)
 									.fill(Color.app.darkGray)
 								RoundedRectangle(cornerRadius: 10)
 									.stroke(Color.white.opacity(0.2), lineWidth: 1)
+								Image(systemName: "checkmark")
+									.font(Font.app.title2Display)
+									.foregroundColor(Color.app.secondaryText.opacity(0.2))
 							}
 							.frame(dimension: 36)
 						}
-						.disabled(true)
-						.opacity(0.5)
 					},
 					trailing: {
 						EmptyView()
@@ -431,6 +441,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.phone)), dismiss: {})
+		AuthenticateView(viewModel: .init(context: .signUp(.nameAndTerms)), dismiss: {})
 	}
 }

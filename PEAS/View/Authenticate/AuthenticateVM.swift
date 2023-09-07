@@ -92,6 +92,11 @@ extension AuthenticateView {
 		
 		@Published var navStack: [Context] = []
 		
+		@Published var isAnimatingPrivacyButton: Bool = false
+		@Published var isAnimatingTermsButton: Bool = false
+		@Published var didReadPrivacy: Bool = false
+		@Published var didReadTerms: Bool = false
+		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
 		
@@ -108,6 +113,11 @@ extension AuthenticateView {
 		
 		init(context: Context) {
 			self.context = context
+		}
+		
+		func acceptTerms() {
+			self.isAnimatingTermsButton = !didReadTerms
+			self.isAnimatingPrivacyButton = !didReadPrivacy
 		}
 		
 		func canAdvance(context: Context) -> Bool {
