@@ -40,6 +40,8 @@ struct AuthenticateView: View {
 						}
 				}
 		}
+		.banner(data: $viewModel.bannerData)
+		.progressView(isShowing: viewModel.isLoading, style: .white)
 		.tint(Color.white)
 		.interactiveDismissDisabled()
 	}

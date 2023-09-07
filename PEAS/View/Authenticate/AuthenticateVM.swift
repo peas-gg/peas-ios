@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-09-02.
 //
 
+import Combine
 import Foundation
 import PhoneNumberKit
 
@@ -76,6 +77,8 @@ extension AuthenticateView {
 		
 		let phoneNumberKit: PhoneNumberKit = PhoneNumberKit()
 		
+		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
+		
 		@Published var context: Context
 		
 		@Published var firstName: String = ""
@@ -88,6 +91,20 @@ extension AuthenticateView {
 		@Published var otpCode: String = ""
 		
 		@Published var navStack: [Context] = []
+		
+		@Published var isLoading: Bool = false
+		@Published var bannerData: BannerData?
+		
+		var phoneNumberToString: String? {
+			if let phoneNumber = phoneNumber {
+				return phoneNumberKit.format(phoneNumber, toType: .e164)
+			} else {
+				return nil
+			}
+		}
+		
+		//Clients
+		private let apiClient: APIClient = APIClient.shared
 		
 		init(context: Context) {
 			self.context = context
@@ -161,9 +178,57 @@ extension AuthenticateView {
 				case .emailAndPassword:
 					self.navStack.append(.signUp(.phone))
 				case .phone:
-					self.navStack.append(.signUp(.otpCode))
+					if let phoneNumber = self.phoneNumberToString {
+						self.isLoading = true
+						self.apiClient
+							.requestOtpCode(phoneNumber: phoneNumber)
+							.receive(on: DispatchQueue.main)
+							.sink(
+								receiveCompletion: { completion in
+									switch completion {
+									case .finished: return
+									case .failure(let error):
+										self.isLoading = false
+										self.bannerData = BannerData(error: error)
+									}
+								},
+								receiveValue: { _ in
+									self.isLoading = false
+									self.navStack.append(.signUp(.otpCode))
+								}
+							)
+							.store(in: &cancellableBag)
+					}
 				case .otpCode:
-					return
+					self.isLoading = true
+					if let phoneNumber = self.phoneNumberToString {
+						let registerModel: RegisterRequest = RegisterRequest(
+							firstName: self.firstName,
+							lastName: self.lastName,
+							email: self.email,
+							phone: phoneNumber,
+							passwordText: self.password,
+							code: self.otpCode,
+							acceptTerms: false
+						)
+						self.apiClient
+							.register(registerModel)
+							.receive(on: DispatchQueue.main)
+							.sink(
+								receiveCompletion: { completion in
+									switch completion {
+									case .finished: return
+									case .failure(let error):
+										self.isLoading = false
+										self.bannerData = BannerData(error: error)
+									}
+								},
+								receiveValue: { authenticateResponse in
+									self.isLoading = false
+								}
+							)
+							.store(in: &cancellableBag)
+					}
 				}
 			case .login(let loginFlow):
 				switch loginFlow {
