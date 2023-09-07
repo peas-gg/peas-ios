@@ -9,4 +9,10 @@ import Foundation
 
 extension String {
 	var unwrappedContentUrl: URL { URL(string: self) ?? URL(string: "https://invalidContent.com")! }
+	
+	var isValidEmail: Bool {
+		guard let emailRegex = try? Regex("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
+		else { return false }
+		return self.firstMatch(of: emailRegex) != nil
+	}
 }

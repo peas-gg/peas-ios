@@ -164,7 +164,7 @@ struct AuthenticateView: View {
 		case .emailAndPassword:
 			VStack(spacing: verticalStackSpacing) {
 				VStack {
-					textField(hint: "Email", text: $viewModel.email) {
+					textField(hint: "Email", text: $viewModel.email, isEmail: true) {
 						self.setFocusField(.password)
 					}
 					.textContentType(.emailAddress)
@@ -200,7 +200,7 @@ struct AuthenticateView: View {
 		switch flow {
 		case .emailAndPassword:
 			VStack(spacing: 30) {
-				textField(hint: "Email", text: $viewModel.email, onCommit: {})
+				textField(hint: "Email", text: $viewModel.email, isEmail: true, onCommit: {})
 				Rectangle()
 					.fill(Color.app.darkGray)
 					.frame(height: 1)
@@ -225,7 +225,7 @@ struct AuthenticateView: View {
 		switch flow {
 		case .email:
 			VStack(alignment: .leading, spacing: verticalStackSpacing) {
-				textField(hint: "Email", text: $viewModel.email, onCommit: {})
+				textField(hint: "Email", text: $viewModel.email, isEmail: true, onCommit: {})
 				flowHint(hint: "Enter the email address associated with your Peas account. We’ll send you a 4-digit code to your email for verification.")
 			}
 		case .otpCode:
@@ -236,11 +236,20 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
-	func textField(hint: String, text: Binding<String>, onCommit: @escaping () -> ()) -> some View {
+	func textField(hint: String, text: Binding<String>, isEmail: Bool = false, onCommit: @escaping () -> ()) -> some View {
 		ZStack(alignment: .leading) {
+			let foregroundColor: Color = {
+				let defaultColor: Color = Color.app.secondaryText
+				if isEmail {
+					return text.wrappedValue.isValidEmail ? defaultColor : Color.red
+				} else {
+					return defaultColor
+				}
+			}()
 			TextField("", text: text, onCommit: onCommit)
 				.font(Font.app.title2Display)
-				.foregroundColor(Color.app.secondaryText)
+				.foregroundColor(foregroundColor)
+				.autocorrectionDisabled()
 			textFieldHint(hint: hint, text: text)
 		}
 		.tint(Color.app.secondaryText)
