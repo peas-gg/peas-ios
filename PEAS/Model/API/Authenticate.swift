@@ -7,6 +7,12 @@
 
 import Foundation
 
+struct AuthenticateRequest: Encodable {
+	let email: String
+	let password: String
+	let code: String
+}
+
 struct AuthenticateResponse: Decodable {
 	let firstName: String
 	let lastName: String
@@ -15,4 +21,14 @@ struct AuthenticateResponse: Decodable {
 	let role: String
 	let jwtToken: String
 	let refreshToken: String
+}
+
+struct RegisterRequest: Encodable {
+	let firstName: String
+	let lastName: String
+	let email: String
+	let phone: String
+	let passwordText: String
+	let code: String
+	let acceptTerms: Bool
 }
