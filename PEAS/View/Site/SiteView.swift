@@ -40,6 +40,7 @@ struct SiteView: View {
 						labelContainer(action: { viewModel.setEditModeContext(.sign) }) {
 							Text("/\(business.sign)")
 								.font(Font.app.title2)
+								.textCase(.lowercase)
 						}
 					}
 					.padding(.bottom, 30)
