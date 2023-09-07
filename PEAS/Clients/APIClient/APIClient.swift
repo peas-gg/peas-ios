@@ -18,6 +18,9 @@ protocol APIRequests {
 	//Authenticate
 	func authenticate(_ model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func register(_ model: RegisterRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
+	func requestOtpCode(phoneNumber: String) -> AnyPublisher<EmptyResponse, APIClientError>
+	func requestPasswordReset(email: String) -> AnyPublisher<EmptyResponse, APIClientError>
+	func resetPassword(_ model: ResetPasswordRequest) -> AnyPublisher<EmptyResponse, APIClientError>
 	//Business
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
@@ -95,6 +98,33 @@ final class APIClient: APIRequests {
 			body: model
 		)
 		return apiRequest(appRequest: registerRequest, output: AuthenticateResponse.self)
+	}
+	
+	func requestOtpCode(phoneNumber: String) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let otpCodeRequest = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["account", "code"],
+			query: [URLQueryItem(name: "number", value: phoneNumber)]
+		)
+		return apiRequest(appRequest: otpCodeRequest, output: EmptyResponse.self)
+	}
+	
+	func requestPasswordReset(email: String) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let requestPasswordResetRequest = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["account", "password", "reset"],
+			query: [URLQueryItem(name: "email", value: email)]
+		)
+		return apiRequest(appRequest: requestPasswordResetRequest, output: EmptyResponse.self)
+	}
+	
+	func resetPassword(_ model: ResetPasswordRequest) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let resetPasswordRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["account", "password", "reset"],
+			body: model
+		)
+		return apiRequest(appRequest: resetPasswordRequest, output: EmptyResponse.self)
 	}
 	
 	//MARK: Business
