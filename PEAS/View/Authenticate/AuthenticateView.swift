@@ -86,6 +86,7 @@ struct AuthenticateView: View {
 			}) {
 				Text(viewModel.advanceButtonTitle(context: context))
 			}
+			.disabled(!viewModel.canAdvance(context: context))
 			.buttonStyle(.expanded(style: .white))
 			.padding()
 		}
@@ -289,7 +290,7 @@ struct AuthenticateView: View {
 			}
 			.focused($focusField, equals: .verifyPassword)
 			VStack(alignment: .leading, spacing: 6) {
-				flowInfo(info: "Must be at least 8 characters")
+				flowInfo(info: "Must be at least \(SizeConstants.minimumPasswordCharactersCount) characters")
 				flowInfo(info: "Passwords must match")
 			}
 		}

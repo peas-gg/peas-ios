@@ -89,6 +89,34 @@ extension AuthenticateView {
 			self.context = context
 		}
 		
+		func canAdvance(context: Context) -> Bool {
+			switch context {
+			case .signUp(let signUpFlow):
+				switch signUpFlow {
+				case .nameAndTerms:
+					return firstName.isValidName && lastName.isValidName
+				case .emailAndPassword:
+					return password.isValidPassword && password == verifyPassword
+				case .phone, .otpCode:
+					return true
+				}
+			case .login(let loginFlow):
+				switch loginFlow {
+				case .emailAndPassword:
+					return email.isValidEmail && password.isValidPassword
+				case .otpCode:
+					return true
+				}
+			case .forgotPassword(let forgotPasswordFlow):
+				switch forgotPasswordFlow {
+				case .email, .otpCode:
+					return true
+				case .password:
+					return password.isValidPassword && password == verifyPassword
+				}
+			}
+		}
+		
 		func advanceButtonTitle(context: Context) -> String {
 			let defaultText: String = "Next"
 			switch context {
