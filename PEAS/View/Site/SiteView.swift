@@ -142,7 +142,7 @@ struct SiteView: View {
 				backgroundColour
 				if !viewModel.isInEditMode {
 					Color.white
-						.frame(height: 200)
+						.frame(height: SizeConstants.screenSize.height * 0.3)
 				}
 			}
 			.ignoresSafeArea()
@@ -246,7 +246,7 @@ struct SiteView: View {
 	
 	@ViewBuilder
 	func blockView(_ block: Business.Block) -> some View {
-		let height: CGFloat = 260
+		let height: CGFloat = SizeConstants.screenSize.height / 3
 		let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
 		Button(action: {
 			if viewModel.isInEditMode {

@@ -22,7 +22,7 @@ struct CalendarView: View {
 	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
-		self._yOffset = State(initialValue: UIScreen.main.bounds.size.height - yOffsetPadding)
+		self._yOffset = State(initialValue: SizeConstants.screenSize.height - yOffsetPadding)
 	}
 	
 	var body: some View {
@@ -112,7 +112,7 @@ struct CalendarView: View {
 		if isExpanded {
 			yOffset = 0
 		} else {
-			yOffset = UIScreen.main.bounds.size.height - yOffsetPadding
+			yOffset = SizeConstants.screenSize.height - yOffsetPadding
 		}
 	}
 }

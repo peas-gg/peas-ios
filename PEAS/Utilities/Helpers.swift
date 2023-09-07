@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct SizeConstants {
+	static let screenSize: CGSize = UIScreen.main.bounds.size
 	static let blockCornerRadius: CGFloat = 20
 	static let textCornerRadius: CGFloat = 10
 	static let businessDescriptionLimit: Int = 160
