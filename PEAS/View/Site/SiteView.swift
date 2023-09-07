@@ -124,7 +124,7 @@ struct SiteView: View {
 						blockView(block)
 					}
 					if viewModel.isInEditMode {
-						Button(action: {}) {
+						Button(action: { viewModel.setEditModeContext(.block(nil)) }) {
 							RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
 								.stroke(Color.white, lineWidth: 2)
 								.frame(height: blockHeight)
@@ -134,7 +134,7 @@ struct SiteView: View {
 										.foregroundColor(Color.app.secondaryText)
 								)
 						}
-						.padding(.bottom, 60)
+						.buttonStyle(.plain)
 					}
 				}
 				.padding(14)
@@ -144,6 +144,7 @@ struct SiteView: View {
 						.edgesIgnoringSafeArea(.bottom)
 				}
 				.padding(.top, 10)
+				.padding(.bottom, 60)
 			}
 		}
 		.foregroundColor(Color.app.primaryText)

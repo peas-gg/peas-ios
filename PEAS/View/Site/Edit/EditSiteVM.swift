@@ -222,6 +222,17 @@ extension EditSiteView {
 							self.business.blocks[id: id]?.description = self.blockDescription
 							//Upload Photo
 							self.business.blocks[id: id]?.image = self.blockImage
+						} else {
+							let newBlock: Business.Block = Business.Block(
+								id: UUID().uuidString,
+								blockType: .Genesis,
+								image: self.blockImage,
+								price: PriceFormatter(text: self.blockPriceText).price,
+								duration: self.blockTimeDuration,
+								title:  self.blockTitle,
+								description: self.blockDescription
+							)
+							self.business.blocks.append(newBlock)
 						}
 					}
 					self.isLoading = false
