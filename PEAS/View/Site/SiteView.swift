@@ -99,6 +99,7 @@ struct SiteView: View {
 									.padding(.horizontal, 8)
 								}
 								linksButton()
+								Spacer(minLength: 0)
 							}
 						}
 						.padding(.top, 4)
