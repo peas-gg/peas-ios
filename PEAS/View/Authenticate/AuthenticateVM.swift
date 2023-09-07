@@ -255,9 +255,53 @@ extension AuthenticateView {
 			case .login(let loginFlow):
 				switch loginFlow {
 				case .emailAndPassword:
-					self.navStack.append(.login(.otpCode))
+					let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
+						email: self.email,
+						password: self.password,
+						code: nil
+					)
+					self.apiClient
+						.authenticate(authenticateRequest)
+						.receive(on: DispatchQueue.main)
+						.sink(
+							receiveCompletion: { completion in
+								switch completion {
+								case .finished: return
+								case .failure(let error):
+									self.isLoading = false
+									self.bannerData = BannerData(error: error)
+								}
+							},
+							receiveValue: { authenticateResponse in
+								self.isLoading = false
+								self.navStack.append(.login(.otpCode))
+							}
+						)
+						.store(in: &cancellableBag)
 				case .otpCode:
-					return
+					let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
+						email: self.email,
+						password: self.password,
+						code: self.otpCode
+					)
+					self.apiClient
+						.authenticate(authenticateRequest)
+						.receive(on: DispatchQueue.main)
+						.sink(
+							receiveCompletion: { completion in
+								switch completion {
+								case .finished: return
+								case .failure(let error):
+									self.isLoading = false
+									self.bannerData = BannerData(error: error)
+								}
+							},
+							receiveValue: { authenticateResponse in
+								self.isLoading = false
+								//User Login
+							}
+						)
+						.store(in: &cancellableBag)
 				}
 			case .forgotPassword(let forgotPasswordFlow):
 				switch forgotPasswordFlow {

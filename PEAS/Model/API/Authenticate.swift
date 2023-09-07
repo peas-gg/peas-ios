@@ -10,7 +10,7 @@ import Foundation
 struct AuthenticateRequest: Encodable {
 	let email: String
 	let password: String
-	let code: String
+	let code: String?
 }
 
 struct AuthenticateResponse: Decodable {
