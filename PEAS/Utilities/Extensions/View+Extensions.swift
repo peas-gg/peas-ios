@@ -23,8 +23,8 @@ extension View {
 		.onPreferenceChange(CGRectPreferenceKey.self, perform: onChange)
 	}
 	
-	func menu<Content: View>(isShowing: Binding<Bool>, parentRect: CGRect, topPadding: CGFloat = 0.0, @ViewBuilder content: @escaping () -> Content) -> some View {
-		self.modifier(MenuViewModifier(parentRect: parentRect, topPadding: topPadding, isShowing: isShowing, menu: content))
+	func menu<Content: View>(isShowing: Binding<Bool>, parentRect: CGRect, topPadding: CGFloat = 0.0, hasPositiveOffset: Bool = false, @ViewBuilder content: @escaping () -> Content) -> some View {
+		self.modifier(MenuViewModifier(parentRect: parentRect, topPadding: topPadding, hasPositiveOffset: hasPositiveOffset, isShowing: isShowing, menu: content))
 	}
 	
 	func progressView(isShowing: Bool, style: LoadingIndicator.Style, coverOpacity: CGFloat = 0.1) -> some View {

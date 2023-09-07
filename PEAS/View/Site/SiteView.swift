@@ -151,6 +151,7 @@ struct SiteView: View {
 			isShowing: $viewModel.isShowingSocialLinksMenu,
 			parentRect: socialLinksButtonRect,
 			topPadding: -30,
+			hasPositiveOffset: !viewModel.isInEditMode,
 			content: {
 				VStack {
 					if let twitter = business.twitter {

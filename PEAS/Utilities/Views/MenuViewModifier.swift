@@ -10,6 +10,8 @@ import SwiftUI
 struct MenuViewModifier<Menu: View>: ViewModifier {
 	let parentRect: CGRect
 	let topPadding: CGFloat
+	let hasPositiveOffset: Bool
+	
 	@Binding var isShowing: Bool
 	@ViewBuilder var menu: () -> Menu
 	
@@ -27,6 +29,14 @@ struct MenuViewModifier<Menu: View>: ViewModifier {
 							}
 						}
 						.overlay {
+							let xOffSet: CGFloat = {
+								let offSet: CGFloat = (rect.width - parentRect.width) / 2
+								if hasPositiveOffset {
+									return +offSet
+								} else {
+									return -offSet
+								}
+							}()
 							menu()
 								.background {
 									ZStack {
@@ -41,7 +51,7 @@ struct MenuViewModifier<Menu: View>: ViewModifier {
 									self.rect = $0
 								}
 								.position(x: parentRect.midX, y: parentRect.maxY)
-								.offset(x: -(rect.width - parentRect.width) / 2, y: (rect.height - parentRect.height) / 2)
+								.offset(x: xOffSet, y: (rect.height - parentRect.height) / 2)
 								.padding(.top, topPadding)
 						}
 						.transition(.opacity)
