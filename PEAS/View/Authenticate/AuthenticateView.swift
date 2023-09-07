@@ -345,7 +345,7 @@ struct AuthenticateView: View {
 								return nil
 							}
 						}()
-						otpDigitView(digit: index)
+						otpDigitView(digit: 8)
 							.opacity(0)
 						otpDigitView(digit: code)
 					}
