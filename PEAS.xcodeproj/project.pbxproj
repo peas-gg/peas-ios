@@ -75,6 +75,7 @@
 		D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D32A8863E9001FCC05 /* View+Frame.swift */; };
 		D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */; };
 		D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */; };
+		D0CE046B2AAA8677001B876F /* DaysOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0CE046A2AAA8677001B876F /* DaysOne-Regular.ttf */; };
 		D0E220F52A996977003864E3 /* CornerRadiusStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F42A996977003864E3 /* CornerRadiusStyle.swift */; };
 		D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F62A9BA456003864E3 /* Int+Extension.swift */; };
 		D0E220F92A9C59B2003864E3 /* EditSiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F82A9C59B2003864E3 /* EditSiteView.swift */; };
@@ -157,6 +158,8 @@
 		D0BF26D32A8863E9001FCC05 /* View+Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Frame.swift"; sourceTree = "<group>"; };
 		D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabView.swift; sourceTree = "<group>"; };
 		D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Overlay.swift"; sourceTree = "<group>"; };
+		D0CE046A2AAA8677001B876F /* DaysOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DaysOne-Regular.ttf"; sourceTree = "<group>"; };
+		D0DFF56C2AAA8A5600B6B439 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D0E220F42A996977003864E3 /* CornerRadiusStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusStyle.swift; sourceTree = "<group>"; };
 		D0E220F62A9BA456003864E3 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		D0E220F82A9C59B2003864E3 /* EditSiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSiteView.swift; sourceTree = "<group>"; };
@@ -203,11 +206,13 @@
 		D017617C2A86216600926960 /* PEAS */ = {
 			isa = PBXGroup;
 			children = (
+				D0DFF56C2AAA8A5600B6B439 /* Info.plist */,
 				D02659912A868D8F00655C23 /* Clients */,
 				D02659922A868DDC00655C23 /* Model */,
 				D02659942A868DF300655C23 /* View */,
 				D02659932A868DE600655C23 /* ViewModel */,
 				D02659962A868E5800655C23 /* Utilities */,
+				D0CE04682AAA863F001B876F /* Resources */,
 				D017617D2A86216600926960 /* PEASApp.swift */,
 				D017617F2A86216600926960 /* AppView.swift */,
 				D066F8352A97CEC800B65CA4 /* AppState.swift */,
@@ -430,6 +435,22 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		D0CE04682AAA863F001B876F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D0CE04692AAA8660001B876F /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D0CE04692AAA8660001B876F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D0CE046A2AAA8677001B876F /* DaysOne-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		D0E562822AA34E14000965B6 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,6 +559,7 @@
 			files = (
 				D017618C2A86245800926960 /* LaunchScreen.storyboard in Resources */,
 				D01761852A86216700926960 /* Preview Assets.xcassets in Resources */,
+				D0CE046B2AAA8677001B876F /* DaysOne-Regular.ttf in Resources */,
 				D01761822A86216700926960 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -754,6 +776,7 @@
 				DEVELOPMENT_TEAM = HMK8J32K98;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PEAS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PEAS;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "$(EXECUTABLE_NAME) uses your location to connect you with customers near you";
@@ -791,6 +814,7 @@
 				DEVELOPMENT_TEAM = HMK8J32K98;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PEAS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PEAS;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "$(EXECUTABLE_NAME) uses your location to connect you with customers near you";
