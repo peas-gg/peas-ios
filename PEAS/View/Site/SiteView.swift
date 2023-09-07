@@ -302,7 +302,7 @@ struct SiteView: View {
 							HStack(spacing: 2) {
 								Spacer()
 								Text("\(block.duration.timeSpan)")
-									.font(.system(size: FontSizes.footnote, weight: .medium, design: .rounded))
+									.font(Font.app.bodySemiBold)
 									.foregroundColor(Color.gray)
 									.padding([.horizontal, .bottom])
 							}
