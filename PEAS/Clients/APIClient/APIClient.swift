@@ -16,6 +16,7 @@ protocol APIRequests {
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	func getImage(url: URL) async -> UIImage?
 	//Business
+	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
 	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError>
 }
@@ -59,6 +60,18 @@ final class APIClient: APIRequests {
 			body: imageData
 		)
 		return apiRequest(appRequest: imageUploadRequest, output: URL.self)
+	}
+	
+	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError> {
+		let getLocation = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["business", "location"],
+			query: [
+				URLQueryItem(name: "latitude", value: String(latitude)),
+				URLQueryItem(name: "longitude", value: String(longitude))
+			]
+		)
+		return apiRequest(appRequest: getLocation, output: String.self)
 	}
 	
 	func getTemplates() -> AnyPublisher<[Template], APIClientError> {

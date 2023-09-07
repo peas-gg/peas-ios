@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-09-02.
 //
 
+import Combine
 import Foundation
 import PhotosUI
 import SwiftUI
@@ -37,6 +38,8 @@ extension EditSiteView {
 		let context: Context
 		let onSave: (Business) -> ()
 		
+		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
+		
 		@Published var business: Business
 		
 		//Business
@@ -63,9 +66,16 @@ extension EditSiteView {
 		@Published var photoItem: PhotosPickerItem?
 		@Published var isLoading: Bool = false
 		
+		@Published var bannerData: BannerData?
+		
+		var isLocationActive: Bool {
+			!location.isEmpty && latitude != nil && longitude != nil
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
+		private let locationClient: LocationClient = LocationClient.shared
 		
 		init(isTemplate: Bool, business: Business, context: Context, onSave: @escaping (Business) -> () = { _ in }) {
 			self.isTemplate = isTemplate
@@ -107,6 +117,48 @@ extension EditSiteView {
 			self.twitter = business.twitter ?? ""
 			self.instagram = business.instagram ?? ""
 			self.tiktok = business.tiktok ?? ""
+			
+			self.locationClient
+				.$location
+				.sink { location in
+					if let location = location {
+						self.updateLocation(locationCoordinate: location)
+					}
+				}
+				.store(in: &cancellableBag)
+		}
+		
+		func requestLocation() {
+			self.isLoading = true
+			LocationClient.shared.requestLocation()
+		}
+		
+		func updateLocation(locationCoordinate: CLLocationCoordinate2D) {
+			let latitude: Double = locationCoordinate.latitude
+			let longitude: Double = locationCoordinate.longitude
+			
+			self.apiClient.getLocation(
+				latitude: latitude,
+				longitude: longitude
+			)
+			.receive(on: DispatchQueue.main)
+			.sink(
+				receiveCompletion: { completion in
+					switch completion {
+					case .finished: return
+					case .failure(let error):
+						self.isLoading = false
+						self.bannerData = BannerData(error: error)
+					}
+				},
+				receiveValue: { location in
+					self.isLoading = false
+					self.location = location
+					self.latitude = latitude
+					self.longitude = longitude
+				}
+			)
+			.store(in: &cancellableBag)
 		}
 		
 		func imageSelected(_ imageData: Data) {
@@ -143,6 +195,7 @@ extension EditSiteView {
 						self.business.instagram = self.instagram.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : self.instagram
 						self.business.tiktok = self.tiktok.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : self.tiktok
 					case .location:
+						self.business.location = self.location
 						self.business.latitude = self.latitude
 						self.business.longitude = self.longitude
 					case .block(let id):

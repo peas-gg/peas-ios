@@ -12,20 +12,42 @@ class LocationClient: NSObject, ObservableObject, CLLocationManagerDelegate {
 	static let shared: LocationClient = LocationClient()
 	
 	let manager = CLLocationManager()
-
+	
 	@Published var location: CLLocationCoordinate2D?
-
+	
 	override init() {
 		super.init()
 		manager.delegate = self
 	}
-
-	func requestLocation() -> CLLocationCoordinate2D? {
+	
+	func checkForAuthorization() {
+		switch manager.authorizationStatus {
+		case .notDetermined:
+			manager.requestWhenInUseAuthorization()
+		case .restricted:
+			return
+		case .denied:
+			return
+		case .authorizedAlways:
+			return
+		case .authorizedWhenInUse:
+			return
+		@unknown default:
+			return
+		}
+	}
+	
+	func requestLocation() {
+		checkForAuthorization()
+		manager.desiredAccuracy = kCLLocationAccuracyBest
 		manager.requestLocation()
-		return self.location
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		self.location = locations.first?.coordinate
+	}
+	
+	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+		print(error.localizedDescription)
 	}
 }

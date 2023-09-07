@@ -35,7 +35,7 @@ struct Business: Codable, Equatable, Identifiable {
 	var twitter: String?
 	var instagram: String?
 	var tiktok: String?
-	let location: String
+	var location: String
 	var latitude: Double?
 	var longitude: Double?
 	let timeZone: String
@@ -62,7 +62,7 @@ extension Business {
 			twitter: nil,
 			instagram: nil,
 			tiktok: nil,
-			location: "Vancouver, BC. Canada",
+			location: "Toronto, ON. Canada",
 			latitude: nil,
 			longitude: nil,
 			timeZone: "America/Los Angeles",

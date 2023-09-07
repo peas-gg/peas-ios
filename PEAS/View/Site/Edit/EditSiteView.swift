@@ -145,7 +145,7 @@ struct EditSiteView: View {
 					VStack {
 						HStack {
 							Spacer()
-							Button(action: {}) {
+							Button(action: { viewModel.requestLocation() }) {
 								HStack {
 									Image(systemName: "arrow.clockwise")
 									Text("Update")
@@ -164,7 +164,7 @@ struct EditSiteView: View {
 						}
 						Spacer()
 						ZStack(alignment: .bottom) {
-							PulseView(size: 200, isActive: viewModel.business.hasSetLocation)
+							PulseView(size: 200, isActive: viewModel.isLocationActive)
 							Text(viewModel.location)
 								.font(Font.app.title1)
 								.foregroundColor(Color.app.primaryText)
@@ -191,6 +191,7 @@ struct EditSiteView: View {
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
 		.progressView(isShowing: viewModel.isLoading, style: .black)
+		.banner(data: $viewModel.bannerData)
 		.onChange(of: focusedField) { focusField in
 			if focusField != nil {
 				self.isPriceKeyboardFocused = false
