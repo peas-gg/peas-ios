@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SiteView: View {
 	let profileTextHeight: CGFloat = 38
+	let blockHeight: CGFloat = SizeConstants.screenSize.height / 3
 	
 	@StateObject var viewModel: ViewModel
 	
@@ -121,6 +122,19 @@ struct SiteView: View {
 				LazyVGrid(columns: Array(repeating: GridItem(spacing: 15), count: 2), spacing: 15) {
 					ForEach(business.blocks) { block in
 						blockView(block)
+					}
+					if viewModel.isInEditMode {
+						Button(action: {}) {
+							RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
+								.stroke(Color.white, lineWidth: 2)
+								.frame(height: blockHeight)
+								.overlay(
+									Image(systemName: "plus.circle.fill")
+										.font(Font.app.largeTitle)
+										.foregroundColor(Color.app.secondaryText)
+								)
+						}
+						.padding(.bottom, 60)
 					}
 				}
 				.padding(14)
@@ -246,7 +260,6 @@ struct SiteView: View {
 	
 	@ViewBuilder
 	func blockView(_ block: Business.Block) -> some View {
-		let height: CGFloat = SizeConstants.screenSize.height / 3
 		let cornerRadius: CGFloat = SizeConstants.blockCornerRadius
 		Button(action: {
 			if viewModel.isInEditMode {
@@ -259,13 +272,13 @@ struct SiteView: View {
 					Image(uiImage: uiImage)
 						.resizable()
 						.scaledToFill()
-						.frame(minWidth: 160, maxHeight: height)
+						.frame(minWidth: 160, maxHeight: blockHeight)
 						.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
 				},
 				placeHolder: {
 					RoundedRectangle(cornerRadius: cornerRadius)
 						.fill(Color.gray.opacity(0.2))
-						.frame(height: height)
+						.frame(height: blockHeight)
 				}
 			)
 			.overlay(
