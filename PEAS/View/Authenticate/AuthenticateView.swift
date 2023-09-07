@@ -187,7 +187,14 @@ struct AuthenticateView: View {
 		case .phone:
 			VStack(spacing: verticalStackSpacing + 10) {
 				HStack {
-					iPhoneNumberField(text: $viewModel.phone) { field in
+					let fontSize: CGFloat = {
+						if viewModel.phone.count > 20 {
+							return 18
+						} else {
+							return 30
+						}
+					}()
+					iPhoneNumberField(text: $viewModel.phone.max(30)) { field in
 						DispatchQueue.main.async {
 							self.phoneNumber = field.phoneNumber
 						}
@@ -195,7 +202,7 @@ struct AuthenticateView: View {
 					.flagHidden(false)
 					.flagSelectable(true)
 					.foregroundColor(Color.white)
-					.font(.systemFont(ofSize: 30, weight: .semibold, width: .standard))
+					.font(.systemFont(ofSize: fontSize, weight: .semibold, width: .standard))
 					.tint(Color.app.secondaryText)
 					.focused($focusField, equals: .phone)
 					.frame(maxWidth: SizeConstants.screenSize.width * 0.8)
