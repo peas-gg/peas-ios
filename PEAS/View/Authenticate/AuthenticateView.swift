@@ -139,37 +139,48 @@ struct AuthenticateView: View {
 							let animation: Animation = {
 								return .easeInOut.speed(0.5).repeatForever()
 							}()
-							Button(action: {}) {
+							let shouldAnimatePrivacy: Bool = {
+								return viewModel.isAnimatingPrivacyButton && !viewModel.didReadPrivacy
+							}()
+							let shouldAnimateTerms: Bool = {
+								return viewModel.isAnimatingTermsButton && !viewModel.didReadTerms
+							}()
+							Button(action: { viewModel.privacyButtonTapped() }) {
 								Text("Privacy")
 									.underline()
 							}
-							.foregroundColor(viewModel.isAnimatingPrivacyButton ? Color.app.secondaryText : Color.app.tertiaryText)
+							.foregroundColor(viewModel.didReadPrivacy ? Color.app.secondaryText :  Color.app.tertiaryText)
+							.opacity(shouldAnimatePrivacy ? 0.5 : 1.0)
 							.animation(animation, value: viewModel.isAnimatingPrivacyButton)
 							Text("&")
 								.foregroundColor(Color.app.tertiaryText)
-							Button(action: {}) {
+							Button(action: { viewModel.termsButtonTapped() }) {
 								Text("Terms")
 									.underline()
 							}
-							.foregroundColor(viewModel.isAnimatingTermsButton ? Color.app.secondaryText : Color.app.tertiaryText)
+							.foregroundColor(viewModel.didReadTerms ? Color.app.secondaryText :  Color.app.tertiaryText)
+							.opacity(shouldAnimateTerms ? 0.5 : 1.0)
 							.animation(animation, value: viewModel.isAnimatingTermsButton)
 						}
 						.font(Font.app.title2)
 					},
 					leading: {
 						Button(action: {
-							viewModel.acceptTerms()
+							viewModel.acceptPrivacyAndTerms()
 						}) {
 							ZStack {
 								RoundedRectangle(cornerRadius: 10)
-									.fill(Color.app.darkGray)
+									.fill(viewModel.didAcceptPrivacyAndTermsConditions ? Color.white : Color.app.darkGray)
 								RoundedRectangle(cornerRadius: 10)
 									.stroke(Color.white.opacity(0.2), lineWidth: 1)
 								Image(systemName: "checkmark")
 									.font(Font.app.title2Display)
-									.foregroundColor(Color.app.secondaryText.opacity(0.2))
+									.foregroundColor(
+										viewModel.didAcceptPrivacyAndTermsConditions ? Color.app.primaryText : Color.app.tertiaryText.opacity(0.5)
+									)
 							}
 							.frame(dimension: 36)
+							.animation(.easeInOut.speed(2.0), value: viewModel.didAcceptPrivacyAndTermsConditions)
 						}
 					},
 					trailing: {

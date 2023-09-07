@@ -96,6 +96,7 @@ extension AuthenticateView {
 		@Published var isAnimatingTermsButton: Bool = false
 		@Published var didReadPrivacy: Bool = false
 		@Published var didReadTerms: Bool = false
+		@Published var didAcceptPrivacyAndTermsConditions: Bool = false
 		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
@@ -115,9 +116,20 @@ extension AuthenticateView {
 			self.context = context
 		}
 		
-		func acceptTerms() {
+		func privacyButtonTapped() {
+			self.didReadPrivacy = true
+		}
+		
+		func termsButtonTapped() {
+			self.didReadTerms = true
+		}
+		
+		func acceptPrivacyAndTerms() {
 			self.isAnimatingTermsButton = !didReadTerms
 			self.isAnimatingPrivacyButton = !didReadPrivacy
+			if didReadTerms && didReadPrivacy {
+				self.didAcceptPrivacyAndTermsConditions.toggle()
+			}
 		}
 		
 		func canAdvance(context: Context) -> Bool {
@@ -125,7 +137,7 @@ extension AuthenticateView {
 			case .signUp(let signUpFlow):
 				switch signUpFlow {
 				case .nameAndTerms:
-					return firstName.isValidName && lastName.isValidName
+					return firstName.isValidName && lastName.isValidName && didAcceptPrivacyAndTermsConditions
 				case .emailAndPassword:
 					return password.isValidPassword && password == verifyPassword
 				case .phone:
@@ -219,7 +231,7 @@ extension AuthenticateView {
 							phone: phoneNumber,
 							passwordText: self.password,
 							code: self.otpCode,
-							acceptTerms: false
+							acceptTerms: self.didAcceptPrivacyAndTermsConditions
 						)
 						self.apiClient
 							.register(registerModel)
