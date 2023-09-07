@@ -15,30 +15,27 @@ class LocationClient: NSObject, ObservableObject, CLLocationManagerDelegate {
 	
 	@Published var location: CLLocationCoordinate2D?
 	
+	var permissionState: PermissionState {
+		switch manager.authorizationStatus {
+		case .notDetermined: return .undetermined
+		case .restricted, .denied: return .denied
+		case .authorizedAlways: return .allowed
+		case .authorizedWhenInUse: return .allowed
+		@unknown default:
+			return .denied
+		}
+	}
+	
 	override init() {
 		super.init()
 		manager.delegate = self
 	}
 	
-	func checkForAuthorization() {
-		switch manager.authorizationStatus {
-		case .notDetermined:
-			manager.requestWhenInUseAuthorization()
-		case .restricted:
-			return
-		case .denied:
-			return
-		case .authorizedAlways:
-			return
-		case .authorizedWhenInUse:
-			return
-		@unknown default:
-			return
-		}
+	func requestForPermission() {
+		manager.requestWhenInUseAuthorization()
 	}
 	
 	func requestLocation() {
-		checkForAuthorization()
 		manager.desiredAccuracy = kCLLocationAccuracyBest
 		manager.requestLocation()
 	}

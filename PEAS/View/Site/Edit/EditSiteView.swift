@@ -143,12 +143,25 @@ struct EditSiteView: View {
 					.padding(.horizontal, horizontalPadding)
 				case .location:
 					VStack {
+						let image: String = {
+							switch viewModel.locationPermissionState {
+							case .undetermined: return "location.fill"
+							case .allowed: return "arrow.clockwise"
+							case .denied: return "gear"
+							}
+						}()
+						let text: String = {
+							switch viewModel.locationPermissionState {
+							case .undetermined, .denied: return "Enable Location"
+							case .allowed: return "Update"
+							}
+						}()
 						HStack {
 							Spacer()
-							Button(action: { viewModel.requestLocation() }) {
+							Button(action: { viewModel.locationButtonTapped() }) {
 								HStack {
-									Image(systemName: "arrow.clockwise")
-									Text("Update")
+									Image(systemName: image)
+									Text(text)
 										.textCase(.uppercase)
 								}
 								.font(Font.app.captionSemiBold)

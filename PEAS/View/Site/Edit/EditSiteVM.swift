@@ -68,14 +68,19 @@ extension EditSiteView {
 		
 		@Published var bannerData: BannerData?
 		
+		var locationPermissionState: PermissionState {
+			locationClient.permissionState
+		}
+		
 		var isLocationActive: Bool {
-			!location.isEmpty && latitude != nil && longitude != nil
+			!location.isEmpty && latitude != nil && longitude != nil && locationPermissionState == .allowed
 		}
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
 		private let locationClient: LocationClient = LocationClient.shared
+		private let permissionClient: PermissionClient = PermissionClient.shared
 		
 		init(isTemplate: Bool, business: Business, context: Context, onSave: @escaping (Business) -> () = { _ in }) {
 			self.isTemplate = isTemplate
@@ -128,9 +133,20 @@ extension EditSiteView {
 				.store(in: &cancellableBag)
 		}
 		
+		func locationButtonTapped() {
+			switch self.locationPermissionState {
+			case .undetermined:
+				locationClient.requestForPermission()
+			case .allowed:
+				requestLocation()
+			case .denied:
+				permissionClient.openSystemSettings()
+			}
+		}
+		
 		func requestLocation() {
 			self.isLoading = true
-			LocationClient.shared.requestLocation()
+			locationClient.requestLocation()
 		}
 		
 		func updateLocation(locationCoordinate: CLLocationCoordinate2D) {

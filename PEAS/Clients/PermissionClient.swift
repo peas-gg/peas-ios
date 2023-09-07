@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+@frozen enum PermissionState {
+	case undetermined, allowed, denied
+}
+
 class PermissionClient: ObservableObject {
 	static let shared: PermissionClient = PermissionClient()
 	
