@@ -270,7 +270,7 @@ struct AuthenticateView: View {
 		case .email:
 			VStack(alignment: .leading, spacing: verticalStackSpacing) {
 				textField(hint: "Email", text: $viewModel.email, isEmail: true, onCommit: {})
-				flowHint(hint: "Enter the email address associated with your Peas account. We’ll send you a 4-digit code to your email for verification.")
+				flowHint(hint: "Enter the email address associated with your Peas account. We’ll send you a \(SizeConstants.otpCodeCount)-digit code to your email for verification.")
 			}
 		case .otpCode:
 			otpCodeView()
@@ -346,12 +346,12 @@ struct AuthenticateView: View {
 				Text("Enter authentication code")
 					.font(Font.app.bodySemiBold)
 					.foregroundColor(Color.app.secondaryText)
-				Text("Enter the 6 digit code sent to your phone number")
+				Text("Enter the \(SizeConstants.otpCodeCount) digit code sent to your phone number")
 					.font(Font.app.footnote)
 					.foregroundColor(Color.app.tertiaryText)
 			}
 			ZStack {
-				TextField("", text: $viewModel.otpCode.max(6))
+				TextField("", text: $viewModel.otpCode.max(SizeConstants.otpCodeCount))
 					.font(.system(size: 40, weight: .semibold))
 					.keyboardType(.numberPad)
 					.focused($focusField, equals: .otpCode)
@@ -378,7 +378,7 @@ struct AuthenticateView: View {
 		Button(action: { self.setFocusField(.otpCode) }) {
 			let codes: [Character] = Array(viewModel.otpCode)
 			HStack {
-				ForEach(0..<6) { index in
+				ForEach(0..<SizeConstants.otpCodeCount, id: \.self) { index in
 					Spacer(minLength: 0)
 					ZStack {
 						let code: Int? = {
@@ -452,6 +452,9 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.nameAndTerms)), dismiss: {})
+		AuthenticateView(
+			viewModel: .init(context: .forgotPassword(.email)),
+			dismiss: {}
+		)
 	}
 }
