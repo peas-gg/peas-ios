@@ -20,11 +20,11 @@ struct WelcomeView: View {
 		var pageColor: [Color]{
 			switch self {
 			case .createSite: return [
-					Color(UIColor(hex: "A5F0FB")),
-				   Color(UIColor(hex: "61D3BE")),
-				   Color(UIColor(hex: "5EA6CE")),
-				   Color(UIColor(hex: "005656"))
-			   ]
+				Color(UIColor(hex: "A5F0FB")),
+				Color(UIColor(hex: "61D3BE")),
+				Color(UIColor(hex: "5EA6CE")),
+				Color(UIColor(hex: "005656"))
+			]
 			case .dropLink: return
 				[
 					Color(UIColor(hex: "FBA5E3")),
@@ -65,8 +65,7 @@ struct WelcomeView: View {
 		let rows = 5 // Number of horizontal lines
 		let columns = 5 // Number of vertical lines
 		
-		ZStack{
-			
+		ZStack {
 			VStack {
 				Rectangle()
 					.fill(
@@ -76,41 +75,61 @@ struct WelcomeView: View {
 							angle: .degrees(270)
 						)
 					)
-					.frame(maxHeight: 300)
+					.frame(maxHeight: 340)
 					.blur(radius: 50)
 					.padding(.top)
 				Spacer()
-				
 			}
 			.background(Color.black)
-			
-			GeometryReader { geometry in
+			VStack {
 				ZStack {
-					//Color.black.edgesIgnoringSafeArea(.all)
-			
-					// Create horizontal lines using LazyVStack
-					LazyVStack(spacing: 45) {
-			
-						ForEach(0..<rows, id: \.self) { _ in
+					LazyVGrid(columns: Array(repeating: GridItem(spacing: 0), count: 5), spacing: 0) {
+						ForEach(0..<30) {
 							Rectangle()
-								.fill(Color.white)
-								.frame(height: 0.5) // Line height
-							Spacer()
+								.stroke(Color.white.opacity(0.1))
+								.frame(minHeight: 80)
+								.id($0)
 						}
 					}
-					
-			
-					// Create vertical lines using LazyHStack
-					LazyHStack(spacing: 45) {
-						ForEach(0..<columns, id: \.self) { _ in
-							Rectangle()
-								.fill(Color.white)
-								.frame(width: 0.5) // Line width
-							Spacer()
-						}
+					.overlay(alignment: .top) {
+						Rectangle()
+							.fill(
+								LinearGradient(
+									colors: [
+										Color.black,
+										Color.black.opacity(0.8),
+										Color.black.opacity(0.4),
+										Color.clear
+									],
+									startPoint: .top,
+									endPoint: .bottom
+								)
+							)
+							.frame(height: 180)
+						.edgesIgnoringSafeArea(.top)
+					}
+					.overlay(alignment: .bottom) {
+						let height: CGFloat = 80
+						Rectangle()
+							.fill(
+								LinearGradient(
+									colors: [
+										Color.clear,
+										Color.black.opacity(0.2),
+										Color.black.opacity(0.4),
+										Color.black.opacity(0.8),
+										Color.black
+									],
+									startPoint: .top,
+									endPoint: .bottom
+								)
+							)
+							.frame(height: height)
+							.offset(y: 10)
+						.edgesIgnoringSafeArea(.top)
 					}
 				}
-				.ignoresSafeArea()
+				Spacer()
 			}
 			
 		}
@@ -118,11 +137,8 @@ struct WelcomeView: View {
 	}
 }
 
-
 struct WelcomeView_Previews: PreviewProvider {
 	static var previews: some View {
 		WelcomeView(viewModel: .init(onboardingVM: .init()))
 	}
 }
-
-
