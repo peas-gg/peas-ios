@@ -101,7 +101,9 @@ extension AuthenticateView {
 					return firstName.isValidName && lastName.isValidName
 				case .emailAndPassword:
 					return password.isValidPassword && password == verifyPassword
-				case .phone, .otpCode:
+				case .phone:
+					return phoneNumber != nil
+				case .otpCode:
 					return true
 				}
 			case .login(let loginFlow):
