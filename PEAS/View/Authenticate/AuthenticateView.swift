@@ -7,11 +7,13 @@
 
 import SwiftUI
 import iPhoneNumberField
+import PhoneNumberKit
 
 struct AuthenticateView: View {
 	let verticalStackSpacing: CGFloat = 30.0
 	let dismiss: () -> ()
 	
+	@State var phoneNumber: PhoneNumber?
 	@StateObject var viewModel: ViewModel
 	
 	@FocusState var focusField: ViewModel.FocusField?
@@ -98,6 +100,9 @@ struct AuthenticateView: View {
 				}
 			}
 		}
+		.onChange(of: self.phoneNumber) { phone in
+			viewModel.updatePhoneNumber(phone)
+		}
 	}
 	
 	@ViewBuilder
@@ -181,13 +186,21 @@ struct AuthenticateView: View {
 			.onAppear { self.setFocusField(.email) }
 		case .phone:
 			VStack(spacing: verticalStackSpacing + 10) {
-				iPhoneNumberField(text: $viewModel.phone)
+				HStack {
+					iPhoneNumberField(text: $viewModel.phone) { field in
+						DispatchQueue.main.async {
+							self.phoneNumber = field.phoneNumber
+						}
+					}
 					.flagHidden(false)
 					.flagSelectable(true)
 					.foregroundColor(Color.white)
 					.font(.systemFont(ofSize: 30, weight: .semibold, width: .standard))
 					.tint(Color.app.secondaryText)
 					.focused($focusField, equals: .phone)
+					.frame(maxWidth: SizeConstants.screenSize.width * 0.8)
+					Spacer()
+				}
 				flowHint(hint: "You need your phone number to sign up. Standard message and data rates apply")
 			}
 			.onAppear { self.setFocusField(.phone) }
@@ -409,6 +422,6 @@ struct AuthenticateView: View {
 
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
-		AuthenticateView(viewModel: .init(context: .signUp(.nameAndTerms)), dismiss: {})
+		AuthenticateView(viewModel: .init(context: .signUp(.phone)), dismiss: {})
 	}
 }

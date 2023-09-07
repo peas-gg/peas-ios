@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PhoneNumberKit
 
 extension AuthenticateView {
 	@MainActor class ViewModel: ObservableObject {
@@ -73,6 +74,8 @@ extension AuthenticateView {
 			case otpCode
 		}
 		
+		let phoneNumberKit: PhoneNumberKit = PhoneNumberKit()
+		
 		@Published var context: Context
 		
 		@Published var firstName: String = ""
@@ -81,6 +84,7 @@ extension AuthenticateView {
 		@Published var password: String = ""
 		@Published var verifyPassword: String = ""
 		@Published var phone: String = ""
+		@Published var phoneNumber: PhoneNumber?
 		@Published var otpCode: String = ""
 		
 		@Published var navStack: [Context] = []
@@ -175,6 +179,13 @@ extension AuthenticateView {
 				case .password:
 					return
 				}
+			}
+		}
+		
+		func updatePhoneNumber(_ number: PhoneNumber?) {
+			self.phoneNumber = number
+			if let phoneNumber {
+				print(phoneNumberKit.format(phoneNumber, toType: .e164))
 			}
 		}
 		
