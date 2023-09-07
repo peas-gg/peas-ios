@@ -44,6 +44,7 @@ struct BannerViewModifier: ViewModifier {
 									}
 								}
 								.padding(.horizontal)
+								.offset(y: 60)
 								.scaleEffect(isShowing ? 1.0 : 0.0, anchor: .center)
 								.transition(.scale)
 								.onAppear {
