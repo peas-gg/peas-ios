@@ -114,7 +114,7 @@ struct EditSiteView: View {
 								descriptionTextField(hint: "Describe the package", text: $viewModel.blockDescription, textLimit: SizeConstants.descriptionLimit)
 								HStack {
 									Spacer()
-									Button(action: {}) {
+									Button(action: { viewModel.requestToDeleteBlock() }) {
 										HStack {
 											Image(systemName: "trash")
 											Text("Delete")
@@ -130,6 +130,16 @@ struct EditSiteView: View {
 							Spacer()
 						}
 						.padding(.horizontal, horizontalPadding)
+					}
+					.alert(isPresented: $viewModel.isShowingDeleteBlockAlert) {
+						Alert(
+							title: Text("Are you sure you want to delete this block?"),
+							message: Text("You cannot undo this. The block will be deleted from your site."),
+							primaryButton: .destructive(Text("Delete")) {
+								viewModel.deleteBlock()
+							},
+							secondaryButton: .cancel()
+						)
 					}
 				case .links:
 					VStack(alignment: .leading, spacing: spacing) {

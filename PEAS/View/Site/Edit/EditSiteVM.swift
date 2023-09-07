@@ -64,8 +64,9 @@ extension EditSiteView {
 		@Published var tiktok: String
 		
 		@Published var photoItem: PhotosPickerItem?
-		@Published var isLoading: Bool = false
+		@Published var isShowingDeleteBlockAlert: Bool = false
 		
+		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
 		
 		var locationPermissionState: PermissionState {
@@ -192,6 +193,18 @@ extension EditSiteView {
 				}
 				self.photoItem = nil
 				self.isLoading = false
+			}
+		}
+		
+		func requestToDeleteBlock() {
+			self.isShowingDeleteBlockAlert = true
+		}
+		
+		func deleteBlock() {
+			if case .block(let blockId) = self.context {
+				if let blockIdToDelete = blockId {
+					self.business.blocks.remove(id: blockIdToDelete)
+				}
 			}
 		}
 		
