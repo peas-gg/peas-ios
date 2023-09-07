@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "AcceptBookings.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
