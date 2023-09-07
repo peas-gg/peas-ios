@@ -27,6 +27,7 @@ extension SiteView {
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
+		private let cacheClient: CacheClient = CacheClient.shared
 		
 		init(isTemplate: Bool, business: Business) {
 			self.isTemplate = isTemplate
@@ -58,6 +59,16 @@ extension SiteView {
 		
 		func toggleEditMode() {
 			self.isInEditMode.toggle()
+			Task {
+				if !self.isInEditMode {
+					//Save Colour
+					if isTemplate {
+						await cacheClient.setData(key: .businessDraft, value: self.business)
+					} else {
+						//Make request to API to save the colour
+					}
+				}
+			}
 		}
 		
 		func dismissEditContext(_ business: Business) {
