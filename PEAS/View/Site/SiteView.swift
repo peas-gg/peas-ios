@@ -273,7 +273,8 @@ struct SiteView: View {
 					Image(uiImage: uiImage)
 						.resizable()
 						.scaledToFill()
-						.frame(minWidth: 160, maxHeight: blockHeight)
+						.frame(minWidth: 160)
+						.frame(height: blockHeight)
 						.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
 				},
 				placeHolder: {
