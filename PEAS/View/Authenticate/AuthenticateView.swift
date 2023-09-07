@@ -100,7 +100,7 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
-	func signUpFlow(_ flow: ViewModel.SignUpFlow) -> some View {
+	func signUpFlow(_ flow: ViewModel.Context.SignUpFlow) -> some View {
 		switch flow {
 		case .nameAndTerms:
 			VStack(spacing: verticalStackSpacing) {
@@ -196,7 +196,7 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
-	func loginFlow(_ flow: ViewModel.LoginFlow) -> some View {
+	func loginFlow(_ flow: ViewModel.Context.LoginFlow) -> some View {
 		switch flow {
 		case .emailAndPassword:
 			VStack(spacing: 30) {
@@ -221,7 +221,7 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
-	func forgotPasswordFlow(_ flow: ViewModel.ForgotPasswordFlow) -> some View {
+	func forgotPasswordFlow(_ flow: ViewModel.Context.ForgotPasswordFlow) -> some View {
 		switch flow {
 		case .email:
 			VStack(alignment: .leading, spacing: verticalStackSpacing) {

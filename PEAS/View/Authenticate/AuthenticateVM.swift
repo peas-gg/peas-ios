@@ -10,6 +10,23 @@ import Foundation
 extension AuthenticateView {
 	@MainActor class ViewModel: ObservableObject {
 		enum Context: Hashable {
+			enum SignUpFlow {
+				case nameAndTerms
+				case emailAndPassword
+				case phone
+				case otpCode
+			}
+			enum LoginFlow {
+				case emailAndPassword
+				case otpCode
+			}
+			
+			enum ForgotPasswordFlow {
+				case email
+				case otpCode
+				case password
+			}
+			
 			case signUp(SignUpFlow)
 			case login(LoginFlow)
 			case forgotPassword(ForgotPasswordFlow)
@@ -44,24 +61,6 @@ extension AuthenticateView {
 					}
 				}
 			}
-		}
-		
-		enum SignUpFlow {
-			case nameAndTerms
-			case emailAndPassword
-			case phone
-			case otpCode
-		}
-		
-		enum LoginFlow {
-			case emailAndPassword
-			case otpCode
-		}
-		
-		enum ForgotPasswordFlow {
-			case email
-			case otpCode
-			case password
 		}
 		
 		enum FocusField: Hashable {
