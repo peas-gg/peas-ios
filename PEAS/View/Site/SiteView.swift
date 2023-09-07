@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SiteView: View {
+	let profileTextHeight: CGFloat = 38
+	
 	@StateObject var viewModel: ViewModel
 	
 	@State var socialLinksButtonRect: CGRect = .zero
@@ -71,12 +73,28 @@ struct SiteView: View {
 									.font(Font.app.title2Display)
 							}
 							HStack {
-								ScrollView(.horizontal, showsIndicators: false) {
-									HStack {
-										ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
-											colorButton(colorName: colorName)
+								if viewModel.isInEditMode {
+									ScrollView(.horizontal, showsIndicators: false) {
+										HStack {
+											ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
+												colorButton(colorName: colorName)
+											}
 										}
 									}
+								} else {
+									HStack {
+										Image(systemName: "person.crop.circle.badge.checkmark")
+										Text("0")
+									}
+									.font(Font.app.bodySemiBold)
+									.foregroundColor(Color.app.primaryText)
+									.padding(.horizontal)
+									.background(
+										RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
+											.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 1.0))
+											.frame(height: profileTextHeight)
+									)
+									.padding(.horizontal, 8)
 								}
 								linksButton()
 							}
@@ -215,9 +233,9 @@ struct SiteView: View {
 				.font(Font.app.bodySemiBold)
 				.padding(8)
 				.background(
-					RoundedRectangle(cornerRadius: 10)
+					RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
 						.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 1.0))
-						.frame(dimension: 36)
+						.frame(dimension: profileTextHeight)
 				)
 				.animation(.easeInOut, value: viewModel.isInEditMode)
 		}
