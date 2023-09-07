@@ -235,7 +235,7 @@ struct AuthenticateView: View {
 			}
 			.onAppear { self.setFocusField(.phone) }
 		case .otpCode:
-			otpCodeView()
+			otpCodeView(context: .signUp(.otpCode))
 		}
 	}
 	
@@ -260,7 +260,7 @@ struct AuthenticateView: View {
 				.padding(.top)
 			}
 		case .otpCode:
-			otpCodeView()
+			otpCodeView(context: .login(.otpCode))
 		}
 	}
 	
@@ -273,7 +273,7 @@ struct AuthenticateView: View {
 				flowHint(hint: "Enter the email address associated with your Peas account. We’ll send you a \(SizeConstants.otpCodeCount)-digit code to your email for verification.")
 			}
 		case .otpCode:
-			otpCodeView()
+			otpCodeView(context: .login(.otpCode))
 		case .password:
 			setPasswordView()
 		}
@@ -340,7 +340,7 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
-	func otpCodeView() -> some View {
+	func otpCodeView(context: ViewModel.Context) -> some View {
 		VStack(alignment: .leading, spacing: verticalStackSpacing + 10) {
 			VStack(alignment: .leading, spacing: 15) {
 				Text("Enter authentication code")
@@ -360,7 +360,7 @@ struct AuthenticateView: View {
 			}
 			HStack {
 				Spacer()
-				Button(action: {}) {
+				Button(action: { viewModel.resendOtpCode(context: context) }) {
 					Text("Resend code")
 						.font(Font.app.title2Display)
 						.underline()

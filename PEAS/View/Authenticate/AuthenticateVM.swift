@@ -132,6 +132,18 @@ extension AuthenticateView {
 			}
 		}
 		
+		func resendOtpCode(context: Context) {
+			switch context {
+			case .signUp(.otpCode):
+				requestOtpCodeSignUp()
+			case .login(.otpCode):
+				requestOtpCodeLogin()
+			case .forgotPassword(.otpCode):
+				requestOtpCodeForgotPassword()
+			default: return
+			}
+		}
+		
 		func canAdvance(context: Context) -> Bool {
 			switch context {
 			case .signUp(let signUpFlow):
@@ -200,30 +212,10 @@ extension AuthenticateView {
 				case .emailAndPassword:
 					self.navStack.append(.signUp(.phone))
 				case .phone:
+					requestOtpCodeSignUp()
+				case .otpCode:
 					if let phoneNumber = self.phoneNumberToString {
 						self.isLoading = true
-						self.apiClient
-							.requestOtpCode(phoneNumber: phoneNumber)
-							.receive(on: DispatchQueue.main)
-							.sink(
-								receiveCompletion: { completion in
-									switch completion {
-									case .finished: return
-									case .failure(let error):
-										self.isLoading = false
-										self.bannerData = BannerData(error: error)
-									}
-								},
-								receiveValue: { _ in
-									self.isLoading = false
-									self.navStack.append(.signUp(.otpCode))
-								}
-							)
-							.store(in: &cancellableBag)
-					}
-				case .otpCode:
-					self.isLoading = true
-					if let phoneNumber = self.phoneNumberToString {
 						let registerModel: RegisterRequest = RegisterRequest(
 							firstName: self.firstName,
 							lastName: self.lastName,
@@ -255,30 +247,7 @@ extension AuthenticateView {
 			case .login(let loginFlow):
 				switch loginFlow {
 				case .emailAndPassword:
-					self.isLoading = true
-					let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
-						email: self.email,
-						password: self.password,
-						code: nil
-					)
-					self.apiClient
-						.authenticate(authenticateRequest)
-						.receive(on: DispatchQueue.main)
-						.sink(
-							receiveCompletion: { completion in
-								switch completion {
-								case .finished: return
-								case .failure(let error):
-									self.isLoading = false
-									self.bannerData = BannerData(error: error)
-								}
-							},
-							receiveValue: { authenticateResponse in
-								self.isLoading = false
-								self.navStack.append(.login(.otpCode))
-							}
-						)
-						.store(in: &cancellableBag)
+					requestOtpCodeLogin()
 				case .otpCode:
 					self.isLoading = true
 					let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
@@ -308,25 +277,7 @@ extension AuthenticateView {
 			case .forgotPassword(let forgotPasswordFlow):
 				switch forgotPasswordFlow {
 				case .email:
-					self.isLoading = true
-					self.apiClient
-						.requestPasswordReset(email: self.email)
-						.receive(on: DispatchQueue.main)
-						.sink(
-							receiveCompletion: { completion in
-								switch completion {
-								case .finished: return
-								case .failure(let error):
-									self.isLoading = false
-									self.bannerData = BannerData(error: error)
-								}
-							},
-							receiveValue: { _ in
-								self.isLoading = false
-								self.navStack.append(.forgotPassword(.otpCode))
-							}
-						)
-						.store(in: &cancellableBag)
+					requestOtpCodeForgotPassword()
 				case .otpCode:
 					self.isLoading = true
 					let resetPasswordRequest: ResetPasswordRequest = ResetPasswordRequest(
@@ -368,6 +319,79 @@ extension AuthenticateView {
 		
 		func switchToLoginContext() {
 			self.context = .login(.emailAndPassword)
+		}
+		
+		private func requestOtpCodeSignUp() {
+			if let phoneNumber = self.phoneNumberToString {
+				self.isLoading = true
+				self.apiClient
+					.requestOtpCode(phoneNumber: phoneNumber)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { completion in
+							switch completion {
+							case .finished: return
+							case .failure(let error):
+								self.isLoading = false
+								self.bannerData = BannerData(error: error)
+							}
+						},
+						receiveValue: { _ in
+							self.isLoading = false
+							self.navStack.append(.signUp(.otpCode))
+						}
+					)
+					.store(in: &cancellableBag)
+			}
+		}
+		
+		private func requestOtpCodeLogin() {
+			self.isLoading = true
+			let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
+				email: self.email,
+				password: self.password,
+				code: nil
+			)
+			self.apiClient
+				.authenticate(authenticateRequest)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { authenticateResponse in
+						self.isLoading = false
+						self.navStack.append(.login(.otpCode))
+					}
+				)
+				.store(in: &cancellableBag)
+		}
+		
+		private func requestOtpCodeForgotPassword() {
+			self.isLoading = true
+			self.apiClient
+				.requestPasswordReset(email: self.email)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { _ in
+						self.isLoading = false
+						self.navStack.append(.forgotPassword(.otpCode))
+					}
+				)
+				.store(in: &cancellableBag)
 		}
 	}
 }
