@@ -32,3 +32,9 @@ struct RegisterRequest: Encodable {
 	let code: String
 	let acceptTerms: Bool
 }
+
+struct ResetPasswordRequest: Encodable {
+	let email: String
+	let password: String
+	let code: String
+}
