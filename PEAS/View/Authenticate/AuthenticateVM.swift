@@ -255,6 +255,7 @@ extension AuthenticateView {
 			case .login(let loginFlow):
 				switch loginFlow {
 				case .emailAndPassword:
+					self.isLoading = true
 					let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
 						email: self.email,
 						password: self.password,
@@ -279,6 +280,7 @@ extension AuthenticateView {
 						)
 						.store(in: &cancellableBag)
 				case .otpCode:
+					self.isLoading = true
 					let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
 						email: self.email,
 						password: self.password,
@@ -306,11 +308,53 @@ extension AuthenticateView {
 			case .forgotPassword(let forgotPasswordFlow):
 				switch forgotPasswordFlow {
 				case .email:
-					self.navStack.append(.forgotPassword(.otpCode))
+					self.isLoading = true
+					self.apiClient
+						.requestPasswordReset(email: self.email)
+						.receive(on: DispatchQueue.main)
+						.sink(
+							receiveCompletion: { completion in
+								switch completion {
+								case .finished: return
+								case .failure(let error):
+									self.isLoading = false
+									self.bannerData = BannerData(error: error)
+								}
+							},
+							receiveValue: { _ in
+								self.isLoading = false
+								self.navStack.append(.forgotPassword(.otpCode))
+							}
+						)
+						.store(in: &cancellableBag)
 				case .otpCode:
-					self.navStack.append(.forgotPassword(.password))
+					self.isLoading = true
+					let resetPasswordRequest: ResetPasswordRequest = ResetPasswordRequest(
+						email: self.email,
+						password: self.password,
+						code: self.otpCode
+					)
+					self.apiClient
+						.resetPassword(resetPasswordRequest)
+						.receive(on: DispatchQueue.main)
+						.sink(
+							receiveCompletion: { completion in
+								switch completion {
+								case .finished: return
+								case .failure(let error):
+									self.isLoading = false
+									self.bannerData = BannerData(error: error)
+								}
+							},
+							receiveValue: { _ in
+								self.isLoading = false
+								self.navStack.append(.forgotPassword(.password))
+							}
+						)
+						.store(in: &cancellableBag)
 				case .password:
-					return
+					self.navStack = []
+					self.context = .login(.emailAndPassword)
 				}
 			}
 		}
