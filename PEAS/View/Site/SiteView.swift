@@ -44,7 +44,7 @@ struct SiteView: View {
 						}
 					}
 					.padding(.bottom, 30)
-					HStack(alignment: .top) {
+					HStack(alignment: .center) {
 						Button(action: {
 							if viewModel.isInEditMode {
 								viewModel.setEditModeContext(.photo)
