@@ -42,6 +42,12 @@ struct AuthenticateView: View {
 		}
 		.banner(data: $viewModel.bannerData)
 		.progressView(isShowing: viewModel.isLoading, style: .white)
+		.sheet(isPresented: $viewModel.isShowingPrivacySheet) {
+			privacyAndTermsView()
+		}
+		.sheet(isPresented: $viewModel.isShowingTermsSheet) {
+			privacyAndTermsView()
+		}
 		.tint(Color.white)
 		.interactiveDismissDisabled()
 	}
@@ -443,6 +449,13 @@ struct AuthenticateView: View {
 		}
 	}
 	
+	@ViewBuilder
+	func privacyAndTermsView() -> some View {
+		ScrollView(.vertical) {
+			Text("")
+		}
+	}
+	
 	func setFocusField(_ focusField: ViewModel.FocusField?) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 			self.focusField = focusField
@@ -453,7 +466,7 @@ struct AuthenticateView: View {
 struct AuthenticateView_Previews: PreviewProvider {
 	static var previews: some View {
 		AuthenticateView(
-			viewModel: .init(context: .forgotPassword(.email)),
+			viewModel: .init(context: .signUp(.nameAndTerms)),
 			dismiss: {}
 		)
 	}
