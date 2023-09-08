@@ -36,8 +36,8 @@ struct APPUrlRequest {
 			request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 			request.addValue("application/json", forHTTPHeaderField: "Accept")
 			
-			if requiresAuth, let token = KeychainClient.shared.get(key: .token) {
-				request.addValue("Bearer \(token.access)", forHTTPHeaderField: "Authorization")
+			if requiresAuth, let accessToken = KeychainClient.shared.get(key: .user)?.accessToken {
+				request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
 			}
 			
 			if let body = body, httpMethod != .get {

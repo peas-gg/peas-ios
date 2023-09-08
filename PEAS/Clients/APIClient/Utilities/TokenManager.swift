@@ -36,11 +36,11 @@ extension APIClient {
 						}
 						if !self.isRefreshing {
 							self.isRefreshing = true
-							if let token = self.keychainClient.get(key: .token), let cookie = HTTPCookie(properties: [
+							if let user = self.keychainClient.get(key: .user), let cookie = HTTPCookie(properties: [
 								.domain: APPUrlRequest.domain,
 								.path: "/",
 								.name: "refreshToken",
-								.value: token.refresh,
+								.value: user.refreshToken,
 								.secure: "FALSE",
 								.discard: "TRUE"
 							]) {
@@ -67,15 +67,15 @@ extension APIClient {
 										promise(.success(false))
 									}
 								}, receiveValue: { authResponse in
-									let token = Token(access: authResponse.jwtToken, refresh: authResponse.refreshToken)
 									let user = User(
 										firstName: authResponse.firstName,
 										lastName: authResponse.lastName,
 										email: authResponse.email,
 										phone: authResponse.phone,
-										role: authResponse.role
+										role: authResponse.role,
+										accessToken: authResponse.jwtToken,
+										refreshToken: authResponse.refreshToken
 									)
-									self.keychainClient.set(key: .token, value: token)
 									self.keychainClient.set(key: .user, value: user)
 									self.lastRefreshed = Date.now
 									self.isRefreshing = false

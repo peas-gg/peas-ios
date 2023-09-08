@@ -13,4 +13,6 @@ struct User: Codable {
 	let email: String
 	let phone: String
 	let role: String
+	let accessToken: String
+	let refreshToken: String
 }
