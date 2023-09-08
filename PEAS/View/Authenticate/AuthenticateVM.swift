@@ -99,6 +99,7 @@ extension AuthenticateView {
 		@Published var didAcceptPrivacyAndTermsConditions: Bool = false
 		@Published var isShowingPrivacySheet: Bool = false
 		@Published var isShowingTermsSheet: Bool = false
+		@Published var isLoadingWebView: Bool = false
 		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
@@ -119,11 +120,13 @@ extension AuthenticateView {
 		}
 		
 		func privacyButtonTapped() {
+			self.isLoadingWebView = true
 			self.isShowingPrivacySheet = true
 			self.didReadPrivacy = true
 		}
 		
 		func termsButtonTapped() {
+			self.isLoadingWebView = true
 			self.isShowingTermsSheet = true
 			self.didReadTerms = true
 		}

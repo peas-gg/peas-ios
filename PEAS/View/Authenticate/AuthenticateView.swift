@@ -46,7 +46,7 @@ struct AuthenticateView: View {
 			webView(url: URL(string: "https://apple.com/privacy")!)
 		}
 		.sheet(isPresented: $viewModel.isShowingTermsSheet) {
-			webView(url: URL(string: "https://apple.com/terms")!)
+			webView(url: URL(string: "https://peas.gg/")!)
 		}
 		.tint(Color.white)
 		.interactiveDismissDisabled()
@@ -451,8 +451,9 @@ struct AuthenticateView: View {
 	
 	@ViewBuilder
 	func webView(url: URL) -> some View {
-		WebView(url: url)
+		WebView(url: url, isLoading: $viewModel.isLoadingWebView)
 			.edgesIgnoringSafeArea(.bottom)
+			.progressView(isShowing: viewModel.isLoadingWebView, style: .white)
 	}
 	
 	func setFocusField(_ focusField: ViewModel.FocusField?) {
