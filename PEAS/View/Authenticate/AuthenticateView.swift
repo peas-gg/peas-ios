@@ -43,10 +43,10 @@ struct AuthenticateView: View {
 		.banner(data: $viewModel.bannerData)
 		.progressView(isShowing: viewModel.isLoading, style: .white)
 		.sheet(isPresented: $viewModel.isShowingPrivacySheet) {
-			privacyAndTermsView()
+			webView(url: URL(string: "https://apple.com/privacy")!)
 		}
 		.sheet(isPresented: $viewModel.isShowingTermsSheet) {
-			privacyAndTermsView()
+			webView(url: URL(string: "https://apple.com/terms")!)
 		}
 		.tint(Color.white)
 		.interactiveDismissDisabled()
@@ -450,10 +450,9 @@ struct AuthenticateView: View {
 	}
 	
 	@ViewBuilder
-	func privacyAndTermsView() -> some View {
-		ScrollView(.vertical) {
-			Text("")
-		}
+	func webView(url: URL) -> some View {
+		WebView(url: url)
+			.edgesIgnoringSafeArea(.bottom)
 	}
 	
 	func setFocusField(_ focusField: ViewModel.FocusField?) {
