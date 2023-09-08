@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AppView: View {
-	@StateObject var appState = AppState()
+	@StateObject var appState = AppState.shared
 	
 	var body: some View {
 		switch appState.mode {

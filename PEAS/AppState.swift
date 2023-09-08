@@ -11,6 +11,8 @@ import SwiftUI
 fileprivate let appStateKeyNotification: String = "appState"
 
 @MainActor class AppState: ObservableObject {
+	static let shared: AppState = AppState()
+	
 	enum AppMode {
 		case welcome(WelcomeView.ViewModel)
 		case onboarding(SiteOnboardingView.ViewModel)
@@ -57,36 +59,11 @@ fileprivate let appStateKeyNotification: String = "appState"
 				}
 			}
 		}
-		NotificationCenter
-			.default.addObserver(
-				self,
-				selector: #selector(updateAppState),
-				name: .updateAppState,
-				object: nil
-			)
 	}
 	
 	func setAppMode(_ mode: AppMode) {
 		withAnimation(.default) {
 			self.mode = mode
 		}
-	}
-	
-	@objc func updateAppState(notification: NSNotification) {
-		if let dict = notification.userInfo as? NSDictionary {
-			if let appAction = dict[appStateKeyNotification] as? AppAction {
-				switch appAction {
-				case .changeAppMode(let appMode):
-					setAppMode(appMode)
-				}
-			}
-		}
-	}
-}
-
-extension AppState {
-	static func updateAppState(with action: AppAction) {
-		let notification = Notification(name: .updateAppState, userInfo: [appStateKeyNotification: action])
-		NotificationCenter.default.post(notification)
 	}
 }

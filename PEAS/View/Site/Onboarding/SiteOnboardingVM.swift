@@ -83,7 +83,7 @@ extension SiteOnboardingView {
 		}
 		
 		func backToWelcomeScreen() {
-			AppState.updateAppState(with: .changeAppMode(.welcome(.init(onboardingVM: .init()))))
+			AppState.shared.setAppMode(.welcome(WelcomeView.ViewModel(onboardingVM: .init())))
 		}
 	}
 }

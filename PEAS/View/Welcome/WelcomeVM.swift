@@ -16,7 +16,7 @@ extension WelcomeView {
 		}
 		
 		func startOnboarding() {
-			AppState.updateAppState(with: .changeAppMode(.onboarding(onboardingVM)))
+			AppState.shared.setAppMode(.onboarding(onboardingVM))
 		}
 	}
 }
