@@ -66,6 +66,7 @@ struct WelcomeView: View {
 		let columns = 5 // Number of vertical lines
 		
 		ZStack{
+			
 			VStack {
 				Rectangle()
 					.fill(
@@ -111,6 +112,7 @@ struct WelcomeView: View {
 				}
 				.ignoresSafeArea()
 			}
+			
 		}
 		
 	}
