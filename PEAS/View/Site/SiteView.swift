@@ -416,6 +416,8 @@ struct SiteView: View {
 
 struct SiteView_Previews: PreviewProvider {
 	static var previews: some View {
-		SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
+		VStack {
+			SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
+		}
 	}
 }

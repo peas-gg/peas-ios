@@ -51,8 +51,8 @@ struct AppMenuModifier<Menu: View>: ViewModifier {
 								)
 						}
 					}
-					.transition(.asymmetric(insertion: .identity, removal: .scale))
-					.animation(.easeOut, value: isShowingMenu)
+					.transition(.scale)
+					.animation(.linear.speed(2.0), value: isShowingMenu)
 				}
 			}
 			.onChange(of: self.isShowing) { isShowing in
