@@ -13,8 +13,6 @@ struct SiteView: View {
 	
 	@StateObject var viewModel: ViewModel
 	
-	@State var socialLinksButtonRect: CGRect = .zero
-	
 	@Environment(\.openURL) var openURL
 	
 	var backgroundColour: Color {
@@ -164,32 +162,29 @@ struct SiteView: View {
 			.ignoresSafeArea()
 			.animation(.easeOut, value: backgroundColour)
 		}
-		.menu(
-			isShowing: $viewModel.isShowingSocialLinksMenu,
-			parentRect: socialLinksButtonRect,
-			topPadding: -20,
-			hasPositiveOffset: true,
-			content: {
-				VStack {
-					if let twitter = business.twitter {
-						socialLink(title: "X", link: "\(AppConstants.twitterUrlString + twitter)")
-					}
-					if let instagram = business.instagram {
-						socialLink(title: "Instagram", link: "\(AppConstants.instagramUrlString + instagram)")
-					}
-					if let tiktok = business.tiktok {
-						socialLink(title: "Tiktok", link: "\(AppConstants.tiktokUrlString + tiktok)")
-					}
-					if !viewModel.hasSocialLink {
-						Text("Go into edit mode to add a link")
-							.font(Font.app.body)
-							.foregroundColor(Color.app.primaryText)
-					}
+		.appMenu(
+			alignment: .trailing,
+			isShowing: $viewModel.isShowingSocialLinksMenu
+		) {
+			VStack {
+				if let twitter = business.twitter {
+					socialLink(title: "X", link: "\(AppConstants.twitterUrlString + twitter)")
 				}
-				.padding()
-				.frame(width: 200)
+				if let instagram = business.instagram {
+					socialLink(title: "Instagram", link: "\(AppConstants.instagramUrlString + instagram)")
+				}
+				if let tiktok = business.tiktok {
+					socialLink(title: "Tiktok", link: "\(AppConstants.tiktokUrlString + tiktok)")
+				}
+				if !viewModel.hasSocialLink {
+					Text("Go into edit mode to add a link")
+						.font(Font.app.body)
+						.foregroundColor(Color.app.primaryText)
+				}
 			}
-		)
+			.padding()
+			.frame(width: 200)
+		}
 		.sheet(
 			isPresented: Binding(
 				get: { return viewModel.editModeContext != nil },
@@ -257,7 +252,7 @@ struct SiteView: View {
 				)
 				.animation(.easeInOut, value: viewModel.isInEditMode)
 		}
-		.readRect { self.socialLinksButtonRect = $0 }
+		.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [$0] }
 	}
 	
 	@ViewBuilder

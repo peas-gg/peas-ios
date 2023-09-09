@@ -1,5 +1,5 @@
 //
-//  MenuViewModifier.swift
+//  AppMenuModifier.swift
 //  PEAS
 //
 //  Created by Kingsley Okeke on 2023-08-30.
@@ -7,37 +7,33 @@
 
 import SwiftUI
 
-struct MenuViewModifier<Menu: View>: ViewModifier {
-	let parentRect: CGRect
-	let topPadding: CGFloat
-	let hasPositiveOffset: Bool
-	
+struct AppMenuModifier<Menu: View>: ViewModifier {
+	let alignment: HorizontalAlignment
 	@Binding var isShowing: Bool
-	@ViewBuilder var menu: () -> Menu
+	@ViewBuilder let menu: () -> Menu
 	
-	@State var rect: CGRect = .zero
+	@State var isShowingMenu: Bool = false
+	@State var rect: CGRect = CGRect.zero
 	
 	func body(content: Content) -> some View {
 		content
-			.overlay {
-				if isShowing {
-					Color.clear
-						.contentShape(Rectangle())
-						.onTapGesture {
-							withAnimation {
-								self.isShowing = false
-							}
+			.overlay(isShown: isShowingMenu) {
+				Color.clear
+					.contentShape(Rectangle())
+					.onTapGesture {
+						withAnimation(.default) {
+							self.isShowing = false
 						}
-						.overlay {
-							let xOffSet: CGFloat = {
-								let offSet: CGFloat = (rect.width - parentRect.width) / 2
-								if hasPositiveOffset {
-									return +offSet
-								} else {
-									return -offSet
-								}
-							}()
+					}
+			}
+			.overlayPreferenceValue(BoundsPreferenceKey.self) { preferenceValues in
+				if isShowingMenu {
+					GeometryReader { geometry in
+						preferenceValues.map {
 							menu()
+								.readRect {
+									self.rect = $0
+								}
 								.background {
 									ZStack {
 										let cornerRadius: CGFloat = SizeConstants.textCornerRadius
@@ -47,30 +43,44 @@ struct MenuViewModifier<Menu: View>: ViewModifier {
 											.stroke(Color.app.tertiaryText.opacity(0.5))
 									}
 								}
-								.readRect {
-									self.rect = $0
-								}
-								.position(x: parentRect.midX, y: parentRect.maxY)
-								.offset(x: xOffSet, y: (rect.height - parentRect.height) / 2)
-								.padding(.top, topPadding)
-						}
-						.transition(.opacity)
-						.animation(.easeInOut, value: isShowing)
+								.offset(
+									x: getXOffset(parent: geometry[$0]),
+									y: geometry[$0].maxY + 10
+								)
+						}[0]
+					}
+					.transition(.asymmetric(insertion: .identity, removal: .scale))
+					.animation(.easeOut, value: isShowingMenu)
 				}
 			}
+			.onChange(of: self.isShowing) { isShowing in
+				withAnimation(.default) {
+					self.isShowingMenu = isShowing
+				}
+			}
+	}
+	
+	func getXOffset(parent: CGRect) -> CGFloat {
+		switch alignment {
+		case .leading:
+			return parent.maxX - rect.width
+		case .trailing:
+			return parent.minX
+		default:
+			return parent.maxX - rect.width
+		}
 	}
 }
 
 fileprivate struct TestView: View {
 	@State var isShowingMenu: Bool = false
-	@State var menuButtonRect: CGRect = .zero
 	
 	var body: some View {
 		VStack {
 			Spacer()
 			Spacer()
+			Spacer()
 			HStack {
-				Spacer()
 				Button(action: {
 					withAnimation(.default) {
 						self.isShowingMenu.toggle()
@@ -84,45 +94,53 @@ fileprivate struct TestView: View {
 							RoundedRectangle(cornerRadius: 10)
 								.fill(Color.white.opacity(0.5))
 						)
-						.readRect { self.menuButtonRect = $0 }
 				}
+				.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [$0] }
 				Spacer()
 			}
-			Text("Hi there")
 			Spacer()
 		}
-		.menu(isShowing: $isShowingMenu, parentRect: menuButtonRect, topPadding: -20) {
-			VStack {
-				Button(action: {}) {
-					Text("Tap me")
-				}
-				Button(action: {}) {
-					Text("Tap me")
-				}
-				Button(action: {}) {
-					Text("Tap me")
-				}
-				Button(action: {}) {
-					Text("Tap me")
-				}
-				Button(action: {}) {
-					Text("Tap me")
-				}
-				Button(action: {}) {
+		.background(Color.black)
+		.appMenu(
+			alignment: .trailing,
+			isShowing: $isShowingMenu,
+			menu: {
+				VStack {
 					HStack {
+						Spacer()
+						Button(action: {}) {
+							Text("Tap me")
+						}
+					}
+					Button(action: {}) {
 						Text("Tap me")
-						Image(systemName: "line.3.horizontal.decrease.circle")
+					}
+					Button(action: {}) {
+						Text("Tap me")
+					}
+					Button(action: {}) {
+						Text("Tap me")
+					}
+					Button(action: {}) {
+						Text("Tap me")
+					}
+					Button(action: {}) {
+						HStack {
+							Text("Tap me")
+							Image(systemName: "line.3.horizontal.decrease.circle")
+						}
 					}
 				}
+				.padding()
+				.padding()
+				.foregroundColor(Color.black)
+				.frame(width: 200)
 			}
-			.padding()
-			.padding()
-			.foregroundColor(Color.black)
-		}
+		)
 	}
 }
 
-struct MenuViewModifier_Previews: PreviewProvider {
+struct AppMenuModifier_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
 			TestView()

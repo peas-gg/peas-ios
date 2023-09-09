@@ -7,9 +7,17 @@
 
 import SwiftUI
 
-private struct CGRectPreferenceKey: PreferenceKey {
+struct CGRectPreferenceKey: PreferenceKey {
 	static var defaultValue: CGRect = .zero
 	static func reduce(value: inout CGRect, nextValue: () -> CGRect) {}
+}
+
+struct BoundsPreferenceKey: PreferenceKey {
+	typealias Value = [Anchor<CGRect>]
+	static var defaultValue: Value = []
+	static func reduce(value: inout Value, nextValue: () -> Value) {
+		value.append(contentsOf: nextValue())
+	}
 }
 
 extension View {
@@ -23,8 +31,8 @@ extension View {
 		.onPreferenceChange(CGRectPreferenceKey.self, perform: onChange)
 	}
 	
-	func menu<Content: View>(isShowing: Binding<Bool>, parentRect: CGRect, topPadding: CGFloat = 0.0, hasPositiveOffset: Bool = false, @ViewBuilder content: @escaping () -> Content) -> some View {
-		self.modifier(MenuViewModifier(parentRect: parentRect, topPadding: topPadding, hasPositiveOffset: hasPositiveOffset, isShowing: isShowing, menu: content))
+	func appMenu<Menu: View>(alignment: HorizontalAlignment = .leading, isShowing: Binding<Bool>, @ViewBuilder menu: @escaping () -> Menu) -> some View {
+		self.modifier(AppMenuModifier(alignment: alignment, isShowing: isShowing, menu: menu))
 	}
 	
 	func progressView(isShowing: Bool, style: LoadingIndicator.Style, coverOpacity: CGFloat = 0.1) -> some View {
