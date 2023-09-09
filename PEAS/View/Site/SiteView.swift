@@ -10,6 +10,7 @@ import SwiftUI
 struct SiteView: View {
 	let profileTextHeight: CGFloat = 38
 	let blockHeight: CGFloat = SizeConstants.screenSize.height / 3
+	let linksMenuId: String = "LinksMenu"
 	
 	@StateObject var viewModel: ViewModel
 	
@@ -162,7 +163,7 @@ struct SiteView: View {
 			.ignoresSafeArea()
 			.animation(.easeOut, value: backgroundColour)
 		}
-		.appMenu(isShowing: $viewModel.isShowingSocialLinksMenu) {
+		.appMenu(id: linksMenuId, isShowing: $viewModel.isShowingSocialLinksMenu) {
 			VStack {
 				if let twitter = business.twitter {
 					socialLink(title: "X", link: "\(AppConstants.twitterUrlString + twitter)")
@@ -249,7 +250,7 @@ struct SiteView: View {
 				)
 				.animation(.easeInOut, value: viewModel.isInEditMode)
 		}
-		.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [$0] }
+		.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [linksMenuId : $0] }
 	}
 	
 	@ViewBuilder

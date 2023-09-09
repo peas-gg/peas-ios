@@ -13,10 +13,14 @@ struct CGRectPreferenceKey: PreferenceKey {
 }
 
 struct BoundsPreferenceKey: PreferenceKey {
-	typealias Value = [Anchor<CGRect>]
-	static var defaultValue: Value = []
-	static func reduce(value: inout Value, nextValue: () -> Value) {
-		value.append(contentsOf: nextValue())
+	typealias Value = [String : Anchor<CGRect>]
+	static var defaultValue: Value = [:]
+	static func reduce(value: inout Value, nextValue: () -> [String : Anchor<CGRect>]) {
+		if let key = nextValue().keys.first, let anchor = nextValue().values.first {
+			if !key.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+				value.updateValue(anchor, forKey: key)
+			}
+		}
 	}
 }
 
@@ -31,8 +35,8 @@ extension View {
 		.onPreferenceChange(CGRectPreferenceKey.self, perform: onChange)
 	}
 	
-	func appMenu<Menu: View>(isShowing: Binding<Bool>, @ViewBuilder menu: @escaping () -> Menu) -> some View {
-		self.modifier(AppMenuModifier(isShowing: isShowing, menu: menu))
+	func appMenu<Menu: View>(id: String, isShowing: Binding<Bool>, @ViewBuilder menu: @escaping () -> Menu) -> some View {
+		self.modifier(AppMenuModifier(id: id, isShowing: isShowing, menu: menu))
 	}
 	
 	func progressView(isShowing: Bool, style: LoadingIndicator.Style, coverOpacity: CGFloat = 0.1) -> some View {

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AppMenuModifier<Menu: View>: ViewModifier {
+	let id: String
 	let screenRect: CGRect = UIScreen.main.bounds
 	
 	@Binding var isShowing: Bool
@@ -30,7 +31,7 @@ struct AppMenuModifier<Menu: View>: ViewModifier {
 			.overlayPreferenceValue(BoundsPreferenceKey.self) { preferenceValues in
 				if isShowingMenu {
 					GeometryReader { geometry in
-						preferenceValues.map {
+						if let parentAnchor: Anchor<CGRect> = preferenceValues[id] {
 							menu()
 								.readRect {
 									self.rect = $0
@@ -45,10 +46,10 @@ struct AppMenuModifier<Menu: View>: ViewModifier {
 									}
 								}
 								.offset(
-									x: getXOffset(parent: geometry[$0]),
-									y: geometry[$0].maxY + 10
+									x: getXOffset(parent: geometry[parentAnchor]),
+									y: geometry[parentAnchor].maxY + 10
 								)
-						}[0]
+						}
 					}
 					.transition(.asymmetric(insertion: .identity, removal: .scale))
 					.animation(.easeOut, value: isShowingMenu)
@@ -75,6 +76,7 @@ struct AppMenuModifier<Menu: View>: ViewModifier {
 }
 
 fileprivate struct TestView: View {
+	let menuId: String = "testView"
 	@State var isShowingMenu: Bool = false
 	
 	var body: some View {
@@ -97,13 +99,14 @@ fileprivate struct TestView: View {
 								.fill(Color.white.opacity(0.5))
 						)
 				}
-				.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [$0] }
+				.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [menuId: $0] }
 				Spacer()
 			}
 			Spacer()
 		}
 		.background(Color.black)
 		.appMenu(
+			id: menuId,
 			isShowing: $isShowingMenu,
 			menu: {
 				VStack {
