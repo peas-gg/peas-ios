@@ -24,8 +24,8 @@ struct SiteOnboardingView: View {
 						}
 						.font(Font.app.title3)
 						.foregroundColor(Color.app.tertiaryText)
-						Button(action: { viewModel.setIsShowingAuthenticateView(true) }) {
-							Text("Create")
+						Button(action: { viewModel.proceed() }) {
+							Text(viewModel.isUserLoggedIn ? "Publish" : "Create")
 						}
 						.buttonStyle(.expanded(style: .black))
 					}

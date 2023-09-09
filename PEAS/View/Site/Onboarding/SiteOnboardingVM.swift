@@ -21,6 +21,10 @@ extension SiteOnboardingView {
 		@Published var isShowingAuthenticateView: Bool = false
 		@Published var isLoading: Bool = true
 		
+		var isUserLoggedIn: Bool {
+			AppState.shared.isUserLoggedIn
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
@@ -80,6 +84,14 @@ extension SiteOnboardingView {
 				return
 			}
 			self.isShowingAuthenticateView = isShowing
+		}
+		
+		func proceed() {
+			if isUserLoggedIn {
+				
+			} else {
+				setIsShowingAuthenticateView(true)
+			}
 		}
 		
 		func backToWelcomeScreen() {
