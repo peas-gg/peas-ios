@@ -125,15 +125,19 @@ struct SiteView: View {
 					}
 					if viewModel.isInEditMode {
 						Button(action: { viewModel.setEditModeContext(.block(nil)) }) {
-							RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
-								.stroke(Color.white, lineWidth: 2)
-								.frame(height: blockHeight)
-								.overlay(
-									Image(systemName: "plus.circle.fill")
-										.font(Font.app.largeTitle)
-										.foregroundColor(Color.app.secondaryText)
-								)
+							ZStack {
+								RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
+									.fill(Color.white.opacity(0.2))
+								RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
+									.stroke(Color.white, lineWidth: 2)
+							}
+							.overlay(
+								Image(systemName: "plus.circle.fill")
+									.font(Font.app.largeTitle)
+									.foregroundColor(Color.app.secondaryText)
+							)
 						}
+						.frame(height: blockHeight)
 						.buttonStyle(.plain)
 					}
 				}
