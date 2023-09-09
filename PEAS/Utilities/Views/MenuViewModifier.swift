@@ -52,7 +52,7 @@ struct AppMenuModifier<Menu: View>: ViewModifier {
 						}
 					}
 					.transition(.scale)
-					.animation(.linear.speed(2.0), value: isShowingMenu)
+					.animation(.spring(), value: isShowingMenu)
 				}
 			}
 			.onChange(of: self.isShowing) { isShowing in
