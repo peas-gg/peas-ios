@@ -31,8 +31,8 @@ extension View {
 		.onPreferenceChange(CGRectPreferenceKey.self, perform: onChange)
 	}
 	
-	func appMenu<Menu: View>(alignment: HorizontalAlignment = .leading, isShowing: Binding<Bool>, @ViewBuilder menu: @escaping () -> Menu) -> some View {
-		self.modifier(AppMenuModifier(alignment: alignment, isShowing: isShowing, menu: menu))
+	func appMenu<Menu: View>(isShowing: Binding<Bool>, @ViewBuilder menu: @escaping () -> Menu) -> some View {
+		self.modifier(AppMenuModifier(isShowing: isShowing, menu: menu))
 	}
 	
 	func progressView(isShowing: Bool, style: LoadingIndicator.Style, coverOpacity: CGFloat = 0.1) -> some View {

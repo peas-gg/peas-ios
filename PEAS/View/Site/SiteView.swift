@@ -162,10 +162,7 @@ struct SiteView: View {
 			.ignoresSafeArea()
 			.animation(.easeOut, value: backgroundColour)
 		}
-		.appMenu(
-			alignment: .trailing,
-			isShowing: $viewModel.isShowingSocialLinksMenu
-		) {
+		.appMenu(isShowing: $viewModel.isShowingSocialLinksMenu) {
 			VStack {
 				if let twitter = business.twitter {
 					socialLink(title: "X", link: "\(AppConstants.twitterUrlString + twitter)")

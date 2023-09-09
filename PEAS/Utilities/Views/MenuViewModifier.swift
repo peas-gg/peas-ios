@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct AppMenuModifier<Menu: View>: ViewModifier {
-	let alignment: HorizontalAlignment
+	let screenRect: CGRect = UIScreen.main.bounds
+	
 	@Binding var isShowing: Bool
 	@ViewBuilder let menu: () -> Menu
 	
@@ -61,12 +62,13 @@ struct AppMenuModifier<Menu: View>: ViewModifier {
 	}
 	
 	func getXOffset(parent: CGRect) -> CGFloat {
-		switch alignment {
-		case .leading:
-			return parent.maxX - rect.width
-		case .trailing:
+		//Figure out where there is more space. (Right or Left)
+		let rightSpace: CGFloat = screenRect.maxX - parent.minX
+		let leftSpace: CGFloat = parent.maxX - screenRect.minX
+		
+		if rightSpace > leftSpace {
 			return parent.minX
-		default:
+		} else {
 			return parent.maxX - rect.width
 		}
 	}
@@ -79,8 +81,8 @@ fileprivate struct TestView: View {
 		VStack {
 			Spacer()
 			Spacer()
-			Spacer()
 			HStack {
+				Spacer()
 				Button(action: {
 					withAnimation(.default) {
 						self.isShowingMenu.toggle()
@@ -102,7 +104,6 @@ fileprivate struct TestView: View {
 		}
 		.background(Color.black)
 		.appMenu(
-			alignment: .trailing,
 			isShowing: $isShowingMenu,
 			menu: {
 				VStack {
