@@ -71,7 +71,7 @@ struct AuthenticateView: View {
 				.padding(.vertical)
 				.background(Color.app.darkGray)
 			}
-			Spacer()
+			Spacer(minLength: 0)
 			Group {
 				switch context {
 				case .signUp(let flow):
@@ -83,7 +83,7 @@ struct AuthenticateView: View {
 				}
 			}
 			.padding(.horizontal, 30)
-			Spacer()
+			Spacer(minLength: 0)
 			Button(action: {
 				if context == .signUp(.phone) {
 					self.focusField = nil
@@ -96,7 +96,7 @@ struct AuthenticateView: View {
 			}) {
 				Text(viewModel.advanceButtonTitle(context: context))
 			}
-			.disabled(!viewModel.canAdvance(context: context))
+//			.disabled(!viewModel.canAdvance(context: context))
 			.buttonStyle(.expanded(style: .white))
 			.padding()
 		}
@@ -235,7 +235,7 @@ struct AuthenticateView: View {
 					.tint(Color.app.secondaryText)
 					.focused($focusField, equals: .phone)
 					.frame(maxWidth: SizeConstants.screenSize.width * 0.8)
-					Spacer()
+					Spacer(minLength: 0)
 				}
 				flowHint(hint: "You need your phone number to sign up. Standard message and data rates apply")
 			}
@@ -367,14 +367,14 @@ struct AuthenticateView: View {
 				otpCodeButton()
 			}
 			HStack {
-				Spacer()
+				Spacer(minLength: 0)
 				Button(action: { viewModel.resendOtpCode(context: context) }) {
 					Text("Resend code")
 						.font(Font.app.title2Display)
 						.underline()
 						.foregroundColor(Color.app.secondaryText)
 				}
-				Spacer()
+				Spacer(minLength: 0)
 			}
 		}
 		.padding(.vertical)
@@ -403,7 +403,7 @@ struct AuthenticateView: View {
 					.padding()
 					.background {
 						VStack {
-							Spacer()
+							Spacer(minLength: 0)
 							Capsule()
 								.fill(Color.app.secondaryText)
 								.frame(height: 3, alignment: .top)
