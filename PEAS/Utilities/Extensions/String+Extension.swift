@@ -14,6 +14,10 @@ extension String {
 		!self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
 	}
 	
+	var isValidOtpCode: Bool {
+		self.count == SizeConstants.otpCodeCount
+	}
+	
 	var isValidPassword: Bool {
 		self.count >= SizeConstants.minimumPasswordCharactersCount
 	}

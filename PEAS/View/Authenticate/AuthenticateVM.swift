@@ -162,19 +162,21 @@ extension AuthenticateView {
 				case .phone:
 					return phoneNumber != nil
 				case .otpCode:
-					return true
+					return otpCode.isValidOtpCode
 				}
 			case .login(let loginFlow):
 				switch loginFlow {
 				case .emailAndPassword:
 					return email.isValidEmail && password.isValidPassword
 				case .otpCode:
-					return true
+					return otpCode.isValidOtpCode
 				}
 			case .forgotPassword(let forgotPasswordFlow):
 				switch forgotPasswordFlow {
-				case .email, .otpCode:
-					return true
+				case .email:
+					return email.isValidEmail
+				case .otpCode:
+					return otpCode.isValidOtpCode
 				case .password:
 					return password.isValidPassword && password == verifyPassword
 				}
