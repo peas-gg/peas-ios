@@ -59,15 +59,24 @@ struct WelcomeView: View {
 			.multilineTextAlignment(.center)
 		}
 		.background(background())
+		.animation(.easeOut.speed(2.0), value: viewModel.currentPage)
 	}
 	
 	@ViewBuilder
 	func imageView(page: ViewModel.Page) -> some View {
 		ZStack {
-			Image(page.pageImage)
-				.resizable()
-				.aspectRatio(contentMode: .fill)
-				.frame(width: SizeConstants.screenSize.width * 0.7, height: SizeConstants.screenSize.height * 0.8)
+			switch page {
+			case .createSite, .acceptPayment:
+				Image(page.pageImage)
+					.resizable()
+					.aspectRatio(contentMode: .fill)
+					.frame(width: SizeConstants.screenSize.width * 0.7, height: SizeConstants.screenSize.height * 0.8)
+			case .dropLink:
+				Image(page.pageImage)
+					.resizable()
+					.aspectRatio(contentMode: .fill)
+					.frame(height: SizeConstants.screenSize.height * 0.7)
+			}
 			VStack {
 				Spacer()
 				VStack{
@@ -108,7 +117,6 @@ struct WelcomeView: View {
 				Spacer()
 			}
 			.background(Color.black)
-			
 			VStack{
 				LazyVGrid(columns: Array(repeating: GridItem(spacing: 0), count: 5), spacing: 0) {
 					ForEach(0..<30) {
@@ -157,7 +165,6 @@ struct WelcomeView: View {
 				}
 				Spacer()
 			}
-			
 		}
 	}
 }
