@@ -41,6 +41,22 @@ struct WelcomeView: View {
 				]
 			}
 		}
+		
+		var pageImage: String {
+			switch self {
+			case .createSite: return "CreatePeasSite"
+			case .dropLink: return "DropLinkInBio"
+			case .acceptPayment: return "AcceptBookings"
+			}
+		}
+		
+		var pageTitle: String {
+			switch self {
+			case .createSite: return "Create your PEAS \nsite"
+			case .dropLink: return "Drop the link in your \nbio"
+			case .acceptPayment: return "Accept bookings &\npayments"
+			}
+		}
 	}
 	
 	
@@ -50,8 +66,98 @@ struct WelcomeView: View {
 	var body: some View {
 		TabView {
 			ForEach(Page.allCases) { page in
-				background(page: page)
-					.tag(page)
+				VStack{
+					HStack{
+						Spacer()
+						Text(page.pageTitle)
+							.font(Font.custom("DaysOne-Regular", size: 30))
+							.foregroundColor(.white)
+							.multilineTextAlignment(.center)
+						Spacer()
+					}
+					.padding(.top)
+					
+					Spacer()
+				}
+				.background(background(page: page))
+				.overlay(
+					Image(page.pageImage)
+						.resizable()
+						.aspectRatio(contentMode: .fill)
+						.frame(width: 350, height: 600)
+						.offset(y: -20)
+				)
+				.overlay(
+					VStack{
+						Spacer()
+						Rectangle()
+							.fill(
+								LinearGradient(
+									colors: [
+										Color.clear,
+										Color.black.opacity(0.7),
+										Color.black.opacity(0.9),
+										Color.black,
+										Color.black,
+										Color.black,
+										Color.black,
+										Color.black
+									],
+									startPoint: .top,
+									endPoint: .bottom
+								)
+							)
+							.frame(height: 300)
+						
+					}
+				)
+				.overlay(
+					VStack{
+						Spacer()
+						Text("Start treating your side hustle as a buisness")
+							.foregroundColor(Color(red: 0.66, green: 0.66, blue: 0.66))
+							.offset(y: -90)
+						
+						Button(action: {
+							
+						}) {
+							Text("Login")
+								.underline()
+								.foregroundColor(.white)
+						}
+						.offset(y: -30)
+						
+				
+						Button(action: {
+						}) {
+							ZStack {
+								Rectangle()
+									.frame(width: 325, height: 50)
+									.foregroundColor(.clear)
+									.background(
+										LinearGradient(
+											stops: [Gradient.Stop(color: .white, location: 0.00)],
+											startPoint: UnitPoint(x: 0.5, y: 0),
+											endPoint: UnitPoint(x: 0.5, y: 1)
+										)
+									)
+									.cornerRadius(10)
+								Text("Start")
+							}
+						}
+						.offset(y: -10)
+						
+						
+					}
+						.font(
+							Font.custom("SF Pro Rounded", size: 15)
+								.weight(.semibold)
+						)
+						.multilineTextAlignment(.center)
+						.foregroundColor(.black)
+				
+				)
+				.tag(page)
 			}
 		}
 		.tabViewStyle(.page(indexDisplayMode: .never))
@@ -61,10 +167,6 @@ struct WelcomeView: View {
 	
 	@ViewBuilder
 	func background(page: Page) -> some View {
-		
-		let rows = 5 // Number of horizontal lines
-		let columns = 5 // Number of vertical lines
-		
 		ZStack {
 			VStack {
 				Rectangle()
@@ -81,58 +183,59 @@ struct WelcomeView: View {
 				Spacer()
 			}
 			.background(Color.black)
-			VStack {
-				ZStack {
-					LazyVGrid(columns: Array(repeating: GridItem(spacing: 0), count: 5), spacing: 0) {
-						ForEach(0..<30) {
-							Rectangle()
-								.stroke(Color.white.opacity(0.1))
-								.frame(minHeight: 80)
-								.id($0)
-						}
-					}
-					.overlay(alignment: .top) {
+			
+			VStack{
+				LazyVGrid(columns: Array(repeating: GridItem(spacing: 0), count: 5), spacing: 0) {
+					ForEach(0..<30) {
 						Rectangle()
-							.fill(
-								LinearGradient(
-									colors: [
-										Color.black,
-										Color.black.opacity(0.8),
-										Color.black.opacity(0.4),
-										Color.clear
-									],
-									startPoint: .top,
-									endPoint: .bottom
-								)
-							)
-							.frame(height: 180)
-						.edgesIgnoringSafeArea(.top)
+							.stroke(Color.white.opacity(0.1))
+							.frame(minHeight: 80)
+							.id($0)
 					}
-					.overlay(alignment: .bottom) {
-						let height: CGFloat = 80
-						Rectangle()
-							.fill(
-								LinearGradient(
-									colors: [
-										Color.clear,
-										Color.black.opacity(0.2),
-										Color.black.opacity(0.4),
-										Color.black.opacity(0.8),
-										Color.black
-									],
-									startPoint: .top,
-									endPoint: .bottom
-								)
+				}
+				.overlay(alignment: .top) {
+					Rectangle()
+						.fill(
+							LinearGradient(
+								colors: [
+									Color.black,
+									Color.black.opacity(0.8),
+									Color.black.opacity(0.4),
+									Color.clear
+								],
+								startPoint: .top,
+								endPoint: .bottom
 							)
-							.frame(height: height)
-							.offset(y: 10)
+						)
+						.frame(height: 180)
 						.edgesIgnoringSafeArea(.top)
-					}
+				}
+				.overlay(alignment: .bottom) {
+					let height: CGFloat = 80
+					Rectangle()
+						.fill(
+							LinearGradient(
+								colors: [
+									Color.clear,
+									Color.black.opacity(0.2),
+									Color.black.opacity(0.4),
+									Color.black.opacity(0.8),
+									Color.black
+								],
+								startPoint: .top,
+								endPoint: .bottom
+							)
+						)
+						.frame(height: height)
+						.offset(y: 10)
+						.edgesIgnoringSafeArea(.top)
 				}
 				Spacer()
 			}
 			
 		}
+		
+		
 		
 	}
 }
