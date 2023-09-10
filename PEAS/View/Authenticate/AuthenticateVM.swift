@@ -57,7 +57,7 @@ extension AuthenticateView {
 					}
 				case .forgotPassword(let forgotPasswordFlow):
 					switch forgotPasswordFlow {
-					case .email: return ""
+					case .email: return "Forgot password"
 					case .otpCode: return "Code"
 					case .password: return "New password"
 					}
@@ -329,8 +329,8 @@ extension AuthenticateView {
 			self.context = .login(.emailAndPassword)
 		}
 		
-		func switchToForgotPasswordContext() {
-			self.context = .forgotPassword(.email)
+		func forgotPasswordTapped() {
+			self.navStack.append(.forgotPassword(.email))
 		}
 		
 		private func requestOtpCodeSignUp() {
