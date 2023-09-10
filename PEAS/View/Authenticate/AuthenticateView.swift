@@ -13,6 +13,8 @@ struct AuthenticateView: View {
 	let verticalStackSpacing: CGFloat = 30.0
 	let dismiss: () -> ()
 	
+	@State var navStackId: UUID = UUID()
+	
 	@State var phoneNumber: PhoneNumber?
 	@StateObject var viewModel: ViewModel
 	
@@ -26,6 +28,7 @@ struct AuthenticateView: View {
 	var body: some View {
 		NavigationStack(path: $viewModel.navStack) {
 			contentView(context: viewModel.context, isRootPage: true)
+				.id(navStackId)
 				.navigationTitle("")
 				.navigationDestination(for: ViewModel.Context.self) { context in
 					contentView(context: context, isRootPage: false)
@@ -50,6 +53,9 @@ struct AuthenticateView: View {
 		}
 		.tint(Color.white)
 		.interactiveDismissDisabled()
+		.onChange(of: viewModel.navStack) { _ in
+			self.navStackId = UUID()
+		}
 	}
 	
 	@ViewBuilder
@@ -258,7 +264,7 @@ struct AuthenticateView: View {
 				secureTextField(hint: "Password", text: $viewModel.password) {
 					
 				}
-				Button(action: { viewModel.switchToForgotPasswordContext() }) {
+				Button(action: { viewModel.forgotPasswordTapped() }) {
 					Text("Forgot password?")
 						.font(Font.app.body)
 						.foregroundColor(Color.app.secondaryText)
