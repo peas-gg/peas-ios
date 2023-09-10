@@ -71,6 +71,7 @@ extension APIClient {
 										firstName: authResponse.firstName,
 										lastName: authResponse.lastName,
 										email: authResponse.email,
+										interacEmail: authResponse.interacEmail,
 										phone: authResponse.phone,
 										role: authResponse.role,
 										accessToken: authResponse.jwtToken,

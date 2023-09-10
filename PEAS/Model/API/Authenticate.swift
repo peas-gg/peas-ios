@@ -17,6 +17,7 @@ struct AuthenticateResponse: Decodable {
 	let firstName: String
 	let lastName: String
 	let email: String
+	let interacEmail: String?
 	let phone: String
 	let role: String
 	let jwtToken: String
