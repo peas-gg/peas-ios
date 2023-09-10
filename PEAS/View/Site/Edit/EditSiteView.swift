@@ -95,7 +95,7 @@ struct EditSiteView: View {
 					}
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
-				case .block:
+				case .block(let blockId):
 					ScrollView(showsIndicators: false) {
 						VStack(alignment: .leading, spacing: 30) {
 							HStack {
@@ -125,6 +125,7 @@ struct EditSiteView: View {
 										.padding()
 										.background(textBackground())
 									}
+									.disabled(blockId == nil)
 									Spacer()
 								}
 								.padding(.top)
