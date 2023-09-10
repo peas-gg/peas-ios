@@ -288,7 +288,8 @@ extension AuthenticateView {
 				case .email:
 					requestOtpCodeForgotPassword()
 				case .otpCode:
-					self.isLoading = true
+					self.navStack.append(.forgotPassword(.password))
+				case .password:
 					let resetPasswordRequest: ResetPasswordRequest = ResetPasswordRequest(
 						email: self.email,
 						password: self.password,
@@ -308,13 +309,11 @@ extension AuthenticateView {
 							},
 							receiveValue: { _ in
 								self.isLoading = false
-								self.navStack.append(.forgotPassword(.password))
+								self.navStack = []
+								self.context = .login(.emailAndPassword)
 							}
 						)
 						.store(in: &cancellableBag)
-				case .password:
-					self.navStack = []
-					self.context = .login(.emailAndPassword)
 				}
 			}
 		}
