@@ -38,9 +38,15 @@ struct SiteView: View {
 							.scaledToFit()
 							.frame(dimension: 40)
 						labelContainer(action: { viewModel.setEditModeContext(.sign) }) {
-							Text("/\(business.sign)")
-								.font(Font.app.title2)
-								.textCase(.lowercase)
+							Group {
+								if business.sign.isEmpty {
+									hintText("Peas sign")
+								} else {
+									Text("/\(business.sign)")
+								}
+							}
+							.font(Font.app.title2)
+							.textCase(.lowercase)
 						}
 					}
 					.padding(.bottom, 30)
@@ -70,8 +76,14 @@ struct SiteView: View {
 						.buttonStyle(.plain)
 						VStack(alignment: .leading) {
 							labelContainer(action: { viewModel.setEditModeContext(.name) }) {
-								Text("\(business.name)")
-									.font(Font.app.title2Display)
+								Group {
+									if business.name.isEmpty {
+										hintText("Business Name")
+									} else {
+										Text("\(business.name)")
+									}
+								}
+								.font(Font.app.title2Display)
 							}
 							HStack {
 								if viewModel.isInEditMode {
@@ -104,9 +116,15 @@ struct SiteView: View {
 						.padding(.top, 4)
 					}
 					labelContainer(action: { viewModel.setEditModeContext(.description) }) {
-						Text(business.description)
-							.font(.system(size: FontSizes.body, weight: .regular, design: .default))
-							.multilineTextAlignment(.leading)
+						Group {
+							if business.description.isEmpty {
+								hintText("Business Description")
+							} else {
+								Text(business.description)
+							}
+						}
+						.font(.system(size: FontSizes.body, weight: .regular, design: .default))
+						.multilineTextAlignment(.leading)
 					}
 					labelContainer(action: { viewModel.setEditModeContext(.location) }) {
 						HStack {
@@ -415,6 +433,12 @@ struct SiteView: View {
 				.foregroundColor(Color.app.primaryText)
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func hintText(_ text: String) -> some View {
+		Text(text)
+			.opacity(0.2)
 	}
 }
 
