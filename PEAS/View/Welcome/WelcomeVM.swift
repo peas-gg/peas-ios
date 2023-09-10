@@ -64,6 +64,7 @@ extension WelcomeView {
 		let onboardingVM: SiteOnboardingView.ViewModel
 		
 		@Published var currentPage: Page = .createSite
+		@Published var isShowingAuthenticateView: Bool = false
 		
 		init(onboardingVM: SiteOnboardingView.ViewModel) {
 			self.onboardingVM = onboardingVM
@@ -71,6 +72,17 @@ extension WelcomeView {
 		
 		func startOnboarding() {
 			AppState.shared.setAppMode(.onboarding(onboardingVM))
+		}
+		
+		func setIsShowingAuthenticateView(_ isShowing: Bool) {
+			if !isShowing {
+				KeyboardClient.shared.resignKeyboard()
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.isShowingAuthenticateView = isShowing
+				}
+				return
+			}
+			self.isShowingAuthenticateView = isShowing
 		}
 	}
 }

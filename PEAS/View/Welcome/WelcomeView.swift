@@ -45,14 +45,14 @@ struct WelcomeView: View {
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.bottom, 40)
 					.padding(.top, 20)
-				Button(action: {}) {
+				Button(action: { viewModel.setIsShowingAuthenticateView(true) }) {
 					Text("Login")
 						.font(Font.app.title2Display)
 						.foregroundColor(Color.app.secondaryText)
 						.underline()
 				}
 				.padding(.bottom)
-				Button(action: {}) {
+				Button(action: { viewModel.startOnboarding() }) {
 					Text("Start")
 				}
 				.buttonStyle(.expanded(style: .white))
@@ -62,6 +62,17 @@ struct WelcomeView: View {
 		}
 		.background(background())
 		.animation(.easeOut.speed(2.0), value: viewModel.currentPage)
+		.sheet(
+			isPresented: Binding(
+				get: { viewModel.isShowingAuthenticateView },
+				set: { _ in }
+			)
+		) {
+			AuthenticateView(
+				viewModel: .init(context: .login(.emailAndPassword)),
+				dismiss: { viewModel.setIsShowingAuthenticateView(false) }
+			)
+		}
 	}
 	
 	@ViewBuilder
