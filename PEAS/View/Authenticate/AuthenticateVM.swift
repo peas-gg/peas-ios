@@ -22,7 +22,6 @@ extension AuthenticateView {
 				case emailAndPassword
 				case otpCode
 			}
-			
 			enum ForgotPasswordFlow {
 				case email
 				case otpCode
@@ -316,6 +315,7 @@ extension AuthenticateView {
 							receiveValue: { _ in
 								self.isLoading = false
 								self.navStack = []
+								self.resetEmailAndPasswordFields()
 								self.context = .login(.emailAndPassword)
 							}
 						)
@@ -332,11 +332,18 @@ extension AuthenticateView {
 		}
 		
 		func switchToLoginContext() {
+			resetEmailAndPasswordFields()
 			self.context = .login(.emailAndPassword)
 		}
 		
 		func forgotPasswordTapped() {
+			resetEmailAndPasswordFields()
 			self.navStack.append(.forgotPassword(.email))
+		}
+		
+		private func resetEmailAndPasswordFields() {
+			self.email = ""
+			self.password = ""
 		}
 		
 		private func requestOtpCodeSignUp() {
