@@ -102,7 +102,7 @@ struct AuthenticateView: View {
 			}) {
 				Text(viewModel.advanceButtonTitle(context: context))
 			}
-//			.disabled(!viewModel.canAdvance(context: context))
+			.disabled(!viewModel.canAdvance(context: context))
 			.buttonStyle(.expanded(style: .white))
 			.padding()
 		}
