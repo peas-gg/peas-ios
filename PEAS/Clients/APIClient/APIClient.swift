@@ -16,7 +16,8 @@ protocol APIRequests {
 	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
 	func getImage(url: URL) async -> UIImage?
 	//Authenticate
-	func authenticate(_ model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse?, APIClientError>
+	func authenticate(_ model: AuthenticateRequest) -> AnyPublisher<EmptyResponse, APIClientError>
+	func authenticateWithCode(_ model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func register(_ model: RegisterRequest) -> AnyPublisher<AuthenticateResponse, APIClientError>
 	func requestOtpCode(phoneNumber: String) -> AnyPublisher<EmptyResponse, APIClientError>
 	func requestPasswordReset(email: String) -> AnyPublisher<EmptyResponse, APIClientError>
@@ -82,13 +83,22 @@ final class APIClient: APIRequests {
 	}
 	
 	//MARK: Authenticate
-	func authenticate(_ model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse?, APIClientError> {
+	func authenticate(_ model: AuthenticateRequest) -> AnyPublisher<EmptyResponse, APIClientError> {
 		let authenticateRequest = APPUrlRequest(
 			httpMethod: .post,
 			pathComponents: ["account", "authenticate"],
 			body: model
 		)
-		return apiRequest(appRequest: authenticateRequest, output: AuthenticateResponse?.self)
+		return apiRequest(appRequest: authenticateRequest, output: EmptyResponse.self)
+	}
+	
+	func authenticateWithCode(_ model: AuthenticateRequest) -> AnyPublisher<AuthenticateResponse, APIClientError> {
+		let authenticateRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["account", "authenticateWithCode"],
+			body: model
+		)
+		return apiRequest(appRequest: authenticateRequest, output: AuthenticateResponse.self)
 	}
 	
 	func register(_ model: RegisterRequest) -> AnyPublisher<AuthenticateResponse, APIClientError> {

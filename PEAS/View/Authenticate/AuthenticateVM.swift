@@ -263,7 +263,7 @@ extension AuthenticateView {
 						code: self.otpCode
 					)
 					self.apiClient
-						.authenticate(authenticateRequest)
+						.authenticateWithCode(authenticateRequest)
 						.receive(on: DispatchQueue.main)
 						.sink(
 							receiveCompletion: { completion in
