@@ -8,185 +8,96 @@
 import SwiftUI
 
 struct WelcomeView: View {
-	enum Page: String, Identifiable, CaseIterable {
-		case createSite
-		case dropLink
-		case acceptPayment
-		
-		var id: String {
-			return self.rawValue
-		}
-		
-		var pageColor: [Color]{
-			switch self {
-			case .createSite: return [
-				Color(UIColor(hex: "A5F0FB")),
-				Color(UIColor(hex: "61D3BE")),
-				Color(UIColor(hex: "5EA6CE")),
-				Color(UIColor(hex: "005656"))
-			]
-			case .dropLink: return
-				[
-					Color(UIColor(hex: "FBA5E3")),
-					Color(UIColor(hex: "D3618A")),
-					Color(UIColor(hex: "AA5ECE")),
-					Color(UIColor(hex: "560029"))
-				]
-			case .acceptPayment: return
-				[
-					Color(UIColor(hex: "A5FBA5")),
-					Color(UIColor(hex: "BCD361")),
-					Color(UIColor(hex: "CECA5E")),
-					Color(UIColor(hex: "005620"))
-				]
-			}
-		}
-		
-		var pageImage: String {
-			switch self {
-			case .createSite: return "CreatePeasSite"
-			case .dropLink: return "DropLinkInBio"
-			case .acceptPayment: return "AcceptBookings"
-			}
-		}
-		
-		var pageTitle: String {
-			switch self {
-			case .createSite: return "Create your PEAS \nsite"
-			case .dropLink: return "Drop the link in your \nbio"
-			case .acceptPayment: return "Accept bookings &\npayments"
-			}
-		}
-	}
-	
-	
-	
 	@StateObject var viewModel: ViewModel
 	
 	var body: some View {
-		
 		ZStack{
-			TabView {
-				ForEach(Page.allCases) { page in
-					VStack{
-						HStack{
-							Spacer()
-							Text(page.pageTitle)
-								.font(Font.custom("DaysOne-Regular", size: 30))
-								.foregroundColor(.white)
-								.multilineTextAlignment(.center)
-							Spacer()
-						}
-						.padding(.top)
-						
-						Spacer()
-					}
-					.background(background(page: page))
-					.overlay(
-						Image(page.pageImage)
-							.resizable()
-							.aspectRatio(contentMode: .fill)
-							.frame(width: 350, height: 600)
-							.offset(y: -20)
-					)
-					.overlay(
-						VStack{
-							Spacer()
-							Rectangle()
-								.fill(
-									LinearGradient(
-										colors: [
-											Color.clear,
-											Color.black.opacity(0.5),
-											Color.black.opacity(0.8),
-											Color.black,
-											Color.black,
-											Color.black,
-											Color.black,
-											Color.black
-										],
-										startPoint: .top,
-										endPoint: .bottom
-									)
-								)
-								.frame(height: 300)
-							
-						}
-					)
-					.overlay(
-						VStack{
-							Spacer()
-							Text("Start treating your side hustle as a buisness")
-								.foregroundColor(Color(red: 0.66, green: 0.66, blue: 0.66))
-								.offset(y: -170)
-							
-						}
-							.font(
-								Font.custom("SF Pro Rounded", size: 15)
-									.weight(.semibold)
-							)
-							.multilineTextAlignment(.center)
-							.foregroundColor(.black)
-					
-					)
-					.tag(page)
-				}
-			}
-			.tabViewStyle(.page(indexDisplayMode: .never))
-			.edgesIgnoringSafeArea(.all)
-			.onAppear { UIScrollView.appearance().bounces = false }
-			// The scroll view
-			
-			Button(action: {
-				
-			}) {
-				Text("Login")
-					.font(
-						Font.custom("SF Pro Rounded", size: 15)
-							.weight(.semibold)
-					)
-					.multilineTextAlignment(.center)
-					.underline()
-					.foregroundColor(.white)
-			}
-			.offset(y: 280)
-			
-	
-			Button(action: {
-			}) {
-				ZStack {
-					Rectangle()
-						.frame(width: 325, height: 50)
-						.foregroundColor(.clear)
-						.background(
-							LinearGradient(
-								stops: [Gradient.Stop(color: .white, location: 0.00)],
-								startPoint: UnitPoint(x: 0.5, y: 0),
-								endPoint: UnitPoint(x: 0.5, y: 1)
-							)
-						)
-						.cornerRadius(10)
-					Text("Start")
-						.font(
-							Font.custom("SF Pro Rounded", size: 15)
-								.weight(.semibold)
-						)
+			VStack {
+				HStack{
+					Spacer()
+					Text(viewModel.currentPage.pageTitle)
+						.font(Font.custom("DaysOne-Regular", size: 30))
+						.foregroundColor(.white)
 						.multilineTextAlignment(.center)
-						.foregroundColor(.black)
+					Spacer()
+				}
+				.padding(.top)
+				Spacer()
+			}
+			VStack {
+				TabView(selection: $viewModel.currentPage) {
+					ForEach(ViewModel.Page.allCases) { page in
+						VStack{
+							imageView(page: page)
+						}
+						.tag(page)
+					}
+				}
+				.tabViewStyle(.page(indexDisplayMode: .never))
+				.edgesIgnoringSafeArea(.all)
+				.onAppear { UIScrollView.appearance().bounces = false }
+			}
+			VStack {
+				Spacer()
+				Text("Start treating your side hustle as a business")
+					.font(Font.app.body)
+					.foregroundColor(Color.app.tertiaryText)
+					.padding(.bottom, 40)
+				Button(action: {}) {
+					Text("Login")
+						.font(Font.app.title2Display)
+						.foregroundColor(Color.app.secondaryText)
+						.underline()
+				}
+				.padding(.bottom)
+				Button(action: {}) {
+					Text("Start")
+				}
+				.buttonStyle(.expanded(style: .white))
+				.padding(.horizontal)
+			}
+			.multilineTextAlignment(.center)
+		}
+		.background(background())
+	}
+	
+	@ViewBuilder
+	func imageView(page: ViewModel.Page) -> some View {
+		ZStack {
+			Image(page.pageImage)
+				.resizable()
+				.aspectRatio(contentMode: .fill)
+				.frame(width: SizeConstants.screenSize.width * 0.7, height: SizeConstants.screenSize.height * 0.8)
+			VStack {
+				Spacer()
+				VStack{
+					Rectangle()
+						.fill(
+							LinearGradient(
+								colors: [
+									Color.clear,
+									Color.black.opacity(0.8),
+									Color.black,
+									Color.black,
+								],
+								startPoint: .top,
+								endPoint: .bottom
+							)
+						)
+						.frame(height: SizeConstants.screenSize.height * 0.40)
 				}
 			}
-			.offset(y: 350)
 		}
 	}
 	
 	@ViewBuilder
-	func background(page: Page) -> some View {
+	func background() -> some View {
 		ZStack {
 			VStack {
 				Rectangle()
 					.fill(
 						AngularGradient(
-							colors: page.pageColor,
+							colors: viewModel.currentPage.pageColors,
 							center: .center,
 							angle: .degrees(270)
 						)
@@ -248,9 +159,6 @@ struct WelcomeView: View {
 			}
 			
 		}
-		
-		
-		
 	}
 }
 
