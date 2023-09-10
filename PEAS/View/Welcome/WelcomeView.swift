@@ -39,10 +39,12 @@ struct WelcomeView: View {
 			}
 			VStack {
 				Spacer()
+				pageIndicator()
 				Text("Start treating your side hustle as a business")
 					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.bottom, 40)
+					.padding(.top, 20)
 				Button(action: {}) {
 					Text("Login")
 						.font(Font.app.title2Display)
@@ -164,6 +166,34 @@ struct WelcomeView: View {
 						.edgesIgnoringSafeArea(.top)
 				}
 				Spacer()
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func pageIndicator() -> some View {
+		HStack {
+			ForEach(ViewModel.Page.allCases) { page in
+				let color: Color = {
+					if page == viewModel.currentPage {
+						return Color.white
+					} else {
+						return Color.gray
+					}
+				}()
+				Group {
+					if page == viewModel.currentPage {
+						Capsule()
+							.fill(color)
+							.frame(width: 20, height: 8)
+							.transition(.identity)
+							.animation(.spring().speed(2.0), value: viewModel.currentPage)
+					} else {
+						Circle()
+							.fill(color)
+							.frame(width: 10)
+					}
+				}
 			}
 		}
 	}
