@@ -64,6 +64,7 @@ struct EditSiteView: View {
 				case .sign, .name:
 					VStack(alignment: .leading, spacing: spacing) {
 						hintText(content: "Choose a unique peas sign to make it easy for people to find and remember you")
+							.fixedSize(horizontal: false, vertical: true)
 						HStack {
 							Image("SiteLogo")
 								.resizable()
@@ -75,10 +76,11 @@ struct EditSiteView: View {
 						}
 						.padding(.bottom, 40)
 						hintText(content: "Feel free to get a little creative with your business name")
+							.fixedSize(horizontal: false, vertical: true)
 						textField(hint: "Business Name", text: $viewModel.name)
 							.font(Font.app.bodySemiBold)
 							.focused($focusedField, equals: .name)
-						Spacer()
+						Spacer(minLength: 0)
 					}
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
