@@ -224,9 +224,9 @@ extension AuthenticateView {
 					if let phoneNumber = self.phoneNumberToString {
 						self.isLoading = true
 						let registerModel: RegisterRequest = RegisterRequest(
-							firstName: self.firstName,
-							lastName: self.lastName,
-							email: self.email,
+							firstName: self.firstName.trimmingCharacters(in: .whitespacesAndNewlines),
+							lastName: self.lastName.trimmingCharacters(in: .whitespacesAndNewlines),
+							email: self.email.trimmingCharacters(in: .whitespacesAndNewlines),
 							phone: phoneNumber,
 							passwordText: self.password,
 							code: self.otpCode,
