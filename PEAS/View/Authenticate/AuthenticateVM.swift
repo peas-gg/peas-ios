@@ -328,6 +328,10 @@ extension AuthenticateView {
 			self.context = .login(.emailAndPassword)
 		}
 		
+		func switchToForgotPasswordContext() {
+			self.context = .forgotPassword(.email)
+		}
+		
 		private func requestOtpCodeSignUp() {
 			if let phoneNumber = self.phoneNumberToString {
 				self.isLoading = true
