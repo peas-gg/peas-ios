@@ -64,105 +64,119 @@ struct WelcomeView: View {
 	@StateObject var viewModel: ViewModel
 	
 	var body: some View {
-		TabView {
-			ForEach(Page.allCases) { page in
-				VStack{
-					HStack{
-						Spacer()
-						Text(page.pageTitle)
-							.font(Font.custom("DaysOne-Regular", size: 30))
-							.foregroundColor(.white)
-							.multilineTextAlignment(.center)
-						Spacer()
-					}
-					.padding(.top)
-					
-					Spacer()
-				}
-				.background(background(page: page))
-				.overlay(
-					Image(page.pageImage)
-						.resizable()
-						.aspectRatio(contentMode: .fill)
-						.frame(width: 350, height: 600)
-						.offset(y: -20)
-				)
-				.overlay(
+		
+		ZStack{
+			TabView {
+				ForEach(Page.allCases) { page in
 					VStack{
-						Spacer()
-						Rectangle()
-							.fill(
-								LinearGradient(
-									colors: [
-										Color.clear,
-										Color.black.opacity(0.7),
-										Color.black.opacity(0.9),
-										Color.black,
-										Color.black,
-										Color.black,
-										Color.black,
-										Color.black
-									],
-									startPoint: .top,
-									endPoint: .bottom
-								)
-							)
-							.frame(height: 300)
-						
-					}
-				)
-				.overlay(
-					VStack{
-						Spacer()
-						Text("Start treating your side hustle as a buisness")
-							.foregroundColor(Color(red: 0.66, green: 0.66, blue: 0.66))
-							.offset(y: -90)
-						
-						Button(action: {
-							
-						}) {
-							Text("Login")
-								.underline()
+						HStack{
+							Spacer()
+							Text(page.pageTitle)
+								.font(Font.custom("DaysOne-Regular", size: 30))
 								.foregroundColor(.white)
+								.multilineTextAlignment(.center)
+							Spacer()
 						}
-						.offset(y: -30)
+						.padding(.top)
 						
-				
-						Button(action: {
-						}) {
-							ZStack {
-								Rectangle()
-									.frame(width: 325, height: 50)
-									.foregroundColor(.clear)
-									.background(
-										LinearGradient(
-											stops: [Gradient.Stop(color: .white, location: 0.00)],
-											startPoint: UnitPoint(x: 0.5, y: 0),
-											endPoint: UnitPoint(x: 0.5, y: 1)
-										)
-									)
-									.cornerRadius(10)
-								Text("Start")
-							}
-						}
-						.offset(y: -10)
-						
-						
+						Spacer()
 					}
+					.background(background(page: page))
+					.overlay(
+						Image(page.pageImage)
+							.resizable()
+							.aspectRatio(contentMode: .fill)
+							.frame(width: 350, height: 600)
+							.offset(y: -20)
+					)
+					.overlay(
+						VStack{
+							Spacer()
+							Rectangle()
+								.fill(
+									LinearGradient(
+										colors: [
+											Color.clear,
+											Color.black.opacity(0.5),
+											Color.black.opacity(0.8),
+											Color.black,
+											Color.black,
+											Color.black,
+											Color.black,
+											Color.black
+										],
+										startPoint: .top,
+										endPoint: .bottom
+									)
+								)
+								.frame(height: 300)
+							
+						}
+					)
+					.overlay(
+						VStack{
+							Spacer()
+							Text("Start treating your side hustle as a buisness")
+								.foregroundColor(Color(red: 0.66, green: 0.66, blue: 0.66))
+								.offset(y: -170)
+							
+						}
+							.font(
+								Font.custom("SF Pro Rounded", size: 15)
+									.weight(.semibold)
+							)
+							.multilineTextAlignment(.center)
+							.foregroundColor(.black)
+					
+					)
+					.tag(page)
+				}
+			}
+			.tabViewStyle(.page(indexDisplayMode: .never))
+			.edgesIgnoringSafeArea(.all)
+			.onAppear { UIScrollView.appearance().bounces = false }
+			// The scroll view
+			
+			Button(action: {
+				
+			}) {
+				Text("Login")
+					.font(
+						Font.custom("SF Pro Rounded", size: 15)
+							.weight(.semibold)
+					)
+					.multilineTextAlignment(.center)
+					.underline()
+					.foregroundColor(.white)
+			}
+			.offset(y: 280)
+			
+	
+			Button(action: {
+			}) {
+				ZStack {
+					Rectangle()
+						.frame(width: 325, height: 50)
+						.foregroundColor(.clear)
+						.background(
+							LinearGradient(
+								stops: [Gradient.Stop(color: .white, location: 0.00)],
+								startPoint: UnitPoint(x: 0.5, y: 0),
+								endPoint: UnitPoint(x: 0.5, y: 1)
+							)
+						)
+						.cornerRadius(10)
+					Text("Start")
 						.font(
 							Font.custom("SF Pro Rounded", size: 15)
 								.weight(.semibold)
 						)
 						.multilineTextAlignment(.center)
 						.foregroundColor(.black)
-				
-				)
-				.tag(page)
+				}
 			}
+			.offset(y: 350)
 		}
-		.tabViewStyle(.page(indexDisplayMode: .never))
-		.edgesIgnoringSafeArea(.all)
-		.onAppear { UIScrollView.appearance().bounces = false }
 	}
 	
 	@ViewBuilder
