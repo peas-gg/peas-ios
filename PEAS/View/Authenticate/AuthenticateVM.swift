@@ -101,6 +101,8 @@ extension AuthenticateView {
 		@Published var isShowingTermsSheet: Bool = false
 		@Published var isLoadingWebView: Bool = false
 		
+		@Published var didCompleteAuthentication: Bool = false
+		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
 		
@@ -248,6 +250,8 @@ extension AuthenticateView {
 								},
 								receiveValue: { authenticateResponse in
 									self.isLoading = false
+									self.didCompleteAuthentication = true
+									AppState.shared.logUserIn(authenticateResponse)
 								}
 							)
 							.store(in: &cancellableBag)
@@ -278,7 +282,8 @@ extension AuthenticateView {
 							},
 							receiveValue: { authenticateResponse in
 								self.isLoading = false
-								//User Login
+								self.didCompleteAuthentication = true
+								AppState.shared.logUserIn(authenticateResponse)
 							}
 						)
 						.store(in: &cancellableBag)
@@ -290,6 +295,7 @@ extension AuthenticateView {
 				case .otpCode:
 					self.navStack.append(.forgotPassword(.password))
 				case .password:
+					self.isLoading = true
 					let resetPasswordRequest: ResetPasswordRequest = ResetPasswordRequest(
 						email: self.email,
 						password: self.password,

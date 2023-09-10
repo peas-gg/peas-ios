@@ -56,6 +56,11 @@ struct AuthenticateView: View {
 		.onChange(of: viewModel.navStack) { _ in
 			self.navStackId = UUID()
 		}
+		.onChange(of: viewModel.didCompleteAuthentication) { didComplete in
+			if didComplete {
+				dismiss()
+			}
+		}
 	}
 	
 	@ViewBuilder
