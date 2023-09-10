@@ -47,6 +47,12 @@ struct BannerViewModifier: ViewModifier {
 								.offset(y: 60)
 								.scaleEffect(isShowing ? 1.0 : 0.0, anchor: .center)
 								.transition(.scale)
+								.gesture(
+									DragGesture(minimumDistance: 10)
+										.onEnded { _ in
+											self.dismissBanner()
+										}
+								)
 								.onAppear {
 									DispatchQueue.main.asyncAfter(deadline: .now() + data.timeOut) {
 										self.dismissBanner()
