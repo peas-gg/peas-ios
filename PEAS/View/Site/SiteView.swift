@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SiteView: View {
 	let profileTextHeight: CGFloat = 38
-	let blockHeight: CGFloat = SizeConstants.screenSize.height / 3
+	let blockHeight: CGFloat = SizeConstants.screenSize.height / 3.5
 	let linksMenuId: String = "LinksMenu"
 	
 	@StateObject var viewModel: ViewModel
