@@ -19,6 +19,7 @@ struct SizeConstants {
 }
 
 struct AppConstants {
+	static let appUrlString: String = "https://peas.gg/"
 	static let twitterUrlString: String = "https://x.com/"
 	static let instagramUrlString: String = "https://instagram.com/"
 	static let tiktokUrlString: String = "https://tiktok.com/"

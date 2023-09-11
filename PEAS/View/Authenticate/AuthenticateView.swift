@@ -46,10 +46,10 @@ struct AuthenticateView: View {
 		.banner(data: $viewModel.bannerData)
 		.progressView(isShowing: viewModel.isLoading, style: .white)
 		.sheet(isPresented: $viewModel.isShowingPrivacySheet) {
-			webView(url: URL(string: "https://apple.com/privacy")!)
+			webView(url: URL(string: "\(AppConstants.appUrlString)privacy")!)
 		}
 		.sheet(isPresented: $viewModel.isShowingTermsSheet) {
-			webView(url: URL(string: "https://peas.gg/")!)
+			webView(url: URL(string: "\(AppConstants.appUrlString)terms")!)
 		}
 		.tint(Color.white)
 		.interactiveDismissDisabled()
