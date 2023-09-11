@@ -77,7 +77,7 @@ extension WelcomeView {
 		func setIsShowingAuthenticateView(_ isShowing: Bool) {
 			if !isShowing {
 				KeyboardClient.shared.resignKeyboard()
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 					self.isShowingAuthenticateView = isShowing
 				}
 				return
