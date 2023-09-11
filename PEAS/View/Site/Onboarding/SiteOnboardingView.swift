@@ -117,7 +117,10 @@ struct SiteOnboardingView: View {
 				dismiss: { viewModel.setIsShowingAuthenticateView(false) }
 			)
 		}
-		.onAppear { viewModel.refreshTemplates() }
+		.onAppear {
+			UIScrollView.appearance().bounces = true
+			viewModel.refreshTemplates()
+		}
 		.onChange(of: viewModel.isShowingAuthenticateView) { isShowing in
 			if !isShowing {
 				KeyboardClient.shared.resignKeyboard()

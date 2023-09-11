@@ -36,6 +36,7 @@ struct WelcomeView: View {
 				.tabViewStyle(.page(indexDisplayMode: .never))
 				.edgesIgnoringSafeArea(.all)
 				.onAppear { UIScrollView.appearance().bounces = false }
+				.onDisappear { UIScrollView.appearance().bounces = true }
 			}
 			VStack {
 				Spacer()
