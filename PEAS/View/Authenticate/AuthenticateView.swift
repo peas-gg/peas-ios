@@ -261,14 +261,17 @@ struct AuthenticateView: View {
 		switch flow {
 		case .emailAndPassword:
 			VStack(spacing: 30) {
-				textField(hint: "Email", text: $viewModel.email, isEmail: true, onCommit: {})
-					.focused($focusField, equals: .lastName)
+				textField(hint: "Email", text: $viewModel.email, isEmail: true) {
+					self.setFocusField(.password)
+				}
+				.focused($focusField, equals: .email)
 				Rectangle()
 					.fill(Color.app.darkGray)
 					.frame(height: 1)
 				secureTextField(hint: "Password", text: $viewModel.password) {
 					
 				}
+				.focused($focusField, equals: .password)
 				Button(action: { viewModel.forgotPasswordTapped() }) {
 					Text("Forgot password?")
 						.font(Font.app.body)
@@ -288,9 +291,13 @@ struct AuthenticateView: View {
 		switch flow {
 		case .email:
 			VStack(alignment: .leading, spacing: verticalStackSpacing) {
-				textField(hint: "Email", text: $viewModel.email, isEmail: true, onCommit: {})
+				textField(hint: "Email", text: $viewModel.email, isEmail: true) {
+					
+				}
+				.focused($focusField, equals: .email)
 				flowHint(hint: "Enter the email address associated with your Peas account. We’ll send you a \(SizeConstants.otpCodeCount)-digit code to your email for verification.")
 			}
+			.onAppear { self.setFocusField(.email) }
 		case .otpCode:
 			otpCodeView(context: .forgotPassword(.otpCode))
 		case .password:
