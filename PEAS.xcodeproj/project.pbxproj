@@ -81,6 +81,8 @@
 		D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F62A9BA456003864E3 /* Int+Extension.swift */; };
 		D0E220F92A9C59B2003864E3 /* EditSiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F82A9C59B2003864E3 /* EditSiteView.swift */; };
 		D0E562842AA34E25000965B6 /* EditSiteVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E562832AA34E25000965B6 /* EditSiteVM.swift */; };
+		D0F0895A2AAFB6640043EEE3 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F089592AAFB6630043EEE3 /* UserView.swift */; };
+		D0F0895C2AAFB66D0043EEE3 /* UserVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F0895B2AAFB66D0043EEE3 /* UserVM.swift */; };
 		D0FB0AFC2A8FEDE500C56178 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */; };
 		D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */; };
 		D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FB0B002A8FF26200C56178 /* KeychainClient.swift */; };
@@ -165,6 +167,8 @@
 		D0E220F62A9BA456003864E3 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		D0E220F82A9C59B2003864E3 /* EditSiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSiteView.swift; sourceTree = "<group>"; };
 		D0E562832AA34E25000965B6 /* EditSiteVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSiteVM.swift; sourceTree = "<group>"; };
+		D0F089592AAFB6630043EEE3 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		D0F0895B2AAFB66D0043EEE3 /* UserVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVM.swift; sourceTree = "<group>"; };
 		D0FB0AFE2A8FEF8400C56178 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		D0FB0B002A8FF26200C56178 /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 		D0FB0B052A8FFB2E00C56178 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -323,6 +327,7 @@
 		D02659A12A8733F300655C23 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				D0F089582AAFB6560043EEE3 /* User */,
 				D02659A42A87342100655C23 /* DashboardView.swift */,
 				D02659A22A87341300655C23 /* DashboardVM.swift */,
 			);
@@ -460,6 +465,15 @@
 			path = Edit;
 			sourceTree = "<group>";
 		};
+		D0F089582AAFB6560043EEE3 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				D0F089592AAFB6630043EEE3 /* UserView.swift */,
+				D0F0895B2AAFB66D0043EEE3 /* UserVM.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		D0FB0AFD2A8FEF5E00C56178 /* APIClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -592,6 +606,7 @@
 				D066F8282A956E4400B65CA4 /* Cache.swift in Sources */,
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
 				D04F115D2A9E4A0B0011242C /* StepperView.swift in Sources */,
+				D0F0895C2AAFB66D0043EEE3 /* UserVM.swift in Sources */,
 				D0332A1C2AA44485000E7515 /* PriceFormatter.swift in Sources */,
 				D0332A182AA3AC31000E7515 /* UpdateBusiness.swift in Sources */,
 				D02659AD2A87369C00655C23 /* SiteView.swift in Sources */,
@@ -623,6 +638,7 @@
 				D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */,
 				D04F11572A9D0E840011242C /* Helpers.swift in Sources */,
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
+				D0F0895A2AAFB6640043EEE3 /* UserView.swift in Sources */,
 				D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */,
 				D066F8212A94937C00B65CA4 /* Template.swift in Sources */,
 				D066F81B2A948F0600B65CA4 /* AppUrlRequest.swift in Sources */,
