@@ -39,6 +39,17 @@ extension View {
 		self.modifier(AppMenuModifier(id: id, isShowing: isShowing, menu: menu))
 	}
 	
+	func fullScreenContainer<Content: View>(
+		isShowing: Binding<Bool>,
+		@ViewBuilder _ content: @escaping () -> Content
+	) -> some View {
+		overlay {
+			FullScreenContainer(isShowing: isShowing) {
+				content()
+			}
+		}
+	}
+	
 	func progressView(isShowing: Bool, style: LoadingIndicator.Style, coverOpacity: CGFloat = 0.1) -> some View {
 		self
 			.overlay {
