@@ -24,10 +24,10 @@ struct RequestPaymentView: View {
 			HStack {
 				Spacer(minLength: 0)
 				let fontSize: CGFloat = {
-					if viewModel.priceText.count <= 8 {
+					if viewModel.priceText.count < 10 {
 						return 60
 					} else {
-						return 30
+						return 50
 					}
 				}()
 				HStack {
@@ -82,6 +82,7 @@ struct RequestPaymentView: View {
 		}
 		.font(Font.system(size: 30, weight: .bold, design: .rounded))
 		.foregroundColor(Color.app.secondaryText)
+		.buttonStyle(.keypad)
 	}
 }
 

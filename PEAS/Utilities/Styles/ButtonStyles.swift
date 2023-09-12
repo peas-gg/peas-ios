@@ -129,3 +129,21 @@ struct BrightButtonStyle: ButtonStyle {
 extension ButtonStyle where Self == BrightButtonStyle {
 	static var bright: Self { BrightButtonStyle() }
 }
+
+struct KeypadButtonStyle: ButtonStyle {
+	func makeBody(configuration: Configuration) -> some View {
+		configuration.label
+			.background {
+				Circle()
+					.fill(Color.app.darkGreen.opacity(0.8))
+					.padding()
+					.opacity(configuration.isPressed ? 1.0 : 0.0)
+					.transition(.opacity)
+			}
+			.animation(.easeOut, value: configuration.isPressed)
+	}
+}
+
+extension ButtonStyle where Self == KeypadButtonStyle {
+	static var keypad: Self { KeypadButtonStyle() }
+}
