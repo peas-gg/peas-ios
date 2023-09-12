@@ -10,6 +10,9 @@ import SwiftUI
 struct HomeView: View {
 	@StateObject var viewModel: ViewModel
 	
+	//Clients
+	let appState: AppState = AppState.shared
+	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -35,6 +38,14 @@ struct HomeView: View {
 				}
 		}
 		.tint(Color.black)
+		.fullScreenContainer(
+			isShowing: Binding(
+				get: { appState.isShowingRequestPayment },
+				set: { appState.setIsShowingPaymentView($0) }
+			)
+		) {
+			RequestPaymentView(viewModel: .init())
+		}
 	}
 }
 

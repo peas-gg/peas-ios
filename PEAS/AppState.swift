@@ -26,6 +26,8 @@ fileprivate let appStateKeyNotification: String = "appState"
 	@Published var mode: AppMode?
 	@Published var isUserLoggedIn: Bool = false
 	
+	@Published var isShowingRequestPayment: Bool = false
+	
 	//Clients
 	let cacheClient = CacheClient.shared
 	let keychainClient = KeychainClient.shared
@@ -69,6 +71,10 @@ fileprivate let appStateKeyNotification: String = "appState"
 		withAnimation(.default) {
 			self.mode = mode
 		}
+	}
+	
+	func setIsShowingPaymentView(_ isShowing: Bool) {
+		self.isShowingRequestPayment = isShowing
 	}
 	
 	func logUserIn(_ authenticateResponse: AuthenticateResponse) {
