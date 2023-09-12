@@ -8,14 +8,6 @@
 import SwiftUI
 
 struct PriceTextField: View {
-	let priceFormatter: NumberFormatter =  {
-		let formatter = NumberFormatter()
-		formatter.numberStyle = .decimal
-		formatter.minimumFractionDigits = 2
-		formatter.maximumFractionDigits = 2
-		return formatter
-	}()
-	
 	@Binding var isFocused: Bool
 	@Binding var priceText: String
 	
@@ -25,8 +17,8 @@ struct PriceTextField: View {
 	
 	var body: some View {
 		ZStack(alignment: .leading) {
-			let value: Double = 0.01 * Double(Int(priceText) ?? 0)
-			Text("\(priceFormatter.string(for: value) ?? "")")
+			let value: Double = PriceFormatter(text: priceText).price
+			Text("\(PriceFormatter.formatter.string(for: value) ?? "")")
 				.overlay(alignment: .bottomTrailing) {
 					Rectangle()
 						.frame(width: 10, height: 1, alignment: .trailing)

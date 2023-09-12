@@ -10,6 +10,14 @@ import Foundation
 struct PriceFormatter {
 	private let factor: Double = 0.01
 	
+	static let formatter: NumberFormatter =  {
+		let formatter = NumberFormatter()
+		formatter.numberStyle = .decimal
+		formatter.minimumFractionDigits = 2
+		formatter.maximumFractionDigits = 2
+		return formatter
+	}()
+	
 	let price: Double
 	let text: String
 	
