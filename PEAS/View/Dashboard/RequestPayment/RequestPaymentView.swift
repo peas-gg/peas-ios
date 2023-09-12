@@ -23,9 +23,22 @@ struct RequestPaymentView: View {
 			Spacer(minLength: 0)
 			HStack {
 				Spacer(minLength: 0)
-				Text("$132.99")
-					.font(.system(size: 60, weight: .bold, design: .rounded))
-					.foregroundColor(Color.app.secondaryText)
+				let fontSize: CGFloat = {
+					if viewModel.priceText.count <= 8 {
+						return 60
+					} else {
+						return 30
+					}
+				}()
+				HStack {
+					let value: Double = PriceFormatter(text: viewModel.priceText).price
+					Text("$")
+					Text("\(PriceFormatter.formatter.string(for: value) ?? "")")
+						.lineLimit(1)
+				}
+				.font(.system(size: fontSize, weight: .bold, design: .rounded))
+				.foregroundColor(Color.app.secondaryText)
+				.frame(height: 160)
 				Spacer(minLength: 0)
 			}
 			Spacer(minLength: 0)
@@ -54,12 +67,12 @@ struct RequestPaymentView: View {
 	
 	@ViewBuilder
 	func keyView(_ key: String) -> some View {
-		Button(action: {}) {
+		Button(action: { viewModel.keyTapped(key: key) }) {
 			Rectangle()
 				.fill(Color.clear)
 				.frame(height: 100)
 				.overlay {
-					if key == "delete" {
+					if key == AppConstants.keypadDelete {
 						Image(systemName: "delete.left")
 					} else {
 						Text(key)

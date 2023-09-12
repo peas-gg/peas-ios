@@ -23,4 +23,5 @@ struct AppConstants {
 	static let twitterUrlString: String = "https://x.com/"
 	static let instagramUrlString: String = "https://instagram.com/"
 	static let tiktokUrlString: String = "https://tiktok.com/"
+	static let keypadDelete: String = "delete"
 }

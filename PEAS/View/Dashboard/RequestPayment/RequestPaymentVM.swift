@@ -9,6 +9,20 @@ import Foundation
 
 extension RequestPaymentView {
 	@MainActor class ViewModel: ObservableObject {
-		let keypad: [String] = ["1", "2", "3", "4", "5", "6", "7" ,"8", "9", ".", "0", "delete"]
+		let keypad: [String] = ["1", "2", "3", "4", "5", "6", "7" ,"8", "9", ".", "0", AppConstants.keypadDelete]
+		
+		@Published var priceText: String = "0"
+		
+		func keyTapped(key: String) {
+			if key == AppConstants.keypadDelete && priceText.count >= 1 {
+				priceText.removeLast()
+				return
+			}
+			if priceText.count <= 10 {
+				if Int(key) != nil {
+					priceText.append(key)
+				}
+			}
+		}
 	}
 }
