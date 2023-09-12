@@ -12,12 +12,14 @@ struct ExpandedButtonStyle: ButtonStyle {
 		case white
 		case black
 		case green
+		case darkGreen
 		
 		var color: Color {
 			switch self {
 			case .white: return Color.white
 			case .black: return Color.black
 			case .green: return Color.app.accent
+			case .darkGreen: return Color.app.darkGreen
 			}
 		}
 		
@@ -26,6 +28,7 @@ struct ExpandedButtonStyle: ButtonStyle {
 			case .white: return Color.app.primaryText
 			case .black: return Color.app.secondaryText
 			case .green: return Color.app.secondaryText
+			case .darkGreen: return Color.app.accent
 			}
 		}
 		
@@ -33,6 +36,7 @@ struct ExpandedButtonStyle: ButtonStyle {
 			switch self {
 			case .white, .black: return Color.gray
 			case .green: return Color.app.accent
+			case .darkGreen: return Color.app.darkGreen
 			}
 		}
 		
@@ -41,6 +45,7 @@ struct ExpandedButtonStyle: ButtonStyle {
 			case .white: return Color.gray
 			case .black: return Color.gray
 			case .green: return Color.app.accent
+			case .darkGreen: return Color.app.darkGreen
 			}
 		}
 	}
