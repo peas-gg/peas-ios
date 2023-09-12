@@ -15,16 +15,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SiteLogo" translatesAutoresizingMaskIntoConstraints="NO" id="MqY-1t-VgV">
-                                <rect key="frame" x="156.66666666666666" y="386" width="80" height="80"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="P" translatesAutoresizingMaskIntoConstraints="NO" id="MqY-1t-VgV">
+                                <rect key="frame" x="116.66666666666669" y="346" width="160" height="160"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="6zC-Oh-RRP"/>
-                                    <constraint firstAttribute="height" constant="80" id="NGY-RB-cPA"/>
+                                    <constraint firstAttribute="width" constant="160" id="6zC-Oh-RRP"/>
+                                    <constraint firstAttribute="height" constant="160" id="NGY-RB-cPA"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.38039215686274508" green="0.82745098039215681" blue="0.38039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="MqY-1t-VgV" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="MmG-mY-s4p"/>
                             <constraint firstItem="MqY-1t-VgV" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="nQL-lY-9ED"/>
@@ -37,6 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SiteLogo" width="1180" height="1218"/>
+        <image name="P" width="260" height="247"/>
     </resources>
 </document>
