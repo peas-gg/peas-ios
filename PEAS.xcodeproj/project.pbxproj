@@ -56,6 +56,8 @@
 		D066F8322A95741B00B65CA4 /* CachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8312A95741B00B65CA4 /* CachedImage.swift */; };
 		D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8332A957A4800B65CA4 /* ButtonStyles.swift */; };
 		D066F8362A97CEC800B65CA4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8352A97CEC800B65CA4 /* AppState.swift */; };
+		D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */; };
+		D06A2ADE2AB109D4002E3221 /* RequestPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */; };
 		D0793D232A9FBC7500139783 /* SiteOnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */; };
 		D0793D252A9FC69600139783 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D242A9FC69600139783 /* Notification+Name.swift */; };
 		D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D262AA0554400139783 /* MenuViewModifier.swift */; };
@@ -141,6 +143,8 @@
 		D066F8312A95741B00B65CA4 /* CachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImage.swift; sourceTree = "<group>"; };
 		D066F8332A957A4800B65CA4 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		D066F8352A97CEC800B65CA4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentView.swift; sourceTree = "<group>"; };
+		D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentVM.swift; sourceTree = "<group>"; };
 		D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteOnboardingVM.swift; sourceTree = "<group>"; };
 		D0793D242A9FC69600139783 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		D0793D262AA0554400139783 /* MenuViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModifier.swift; sourceTree = "<group>"; };
@@ -327,6 +331,7 @@
 		D02659A12A8733F300655C23 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				D06A2ADA2AB109AD002E3221 /* RequestPayment */,
 				D0F089582AAFB6560043EEE3 /* User */,
 				D02659A42A87342100655C23 /* DashboardView.swift */,
 				D02659A22A87341300655C23 /* DashboardVM.swift */,
@@ -390,6 +395,15 @@
 				D066F82F2A95723500B65CA4 /* CacheTrimmer.swift */,
 			);
 			path = CacheClient;
+			sourceTree = "<group>";
+		};
+		D06A2ADA2AB109AD002E3221 /* RequestPayment */ = {
+			isa = PBXGroup;
+			children = (
+				D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */,
+				D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */,
+			);
+			path = RequestPayment;
 			sourceTree = "<group>";
 		};
 		D0793D212A9FBC6500139783 /* Onboarding */ = {
@@ -589,6 +603,7 @@
 				D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */,
 				D02659A52A87342100655C23 /* DashboardView.swift in Sources */,
 				D02659AF2A8736AD00655C23 /* SiteVM.swift in Sources */,
+				D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */,
 				D066F8232A9493DA00B65CA4 /* Business.swift in Sources */,
 				D066F8262A956DA800B65CA4 /* CacheClient.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
@@ -601,6 +616,7 @@
 				D0B23CA92AA80BF200CBDA26 /* BannerViewModifier.swift in Sources */,
 				D0FB0B0A2A8FFBA500C56178 /* AppError.swift in Sources */,
 				D06455792A97D068003E342C /* HomeVM.swift in Sources */,
+				D06A2ADE2AB109D4002E3221 /* RequestPaymentVM.swift in Sources */,
 				D017617E2A86216600926960 /* PEASApp.swift in Sources */,
 				D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */,
 				D066F8282A956E4400B65CA4 /* Cache.swift in Sources */,
