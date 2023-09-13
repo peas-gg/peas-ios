@@ -134,9 +134,9 @@ struct KeypadButtonStyle: ButtonStyle {
 	func makeBody(configuration: Configuration) -> some View {
 		configuration.label
 			.background {
-				Circle()
-					.fill(Color.app.darkGreen.opacity(0.8))
-					.padding()
+				RoundedRectangle(cornerRadius: 20)
+					.fill(Color.app.darkGreen.opacity(0.2))
+					.frame(dimension: 70)
 					.opacity(configuration.isPressed ? 1.0 : 0.0)
 					.transition(.opacity)
 			}
