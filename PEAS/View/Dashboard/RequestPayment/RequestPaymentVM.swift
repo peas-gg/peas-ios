@@ -13,14 +13,19 @@ extension RequestPaymentView {
 		
 		@Published var priceText: String = "0"
 		
+		//Clients
+		private let feedbackClient: FeedbackClient = FeedbackClient.shared
+		
 		func keyTapped(key: String) {
 			if key == AppConstants.keypadDelete && priceText.count >= 1 {
 				priceText.removeLast()
+				feedbackClient.light()
 				return
 			}
 			if priceText.count <= 10 {
 				if Int(key) != nil {
 					priceText.append(key)
+					feedbackClient.light()
 				}
 			}
 		}
