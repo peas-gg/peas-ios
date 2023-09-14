@@ -19,6 +19,17 @@ class CalendarClient {
 	
 	var months: [Date] = []
 	
+	var startOfDay: Date {
+		Calendar.current.startOfDay(for: Date.now)
+	}
+	
+	var endOfDay: Date {
+		var components = DateComponents()
+		components.day = 1
+		components.second = -1
+		return Calendar.current.date(byAdding: components, to: startOfDay)!
+	}
+	
 	init() {
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "MMMM yyyy"

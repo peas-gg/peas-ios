@@ -69,6 +69,8 @@ extension EditSiteView {
 		@Published var weekDays: [String]
 		@Published var availableDays: [String]
 		@Published var selectedDay: String?
+		@Published var startDate: Date
+		@Published var endDate: Date
 		
 		@Published var photoItem: PhotosPickerItem?
 		@Published var isShowingDeleteBlockAlert: Bool = false
@@ -82,6 +84,14 @@ extension EditSiteView {
 		
 		var isLocationActive: Bool {
 			!location.isEmpty && latitude != nil && longitude != nil && locationPermissionState == .allowed
+		}
+		
+		var startDateRange: ClosedRange<Date> {
+			getDateRange(startDate: calendarClient.startOfDay)
+		}
+		
+		var endDateRange: ClosedRange<Date> {
+			getDateRange(startDate: startDate)
 		}
 		
 		//Clients
@@ -135,6 +145,8 @@ extension EditSiteView {
 			//Schedule
 			self.weekDays = calendarClient.weekDays
 			self.availableDays = []
+			self.startDate = calendarClient.startOfDay
+			self.endDate = calendarClient.endOfDay
 			
 			self.locationClient
 				.$location
@@ -223,6 +235,17 @@ extension EditSiteView {
 					saveChanges()
 				}
 			}
+		}
+		
+		func getDateRange(startDate: Date) -> ClosedRange<Date> {
+			let startDate: Date = startDate
+			let endDate: Date = calendarClient.endOfDay
+			let calendarComponents: Set<Calendar.Component> = [.hour, .minute]
+			let startComponents = Calendar.current.dateComponents(calendarComponents, from: startDate)
+			let endComponents = Calendar.current.dateComponents(calendarComponents, from: endDate)
+			return Calendar.current.date(from: startComponents)!
+				...
+			Calendar.current.date(from: endComponents)!
 		}
 		
 		func setSelectedDay(day: String) {

@@ -222,12 +222,13 @@ struct EditSiteView: View {
 								Spacer()
 							}
 							HStack {
-								timeSelection()
+								timeSelection(date: $viewModel.startDate, dateRange: viewModel.startDateRange)
 								Spacer()
-								Text("to")
+								Image(systemName: "arrow.right")
 									.font(Font.app.bodySemiBold)
+									.foregroundColor(Color.app.primaryText)
 								Spacer()
-								timeSelection()
+								timeSelection(date: $viewModel.endDate, dateRange: viewModel.endDateRange)
 							}
 						}
 						HStack {
@@ -458,23 +459,16 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func timeSelection() -> some View {
-		Button(action: {}) {
-			HStack(spacing: 10) {
-				Image(systemName: "clock")
-					.foregroundColor(Color.app.tertiaryText)
-				ZStack {
-					Text("99:99am")
-						.opacity(0)
-					Text("9:30am")
-				}
-				Image(systemName: "chevron.down")
-			}
-			.font(Font.app.bodySemiBold)
-			.foregroundColor(Color.app.primaryText)
-			.padding()
-			.background(textBackground())
+	func timeSelection(date: Binding<Date>, dateRange: ClosedRange<Date>) -> some View {
+		HStack {
+			Image(systemName: "clock")
+				.font(Font.app.title2)
+				.foregroundColor(Color.app.tertiaryText)
+			DatePicker("", selection: date, in: dateRange, displayedComponents: .hourAndMinute)
+				.labelsHidden()
 		}
+		.font(Font.app.bodySemiBold)
+		.foregroundColor(Color.app.primaryText)
 	}
 	
 	@ViewBuilder
