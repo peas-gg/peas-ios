@@ -21,6 +21,7 @@ extension EditSiteView {
 			case links
 			case location
 			case block(_ blockId: Business.Block.ID?)
+			case schedule
 			
 			var title: String {
 				switch self {
@@ -30,6 +31,7 @@ extension EditSiteView {
 				case .links: return "Link your socials"
 				case .location: return "Location"
 				case .block: return "Block"
+				case .schedule: return "Your schedule"
 				}
 			}
 		}
@@ -63,6 +65,11 @@ extension EditSiteView {
 		@Published var instagram: String
 		@Published var tiktok: String
 		
+		//Schedule
+		@Published var weekDays: [String]
+		@Published var availableDays: [String]
+		@Published var selectedDay: String?
+		
 		@Published var photoItem: PhotosPickerItem?
 		@Published var isShowingDeleteBlockAlert: Bool = false
 		
@@ -80,6 +87,7 @@ extension EditSiteView {
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
+		private let calendarClient: CalendarClient = CalendarClient.shared
 		private let locationClient: LocationClient = LocationClient.shared
 		private let permissionClient: PermissionClient = PermissionClient.shared
 		
@@ -123,6 +131,10 @@ extension EditSiteView {
 			self.twitter = business.twitter ?? ""
 			self.instagram = business.instagram ?? ""
 			self.tiktok = business.tiktok ?? ""
+			
+			//Schedule
+			self.weekDays = calendarClient.weekDays
+			self.availableDays = []
 			
 			self.locationClient
 				.$location
@@ -188,7 +200,7 @@ extension EditSiteView {
 					self.photo = imageUrl
 				case .block:
 					self.blockImage = imageUrl
-				case .sign, .name, .description, .links, .location:
+				case .sign, .name, .description, .links, .location, .schedule:
 					return
 				}
 				self.photoItem = nil
@@ -210,6 +222,14 @@ extension EditSiteView {
 					self.business.blocks.remove(id: blockIdToDelete)
 					saveChanges()
 				}
+			}
+		}
+		
+		func setSelectedDay(day: String) {
+			if self.selectedDay == selectedDay {
+				self.selectedDay = nil
+			} else {
+				self.selectedDay = selectedDay
 			}
 		}
 		
@@ -252,6 +272,7 @@ extension EditSiteView {
 							)
 							self.business.blocks.append(newBlock)
 						}
+					case .schedule: return
 					}
 					self.isLoading = false
 					await cacheClient.setData(key: .businessDraft, value: self.business)

@@ -200,6 +200,49 @@ struct EditSiteView: View {
 					}
 					.padding(.top)
 					.presentationDetents([.height(400)])
+				case .schedule:
+					VStack(spacing: spacing) {
+						VStack(alignment: .leading) {
+							HStack {
+								Text("Availability")
+								Spacer()
+							}
+							HStack {
+								ForEach(viewModel.weekDays.indices, id: \.self) { index in
+									dayView(day: viewModel.weekDays[index])
+									if index != viewModel.weekDays.count - 1 {
+										Spacer(minLength: 0)
+									}
+								}
+							}
+						}
+						VStack(alignment: .leading) {
+							HStack {
+								Text("Select time")
+								Spacer()
+							}
+							HStack {
+								timeSelection()
+								Spacer()
+								Text("to")
+									.font(Font.app.bodySemiBold)
+								Spacer()
+								timeSelection()
+							}
+						}
+						HStack {
+							Spacer(minLength: 0)
+							Text("Please note that updating your schedule does not change the time for existing appointments")
+								.font(Font.app.footnote)
+								.multilineTextAlignment(.center)
+							Spacer(minLength: 0)
+						}
+						.padding(.top, 40)
+					}
+					.font(Font.app.body)
+					.foregroundColor(Color.app.tertiaryText)
+					.padding(.top)
+					.padding(.horizontal, horizontalPadding)
 				}
 			}
 			.background(viewModel.context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
@@ -208,10 +251,11 @@ struct EditSiteView: View {
 				Spacer()
 			}
 			
+			let isSchedule: Bool = viewModel.context == .schedule
 			Button(action: { viewModel.saveChanges() }) {
-				Text("Save")
+				Text(isSchedule ? "Set Schedule" : "Save")
 			}
-			.buttonStyle(.expanded(style: .black))
+			.buttonStyle(.expanded(style: isSchedule ? .green : .black))
 			.padding()
 		}
 		.multilineTextAlignment(.leading)
@@ -240,7 +284,7 @@ struct EditSiteView: View {
 				self.focusedField = .description
 			case .links:
 				self.focusedField = nil
-			case .photo, .block, .location:
+			case .photo, .block, .location, .schedule:
 				return
 			}
 		}
@@ -379,6 +423,61 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
+	func dayView(day: String) -> some View {
+		let isActive: Bool = viewModel.availableDays.contains(day)
+		let foregroundColor: Color = isActive ? Color.app.secondaryText : Color.app.primaryText
+		let opacity: CGFloat = {
+			if let selectedDay = viewModel.selectedDay {
+				return selectedDay == day ? 1.0 : 0.2
+			} else {
+				return 1.0
+			}
+		}()
+		Button(action: { viewModel.setSelectedDay(day: day) }) {
+			Color.clear
+				.overlay {
+					Group {
+						if isActive {
+							RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
+								.fill(Color.app.accent)
+						} else {
+							textBackground()
+						}
+					}
+				}
+				.frame(dimension: 44)
+				.overlay {
+					if let firstLetter = day.first {
+						Text(String(firstLetter))
+							.font(Font.app.bodySemiBold)
+							.foregroundColor(foregroundColor)
+					}
+				}
+				.opacity(opacity)
+		}
+	}
+	
+	@ViewBuilder
+	func timeSelection() -> some View {
+		Button(action: {}) {
+			HStack(spacing: 10) {
+				Image(systemName: "clock")
+					.foregroundColor(Color.app.tertiaryText)
+				ZStack {
+					Text("99:99am")
+						.opacity(0)
+					Text("9:30am")
+				}
+				Image(systemName: "chevron.down")
+			}
+			.font(Font.app.bodySemiBold)
+			.foregroundColor(Color.app.primaryText)
+			.padding()
+			.background(textBackground())
+		}
+	}
+	
+	@ViewBuilder
 	func textHint(image: String?, hint: String, text: String) -> some View {
 		HStack {
 			if let image = image {
@@ -407,5 +506,6 @@ struct EditSiteView_Previews: PreviewProvider {
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1, context: .location))
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1, context: .links))
 		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1, context: .block(Business.mock1.blocks.first!.id)))
+		EditSiteView(viewModel: .init(isTemplate: true, business: Business.mock1, context: .schedule))
 	}
 }
