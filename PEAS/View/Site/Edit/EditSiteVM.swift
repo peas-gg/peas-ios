@@ -249,10 +249,10 @@ extension EditSiteView {
 		}
 		
 		func setSelectedDay(day: String) {
-			if self.selectedDay == selectedDay {
+			if self.selectedDay == day {
 				self.selectedDay = nil
 			} else {
-				self.selectedDay = selectedDay
+				self.selectedDay = day
 			}
 		}
 		
