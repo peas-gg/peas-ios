@@ -230,6 +230,7 @@ struct EditSiteView: View {
 								Spacer()
 								timeSelection(date: $viewModel.endDate, dateRange: viewModel.endDateRange)
 							}
+							.disabled(viewModel.selectedDay == nil)
 						}
 						HStack {
 							Spacer(minLength: 0)
@@ -455,6 +456,8 @@ struct EditSiteView: View {
 					}
 				}
 				.opacity(opacity)
+				.transition(.opacity)
+				.animation(.easeInOut, value: opacity)
 		}
 	}
 	
