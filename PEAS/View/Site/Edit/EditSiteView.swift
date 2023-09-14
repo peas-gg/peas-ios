@@ -19,6 +19,7 @@ struct EditSiteView: View {
 	}
 	
 	let textfieldVerticalPadding: CGFloat = 12
+	let detentHeight: CGFloat = 400
 	
 	@FocusState private var focusedField: FocusField?
 	
@@ -199,9 +200,10 @@ struct EditSiteView: View {
 						Spacer()
 					}
 					.padding(.top)
-					.presentationDetents([.height(400)])
+					.presentationDetents([.height(detentHeight)])
 				case .schedule:
 					VStack(spacing: spacing) {
+						let isInEditMode: Bool = viewModel.selectedDay != nil
 						VStack(alignment: .leading) {
 							HStack {
 								Text("Availability")
@@ -218,7 +220,7 @@ struct EditSiteView: View {
 						}
 						VStack(alignment: .leading) {
 							HStack {
-								Text("Select time")
+								Text(isInEditMode ? "Select time" : "Time")
 								Spacer()
 							}
 							HStack {
@@ -230,7 +232,7 @@ struct EditSiteView: View {
 								Spacer()
 								timeSelection(date: $viewModel.endDate, dateRange: viewModel.endDateRange)
 							}
-							.disabled(viewModel.selectedDay == nil)
+							.disabled(!isInEditMode)
 						}
 						HStack {
 							Spacer(minLength: 0)
@@ -240,11 +242,13 @@ struct EditSiteView: View {
 							Spacer(minLength: 0)
 						}
 						.padding(.top, 40)
+						Spacer(minLength: 0)
 					}
 					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
+					.presentationDetents([.height(detentHeight)])
 				}
 			}
 			.background(viewModel.context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
