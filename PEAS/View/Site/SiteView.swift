@@ -370,7 +370,7 @@ struct SiteView: View {
 					Button(action: {}) {
 						toolbarImage("globe")
 					}
-					Button(action: {}) {
+					Button(action: { viewModel.setEditModeContext(.schedule) }) {
 						toolbarImage("calendar.badge.clock")
 					}
 				}
@@ -445,7 +445,7 @@ struct SiteView: View {
 struct SiteView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
+			SiteView(viewModel: .init(isTemplate: false, business: Business.mock1))
 		}
 	}
 }
