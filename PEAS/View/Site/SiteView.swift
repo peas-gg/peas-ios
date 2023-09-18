@@ -325,7 +325,7 @@ struct SiteView: View {
 						}
 					}
 					.overlay(alignment: .topTrailing) {
-						Text("$\(block.price, specifier: "%.2f")")
+						Text("$\(PriceFormatter.price(value: String(block.price)))")
 							.font(Font.app.bodySemiBold)
 							.padding(.horizontal, 6)
 							.padding(.vertical, 10)
