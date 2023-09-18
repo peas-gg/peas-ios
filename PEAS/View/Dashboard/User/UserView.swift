@@ -12,12 +12,25 @@ struct UserView: View {
 	@State private var username = ""
 	@State private var email = ""
 	@State private var phoneNumber = ""
+	let detentHeight: CGFloat = 400
 	
+	init(viewModel: ViewModel) {
+		self._viewModel = StateObject(wrappedValue: viewModel)
+	}
+	
+	let user: User = User(
+			firstName: "Melissa",
+			lastName: "Kournikova",
+			email: "mel.kournikova@gmail.com",
+			interacEmail: nil,
+			phone: "(604) 669-1940",
+			role: "User",
+			accessToken: "your-access-token",
+			refreshToken: "your-refresh-token"
+		)
 	
 	var body: some View {
 		VStack{
-			Spacer()
-				.frame(height: SizeConstants.screenSize.height * 0.45)
 			ZStack{
 				Rectangle()
 					.foregroundColor(Color(red: 0.98, green: 0.98, blue: 0.98))
@@ -31,13 +44,9 @@ struct UserView: View {
 							.font(Font.app.title2)
 							.foregroundColor(.black)
 					} leading: {
-						Image(systemName: "multiply")
-							.font(.system(size: 30)) // Adjust font size
-							.frame(width: 30, height: 30)
-							.foregroundColor(.black)
+						EmptyView()
 					} trailing: {
 						Button(action: {
-							
 						}) {
 							HStack{
 								Image(systemName: "trash")
@@ -55,62 +64,18 @@ struct UserView: View {
 						.buttonStyle(PlainButtonStyle())
 					}
 					.padding()
-
-//					HStack{
-//						Button(action: {
-//
-//						}) {
-//							Image(systemName: "multiply")
-//								.font(.system(size: 30)) // Adjust font size
-//								.frame(width: 30, height: 30)
-//								.foregroundColor(.black)
-//
-//						}
-//
-//						Spacer()
-//
-//						Text("Account")
-//							.font(Font.app.title2)
-//							.foregroundColor(.black)
-//
-//						Spacer()
-//
-//						Button(action: {
-//
-//						}) {
-//							HStack{
-//								Image(systemName: "trash")
-//									.foregroundColor(.white)
-//								Text("DELETE")
-//									.font(Font.custom("SF Pro Rounded", size: 11))
-//									.foregroundColor(.white)
-//							}
-//							.padding(8)
-//							.background(
-//								RoundedRectangle(cornerRadius: 15)
-//									.fill(Color.black)
-//							)
-//						}
-//						.buttonStyle(PlainButtonStyle())
-//					}
-//					.padding()
-					
 					VStack(spacing: 20) {
-						textView("Melissa Kournikova")
-						textView("mel.kournikova@gmail.com")
-						textView("(604) 669-1940")
+						textView(user.firstName + " " + user.lastName)
+						textView(user.email)
+						textView(user.phone)
 					}
 					.padding(.horizontal)
-					
 					Text("You can request to edit your account information by tapping the button below")
 						.font(Font.custom("SF Pro Rounded", size: 12))
 						.multilineTextAlignment(.center)
 						.foregroundColor(.black.opacity(0.5))
 						.frame(width: 325, alignment: .top)
-					
 						.padding()
-					Spacer()
-					
 					Button(action: {  }) {
 						Text("Request Edit")
 					}
@@ -118,11 +83,8 @@ struct UserView: View {
 				}
 				.padding(.horizontal)
 			}
-			
-			
-			
 		}
-		.background(.black)
+		.presentationDetents([.height(detentHeight)])
 	}
 	
 	@ViewBuilder
@@ -135,9 +97,7 @@ struct UserView: View {
 		}
 		.padding()
 		.background(Textbackground())
-		
 	}
-	
 }
 
 struct UserView_Previews: PreviewProvider {
