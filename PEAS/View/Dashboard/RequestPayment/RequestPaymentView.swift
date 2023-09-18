@@ -24,16 +24,18 @@ struct RequestPaymentView: View {
 			HStack {
 				Spacer(minLength: 0)
 				let fontSize: CGFloat = {
-					if viewModel.priceText.count < 10 {
+					let count: Int = viewModel.priceText.count
+					if count <= 7 {
 						return 60
-					} else {
+					} else if count <= 9 {
 						return 50
+					} else {
+						return 45
 					}
 				}()
 				HStack {
-					let value: Double = PriceFormatter(text: viewModel.priceText).price
 					Text("$")
-					Text("\(PriceFormatter.formatter.string(for: value) ?? "")")
+					Text("\(PriceFormatter.price(value: viewModel.priceText))")
 						.lineLimit(1)
 				}
 				.font(.system(size: fontSize, weight: .bold, design: .rounded))

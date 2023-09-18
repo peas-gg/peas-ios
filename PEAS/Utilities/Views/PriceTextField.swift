@@ -17,8 +17,7 @@ struct PriceTextField: View {
 	
 	var body: some View {
 		ZStack(alignment: .leading) {
-			let value: Double = PriceFormatter(text: priceText).price
-			Text("\(PriceFormatter.formatter.string(for: value) ?? "")")
+			Text("\(PriceFormatter.price(value: priceText))")
 				.overlay(alignment: .bottomTrailing) {
 					Rectangle()
 						.frame(width: 10, height: 1, alignment: .trailing)
