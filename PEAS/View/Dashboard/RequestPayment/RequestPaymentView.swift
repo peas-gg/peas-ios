@@ -54,6 +54,8 @@ struct RequestPaymentView: View {
 				Text("Gia Lopez")
 					.font(Font.app.bodySemiBold)
 				Text("Will receive an email with the invoice and payment link")
+					.multilineTextAlignment(.center)
+					.fixedSize(horizontal: false, vertical: true)
 					.padding(.bottom)
 				Button(action: {}) {
 					Text("Request Payment")
@@ -63,6 +65,7 @@ struct RequestPaymentView: View {
 			.font(Font.app.body)
 			.foregroundColor(Color.app.darkGreen)
 			.padding(.horizontal)
+			.padding(.bottom, SizeConstants.isSmallPhone ? 20 : 0)
 		}
 		.background(Color.app.accent)
 	}
@@ -72,7 +75,7 @@ struct RequestPaymentView: View {
 		Button(action: { viewModel.keyTapped(key: key) }) {
 			Rectangle()
 				.fill(Color.clear)
-				.frame(height: 100)
+				.frame(height: SizeConstants.isSmallPhone ? 70 : 100)
 				.overlay {
 					if key == AppConstants.keypadDelete {
 						Image(systemName: "delete.left")
