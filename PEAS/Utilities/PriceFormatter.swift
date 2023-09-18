@@ -8,7 +8,7 @@
 import Foundation
 
 struct PriceFormatter {
-	private let factor: Double = 0.01
+	private static let factor: Int = 100
 	
 	static let formatter: NumberFormatter =  {
 		let formatter = NumberFormatter()
@@ -18,16 +18,8 @@ struct PriceFormatter {
 		return formatter
 	}()
 	
-	let price: Double
-	let text: String
-	
-	init(text: String) {
-		self.price = Double(Int(text) ?? 0) * factor
-		self.text = text
-	}
-	
-	init(price: Double) {
-		self.price = price
-		self.text = String(Int((price / factor)))
+	static func price(value: String) -> String {
+		let price: Double = Double(Int(value) ?? 0) / Double(factor)
+		return formatter.string(from: price as NSNumber) ?? ""
 	}
 }

@@ -24,16 +24,18 @@ struct RequestPaymentView: View {
 			HStack {
 				Spacer(minLength: 0)
 				let fontSize: CGFloat = {
-					if viewModel.priceText.count < 10 {
+					let count: Int = viewModel.priceText.count
+					if count <= 7 {
 						return 60
-					} else {
+					} else if count <= 9 {
 						return 50
+					} else {
+						return 45
 					}
 				}()
 				HStack {
-					let value: Double = PriceFormatter(text: viewModel.priceText).price
 					Text("$")
-					Text("\(PriceFormatter.formatter.string(for: value) ?? "")")
+					Text("\(PriceFormatter.price(value: viewModel.priceText))")
 						.lineLimit(1)
 				}
 				.font(.system(size: fontSize, weight: .bold, design: .rounded))
@@ -52,6 +54,8 @@ struct RequestPaymentView: View {
 				Text("Gia Lopez")
 					.font(Font.app.bodySemiBold)
 				Text("Will receive an email with the invoice and payment link")
+					.multilineTextAlignment(.center)
+					.fixedSize(horizontal: false, vertical: true)
 					.padding(.bottom)
 				Button(action: {}) {
 					Text("Request Payment")
@@ -61,6 +65,7 @@ struct RequestPaymentView: View {
 			.font(Font.app.body)
 			.foregroundColor(Color.app.darkGreen)
 			.padding(.horizontal)
+			.padding(.bottom, SizeConstants.isSmallPhone ? 20 : 0)
 		}
 		.background(Color.app.accent)
 	}
@@ -70,7 +75,7 @@ struct RequestPaymentView: View {
 		Button(action: { viewModel.keyTapped(key: key) }) {
 			Rectangle()
 				.fill(Color.clear)
-				.frame(height: 100)
+				.frame(height: SizeConstants.isSmallPhone ? 70 : 100)
 				.overlay {
 					if key == AppConstants.keypadDelete {
 						Image(systemName: "delete.left")

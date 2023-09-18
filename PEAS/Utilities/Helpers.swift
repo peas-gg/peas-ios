@@ -10,6 +10,9 @@ import SwiftUI
 
 struct SizeConstants {
 	static let screenSize: CGSize = UIScreen.main.bounds.size
+	static let isSmallPhone: Bool = {
+		UIScreen.main.bounds.size.height < 700
+	}()
 	static let blockCornerRadius: CGFloat = 20
 	static let textCornerRadius: CGFloat = 10
 	static let businessDescriptionLimit: Int = 160
