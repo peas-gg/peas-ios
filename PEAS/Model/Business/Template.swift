@@ -10,7 +10,7 @@ import Foundation
 struct Template: Codable, Equatable, Identifiable {
 	let id: String
 	let category: String
-	let details: String
+	let details: String?
 	let photo: URL
 	let business: Business
 }
