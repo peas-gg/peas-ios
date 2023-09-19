@@ -13,7 +13,7 @@ typealias APIClientError = AppError.APIClientError
 
 protocol APIRequests {
 	//Media
-	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError>
+	func uploadImage(imageData: Data) async -> URL?
 	func getImage(url: URL) async -> UIImage?
 	//Authenticate
 	func authenticate(_ model: AuthenticateRequest) -> AnyPublisher<EmptyResponse, APIClientError>
@@ -25,6 +25,10 @@ protocol APIRequests {
 	//Business
 	func getBusinessAccount() -> AnyPublisher<Business, APIClientError>
 	func createBusiness(_ model: CreateBusiness) -> AnyPublisher<Business, APIClientError>
+	func updateBusiness(_ model: UpdateBusiness) -> AnyPublisher<Business, APIClientError>
+	func addBlock(businessId: Business.ID, _ model : Business.Block) -> AnyPublisher<Business, APIClientError>
+	func updateBlock(businessId: Business.ID, _ model: UpdateBusiness.Block) -> AnyPublisher<Business, APIClientError>
+	func deleteBlock(businessId: Business.ID, blockId: Business.Block.ID) -> AnyPublisher<Business, APIClientError>
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
 	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError>
@@ -63,13 +67,31 @@ final class APIClient: APIRequests {
 		}
 	}
 	
-	func uploadImage(imageData: Data) -> AnyPublisher<URL, APIClientError> {
-		let imageUploadRequest = APPUrlRequest(
-			httpMethod: .put,
-			pathComponents: ["media", "image"],
-			body: imageData
-		)
-		return apiRequest(appRequest: imageUploadRequest, output: URL.self)
+	func uploadImage(imageData: Data) async -> URL? {
+		await withCheckedContinuation { continuation in
+			queue.async { [weak self] in
+				guard let self = self else { return }
+				let imageUploadRequest = APPUrlRequest(
+					httpMethod: .post,
+					pathComponents: ["media", "image"],
+					body: imageData
+				)
+				return apiRequest(appRequest: imageUploadRequest, output: URL.self)
+					.sink(
+						receiveCompletion: { completion in
+							switch completion {
+							case .finished: return
+							case .failure:
+								continuation.resume(with: .success(nil))
+							}
+						},
+						receiveValue: { url in
+							continuation.resume(with: .success(url))
+						}
+					)
+					.store(in: &cancellableBag)
+			}
+		}
 	}
 	
 	func getBusinessAccount() -> AnyPublisher<Business, APIClientError> {
@@ -89,6 +111,51 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: createBusiness, output: Business.self)
+	}
+	
+	func updateBusiness(_ model: UpdateBusiness) -> AnyPublisher<Business, APIClientError> {
+		let updateBusiness = APPUrlRequest(
+			httpMethod: .patch,
+			pathComponents: ["business"],
+			body: model,
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updateBusiness, output: Business.self)
+	}
+	
+	func addBlock(businessId: Business.ID, _ model: Business.Block) -> AnyPublisher<Business, APIClientError> {
+		let addBlock = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["business", "block"],
+			query: [URLQueryItem(name: "businessId", value: businessId)],
+			body: model,
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: addBlock, output: Business.self)
+	}
+	
+	func updateBlock(businessId: Business.ID, _ model: UpdateBusiness.Block) -> AnyPublisher<Business, APIClientError> {
+		let updateBlock = APPUrlRequest(
+			httpMethod: .patch,
+			pathComponents: ["business", "block"],
+			query: [URLQueryItem(name: "businessId", value: businessId)],
+			body: model,
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updateBlock, output: Business.self)
+	}
+	
+	func deleteBlock(businessId: Business.ID, blockId: Business.Block.ID) -> AnyPublisher<Business, APIClientError> {
+		let deleteBlock = APPUrlRequest(
+			httpMethod: .delete,
+			pathComponents: ["business", "block"],
+			query: [
+				URLQueryItem(name: "businessId", value: businessId),
+				URLQueryItem(name: "blockId", value: blockId)
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: deleteBlock, output: Business.self)
 	}
 	
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError> {

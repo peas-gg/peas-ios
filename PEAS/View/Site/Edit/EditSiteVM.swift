@@ -203,7 +203,8 @@ extension EditSiteView {
 			Task {
 				self.isLoading = true
 				let imageUrl: URL = cacheClient.fileName(for: UUID().uuidString)
-				_ = await self.cacheClient.setImage(url: imageUrl, image: UIImage(data: imageData) ?? UIImage())
+				let imageResized: UIImage = UIImage(data: imageData)?.resizedTo(megaBytes: 0.5) ?? UIImage()
+				_ = await self.cacheClient.setImage(url: imageUrl, image: imageResized)
 				switch context {
 				case .photo:
 					self.photo = imageUrl
@@ -228,8 +229,12 @@ extension EditSiteView {
 		func deleteBlock() {
 			if case .block(let blockId) = self.context {
 				if let blockIdToDelete = blockId {
-					self.business.blocks.remove(id: blockIdToDelete)
-					saveChanges()
+					if isTemplate {
+						self.business.blocks.remove(id: blockIdToDelete)
+						saveChanges()
+					} else {
+						self.deleteBlock(blockId: blockIdToDelete)
+					}
 				}
 			}
 		}
@@ -251,6 +256,107 @@ extension EditSiteView {
 			} else {
 				self.selectedDay = day
 			}
+		}
+		
+		func uploadImage(localUrl: URL) async -> URL? {
+			let fetchImageTask = Task { () -> Data? in
+				if let image = await cacheClient.getImage(url: localUrl) {
+					return image.jpegData(compressionQuality: 1.0)
+				}
+				return nil
+			}
+			if let imageData = await fetchImageTask.value {
+				return await self.apiClient.uploadImage(imageData: imageData)
+			}
+			return nil
+		}
+		
+		func updateBusiness(_ model: UpdateBusiness) {
+			self.apiClient.updateBusiness(model)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { business in
+						self.business = business
+						AppState.shared.updateBusiness(business: business)
+						self.isLoading = false
+						self.onSave(business)
+					}
+				)
+				.store(in: &cancellableBag)
+		}
+		
+		func addBlock(_ model: Business.Block) {
+			self.apiClient.addBlock(businessId: business.id, model)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { business in
+						self.business = business
+						AppState.shared.updateBusiness(business: business)
+						self.isLoading = false
+						self.onSave(business)
+					}
+				)
+				.store(in: &cancellableBag)
+		}
+		
+		func updateBlock(_ model: UpdateBusiness.Block) {
+			self.apiClient.updateBlock(businessId: business.id, model)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { business in
+						self.business = business
+						AppState.shared.updateBusiness(business: business)
+						self.isLoading = false
+						self.onSave(business)
+					}
+				)
+				.store(in: &cancellableBag)
+		}
+		
+		func deleteBlock(blockId: Business.Block.ID) {
+			self.apiClient.deleteBlock(businessId: business.id, blockId: blockId)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { business in
+						self.business = business
+						AppState.shared.updateBusiness(business: business)
+						self.isLoading = false
+						self.onSave(business)
+					}
+				)
+				.store(in: &cancellableBag)
 		}
 		
 		func saveChanges() {
@@ -297,6 +403,75 @@ extension EditSiteView {
 					self.isLoading = false
 					await cacheClient.setData(key: .businessDraft, value: self.business)
 					self.onSave(self.business)
+				} else {
+					self.isLoading = true
+					var updateBusinessModel: UpdateBusiness = UpdateBusiness(id: self.business.id)
+					switch context {
+					case .photo:
+						//Upload Photo
+						let currentPhoto: URL = self.photo
+						if self.business.profilePhoto != currentPhoto {
+							if let url = await uploadImage(localUrl: currentPhoto) {
+								updateBusinessModel.profilePhoto = url
+							} else {
+								self.bannerData = BannerData(detail: "Could not upload business profile photo")
+							}
+						}
+						updateBusiness(updateBusinessModel)
+					case .sign:
+						updateBusinessModel.sign = self.sign
+						updateBusiness(updateBusinessModel)
+					case .name:
+						updateBusinessModel.name = self.name
+						updateBusiness(updateBusinessModel)
+					case .description:
+						updateBusinessModel.description = self.description
+						updateBusiness(updateBusinessModel)
+					case .links:
+						updateBusinessModel.twitter = self.twitter
+						updateBusinessModel.instagram = self.instagram
+						updateBusinessModel.tiktok = self.tiktok
+						updateBusiness(updateBusinessModel)
+					case .location:
+						updateBusinessModel.latitude = self.latitude
+						updateBusinessModel.longitude = self.longitude
+						updateBusiness(updateBusinessModel)
+					case .block(let blockId):
+						let currentBlockImage: URL = self.blockImage
+						if let blockId = blockId {
+							var updateBlockModel: UpdateBusiness.Block = UpdateBusiness.Block(id: blockId)
+							updateBlockModel.title = self.blockTitle
+							updateBlockModel.description = self.blockDescription
+							updateBlockModel.duration = self.blockTimeDuration
+							updateBlockModel.price = Int(self.blockPriceText) ?? 0
+							if self.business.blocks[id: blockId]?.image != currentBlockImage {
+								if let url = await uploadImage(localUrl: currentBlockImage) {
+									updateBlockModel.image = url
+								} else {
+									self.bannerData = BannerData(detail: "Could not upload business profile photo")
+								}
+							}
+							//Update block
+							updateBlock(updateBlockModel)
+						} else {
+							if let imageUrl = await uploadImage(localUrl: currentBlockImage) {
+								let newBlock = Business.Block(
+									id: UUID().uuidString,
+									blockType: .Genesis,
+									image: imageUrl,
+									price: Int(self.blockPriceText) ?? 0,
+									duration: self.blockTimeDuration,
+									title: self.blockTitle,
+									description: self.blockDescription
+								)
+								self.addBlock(newBlock)
+							} else {
+								self.bannerData = BannerData(detail: "Could not upload business profile photo")
+							}
+						}
+					case .schedule:
+						return
+					}
 				}
 			}
 		}

@@ -7,16 +7,25 @@
 
 import Foundation
 
-struct UpdateBusiness: Identifiable {
+struct UpdateBusiness: Codable, Identifiable {
+	struct Block: Codable, Identifiable {
+		let id: String
+		var image: URL? = nil
+		var price: Int? = nil
+		var duration: Int? = nil
+		var title: String? = nil
+		var description: String? = nil
+	}
+	
 	let id: String
-	let sign: String?
-	let name: String?
-	let color: String?
-	let description: String?
-	let profilePhoto: URL?
-	let twitter: String?
-	let instagram: String?
-	let tiktok: String?
-	let latitude: Double?
-	let longitude: Double?
+	var sign: String? = nil
+	var name: String? = nil
+	var color: String? = nil
+	var description: String? = nil
+	var profilePhoto: URL? = nil
+	var twitter: String? = nil
+	var instagram: String? = nil
+	var tiktok: String? = nil
+	var latitude: Double? = nil
+	var longitude: Double? = nil
 }

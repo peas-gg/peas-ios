@@ -32,6 +32,7 @@
 		D0332A212AA45040000E7515 /* AuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A202AA45040000E7515 /* AuthenticateView.swift */; };
 		D0332A242AA4DBE1000E7515 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = D0332A232AA4DBE1000E7515 /* iPhoneNumberField */; };
 		D0332A262AA5621C000E7515 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A252AA5621C000E7515 /* Array+Extension.swift */; };
+		D04A8C0A2ABA46A1002F2356 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */; };
 		D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11542A9C99670011242C /* Binding+Extension.swift */; };
 		D04F11572A9D0E840011242C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11562A9D0E840011242C /* Helpers.swift */; };
 		D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11582A9D22B90011242C /* PriceTextField.swift */; };
@@ -122,6 +123,7 @@
 		D0332A1E2AA4502B000E7515 /* AuthenticateVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateVM.swift; sourceTree = "<group>"; };
 		D0332A202AA45040000E7515 /* AuthenticateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateView.swift; sourceTree = "<group>"; };
 		D0332A252AA5621C000E7515 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		D04F11542A9C99670011242C /* Binding+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extension.swift"; sourceTree = "<group>"; };
 		D04F11562A9D0E840011242C /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D04F11582A9D22B90011242C /* PriceTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTextField.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				D0793D242A9FC69600139783 /* Notification+Name.swift */,
 				D0793D282AA1A6D500139783 /* View+Extensions.swift */,
 				D0332A252AA5621C000E7515 /* Array+Extension.swift */,
+				D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -653,6 +656,7 @@
 				D0B23CAD2AA840A300CBDA26 /* LocationClient.swift in Sources */,
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
 				D0793D2B2AA279E500139783 /* CreateBusiness.swift in Sources */,
+				D04A8C0A2ABA46A1002F2356 /* UIImage+Extension.swift in Sources */,
 				D0E220F92A9C59B2003864E3 /* EditSiteView.swift in Sources */,
 				D0793D292AA1A6D500139783 /* View+Extensions.swift in Sources */,
 				D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */,

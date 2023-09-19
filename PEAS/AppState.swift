@@ -102,6 +102,10 @@ import SwiftUI
 		self.isShowingRequestPayment = isShowing
 	}
 	
+	func updateBusiness(business: Business) {
+		self.keychainClient.set(key: .business, value: business)
+	}
+	
 	func setUserBusiness(business: Business) {
 		self.keychainClient.set(key: .business, value: business)
 		self.refreshAppMode()

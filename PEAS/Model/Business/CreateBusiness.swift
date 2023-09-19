@@ -8,7 +8,7 @@
 import Foundation
 import IdentifiedCollections
 
-struct CreateBusiness: Codable, Equatable {
+struct CreateBusiness: Codable {
 	var sign: String
 	var name: String
 	var category: String
