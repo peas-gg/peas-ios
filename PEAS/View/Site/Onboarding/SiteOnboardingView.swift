@@ -88,6 +88,7 @@ struct SiteOnboardingView: View {
 				}
 			}
 		}
+		.banner(data: $viewModel.bannerData)
 		.confirmationDialog(
 			"",
 			isPresented: $viewModel.isShowingResetWarning,

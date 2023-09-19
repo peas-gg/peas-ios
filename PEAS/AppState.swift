@@ -102,6 +102,11 @@ import SwiftUI
 		self.isShowingRequestPayment = isShowing
 	}
 	
+	func setUserBusiness(business: Business) {
+		self.keychainClient.set(key: .business, value: business)
+		self.refreshAppMode()
+	}
+	
 	func logUserIn(_ authenticateResponse: AuthenticateResponse) {
 		let user: User = User(
 			firstName: authenticateResponse.firstName,

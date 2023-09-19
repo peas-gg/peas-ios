@@ -20,6 +20,7 @@ extension SiteOnboardingView {
 		
 		@Published var isShowingAuthenticateView: Bool = false
 		@Published var isLoading: Bool = true
+		@Published var bannerData: BannerData?
 		
 		var isUserLoggedIn: Bool {
 			AppState.shared.isUserLoggedIn
@@ -88,7 +89,47 @@ extension SiteOnboardingView {
 		
 		func proceed() {
 			if isUserLoggedIn {
-				
+				self.isLoading = true
+				Task {
+					if let businessDraft = await cacheClient.getData(key: .businessDraft) {
+						guard
+							let latitude: Double = businessDraft.latitude,
+							let longitude: Double = businessDraft.longitude
+						else {
+							self.isLoading = false
+							self.bannerData = BannerData(detail: "Please set a location before proceeding")
+							return
+						}
+						let newBusiness: CreateBusiness = CreateBusiness(
+							sign: businessDraft.sign,
+							name: businessDraft.name,
+							category: businessDraft.category,
+							color: businessDraft.color,
+							description: businessDraft.description,
+							profilePhoto: businessDraft.profilePhoto,
+							latitude: latitude,
+							longitude: longitude,
+							blocks: businessDraft.blocks
+						)
+						apiClient.createBusiness(newBusiness)
+							.receive(on: DispatchQueue.main)
+							.sink(
+								receiveCompletion: { completion in
+									switch completion {
+									case .finished: return
+									case .failure(let error):
+										self.isLoading = false
+										self.bannerData = BannerData(error: error)
+									}
+								},
+								receiveValue: { business in
+									self.isLoading = false
+									AppState.shared.setUserBusiness(business: business)
+								}
+							)
+							.store(in: &cancellableBag)
+					}
+				}
 			} else {
 				setIsShowingAuthenticateView(true)
 			}
