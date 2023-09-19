@@ -344,6 +344,8 @@ extension AuthenticateView {
 		private func resetEmailAndPasswordFields() {
 			self.email = ""
 			self.password = ""
+			self.verifyPassword = ""
+			self.otpCode = ""
 		}
 		
 		private func requestOtpCodeSignUp() {
