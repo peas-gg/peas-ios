@@ -19,13 +19,13 @@ struct User: Codable {
 }
 
 extension User {
-	static let user1: Self = {
+	static let mock1: Self = {
 		return User (
 			firstName: "Melissa",
 			lastName: "Kournikova",
 			email: "mel.kournikova@gmail.com",
 			interacEmail: nil,
-			phone: "(604) 669-1940",
+			phone: "6046693332",
 			role: "User",
 			accessToken: "your-access-token",
 			refreshToken: "your-refresh-token"

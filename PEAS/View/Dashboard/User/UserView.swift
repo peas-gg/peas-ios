@@ -9,18 +9,10 @@ import SwiftUI
 
 struct UserView: View {
 	@StateObject var viewModel: ViewModel
-	@State private var username = ""
-	@State private var email = ""
-	@State private var phoneNumber = ""
-	let detentHeight: CGFloat = 400
-	let userObject: User
 	
-	init(viewModel: ViewModel, userObject: User) {
+	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
-		self.userObject = user
 	}
-	
-	
 	
 	var body: some View {
 		VStack{
@@ -58,9 +50,9 @@ struct UserView: View {
 					}
 					.padding()
 					VStack(spacing: 20) {
-						textView("\(user.firstName) \(user.lastName)")
-						textView(user.email)
-						textView(user.phone)
+						textView("\(viewModel.user.firstName) \(viewModel.user.lastName)")
+						textView(viewModel.user.email)
+						textView(viewModel.user.phone)
 					}
 					.padding(.horizontal)
 					Text("You can request to edit your account information by tapping the button below")
@@ -77,7 +69,7 @@ struct UserView: View {
 				.padding(.horizontal)
 			}
 		}
-		.presentationDetents([.height(detentHeight)])
+		.presentationDetents([.height(SizeConstants.detentHeight)])
 	}
 	
 	@ViewBuilder
@@ -89,12 +81,12 @@ struct UserView: View {
 			Spacer(minLength: 0)
 		}
 		.padding()
-		.background(Textbackground())
+		.background(TextBackground())
 	}
 }
 
 struct UserView_Previews: PreviewProvider {
 	static var previews: some View {
-		UserView(viewModel: .init())
+		UserView(viewModel: .init(user: User.mock1))
 	}
 }

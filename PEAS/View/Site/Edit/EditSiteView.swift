@@ -19,7 +19,6 @@ struct EditSiteView: View {
 	}
 	
 	let textfieldVerticalPadding: CGFloat = 12
-	let detentHeight: CGFloat = 400
 	
 	@FocusState private var focusedField: FocusField?
 	
@@ -200,7 +199,7 @@ struct EditSiteView: View {
 						Spacer()
 					}
 					.padding(.top)
-					.presentationDetents([.height(detentHeight)])
+					.presentationDetents([.height(SizeConstants.detentHeight)])
 				case .schedule:
 					VStack(spacing: spacing) {
 						let isInEditMode: Bool = viewModel.selectedDay != nil
@@ -248,7 +247,7 @@ struct EditSiteView: View {
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
-					.presentationDetents([.height(detentHeight)])
+					.presentationDetents([.height(SizeConstants.detentHeight)])
 				}
 			}
 			.background(viewModel.context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)

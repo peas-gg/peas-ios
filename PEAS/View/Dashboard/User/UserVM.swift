@@ -9,6 +9,10 @@ import Foundation
 
 extension UserView {
 	@MainActor class ViewModel: ObservableObject {
+		let user: User
 		
+		init(user: User) {
+			self.user = user
+		}
 	}
 }

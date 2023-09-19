@@ -1,5 +1,5 @@
 //
-//  Textbackground.swift
+//  TextBackground.swift
 //  PEAS
 //
 //  Created by Abdul Bello on 2023-09-14.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Textbackground: View {
+struct TextBackground: View {
 	var body: some View {
 		ZStack{
 			let cornerRadius: CGFloat = SizeConstants.textCornerRadius
@@ -19,8 +19,8 @@ struct Textbackground: View {
 	}
 }
 
-struct Textbackground_Previews: PreviewProvider {
+struct TextBackground_Previews: PreviewProvider {
 	static var previews: some View {
-		Textbackground()
+		TextBackground()
 	}
 }
