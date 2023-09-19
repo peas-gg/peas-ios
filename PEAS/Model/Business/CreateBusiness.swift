@@ -14,7 +14,7 @@ struct CreateBusiness: Codable, Equatable {
 	var category: String
 	var color: String
 	var description: String
-	var profilePhoto: String
+	var profilePhoto: URL
 	var twitter: String?
 	var instagram: String?
 	var tiktok: String?
