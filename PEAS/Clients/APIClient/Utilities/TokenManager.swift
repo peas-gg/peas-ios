@@ -61,7 +61,7 @@ extension APIClient {
 										if error == .httpError(statusCode: 400, data: expectedDataError) {
 											Task {
 												//Log User Out
-												await AppState.shared.logUserOut()
+												await AppState.shared.logUserOut(isUserRequested: false)
 											}
 										}
 										promise(.success(false))

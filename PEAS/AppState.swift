@@ -119,12 +119,16 @@ fileprivate let appStateKeyNotification: String = "appState"
 		self.refreshAppMode()
 	}
 	
-	func logUserOut() {
+	func logUserOut(isUserRequested: Bool) {
 		self.keychainClient.clearAllKeys()
-		self.bannerData = BannerData(timeOut: 4, detail: "Authentication failed: Please login to continue")
-		Task {
-			try? await Task.sleep(for: .seconds(4))
+		if isUserRequested {
 			self.refreshAppMode()
+		} else {
+			self.bannerData = BannerData(timeOut: 4, detail: "Authentication failed: Please login to continue")
+			Task {
+				try? await Task.sleep(for: .seconds(4))
+				self.refreshAppMode()
+			}
 		}
 	}
 }
