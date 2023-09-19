@@ -59,6 +59,8 @@ struct DashboardView: View {
 		//Service(name: "Service 3", status: "Completed")
 	]
 	
+	let user = User.user1
+	
 	var body: some View {
 		VStack {
 			HStack {
@@ -79,7 +81,7 @@ struct DashboardView: View {
 						.padding()
 				}
 				.sheet(isPresented: $isUserViewPresented) {
-					UserView(viewModel: UserView.ViewModel())
+					UserView(viewModel: UserView.ViewModel(), user: User)
 				}
 				
 			}

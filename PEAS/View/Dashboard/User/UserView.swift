@@ -13,21 +13,14 @@ struct UserView: View {
 	@State private var email = ""
 	@State private var phoneNumber = ""
 	let detentHeight: CGFloat = 400
+	let userObject: User
 	
-	init(viewModel: ViewModel) {
+	init(viewModel: ViewModel, userObject: User) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
+		self.userObject = user
 	}
 	
-	let user: User = User(
-			firstName: "Melissa",
-			lastName: "Kournikova",
-			email: "mel.kournikova@gmail.com",
-			interacEmail: nil,
-			phone: "(604) 669-1940",
-			role: "User",
-			accessToken: "your-access-token",
-			refreshToken: "your-refresh-token"
-		)
+	
 	
 	var body: some View {
 		VStack{
@@ -52,7 +45,7 @@ struct UserView: View {
 								Image(systemName: "trash")
 									.foregroundColor(.white)
 								Text("DELETE")
-									.font(Font.custom("SF Pro Rounded", size: 11))
+									.font(Font.app.caption)
 									.foregroundColor(.white)
 							}
 							.padding(8)
@@ -65,13 +58,13 @@ struct UserView: View {
 					}
 					.padding()
 					VStack(spacing: 20) {
-						textView(user.firstName + " " + user.lastName)
+						textView("\(user.firstName) \(user.lastName)")
 						textView(user.email)
 						textView(user.phone)
 					}
 					.padding(.horizontal)
 					Text("You can request to edit your account information by tapping the button below")
-						.font(Font.custom("SF Pro Rounded", size: 12))
+						.font(Font.app.footnote)
 						.multilineTextAlignment(.center)
 						.foregroundColor(.black.opacity(0.5))
 						.frame(width: 325, alignment: .top)
