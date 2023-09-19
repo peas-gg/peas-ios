@@ -32,7 +32,7 @@ struct HomeView: View {
 					Label("Customers", systemImage: "person.text.rectangle")
 						.environment(\.symbolVariants, .none)
 				}
-			SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: Business.mock1))
+			SiteView(viewModel: viewModel.siteVM)
 				.tabItem {
 					Label("Site", systemImage: "globe")
 				}

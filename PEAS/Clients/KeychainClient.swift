@@ -19,7 +19,7 @@ struct KeychainClientKey<T: Codable> {
 
 extension KeychainClientKey {
 	static var user: KeychainClientKey<User> { .init(name: KeyDefinitions.user.rawValue) }
-	static var business: KeychainClientKey<Business> { .init(name: KeyDefinitions.user.rawValue) }
+	static var business: KeychainClientKey<Business> { .init(name: KeyDefinitions.business.rawValue) }
 }
 
 protocol KeychainClientProtocol {
