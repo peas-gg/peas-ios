@@ -116,4 +116,9 @@ fileprivate let appStateKeyNotification: String = "appState"
 		self.keychainClient.set(key: .user, value: user)
 		self.refreshAppMode()
 	}
+	
+	func logUserOut() {
+		self.keychainClient.clearAllKeys()
+		self.refreshAppMode()
+	}
 }
