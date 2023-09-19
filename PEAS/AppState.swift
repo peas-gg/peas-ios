@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-08-24.
 //
 
+import Combine
 import Foundation
 import SwiftUI
 
@@ -12,6 +13,8 @@ fileprivate let appStateKeyNotification: String = "appState"
 
 @MainActor class AppState: ObservableObject {
 	static let shared: AppState = AppState()
+	
+	private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 	
 	enum AppMode {
 		case welcome(WelcomeView.ViewModel)
@@ -29,6 +32,7 @@ fileprivate let appStateKeyNotification: String = "appState"
 	@Published var isShowingRequestPayment: Bool = false
 	
 	//Clients
+	let apiClient = APIClient.shared
 	let cacheClient = CacheClient.shared
 	let keychainClient = KeychainClient.shared
 	
@@ -52,10 +56,28 @@ fileprivate let appStateKeyNotification: String = "appState"
 			 */
 			if let user = user {
 				self.isUserLoggedIn = true
+				self.mode = nil
 				if let business = business {
-					self.mode = .home(HomeView.ViewModel())
+					self.mode = .home(HomeView.ViewModel(user: user, business: business))
 				} else {
-					self.mode = .onboarding(onboardingVM)
+					//Attempt to fetch the user's business
+					apiClient.getBusinessAccount()
+						.receive(on: DispatchQueue.main)
+						.sink(
+							receiveCompletion: { completion in
+								switch completion {
+								case .finished: return
+								case .failure:
+									self.mode = .onboarding(onboardingVM)
+									return
+								}
+							},
+							receiveValue: { business in
+								self.keychainClient.set(key: .business, value: business)
+								self.mode = .home(HomeView.ViewModel(user: user, business: business))
+							}
+						)
+						.store(in: &cancellableBag)
 				}
 			} else {
 				if businessDraft != nil {

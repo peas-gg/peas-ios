@@ -9,6 +9,10 @@ import Foundation
 
 extension HomeView {
 	@MainActor class ViewModel: ObservableObject {
+		@Published var siteVM: SiteView.ViewModel
 		
+		init(user: User, business: Business) {
+			self.siteVM = SiteView.ViewModel(isTemplate: false, business: business)
+		}
 	}
 }

@@ -23,6 +23,7 @@ protocol APIRequests {
 	func requestPasswordReset(email: String) -> AnyPublisher<EmptyResponse, APIClientError>
 	func resetPassword(_ model: ResetPasswordRequest) -> AnyPublisher<EmptyResponse, APIClientError>
 	//Business
+	func getBusinessAccount() -> AnyPublisher<Business, APIClientError>
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
 	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError>
@@ -68,6 +69,15 @@ final class APIClient: APIRequests {
 			body: imageData
 		)
 		return apiRequest(appRequest: imageUploadRequest, output: URL.self)
+	}
+	
+	func getBusinessAccount() -> AnyPublisher<Business, APIClientError> {
+		let getBusiness = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["business", "account"],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: getBusiness, output: Business.self)
 	}
 	
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError> {
