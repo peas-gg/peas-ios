@@ -367,7 +367,11 @@ struct SiteView: View {
 				}
 			} else {
 				Group {
-					Button(action: {}) {
+					Button(action: {
+						if let url = viewModel.siteUrl {
+							openURL(url)
+						}
+					}) {
 						toolbarImage("globe")
 					}
 					Button(action: { viewModel.setEditModeContext(.schedule) }) {

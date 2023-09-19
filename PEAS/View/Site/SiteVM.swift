@@ -25,6 +25,10 @@ extension SiteView {
 		@Published var editModeContext: EditSiteView.ViewModel.Context?
 		@Published var isShowingSocialLinksMenu: Bool = false
 		
+		var siteUrl: URL? {
+			URL(string: "\(AppConstants.appUrlString)\(business.sign)")
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
