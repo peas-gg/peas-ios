@@ -9,9 +9,10 @@ import SwiftUI
 
 struct DashboardView: View {
 	@StateObject var viewModel: ViewModel
-	
 	@State private var isShowingFilter = false
 	@State private var selectedFilter: FilterButtonView.Filter?
+	@State private var isUserViewPresented = false
+	
 	struct Service: Identifiable {
 		let id = UUID()
 		let imageUrl: String
@@ -70,8 +71,17 @@ struct DashboardView: View {
 				.font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
 				.padding()
 				Spacer()
-				CachedAvatar(url: url, height: 60)
-					.padding()
+				
+				Button(action: {
+					isUserViewPresented.toggle()
+				}) {
+					CachedAvatar(url: url, height: 60)
+						.padding()
+				}
+				.sheet(isPresented: $isUserViewPresented) {
+					UserView(viewModel: UserView.ViewModel(user: User.mock1))
+				}
+				
 			}
 			.padding(.horizontal)
 			.padding(.top)

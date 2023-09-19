@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		071633F52AB3B7D300FB2B94 /* TextBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071633F42AB3B7D300FB2B94 /* TextBackground.swift */; };
 		D012F3662AAAE75600269DA1 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D012F3652AAAE75600269DA1 /* WebView.swift */; };
 		D017617E2A86216600926960 /* PEASApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017617D2A86216600926960 /* PEASApp.swift */; };
 		D01761802A86216600926960 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017617F2A86216600926960 /* AppView.swift */; };
@@ -96,6 +97,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		071633F42AB3B7D300FB2B94 /* TextBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBackground.swift; sourceTree = "<group>"; };
 		D012F3652AAAE75600269DA1 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		D017617A2A86216600926960 /* PEAS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PEAS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D017617D2A86216600926960 /* PEASApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEASApp.swift; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 		D0BF26D92A888AA4001FCC05 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				071633F42AB3B7D300FB2B94 /* TextBackground.swift */,
 				D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */,
 				D066F8312A95741B00B65CA4 /* CachedImage.swift */,
 				D064557C2A991BD0003E342C /* CachedAvatar.swift */,
@@ -638,6 +641,7 @@
 				D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
 				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
+				071633F52AB3B7D300FB2B94 /* TextBackground.swift in Sources */,
 				D0332A212AA45040000E7515 /* AuthenticateView.swift in Sources */,
 				D02659B42A87373700655C23 /* CustomersVM.swift in Sources */,
 				D04F115F2A9E7C420011242C /* String+Extension.swift in Sources */,

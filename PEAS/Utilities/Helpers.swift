@@ -17,6 +17,7 @@ struct SizeConstants {
 	static let textCornerRadius: CGFloat = 10
 	static let businessDescriptionLimit: Int = 160
 	static let descriptionLimit: Int = 120
+	static let detentHeight: CGFloat = 400
 	static let otpCodeCount: Int = 6
 	static let minimumPasswordCharactersCount: Int = 8
 }
