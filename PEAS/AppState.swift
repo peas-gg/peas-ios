@@ -73,8 +73,11 @@ fileprivate let appStateKeyNotification: String = "appState"
 								}
 							},
 							receiveValue: { business in
-								self.keychainClient.set(key: .business, value: business)
-								self.mode = .home(HomeView.ViewModel(user: user, business: business))
+								Task {
+									await self.cacheClient.delete(key: .businessDraft)
+									self.keychainClient.set(key: .business, value: business)
+									self.mode = .home(HomeView.ViewModel(user: user, business: business))
+								}
 							}
 						)
 						.store(in: &cancellableBag)
