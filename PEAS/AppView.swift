@@ -11,18 +11,21 @@ struct AppView: View {
 	@StateObject var appState = AppState.shared
 	
 	var body: some View {
-		switch appState.mode {
-		case .welcome(let viewModel):
-			WelcomeView(viewModel: viewModel)
-		case .onboarding(let viewModel):
-			SiteOnboardingView(viewModel: viewModel)
-		case .home(let viewModel):
-			HomeView(viewModel: viewModel)
-		case .none:
-			Color.black
-				.edgesIgnoringSafeArea(.all)
-				.progressView(isShowing: true, style: .white)
+		Group {
+			switch appState.mode {
+			case .welcome(let viewModel):
+				WelcomeView(viewModel: viewModel)
+			case .onboarding(let viewModel):
+				SiteOnboardingView(viewModel: viewModel)
+			case .home(let viewModel):
+				HomeView(viewModel: viewModel)
+			case .none:
+				Color.black
+					.edgesIgnoringSafeArea(.all)
+					.progressView(isShowing: true, style: .white)
+			}
 		}
+		.banner(data: $appState.bannerData)
 	}
 }
 

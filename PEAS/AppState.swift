@@ -31,6 +31,8 @@ fileprivate let appStateKeyNotification: String = "appState"
 	
 	@Published var isShowingRequestPayment: Bool = false
 	
+	@Published var bannerData: BannerData?
+	
 	//Clients
 	let apiClient = APIClient.shared
 	let cacheClient = CacheClient.shared
@@ -119,6 +121,10 @@ fileprivate let appStateKeyNotification: String = "appState"
 	
 	func logUserOut() {
 		self.keychainClient.clearAllKeys()
-		self.refreshAppMode()
+		self.bannerData = BannerData(timeOut: 4, detail: "Authentication failed: Please login to continue")
+		Task {
+			try? await Task.sleep(for: .seconds(4))
+			self.refreshAppMode()
+		}
 	}
 }
