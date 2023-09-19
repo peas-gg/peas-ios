@@ -24,6 +24,7 @@ protocol APIRequests {
 	func resetPassword(_ model: ResetPasswordRequest) -> AnyPublisher<EmptyResponse, APIClientError>
 	//Business
 	func getBusinessAccount() -> AnyPublisher<Business, APIClientError>
+	func createBusiness(_ model: CreateBusiness) -> AnyPublisher<Business, APIClientError>
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
 	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError>
@@ -78,6 +79,16 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: getBusiness, output: Business.self)
+	}
+	
+	func createBusiness(_ model: CreateBusiness) -> AnyPublisher<Business, APIClientError> {
+		let createBusiness = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["business"],
+			body: model,
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: createBusiness, output: Business.self)
 	}
 	
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError> {

@@ -9,8 +9,6 @@ import Combine
 import Foundation
 import SwiftUI
 
-fileprivate let appStateKeyNotification: String = "appState"
-
 @MainActor class AppState: ObservableObject {
 	static let shared: AppState = AppState()
 	
