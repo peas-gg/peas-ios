@@ -46,6 +46,10 @@ struct HomeView: View {
 		) {
 			RequestPaymentView(viewModel: .init())
 		}
+		.banner(data: $viewModel.bannerData)
+		.onAppear {
+			self.viewModel.refreshBusiness()
+		}
 	}
 }
 
