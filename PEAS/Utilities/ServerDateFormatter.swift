@@ -1,5 +1,5 @@
 //
-//  DateFormatter.swift
+//  ServerDateFormatter.swift
 //  PEAS
 //
 //  Created by Kingsley Okeke on 2023-09-19.
@@ -15,13 +15,13 @@ struct ServerDateFormatter {
 		return dateFormatter
 	}()
 	
-	static func formatToLocal(from serverDate: String) -> Date? {
+	static func formatToLocal(from serverDate: String) -> Date {
 		if let utcDate = utcFormatter.date(from: serverDate) {
 			let timeZone = TimeZone.current
 			let secondsFromGMT = timeZone.secondsFromGMT(for: utcDate)
 			return Date(timeInterval: TimeInterval(secondsFromGMT), since: utcDate)
 		}
-		return nil
+		return Date()
 	}
 	
 	static func formatToUTC(from localDate: Date) -> String {
