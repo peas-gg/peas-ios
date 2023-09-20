@@ -229,9 +229,11 @@ extension EditSiteView {
 		func deleteBlock() {
 			if case .block(let blockId) = self.context {
 				if let blockIdToDelete = blockId {
+					self.isLoading = true
 					if isTemplate {
 						self.business.blocks.remove(id: blockIdToDelete)
 						saveChanges()
+						self.isLoading = false
 					} else {
 						self.deleteBlock(blockId: blockIdToDelete)
 					}
