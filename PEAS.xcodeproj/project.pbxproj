@@ -34,6 +34,7 @@
 		D0332A262AA5621C000E7515 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A252AA5621C000E7515 /* Array+Extension.swift */; };
 		D04A8C0A2ABA46A1002F2356 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */; };
 		D04A8C0C2ABA8AD1002F2356 /* ScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A8C0B2ABA8AD1002F2356 /* ScheduleRequest.swift */; };
+		D04A8C0E2ABAA245002F2356 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A8C0D2ABAA245002F2356 /* DateFormatter.swift */; };
 		D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11542A9C99670011242C /* Binding+Extension.swift */; };
 		D04F11572A9D0E840011242C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11562A9D0E840011242C /* Helpers.swift */; };
 		D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11582A9D22B90011242C /* PriceTextField.swift */; };
@@ -126,6 +127,7 @@
 		D0332A252AA5621C000E7515 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		D04A8C0B2ABA8AD1002F2356 /* ScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRequest.swift; sourceTree = "<group>"; };
+		D04A8C0D2ABAA245002F2356 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		D04F11542A9C99670011242C /* Binding+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extension.swift"; sourceTree = "<group>"; };
 		D04F11562A9D0E840011242C /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D04F11582A9D22B90011242C /* PriceTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTextField.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				D02659972A87311000655C23 /* Extensions */,
 				D04F11562A9D0E840011242C /* Helpers.swift */,
 				D0332A1B2AA44485000E7515 /* PriceFormatter.swift */,
+				D04A8C0D2ABAA245002F2356 /* DateFormatter.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -613,6 +616,7 @@
 			files = (
 				D01761802A86216600926960 /* AppView.swift in Sources */,
 				D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */,
+				D04A8C0E2ABAA245002F2356 /* DateFormatter.swift in Sources */,
 				D02659A52A87342100655C23 /* DashboardView.swift in Sources */,
 				D02659AF2A8736AD00655C23 /* SiteVM.swift in Sources */,
 				D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */,
