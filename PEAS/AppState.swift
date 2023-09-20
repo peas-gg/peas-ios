@@ -58,6 +58,7 @@ import SwiftUI
 				self.isUserLoggedIn = true
 				self.mode = nil
 				if let business = business {
+					await self.cacheClient.delete(key: .businessDraft)
 					self.mode = .home(HomeView.ViewModel(user: user, business: business))
 				} else {
 					//Attempt to fetch the user's business
