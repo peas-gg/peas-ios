@@ -203,7 +203,7 @@ extension EditSiteView {
 			Task {
 				self.isLoading = true
 				let imageUrl: URL = cacheClient.fileName(for: UUID().uuidString)
-				let imageResized: UIImage = UIImage(data: imageData)?.resizedTo(megaBytes: 0.5) ?? UIImage()
+				let imageResized: UIImage = UIImage(data: imageData)?.resizedTo(megaBytes: 1.0) ?? UIImage()
 				_ = await self.cacheClient.setImage(url: imageUrl, image: imageResized)
 				switch context {
 				case .photo:
