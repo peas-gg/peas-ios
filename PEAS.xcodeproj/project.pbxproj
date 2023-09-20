@@ -33,6 +33,7 @@
 		D0332A242AA4DBE1000E7515 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = D0332A232AA4DBE1000E7515 /* iPhoneNumberField */; };
 		D0332A262AA5621C000E7515 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A252AA5621C000E7515 /* Array+Extension.swift */; };
 		D04A8C0A2ABA46A1002F2356 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */; };
+		D04A8C0C2ABA8AD1002F2356 /* ScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A8C0B2ABA8AD1002F2356 /* ScheduleRequest.swift */; };
 		D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11542A9C99670011242C /* Binding+Extension.swift */; };
 		D04F11572A9D0E840011242C /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11562A9D0E840011242C /* Helpers.swift */; };
 		D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11582A9D22B90011242C /* PriceTextField.swift */; };
@@ -124,6 +125,7 @@
 		D0332A202AA45040000E7515 /* AuthenticateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateView.swift; sourceTree = "<group>"; };
 		D0332A252AA5621C000E7515 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		D04A8C0B2ABA8AD1002F2356 /* ScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRequest.swift; sourceTree = "<group>"; };
 		D04F11542A9C99670011242C /* Binding+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extension.swift"; sourceTree = "<group>"; };
 		D04F11562A9D0E840011242C /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D04F11582A9D22B90011242C /* PriceTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTextField.swift; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 				D066F8222A9493DA00B65CA4 /* Business.swift */,
 				D066F8202A94937C00B65CA4 /* Template.swift */,
 				D0332A172AA3AC31000E7515 /* UpdateBusiness.swift */,
+				D04A8C0B2ABA8AD1002F2356 /* ScheduleRequest.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -640,6 +643,7 @@
 				D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */,
 				D064557B2A97D09C003E342C /* HomeView.swift in Sources */,
 				D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */,
+				D04A8C0C2ABA8AD1002F2356 /* ScheduleRequest.swift in Sources */,
 				D04F11632A9F2F750011242C /* PulseView.swift in Sources */,
 				D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
