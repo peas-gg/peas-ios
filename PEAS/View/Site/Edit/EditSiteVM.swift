@@ -448,6 +448,7 @@ extension EditSiteView {
 								if let url = await uploadImage(localUrl: currentBlockImage) {
 									updateBlockModel.image = url
 								} else {
+									self.isLoading = false
 									self.bannerData = BannerData(detail: "Could not upload business profile photo")
 								}
 							}
@@ -466,6 +467,7 @@ extension EditSiteView {
 								)
 								self.addBlock(newBlock)
 							} else {
+								self.isLoading = false
 								self.bannerData = BannerData(detail: "Could not upload business profile photo")
 							}
 						}

@@ -76,7 +76,7 @@ final class APIClient: APIRequests {
 					pathComponents: ["media", "image"],
 					body: imageData
 				)
-				return apiRequest(appRequest: imageUploadRequest, output: URL.self)
+				self.apiRequest(appRequest: imageUploadRequest, output: URL.self)
 					.sink(
 						receiveCompletion: { completion in
 							switch completion {
