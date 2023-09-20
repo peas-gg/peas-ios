@@ -25,6 +25,13 @@ struct Business: Codable, Equatable, Identifiable {
 		var description: String
 	}
 	
+	struct Schedule: Codable, Equatable, Identifiable {
+		let id: String
+		let dayOfWeek: Int
+		let startTime: Date
+		let endTime: Date
+	}
+	
 	let id: String
 	var sign: String
 	var name: String
@@ -41,6 +48,7 @@ struct Business: Codable, Equatable, Identifiable {
 	let timeZone: String
 	let isActive: Bool
 	var blocks: IdentifiedArrayOf<Block>
+	var schedules: IdentifiedArrayOf<Schedule>?
 }
 
 extension Business {
