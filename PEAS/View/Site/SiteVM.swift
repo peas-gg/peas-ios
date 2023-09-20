@@ -69,7 +69,18 @@ extension SiteView {
 					if isTemplate {
 						await cacheClient.setData(key: .businessDraft, value: self.business)
 					} else {
-						//Make request to API to save the colour
+						let updateBusinessModel: UpdateBusiness = UpdateBusiness(id: self.business.id, color: self.business.color)
+						self.apiClient
+							.updateBusiness(updateBusinessModel)
+							.receive(on: DispatchQueue.main)
+							.sink(
+								receiveCompletion: { _ in },
+								receiveValue: { business in
+									self.business = business
+									AppState.shared.updateBusiness(business: business)
+								}
+							)
+							.store(in: &cancellableBag)
 					}
 				}
 			}
