@@ -238,10 +238,11 @@ struct EditSiteView: View {
 							Text("Please note that updating your schedule does not change the time for existing appointments")
 								.font(Font.app.footnote)
 								.multilineTextAlignment(.center)
+								.fixedSize(horizontal: false, vertical: true)
 							Spacer(minLength: 0)
 						}
-						.padding(.top, 40)
-						Spacer(minLength: 0)
+						.padding(.top, 30)
+						.padding(.bottom, 10)
 					}
 					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiaryText)
