@@ -501,12 +501,12 @@ struct EditSiteView: View {
 			if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
 				HStack {
 					Spacer()
-					Text("11:00am")
+					Text(schedule.startTimeDate.timeOnly)
 					Image(systemName: "arrow.right")
 						.font(Font.app.bodySemiBold)
 						.foregroundColor(Color.app.tertiaryText)
-						.frame(width: 40)
-					Text("12:00pm")
+						.frame(width: 20)
+					Text(schedule.endTimeDate.timeOnly)
 					Spacer()
 				}
 			} else {

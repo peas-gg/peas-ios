@@ -28,8 +28,8 @@ struct Business: Codable, Equatable, Identifiable {
 	struct Schedule: Codable, Equatable, Identifiable {
 		let id: String
 		let dayOfWeek: Int
-		let startTime: Date
-		let endTime: Date
+		let startTime: String
+		let endTime: String
 	}
 	
 	let id: String
@@ -54,6 +54,15 @@ struct Business: Codable, Equatable, Identifiable {
 extension Business {
 	var hasSetLocation: Bool {
 		latitude != nil && longitude != nil
+	}
+}
+
+extension Business.Schedule {
+	var startTimeDate: Date {
+		ServerDateFormatter.formatToLocal(from: self.startTime)
+	}
+	var endTimeDate: Date {
+		ServerDateFormatter.formatToLocal(from: self.endTime)
 	}
 }
 
@@ -117,8 +126,8 @@ extension Business {
 				Schedule(
 					id: UUID().uuidString,
 					dayOfWeek: 1,
-					startTime: Calendar.current.startOfDay(for: Date.now),
-					endTime: CalendarClient.shared.endOfDay
+					startTime: Calendar.current.startOfDay(for: Date.now).ISO8601Format(),
+					endTime: CalendarClient.shared.endOfDay.ISO8601Format()
 				)
 			]
 		)

@@ -20,6 +20,10 @@ extension Date {
 		let components = calendar.dateComponents([.day], from: self)
 		return components.day ?? -1
 	}
+	
+	var timeOnly: String {
+		TimeFormatter.getTime(date: self)
+	}
 }
 
 extension Date {

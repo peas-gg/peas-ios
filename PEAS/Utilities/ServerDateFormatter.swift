@@ -28,3 +28,15 @@ struct ServerDateFormatter {
 		return utcFormatter.string(from: localDate)
 	}
 }
+
+struct TimeFormatter {
+	static let dateFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateFormat = "h:mm a"
+		return formatter
+	}()
+	
+	static func getTime(date: Date) -> String {
+		return dateFormatter.string(from: date)
+	}
+}
