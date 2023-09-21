@@ -229,6 +229,9 @@ struct EditSiteView: View {
 									Spacer()
 									timeSelection(date: $viewModel.endDateForPicker)
 								}
+								invalidTimeHint()
+									.opacity(viewModel.isValidTimeRange ? 0.0 : 1.0)
+									.animation(.easeInOut, value: viewModel.isValidTimeRange)
 							} else {
 								VStack(alignment: .leading, spacing: 20) {
 									HStack(spacing: 20) {
@@ -539,6 +542,25 @@ struct EditSiteView: View {
 		.font(Font.app.callout)
 		.foregroundColor(Color.app.tertiaryText)
 		.opacity(text.count > 0 ? 0.0 : 1.0)
+	}
+	
+	@ViewBuilder
+	func invalidTimeHint() -> some View {
+		VStack(alignment: .center, spacing: 20) {
+			HStack {
+				Spacer()
+				Text("Invalid time range selected")
+					.font(Font.app.bodySemiBold)
+				Spacer()
+			}
+			HStack {
+				Spacer()
+				Text("This day will be marked as unavailable if you continue")
+				Spacer()
+			}
+		}
+		.multilineTextAlignment(.center)
+		.padding(.top)
 	}
 	
 	@ViewBuilder

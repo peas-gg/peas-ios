@@ -87,6 +87,10 @@ extension EditSiteView {
 			!location.isEmpty && latitude != nil && longitude != nil && locationPermissionState == .allowed
 		}
 		
+		var isValidTimeRange: Bool {
+			startDateForPicker != endDateForPicker && startDateForPicker < endDateForPicker
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
