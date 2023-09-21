@@ -221,13 +221,13 @@ struct EditSiteView: View {
 							if isInEditMode {
 								Text(isInEditMode ? "Select time" : "Time")
 								HStack {
-									timeSelection(date: $viewModel.startDate, dateRange: viewModel.startDateRange)
+									timeSelection(date: $viewModel.startDateForPicker, dateRange: viewModel.startDateRangeForPicker)
 									Spacer()
 									Image(systemName: "arrow.right")
 										.font(Font.app.bodySemiBold)
 										.foregroundColor(Color.app.primaryText)
 									Spacer()
-									timeSelection(date: $viewModel.endDate, dateRange: viewModel.endDateRange)
+									timeSelection(date: $viewModel.endDateForPicker, dateRange: viewModel.endDateRangeForPicker)
 								}
 							} else {
 								VStack(alignment: .leading, spacing: 20) {

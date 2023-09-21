@@ -69,8 +69,8 @@ extension EditSiteView {
 		//Schedule
 		@Published var weekDays: [String]
 		@Published var selectedDay: Int?
-		@Published var startDate: Date
-		@Published var endDate: Date
+		@Published var startDateForPicker: Date
+		@Published var endDateForPicker: Date
 		@Published var schedules: IdentifiedArrayOf<Business.Schedule>?
 		
 		@Published var photoItem: PhotosPickerItem?
@@ -87,12 +87,12 @@ extension EditSiteView {
 			!location.isEmpty && latitude != nil && longitude != nil && locationPermissionState == .allowed
 		}
 		
-		var startDateRange: ClosedRange<Date> {
+		var startDateRangeForPicker: ClosedRange<Date> {
 			getDateRange(startDate: calendarClient.startOfDay)
 		}
 		
-		var endDateRange: ClosedRange<Date> {
-			getDateRange(startDate: startDate)
+		var endDateRangeForPicker: ClosedRange<Date> {
+			getDateRange(startDate: startDateForPicker)
 		}
 		
 		//Clients
@@ -142,8 +142,8 @@ extension EditSiteView {
 			
 			//Schedule
 			self.weekDays = calendarClient.weekDays
-			self.startDate = calendarClient.startOfDay
-			self.endDate = calendarClient.endOfDay
+			self.startDateForPicker = calendarClient.startOfDay
+			self.endDateForPicker = calendarClient.endOfDay
 			
 			self.schedules = business.schedules
 			
@@ -255,6 +255,27 @@ extension EditSiteView {
 		}
 		
 		func setSelectedDay(dayIndex: Int) {
+			if let currentSelectedDayIndex: Int = self.selectedDay {
+				if startDateForPicker != endDateForPicker {
+					let startTime: String = ServerDateFormatter.formatToUTC(from: startDateForPicker)
+					let endTime: String = ServerDateFormatter.formatToUTC(from: endDateForPicker)
+					if var existingSchedule: Business.Schedule = schedules?.first(where: { $0.dayOfWeek == currentSelectedDayIndex }) {
+						existingSchedule.startTime = startTime
+						existingSchedule.endTime = endTime
+						self.schedules?[id: existingSchedule.id] = existingSchedule
+					} else {
+						let newSchedule: Business.Schedule = Business.Schedule(
+							id: UUID().uuidString,
+							dayOfWeek: dayIndex,
+							startTime: startTime,
+							endTime: endTime
+						)
+						self.schedules?.append(newSchedule)
+					}
+				}
+			} else {
+				//Set the time for the dayIndex passed in
+			}
 			if self.selectedDay == dayIndex {
 				self.selectedDay = nil
 			} else {

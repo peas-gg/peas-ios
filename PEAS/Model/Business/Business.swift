@@ -28,8 +28,8 @@ struct Business: Codable, Equatable, Identifiable {
 	struct Schedule: Codable, Equatable, Identifiable {
 		let id: String
 		let dayOfWeek: Int
-		let startTime: String
-		let endTime: String
+		var startTime: String
+		var endTime: String
 	}
 	
 	let id: String
