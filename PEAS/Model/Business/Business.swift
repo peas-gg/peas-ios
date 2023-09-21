@@ -126,8 +126,14 @@ extension Business {
 				Schedule(
 					id: UUID().uuidString,
 					dayOfWeek: 1,
-					startTime: Calendar.current.startOfDay(for: Date.now).ISO8601Format(),
-					endTime: CalendarClient.shared.endOfDay.ISO8601Format()
+					startTime: "2023-09-21T02:30:36.52438Z",
+					endTime: "2023-09-21T08:30:36.52438Z"
+				),
+				Schedule(
+					id: UUID().uuidString,
+					dayOfWeek: 2,
+					startTime: "2023-09-21T03:30:36.52438Z",
+					endTime: "2023-09-21T08:30:36.52438Z"
 				)
 			]
 		)

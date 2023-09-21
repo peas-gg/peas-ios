@@ -233,7 +233,7 @@ struct EditSiteView: View {
 								VStack(alignment: .leading, spacing: 20) {
 									HStack(spacing: 20) {
 										let verticalSpacing: CGFloat = 20
-										Spacer()
+										Spacer(minLength: 0)
 										VStack(alignment: .trailing, spacing: verticalSpacing) {
 											ForEach(viewModel.weekDays.indices, id: \.self) { index in
 												Text("\(viewModel.weekDays[index]):")
@@ -241,13 +241,13 @@ struct EditSiteView: View {
 													.foregroundColor(getCurrentDayForegroundColor(weekDay: index))
 											}
 										}
-										Spacer()
 										VStack(alignment: .trailing, spacing: verticalSpacing) {
 											scheduleTimeView()
 										}
-										Spacer()
+										Spacer(minLength: 0)
 									}
 								}
+								.font(Font.app.body)
 							}
 							Spacer(minLength: 0)
 						}
@@ -502,14 +502,14 @@ struct EditSiteView: View {
 			Group {
 				if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
 					HStack {
-						Spacer()
-						Text(schedule.startTimeDate.timeOnly)
+						Spacer(minLength: 0)
+						scheduleTimeText(schedule.startTimeDate.timeOnly)
 						Image(systemName: "arrow.right")
 							.font(Font.app.bodySemiBold)
 							.foregroundColor(Color.app.tertiaryText)
 							.frame(width: 20)
-						Text(schedule.endTimeDate.timeOnly)
-						Spacer()
+						scheduleTimeText(schedule.endTimeDate.timeOnly)
+						Spacer(minLength: 0)
 					}
 				} else {
 					HStack {
@@ -521,6 +521,13 @@ struct EditSiteView: View {
 			}
 			.foregroundColor(getCurrentDayForegroundColor(weekDay: weekDayIndex))
 		}
+	}
+	
+	@ViewBuilder
+	func scheduleTimeText(_ content: String) -> some View {
+		Text(" 11:11 PM ")
+			.opacity(0)
+			.overlay(Text(content))
 	}
 	
 	@ViewBuilder
