@@ -16,6 +16,7 @@ class CalendarClient {
 	let monthFormatter: DateFormatter
 	
 	let weekDays: [String]
+	let weekDaysShort: [String]
 	
 	var months: [Date] = []
 	
@@ -35,7 +36,8 @@ class CalendarClient {
 		dateFormatter.dateFormat = "MMMM yyyy"
 		
 		self.monthFormatter = dateFormatter
-		self.weekDays = dateFormatter.shortWeekdaySymbols ?? []
+		self.weekDays = dateFormatter.weekdaySymbols ?? []
+		self.weekDaysShort = dateFormatter.shortWeekdaySymbols ?? []
 		
 		Calendar.current.enumerateDates(startingAfter: startDate, matching: DateComponents(weekOfMonth: 1), matchingPolicy: .nextTime) { date, _, stop in
 			if let date = date {
@@ -56,7 +58,7 @@ class CalendarClient {
 		
 		var week = [Date]()
 		if let weekInterval = calendar.dateInterval(of: .weekOfYear, for: date) {
-			for i in 0...weekDays.count - firstDayOfTheWeek {
+			for i in 0...weekDaysShort.count - firstDayOfTheWeek {
 				if let day = calendar.date(byAdding: .day, value: i, to: weekInterval.start) {
 					week += [day]
 				}

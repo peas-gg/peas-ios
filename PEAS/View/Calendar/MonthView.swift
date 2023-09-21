@@ -24,7 +24,7 @@ struct MonthView: View {
 	init(month: Date, selectedDate: Date? = nil, isCollapsed: Bool = false, dateTapped: @escaping (Date) -> ()) {
 		self.month = month
 		self.days = CalendarClient.shared.getDaysInMonth(month)
-		self.weekDays = CalendarClient.shared.weekDays
+		self.weekDays = CalendarClient.shared.weekDaysShort
 		self.isCollapsed = isCollapsed
 		self.selectedDate = {
 			if let selectedDate = selectedDate {
