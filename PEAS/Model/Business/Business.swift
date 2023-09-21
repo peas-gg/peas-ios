@@ -112,6 +112,14 @@ extension Business {
 					title: "I am just trying this out",
 					description: "This will take approximately 4 hours on average. But please add a note if you have any special request."
 				)
+			],
+			schedules: [
+				Schedule(
+					id: UUID().uuidString,
+					dayOfWeek: 1,
+					startTime: Calendar.current.startOfDay(for: Date.now),
+					endTime: CalendarClient.shared.endOfDay
+				)
 			]
 		)
 	}()

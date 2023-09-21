@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import IdentifiedCollections
 import PhotosUI
 import SwiftUI
 import UIKit
@@ -71,6 +72,7 @@ extension EditSiteView {
 		@Published var selectedDay: String?
 		@Published var startDate: Date
 		@Published var endDate: Date
+		@Published var schedules: IdentifiedArrayOf<Business.Schedule>?
 		
 		@Published var photoItem: PhotosPickerItem?
 		@Published var isShowingDeleteBlockAlert: Bool = false
@@ -144,6 +146,8 @@ extension EditSiteView {
 			self.availableDays = []
 			self.startDate = calendarClient.startOfDay
 			self.endDate = calendarClient.endOfDay
+			
+			self.schedules = business.schedules
 			
 			self.locationClient
 				.$location
@@ -474,6 +478,7 @@ extension EditSiteView {
 							}
 						}
 					case .schedule:
+//						var scheduleRequestModel: [ScheduleRequest] = []
 						return
 					}
 				}

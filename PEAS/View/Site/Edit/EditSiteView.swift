@@ -218,20 +218,37 @@ struct EditSiteView: View {
 							}
 						}
 						VStack(alignment: .leading) {
-							HStack {
+							if isInEditMode {
 								Text(isInEditMode ? "Select time" : "Time")
-								Spacer()
+								HStack {
+									timeSelection(date: $viewModel.startDate, dateRange: viewModel.startDateRange)
+									Spacer()
+									Image(systemName: "arrow.right")
+										.font(Font.app.bodySemiBold)
+										.foregroundColor(Color.app.primaryText)
+									Spacer()
+									timeSelection(date: $viewModel.endDate, dateRange: viewModel.endDateRange)
+								}
+							} else {
+								VStack(alignment: .leading, spacing: 20) {
+									HStack(spacing: 20) {
+										let verticalSpacing: CGFloat = 20
+										Spacer()
+										VStack(alignment: .trailing, spacing: verticalSpacing) {
+											ForEach(viewModel.weekDays, id: \.self) { day in
+												Text("\(day):")
+													.font(Font.app.body)
+											}
+										}
+										Spacer()
+										VStack(alignment: .trailing, spacing: verticalSpacing) {
+											scheduleTimeView()
+										}
+										Spacer()
+									}
+								}
 							}
-							HStack {
-								timeSelection(date: $viewModel.startDate, dateRange: viewModel.startDateRange)
-								Spacer()
-								Image(systemName: "arrow.right")
-									.font(Font.app.bodySemiBold)
-									.foregroundColor(Color.app.primaryText)
-								Spacer()
-								timeSelection(date: $viewModel.endDate, dateRange: viewModel.endDateRange)
-							}
-							.disabled(!isInEditMode)
+							Spacer(minLength: 0)
 						}
 						HStack {
 							Spacer(minLength: 0)
@@ -248,7 +265,7 @@ struct EditSiteView: View {
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
-					.presentationDetents([.height(SizeConstants.detentHeight)])
+					.presentationDetents([.height(600)])
 				}
 			}
 			.background(viewModel.context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
@@ -476,6 +493,30 @@ struct EditSiteView: View {
 		}
 		.font(Font.app.bodySemiBold)
 		.foregroundColor(Color.app.primaryText)
+	}
+	
+	@ViewBuilder
+	func scheduleTimeView() -> some View {
+		ForEach(viewModel.weekDays.indices, id: \.self) { weekDayIndex in
+			if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
+				HStack {
+					Spacer()
+					Text("11:00am")
+					Image(systemName: "arrow.right")
+						.font(Font.app.bodySemiBold)
+						.foregroundColor(Color.app.tertiaryText)
+						.frame(width: 40)
+					Text("12:00pm")
+					Spacer()
+				}
+			} else {
+				HStack {
+					Spacer()
+					Text("Unavailable")
+					Spacer()
+				}
+			}
+		}
 	}
 	
 	@ViewBuilder
