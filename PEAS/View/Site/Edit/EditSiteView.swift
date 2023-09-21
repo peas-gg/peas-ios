@@ -210,7 +210,7 @@ struct EditSiteView: View {
 							}
 							HStack {
 								ForEach(viewModel.weekDays.indices, id: \.self) { index in
-									dayView(day: viewModel.weekDays[index])
+									dayView(dayIndex: index)
 									if index != viewModel.weekDays.count - 1 {
 										Spacer(minLength: 0)
 									}
@@ -447,17 +447,17 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func dayView(day: String) -> some View {
-		let isActive: Bool = viewModel.availableDays.contains(day)
+	func dayView(dayIndex: Int) -> some View {
+		let isActive: Bool = viewModel.schedules?.contains(where: { $0.dayOfWeek == dayIndex}) ?? false
 		let foregroundColor: Color = isActive ? Color.app.secondaryText : Color.app.primaryText
 		let opacity: CGFloat = {
 			if let selectedDay = viewModel.selectedDay {
-				return selectedDay == day ? 1.0 : 0.2
+				return selectedDay == dayIndex ? 1.0 : 0.2
 			} else {
 				return 1.0
 			}
 		}()
-		Button(action: { viewModel.setSelectedDay(day: day) }) {
+		Button(action: { viewModel.setSelectedDay(dayIndex: dayIndex) }) {
 			Color.clear
 				.overlay {
 					Group {
@@ -471,7 +471,7 @@ struct EditSiteView: View {
 				}
 				.frame(dimension: 44)
 				.overlay {
-					if let firstLetter = day.first {
+					if let firstLetter = viewModel.weekDays[dayIndex].first {
 						Text(String(firstLetter))
 							.font(Font.app.bodySemiBold)
 							.foregroundColor(foregroundColor)

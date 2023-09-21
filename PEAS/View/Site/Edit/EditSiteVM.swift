@@ -68,8 +68,7 @@ extension EditSiteView {
 		
 		//Schedule
 		@Published var weekDays: [String]
-		@Published var availableDays: [String]
-		@Published var selectedDay: String?
+		@Published var selectedDay: Int?
 		@Published var startDate: Date
 		@Published var endDate: Date
 		@Published var schedules: IdentifiedArrayOf<Business.Schedule>?
@@ -143,7 +142,6 @@ extension EditSiteView {
 			
 			//Schedule
 			self.weekDays = calendarClient.weekDays
-			self.availableDays = []
 			self.startDate = calendarClient.startOfDay
 			self.endDate = calendarClient.endOfDay
 			
@@ -256,11 +254,11 @@ extension EditSiteView {
 			Calendar.current.date(from: endComponents)!
 		}
 		
-		func setSelectedDay(day: String) {
-			if self.selectedDay == day {
+		func setSelectedDay(dayIndex: Int) {
+			if self.selectedDay == dayIndex {
 				self.selectedDay = nil
 			} else {
-				self.selectedDay = day
+				self.selectedDay = dayIndex
 			}
 		}
 		
