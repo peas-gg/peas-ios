@@ -481,6 +481,7 @@ struct EditSiteView: View {
 				.transition(.opacity)
 				.animation(.easeInOut, value: opacity)
 		}
+		.disabled(viewModel.selectedDay != nil && viewModel.selectedDay != dayIndex)
 	}
 	
 	@ViewBuilder
