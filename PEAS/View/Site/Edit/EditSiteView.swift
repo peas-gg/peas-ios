@@ -235,9 +235,10 @@ struct EditSiteView: View {
 										let verticalSpacing: CGFloat = 20
 										Spacer()
 										VStack(alignment: .trailing, spacing: verticalSpacing) {
-											ForEach(viewModel.weekDays, id: \.self) { day in
-												Text("\(day):")
+											ForEach(viewModel.weekDays.indices, id: \.self) { index in
+												Text("\(viewModel.weekDays[index]):")
 													.font(Font.app.body)
+													.foregroundColor(getCurrentDayForegroundColor(weekDay: index))
 											}
 										}
 										Spacer()
@@ -498,24 +499,27 @@ struct EditSiteView: View {
 	@ViewBuilder
 	func scheduleTimeView() -> some View {
 		ForEach(viewModel.weekDays.indices, id: \.self) { weekDayIndex in
-			if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
-				HStack {
-					Spacer()
-					Text(schedule.startTimeDate.timeOnly)
-					Image(systemName: "arrow.right")
-						.font(Font.app.bodySemiBold)
-						.foregroundColor(Color.app.tertiaryText)
-						.frame(width: 20)
-					Text(schedule.endTimeDate.timeOnly)
-					Spacer()
-				}
-			} else {
-				HStack {
-					Spacer()
-					Text("Unavailable")
-					Spacer()
+			Group {
+				if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
+					HStack {
+						Spacer()
+						Text(schedule.startTimeDate.timeOnly)
+						Image(systemName: "arrow.right")
+							.font(Font.app.bodySemiBold)
+							.foregroundColor(Color.app.tertiaryText)
+							.frame(width: 20)
+						Text(schedule.endTimeDate.timeOnly)
+						Spacer()
+					}
+				} else {
+					HStack {
+						Spacer()
+						Text("Unavailable")
+						Spacer()
+					}
 				}
 			}
+			.foregroundColor(getCurrentDayForegroundColor(weekDay: weekDayIndex))
 		}
 	}
 	
@@ -539,6 +543,11 @@ struct EditSiteView: View {
 			.fill(Color.white)
 		RoundedRectangle(cornerRadius: cornerRadius)
 			.stroke(Color.app.tertiaryText.opacity(0.5))
+	}
+	
+	func getCurrentDayForegroundColor(weekDay: Int) -> Color {
+		let isCurrentDay: Bool = Calendar.current.component(.weekday, from: Date()) == weekDay
+		return isCurrentDay ? Color.app.primaryText : Color.app.tertiaryText
 	}
 }
 
