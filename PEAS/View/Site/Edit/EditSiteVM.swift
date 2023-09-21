@@ -87,14 +87,6 @@ extension EditSiteView {
 			!location.isEmpty && latitude != nil && longitude != nil && locationPermissionState == .allowed
 		}
 		
-		var startDateRangeForPicker: ClosedRange<Date> {
-			getDateRange(startDate: calendarClient.startOfDay)
-		}
-		
-		var endDateRangeForPicker: ClosedRange<Date> {
-			getDateRange(startDate: startDateForPicker)
-		}
-		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
@@ -243,8 +235,10 @@ extension EditSiteView {
 			}
 		}
 		
-		func getDateRange(startDate: Date) -> ClosedRange<Date> {
-			let startDate: Date = startDate
+		func getDateRange(date: Date) -> ClosedRange<Date> {
+			let hour = Calendar.current.component(.hour, from: date)
+			let minute = Calendar.current.component(.minute, from: date)
+			let startDate: Date = Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: calendarClient.startOfDay)!
 			let endDate: Date = calendarClient.endOfDay
 			let calendarComponents: Set<Calendar.Component> = [.hour, .minute]
 			let startComponents = Calendar.current.dateComponents(calendarComponents, from: startDate)
@@ -256,10 +250,15 @@ extension EditSiteView {
 		
 		func setSelectedDay(dayIndex: Int) {
 			if let currentSelectedDayIndex: Int = self.selectedDay {
-				if startDateForPicker != endDateForPicker {
+				let existingSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == currentSelectedDayIndex })
+				if startDateForPicker == endDateForPicker || startDateForPicker > endDateForPicker {
+					if let existingSchedule = existingSchedule {
+						self.schedules?.remove(id: existingSchedule.id)
+					}
+				} else {
 					let startTime: String = ServerDateFormatter.formatToUTC(from: startDateForPicker)
 					let endTime: String = ServerDateFormatter.formatToUTC(from: endDateForPicker)
-					if var existingSchedule: Business.Schedule = schedules?.first(where: { $0.dayOfWeek == currentSelectedDayIndex }) {
+					if var existingSchedule = existingSchedule {
 						existingSchedule.startTime = startTime
 						existingSchedule.endTime = endTime
 						self.schedules?[id: existingSchedule.id] = existingSchedule
@@ -270,17 +269,44 @@ extension EditSiteView {
 							startTime: startTime,
 							endTime: endTime
 						)
-						self.schedules?.append(newSchedule)
+						if self.schedules == nil {
+							self.schedules = IdentifiedArray(uniqueElements: [newSchedule])
+						} else {
+							self.schedules?.append(newSchedule)
+						}
 					}
 				}
-			} else {
-				//Set the time for the dayIndex passed in
 			}
+			
 			if self.selectedDay == dayIndex {
 				self.selectedDay = nil
+				self.setPickerDates(start: calendarClient.startOfDay, end: calendarClient.endOfDay)
 			} else {
+				//Set the time picker for the dayIndex passed
+				if let existingSchedule = schedules?.first(where: { $0.dayOfWeek == dayIndex }) {
+					self.startDateForPicker = existingSchedule.startTimeDate
+					self.endDateForPicker = existingSchedule.endTimeDate
+				} else {
+					self.startDateForPicker = calendarClient.startOfDay
+					self.endDateForPicker = calendarClient.endOfDay
+				}
+				self.setPickerDates(start: startDateForPicker, end: endDateForPicker)
 				self.selectedDay = dayIndex
 			}
+		}
+		
+		func setPickerDates(start: Date, end: Date) {
+			let startHour = Calendar.current.component(.hour, from: start)
+			let startMinute = Calendar.current.component(.minute, from: start)
+			
+			let endHour = Calendar.current.component(.hour, from: end)
+			let endMinute = Calendar.current.component(.minute, from: end)
+			
+			let startDate: Date = Calendar.current.date(bySettingHour: startHour, minute: startMinute, second: 0, of: calendarClient.startOfDay)!
+			let endDate: Date = Calendar.current.date(bySettingHour: endHour, minute: endMinute, second: 0, of: calendarClient.startOfDay)!
+			
+			self.startDateForPicker = startDate
+			self.endDateForPicker = endDate
 		}
 		
 		func uploadImage(localUrl: URL) async -> URL? {
