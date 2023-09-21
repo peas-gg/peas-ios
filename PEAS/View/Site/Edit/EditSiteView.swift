@@ -241,7 +241,7 @@ struct EditSiteView: View {
 													.foregroundColor(getCurrentDayForegroundColor(weekDay: index))
 											}
 										}
-										VStack(alignment: .trailing, spacing: verticalSpacing) {
+										VStack(spacing: verticalSpacing) {
 											scheduleTimeView()
 										}
 										Spacer(minLength: 0)
@@ -502,14 +502,11 @@ struct EditSiteView: View {
 			Group {
 				if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
 					HStack {
-						Spacer(minLength: 0)
 						scheduleTimeText(schedule.startTimeDate.timeOnly)
 						Image(systemName: "arrow.right")
 							.font(Font.app.bodySemiBold)
 							.foregroundColor(Color.app.tertiaryText)
-							.frame(width: 20)
 						scheduleTimeText(schedule.endTimeDate.timeOnly)
-						Spacer(minLength: 0)
 					}
 				} else {
 					HStack {
@@ -525,7 +522,7 @@ struct EditSiteView: View {
 	
 	@ViewBuilder
 	func scheduleTimeText(_ content: String) -> some View {
-		Text(" 11:11 PM ")
+		Text("  11:11 PM  ")
 			.opacity(0)
 			.overlay(Text(content))
 	}
