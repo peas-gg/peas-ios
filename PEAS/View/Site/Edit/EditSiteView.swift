@@ -546,7 +546,7 @@ struct EditSiteView: View {
 	}
 	
 	func getCurrentDayForegroundColor(weekDay: Int) -> Color {
-		let isCurrentDay: Bool = Calendar.current.component(.weekday, from: Date()) == weekDay
+		let isCurrentDay: Bool = Calendar.current.component(.weekday, from: Date()) - 1 == weekDay
 		return isCurrentDay ? Color.app.primaryText : Color.app.tertiaryText
 	}
 }
