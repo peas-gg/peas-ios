@@ -88,7 +88,7 @@ extension EditSiteView {
 		}
 		
 		var isValidTimeRange: Bool {
-			startDateForPicker != endDateForPicker && startDateForPicker < endDateForPicker
+			startDateForPicker < endDateForPicker
 		}
 		
 		//Clients
@@ -255,7 +255,7 @@ extension EditSiteView {
 		func setSelectedDay(dayIndex: Int) {
 			if let currentSelectedDayIndex: Int = self.selectedDay {
 				let existingSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == currentSelectedDayIndex })
-				if startDateForPicker == endDateForPicker || startDateForPicker > endDateForPicker {
+				if startDateForPicker >= endDateForPicker {
 					if let existingSchedule = existingSchedule {
 						self.schedules?.remove(id: existingSchedule.id)
 					}
@@ -339,10 +339,7 @@ extension EditSiteView {
 						}
 					},
 					receiveValue: { business in
-						self.business = business
-						AppState.shared.updateBusiness(business: business)
-						self.isLoading = false
-						self.onSave(business)
+						self.updateBusiness(business)
 					}
 				)
 				.store(in: &cancellableBag)
@@ -361,10 +358,7 @@ extension EditSiteView {
 						}
 					},
 					receiveValue: { business in
-						self.business = business
-						AppState.shared.updateBusiness(business: business)
-						self.isLoading = false
-						self.onSave(business)
+						self.updateBusiness(business)
 					}
 				)
 				.store(in: &cancellableBag)
@@ -383,10 +377,7 @@ extension EditSiteView {
 						}
 					},
 					receiveValue: { business in
-						self.business = business
-						AppState.shared.updateBusiness(business: business)
-						self.isLoading = false
-						self.onSave(business)
+						self.updateBusiness(business)
 					}
 				)
 				.store(in: &cancellableBag)
@@ -405,13 +396,17 @@ extension EditSiteView {
 						}
 					},
 					receiveValue: { business in
-						self.business = business
-						AppState.shared.updateBusiness(business: business)
-						self.isLoading = false
-						self.onSave(business)
+						self.updateBusiness(business)
 					}
 				)
 				.store(in: &cancellableBag)
+		}
+		
+		func updateBusiness(_ business: Business) {
+			self.business = business
+			AppState.shared.updateBusiness(business: business)
+			self.isLoading = false
+			self.onSave(business)
 		}
 		
 		func saveChanges() {
@@ -527,8 +522,24 @@ extension EditSiteView {
 							}
 						}
 					case .schedule:
-//						var scheduleRequestModel: [ScheduleRequest] = []
-						return
+						self.apiClient
+							.setSchedule(businessId: business.id, schedules?.elements ?? [])
+							.receive(on: DispatchQueue.main)
+							.sink(
+								receiveCompletion: { completion in
+									switch completion {
+									case .finished:
+										return
+									case .failure(let error):
+										self.isLoading = false
+										self.bannerData = BannerData(error: error)
+									}
+								},
+								receiveValue: { business in
+									self.updateBusiness(business)
+								}
+							)
+							.store(in: &cancellableBag)
 					}
 				}
 			}

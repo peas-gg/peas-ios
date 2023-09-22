@@ -26,6 +26,7 @@ protocol APIRequests {
 	func getBusinessAccount() -> AnyPublisher<Business, APIClientError>
 	func createBusiness(_ model: CreateBusiness) -> AnyPublisher<Business, APIClientError>
 	func updateBusiness(_ model: UpdateBusiness) -> AnyPublisher<Business, APIClientError>
+	func setSchedule(businessId: Business.ID, _ model: [Business.Schedule]) -> AnyPublisher<Business, APIClientError>
 	func addBlock(businessId: Business.ID, _ model : Business.Block) -> AnyPublisher<Business, APIClientError>
 	func updateBlock(businessId: Business.ID, _ model: UpdateBusiness.Block) -> AnyPublisher<Business, APIClientError>
 	func deleteBlock(businessId: Business.ID, blockId: Business.Block.ID) -> AnyPublisher<Business, APIClientError>
@@ -121,6 +122,16 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: updateBusiness, output: Business.self)
+	}
+	
+	func setSchedule(businessId: Business.ID, _ model: [Business.Schedule]) -> AnyPublisher<Business, APIClientError> {
+		let setSchedule = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["business", "schedule"],
+			body: model,
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: setSchedule, output: Business.self)
 	}
 	
 	func addBlock(businessId: Business.ID, _ model: Business.Block) -> AnyPublisher<Business, APIClientError> {
