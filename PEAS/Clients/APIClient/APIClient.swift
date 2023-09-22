@@ -128,6 +128,7 @@ final class APIClient: APIRequests {
 		let setSchedule = APPUrlRequest(
 			httpMethod: .post,
 			pathComponents: ["business", "schedule"],
+			query: [URLQueryItem(name: "businessId", value: businessId)],
 			body: model,
 			requiresAuth: true
 		)
