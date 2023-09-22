@@ -288,29 +288,19 @@ extension EditSiteView {
 			} else {
 				//Set the time picker for the dayIndex passed
 				if let existingSchedule = schedules?.first(where: { $0.dayOfWeek == dayIndex }) {
-					self.startDateForPicker = existingSchedule.startTimeDate
-					self.endDateForPicker = existingSchedule.endTimeDate
+					let startDate = ServerDateFormatter.formatToDate(from: existingSchedule.startTime)
+					let endDate = ServerDateFormatter.formatToDate(from: existingSchedule.endTime)
+					self.setPickerDates(start: startDate, end: endDate)
 				} else {
-					self.startDateForPicker = calendarClient.startOfDay
-					self.endDateForPicker = calendarClient.endOfDay
+					self.setPickerDates(start: calendarClient.startOfDay, end: calendarClient.endOfDay)
 				}
-				self.setPickerDates(start: startDateForPicker, end: endDateForPicker)
 				self.selectedDay = dayIndex
 			}
 		}
 		
 		func setPickerDates(start: Date, end: Date) {
-			let startHour = Calendar.current.component(.hour, from: start)
-			let startMinute = Calendar.current.component(.minute, from: start)
-			
-			let endHour = Calendar.current.component(.hour, from: end)
-			let endMinute = Calendar.current.component(.minute, from: end)
-			
-			let startDate: Date = Calendar.current.date(bySettingHour: startHour, minute: startMinute, second: 0, of: calendarClient.startOfDay)!
-			let endDate: Date = Calendar.current.date(bySettingHour: endHour, minute: endMinute, second: 0, of: calendarClient.startOfDay)!
-			
-			self.startDateForPicker = startDate
-			self.endDateForPicker = endDate
+			self.startDateForPicker = start
+			self.endDateForPicker = end
 		}
 		
 		func uploadImage(localUrl: URL) async -> URL? {
