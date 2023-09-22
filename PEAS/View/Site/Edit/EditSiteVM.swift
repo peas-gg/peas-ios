@@ -528,8 +528,7 @@ extension EditSiteView {
 							.sink(
 								receiveCompletion: { completion in
 									switch completion {
-									case .finished:
-										return
+									case .finished: return
 									case .failure(let error):
 										self.isLoading = false
 										self.bannerData = BannerData(error: error)
