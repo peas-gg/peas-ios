@@ -27,6 +27,7 @@ struct OrderView: View {
 							label(viewModel.order.title)
 						}
 						Spacer(minLength: 0)
+						statusBadge()
 					}
 					VStack(alignment: alignment) {
 						title("Price:")
@@ -93,6 +94,19 @@ struct OrderView: View {
 			.id(viewModel.order.image)
 		
 
+	}
+	
+	@ViewBuilder
+	func statusBadge() -> some View {
+		let status: Order.Status = viewModel.order.orderStatus
+		Text(viewModel.order.orderStatus.rawValue)
+			.font(.system(size: 10, weight: .semibold, design: .rounded))
+			.textCase(.uppercase)
+			.foregroundColor(status.foregroundColor)
+			.padding(4)
+			.padding(.horizontal, 6)
+			.background(status.backgroundColor)
+			.cornerRadius(5)
 	}
 	
 	func formattedTime() -> String {

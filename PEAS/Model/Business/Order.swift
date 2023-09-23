@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Order: Codable, Identifiable {
 	enum Status: String, Codable, Equatable {
@@ -13,6 +14,24 @@ struct Order: Codable, Identifiable {
 		case approved
 		case declined
 		case completed
+		
+		var foregroundColor: Color {
+			switch self {
+			case .pending: return Color.app.pendingText
+			case .approved: return Color.app.approvedText
+			case .declined: return Color.app.declinedText
+			case .completed: return Color.app.completedText
+			}
+		}
+		
+		var backgroundColor: Color {
+			switch self {
+			case .pending: return Color.app.pendingBackground
+			case .approved: return Color.app.approvedBackground
+			case .declined: return Color.app.declinedBackground
+			case .completed: return Color.app.completedBackground
+			}
+		}
 	}
 	
 	let id: String
