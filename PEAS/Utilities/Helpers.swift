@@ -13,6 +13,7 @@ struct SizeConstants {
 	static let isSmallPhone: Bool = {
 		UIScreen.main.bounds.size.height < 700
 	}()
+	static let avatarHeight: CGFloat = 50
 	static let blockCornerRadius: CGFloat = 20
 	static let textCornerRadius: CGFloat = 10
 	static let businessDescriptionLimit: Int = 160

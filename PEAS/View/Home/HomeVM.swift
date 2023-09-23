@@ -12,6 +12,7 @@ extension HomeView {
 	@MainActor class ViewModel: ObservableObject {
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		@Published var user: User
 		@Published var business: Business
 		
 		@Published var bannerData: BannerData?
@@ -21,6 +22,7 @@ extension HomeView {
 		private let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User, business: Business) {
+			self.user = user
 			self.business = business
 		}
 		

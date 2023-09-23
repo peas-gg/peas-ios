@@ -12,6 +12,7 @@ extension DashboardView {
 	@MainActor class ViewModel: ObservableObject {
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
+		@Published var user: User
 		@Published var business: Business
 		@Published var orders: IdentifiedArrayOf<Order>
 		
@@ -21,7 +22,8 @@ extension DashboardView {
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
 		
-		init(business: Business, orders: IdentifiedArrayOf<Order> = []) {
+		init(user: User, business: Business, orders: IdentifiedArrayOf<Order> = []) {
+			self.user = user
 			self.business = business
 			self.orders = orders
 			setUp()

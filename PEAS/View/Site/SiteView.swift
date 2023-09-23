@@ -56,7 +56,7 @@ struct SiteView: View {
 								viewModel.setEditModeContext(.photo)
 							}
 						}) {
-							CachedAvatar(url: business.profilePhoto, height: 60)
+							CachedAvatar(url: business.profilePhoto, height: SizeConstants.avatarHeight)
 								.overlay(isShown: viewModel.isInEditMode) {
 									RoundedRectangle(cornerRadius: 50)
 										.fill(Color.black.opacity(0.6))

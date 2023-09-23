@@ -19,7 +19,7 @@ struct HomeView: View {
 	
 	var body: some View {
 		TabView {
-			DashboardView(viewModel: DashboardView.ViewModel(business: viewModel.business))
+			DashboardView(viewModel: DashboardView.ViewModel(user: viewModel.user, business: viewModel.business))
 				.tabItem {
 					Label("Dashboard", systemImage: "tray.full.fill")
 				}
