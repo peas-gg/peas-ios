@@ -123,6 +123,7 @@ struct OrderView: View {
 		Text(content)
 			.font(Font.app.footnote)
 			.foregroundColor(Color.app.tertiaryText)
+			.lineLimit(1)
 	}
 	
 	@ViewBuilder
@@ -130,6 +131,7 @@ struct OrderView: View {
 		Text(content)
 			.font(Font.app.bodySemiBold)
 			.foregroundColor(Color.app.primaryText)
+			.lineLimit(1)
 	}
 	
 	@ViewBuilder
@@ -256,10 +258,12 @@ struct OrderView: View {
 		let order: Order = viewModel.order
 		
 		let timeDisplay: String = {
-			if Date.now.isBetween(order.startTimeDate, and: order.endTimeDate) {
+			let startDate: Date = ServerDateFormatter.formatToDate(from: order.startTime)
+			let endDate: Date = ServerDateFormatter.formatToDate(from: order.endTime)
+			if Date.now.isBetween(startDate, and: endDate) {
 				return nowText
 			} else {
-				return order.startTimeDate.timeAgoDisplay()
+				return startDate.timeAgoDisplay()
 			}
 		}()
 		Text(" •  \(timeDisplay) ")
