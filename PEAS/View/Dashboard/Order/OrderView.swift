@@ -137,14 +137,20 @@ struct OrderView: View {
 	
 	@ViewBuilder
 	func changeStatusButtons() -> some View {
+		let orderStatus: Order.Status = viewModel.order.orderStatus
 		if viewModel.order.payment == nil {
 			VStack {
-				Divider()
-					.padding(.vertical)
+				switch orderStatus {
+				case .pending, .approved:
+					Divider()
+						.padding(.vertical)
+				case .declined, .completed:
+					EmptyView()
+				}
 				HStack {
 					Spacer()
 					HStack(spacing: 10) {
-						switch viewModel.order.orderStatus {
+						switch orderStatus {
 						case .pending:
 							declineButton()
 							approveButton()
