@@ -9,9 +9,18 @@ import Foundation
 
 extension OrderView {
 	@MainActor class ViewModel: ObservableObject {
+		enum Context: Equatable {
+			case detail
+			case minimal
+			case calendar
+		}
+		
+		let context: Context
+		
 		@Published var order: Order
 		
-		init(order: Order) {
+		init(context: Context, order: Order) {
+			self.context = context
 			self.order = order
 		}
 	}

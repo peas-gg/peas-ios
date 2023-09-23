@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct OrderView: View {
+	@StateObject var viewModel: ViewModel
+	
 	var body: some View {
 		Text("Hello, World!")
 	}
@@ -15,6 +17,6 @@ struct OrderView: View {
 
 struct OrderView_Previews: PreviewProvider {
 	static var previews: some View {
-		OrderView()
+		OrderView(viewModel: .init(context: .detail, order: Order.mock1))
 	}
 }
