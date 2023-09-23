@@ -25,7 +25,7 @@ struct CustomersView: View {
 			Divider()
 				.padding(.top)
 			VStack {
-				VStack(spacing: 30) {
+				VStack(spacing: 0) {
 					HStack {
 						let numberOfCustomers: String = {
 							return numberFormatter.string(from: viewModel.customers.count as NSNumber) ?? String(viewModel.customers.count)
@@ -35,7 +35,10 @@ struct CustomersView: View {
 						Spacer()
 					}
 					.font(Font.app.title2Display)
+					.padding(.bottom, 4)
 					ScrollView {
+						Spacer()
+							.frame(height: 20)
 						LazyVStack(spacing: 20) {
 							ForEach(viewModel.customers.indices, id: \.self) { index in
 								customerView(customer: viewModel.customers[index])
@@ -43,6 +46,11 @@ struct CustomersView: View {
 									Divider()
 								}
 							}
+						}
+						.padding()
+						.background {
+							RoundedRectangle(cornerRadius: 10)
+								.fill(Color.app.primaryBackground)
 						}
 					}
 				}
@@ -62,7 +70,7 @@ struct CustomersView: View {
 					.font(Font.app.bodySemiBold)
 					.foregroundColor(Color.app.primaryText)
 					.lineLimit(1)
-				HStack(spacing: 20) {
+				HStack(spacing: 30) {
 					Button(action: {}) {
 						Image("chat")
 							.resizable()
