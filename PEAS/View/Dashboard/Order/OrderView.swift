@@ -34,16 +34,13 @@ struct OrderView: View {
 							}
 							VStack(alignment: alignment) {
 								title("Price:")
-								let amount: Int = {
-									return viewModel.order.payment?.total ?? viewModel.order.price
-								}()
-								Text("$\(PriceFormatter.price(value: String(amount)))")
+								Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
 									.font(Font.app.largeTitle)
 									.foregroundColor(viewModel.order.payment == nil ? Color.app.primaryText : Color.app.accent)
 							}
 							VStack(alignment: alignment) {
 								title("Customer:")
-								Button(action: {}) {
+								Button(action: { viewModel.openCustomerView() }) {
 									label(customerName())
 										.underline()
 								}
@@ -72,21 +69,29 @@ struct OrderView: View {
 		case .dashboard:
 			HStack {
 				image()
-				VStack(alignment: .leading, spacing: 8) {
-					label(viewModel.order.title)
-					Text("$\(PriceFormatter.price(value: String(viewModel.order.price)))")
+				VStack(alignment: .leading, spacing: 4) {
+					HStack {
+						label(viewModel.order.title)
+						Spacer(minLength: 0)
+						statusBadge()
+					}
+					Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
 						.font(Font.app.body)
-						.foregroundColor(Color.app.tertiaryText)
+						.foregroundColor(viewModel.order.payment == nil ? Color.app.tertiaryText : Color.app.accent)
 					HStack(spacing: 6) {
-						Text(customerName())
-							.foregroundColor(Color.app.primaryText)
-							.underline()
+						Button(action: { viewModel.openCustomerView() }) {
+							Text(customerName())
+								.foregroundColor(Color.app.primaryText)
+								.underline()
+						}
 						Text("•")
 						let date: Date = ServerDateFormatter.formatToLocal(from: viewModel.order.startTime)
 						Text(date.timeAgoDisplay())
-						
+						Spacer(minLength: 0)
+						Image(systemName: "doc.text")
+							.font(.system(size: FontSizes.title3, weight: .semibold))
 					}
-					.font(Font.app.footnote)
+					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiaryText)
 				}
 			}

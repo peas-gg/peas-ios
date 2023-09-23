@@ -19,6 +19,10 @@ extension OrderView {
 		
 		@Published var order: Order
 		
+		var orderAmount: Int {
+			return order.payment?.total ?? order.price
+		}
+		
 		init(context: Context, order: Order) {
 			self.context = context
 			self.order = order
@@ -34,6 +38,10 @@ extension OrderView {
 		
 		func requestPayment() {
 			AppState.shared.setIsShowingPaymentView(true)
+		}
+		
+		func openCustomerView() {
+			
 		}
 	}
 }
