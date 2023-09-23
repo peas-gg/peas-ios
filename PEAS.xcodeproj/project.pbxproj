@@ -62,6 +62,7 @@
 		D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */; };
 		D06A2ADE2AB109D4002E3221 /* RequestPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */; };
 		D06A2AE02AB12084002E3221 /* FullScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */; };
+		D074FBF42ABE5DF6009E7944 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074FBF32ABE5DF6009E7944 /* Customer.swift */; };
 		D0793D232A9FBC7500139783 /* SiteOnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */; };
 		D0793D252A9FC69600139783 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D242A9FC69600139783 /* Notification+Name.swift */; };
 		D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D262AA0554400139783 /* MenuViewModifier.swift */; };
@@ -153,6 +154,7 @@
 		D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentView.swift; sourceTree = "<group>"; };
 		D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentVM.swift; sourceTree = "<group>"; };
 		D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenContainer.swift; sourceTree = "<group>"; };
+		D074FBF32ABE5DF6009E7944 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteOnboardingVM.swift; sourceTree = "<group>"; };
 		D0793D242A9FC69600139783 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		D0793D262AA0554400139783 /* MenuViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModifier.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 				D066F8222A9493DA00B65CA4 /* Business.swift */,
 				D066F8202A94937C00B65CA4 /* Template.swift */,
 				D0332A172AA3AC31000E7515 /* UpdateBusiness.swift */,
+				D074FBF32ABE5DF6009E7944 /* Customer.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				D066F8282A956E4400B65CA4 /* Cache.swift in Sources */,
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
 				D04F115D2A9E4A0B0011242C /* StepperView.swift in Sources */,
+				D074FBF42ABE5DF6009E7944 /* Customer.swift in Sources */,
 				D0F0895C2AAFB66D0043EEE3 /* UserVM.swift in Sources */,
 				D0332A1C2AA44485000E7515 /* PriceFormatter.swift in Sources */,
 				D0332A182AA3AC31000E7515 /* UpdateBusiness.swift in Sources */,
