@@ -51,6 +51,15 @@ struct Order: Codable, Identifiable {
 }
 
 extension Order {
+	var startTimeDate: Date {
+		ServerDateFormatter.formatToLocal(from: self.startTime)
+	}
+	var endTimeDate: Date {
+		ServerDateFormatter.formatToLocal(from: self.endTime)
+	}
+}
+
+extension Order {
 	static var mock1: Self {
 		return Order(
 			id: UUID().uuidString,
@@ -80,8 +89,8 @@ extension Order {
 			description: "I could offer you some discounts if you have shorter hair",
 			image: URL(string: "https://peasfilesdev.blob.core.windows.net/images/jenny_block_1.jpg")!,
 			note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
-			startTime: "2023-09-23T21:00:00Z",
-			endTime: "2023-09-23T22:10:00Z",
+			startTime: "2023-09-23T22:00:00Z",
+			endTime: "2023-09-23T23:10:00Z",
 			orderStatus: .completed,
 			didRequestPayment: false,
 			payment: Payment.mock1,

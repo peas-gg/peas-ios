@@ -67,34 +67,54 @@ struct OrderView: View {
 				.padding(.bottom)
 			}
 		case .dashboard:
-			HStack {
-				image()
-				VStack(alignment: .leading, spacing: 4) {
-					HStack {
-						label(viewModel.order.title)
-						Spacer(minLength: 0)
-						statusBadge()
-					}
-					Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
-						.font(Font.app.body)
-						.foregroundColor(viewModel.order.payment == nil ? Color.app.tertiaryText : Color.app.accent)
-					HStack(spacing: 6) {
-						Button(action: { viewModel.openCustomerView() }) {
-							Text(customerName())
-								.foregroundColor(Color.app.primaryText)
-								.underline()
-						}
-						timeView()
-						Spacer(minLength: 0)
-						Image(systemName: "doc.text")
-							.font(.system(size: FontSizes.title3, weight: .semibold))
-					}
-					.font(Font.app.body)
-					.foregroundColor(Color.app.tertiaryText)
-				}
-			}
+			compactView()
 		case .calendar:
-			EmptyView()
+			HStack {
+				VStack {
+					let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDate)
+					let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDate)
+					Text(startTime)
+					
+					Text(endTime)
+				}
+				.font(Font.app.bodySemiBold)
+				compactView()
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func compactView() -> some View {
+		HStack {
+			image()
+			VStack(alignment: .leading, spacing: 4) {
+				HStack {
+					label(viewModel.order.title)
+					Spacer(minLength: 0)
+					switch viewModel.context {
+					case .dashboard:
+						statusBadge()
+					case .detail, .calendar:
+						EmptyView()
+					}
+				}
+				Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
+					.font(Font.app.body)
+					.foregroundColor(viewModel.order.payment == nil ? Color.app.tertiaryText : Color.app.accent)
+				HStack(spacing: 6) {
+					Button(action: { viewModel.openCustomerView() }) {
+						Text(customerName())
+							.foregroundColor(Color.app.primaryText)
+							.underline()
+					}
+					timeView()
+					Spacer(minLength: 0)
+					Image(systemName: "doc.text")
+						.font(.system(size: FontSizes.title3, weight: .semibold))
+				}
+				.font(Font.app.body)
+				.foregroundColor(Color.app.tertiaryText)
+			}
 		}
 	}
 	
@@ -234,14 +254,12 @@ struct OrderView: View {
 	func timeView() -> some View {
 		let nowText: String = "Now"
 		let order: Order = viewModel.order
-		let startDate: Date = ServerDateFormatter.formatToDate(from: order.startTime)
-		let endDate: Date = ServerDateFormatter.formatToDate(from: order.endTime)
 		
 		let timeDisplay: String = {
-			if Date.now.isBetween(startDate, and: endDate) {
+			if Date.now.isBetween(order.startTimeDate, and: order.endTimeDate) {
 				return nowText
 			} else {
-				return startDate.timeAgoDisplay()
+				return order.startTimeDate.timeAgoDisplay()
 			}
 		}()
 		Text(" •  \(timeDisplay) ")
@@ -250,7 +268,7 @@ struct OrderView: View {
 	}
 	
 	func formattedTime() -> String {
-		let date: Date = ServerDateFormatter.formatToLocal(from: viewModel.order.startTime)
+		let date: Date = viewModel.order.startTimeDate
 		let components = Calendar.current.dateComponents([.month, .day, .weekday], from: date)
 		
 		let time: String = TimeFormatter.getTime(date: date)
@@ -285,5 +303,6 @@ struct OrderView_Previews: PreviewProvider {
 		OrderView(viewModel: .init(context: .detail, order: Order.mock1))
 		OrderView(viewModel: .init(context: .detail, order: Order.mock2))
 		OrderView(viewModel: .init(context: .dashboard, order: Order.mock2))
+		OrderView(viewModel: .init(context: .calendar, order: Order.mock2))
 	}
 }
