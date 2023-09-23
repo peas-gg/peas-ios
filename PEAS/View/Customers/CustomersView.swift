@@ -36,21 +36,31 @@ struct CustomersView: View {
 					}
 					.font(Font.app.title2Display)
 					.padding(.bottom, 4)
-					ScrollView {
-						Spacer()
-							.frame(height: 20)
-						LazyVStack(spacing: 20) {
-							ForEach(viewModel.customers.indices, id: \.self) { index in
-								customerView(customer: viewModel.customers[index])
-								if index != viewModel.customers.count - 1 {
-									Divider()
+					if viewModel.customers.count == 0 {
+						VStack {
+							Spacer()
+							Text("Your customers contacts will go here")
+								.font(Font.app.body)
+								.foregroundColor(Color.app.tertiaryText)
+							Spacer()
+						}
+					} else {
+						ScrollView {
+							Spacer()
+								.frame(height: 20)
+							LazyVStack(spacing: 20) {
+								ForEach(viewModel.customers.indices, id: \.self) { index in
+									customerView(customer: viewModel.customers[index])
+									if index != viewModel.customers.count - 1 {
+										Divider()
+									}
 								}
 							}
-						}
-						.padding()
-						.background {
-							RoundedRectangle(cornerRadius: 10)
-								.fill(Color.app.primaryBackground)
+							.padding()
+							.background {
+								RoundedRectangle(cornerRadius: 10)
+									.fill(Color.app.primaryBackground)
+							}
 						}
 					}
 				}
@@ -114,5 +124,6 @@ struct CustomersView: View {
 struct CustomersView_Previews: PreviewProvider {
 	static var previews: some View {
 		CustomersView(viewModel: .init(customers: [Customer.mock1, Customer.mock2]))
+		CustomersView(viewModel: .init())
 	}
 }
