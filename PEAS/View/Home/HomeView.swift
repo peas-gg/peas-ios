@@ -27,7 +27,7 @@ struct HomeView: View {
 				.tabItem {
 					Label("Calendar", systemImage: "calendar")
 				}
-			CustomersView(viewModel: CustomersView.ViewModel(businessId: Business.mock1.id))
+			CustomersView(viewModel: CustomersView.ViewModel())
 				.tabItem {
 					Label("Customers", systemImage: "person.text.rectangle")
 						.environment(\.symbolVariants, .none)

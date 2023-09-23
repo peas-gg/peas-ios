@@ -11,58 +11,37 @@ import Foundation
 
 extension CustomersView {
 	@MainActor class ViewModel: ObservableObject {
-		let businessId: Business.ID
-		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
-		@Published var customers: IdentifiedArrayOf<Customer>
+		@Published var customers: IdentifiedArrayOf<Customer> = []
 		
-		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
 		
 		//Clients
 		private var apiClient: APIClient = APIClient.shared
 		private var cacheClient: CacheClient = CacheClient.shared
 		
-		init(businessId: Business.ID, customers: IdentifiedArrayOf<Customer> = []) {
-			self.businessId = businessId
-			self.customers = customers
+		//Repositories
+		var customerRepository: CustomerRepository = CustomerRepository.shared
+		
+		init() {
 			setUp()
+			
+			//Observe updates for customers
+			self.customerRepository
+				.$customers
+				.sink(receiveValue: { customers in
+					self.customers = customers
+				})
+				.store(in: &cancellableBag)
 		}
 		
 		func setUp() {
-			Task(priority: .high) {
-				if let cachedCustomers = await cacheClient.getData(key: .customers) {
-					self.customers = cachedCustomers
-				} else {
-					self.isLoading = true
-				}
-			}
+			self.customers = customerRepository.customers
 		}
 		
 		func refresh() {
-			self.apiClient
-				.getCustomers(businessId: businessId)
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { completion in
-						switch completion {
-						case .finished: return
-						case .failure(let error):
-							self.isLoading = false
-							self.bannerData = BannerData(error: error)
-						}
-					},
-					receiveValue: { customers in
-						self.isLoading = false
-						let customers = IdentifiedArray(uniqueElements: customers)
-						self.customers = customers
-						Task {
-							await self.cacheClient.setData(key: .customers, value: customers)
-						}
-					}
-				)
-				.store(in: &cancellableBag)
+			self.customerRepository.requestRefresh()
 		}
 	}
 }
