@@ -17,3 +17,18 @@ struct Payment: Equatable, Codable {
 	let total: Int
 	let created: String
 }
+
+extension Payment {
+	static var mock1: Self {
+		return Payment(
+			id: 0,
+			currency: .CAD,
+			base: 12000,
+			deposit: 0,
+			tip: 1200,
+			fee: 0,
+			total: 13200,
+			created: "2023-09-22T07:50:00Z"
+		)
+	}
+}

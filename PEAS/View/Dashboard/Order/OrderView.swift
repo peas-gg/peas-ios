@@ -32,9 +32,12 @@ struct OrderView: View {
 						}
 						VStack(alignment: alignment) {
 							title("Price:")
-							Text("$\(PriceFormatter.price(value: String(viewModel.order.price)))")
+							let amount: Int = {
+								return viewModel.order.payment?.total ?? viewModel.order.price
+							}()
+							Text("$\(PriceFormatter.price(value: String(amount)))")
 								.font(Font.app.largeTitle)
-								.foregroundColor(Color.app.primaryText)
+								.foregroundColor(viewModel.order.payment == nil ? Color.app.primaryText : Color.app.accent)
 						}
 						VStack(alignment: alignment) {
 							title("Customer:")
@@ -224,5 +227,6 @@ struct OrderView: View {
 struct OrderView_Previews: PreviewProvider {
 	static var previews: some View {
 		OrderView(viewModel: .init(context: .detail, order: Order.mock1))
+		OrderView(viewModel: .init(context: .detail, order: Order.mock2))
 	}
 }
