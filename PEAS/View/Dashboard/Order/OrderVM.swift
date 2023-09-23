@@ -23,5 +23,13 @@ extension OrderView {
 			self.context = context
 			self.order = order
 		}
+		
+		func approveOrder() {
+			
+		}
+		
+		func declineOrder() {
+			
+		}
 	}
 }

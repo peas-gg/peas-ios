@@ -52,8 +52,6 @@ struct OrderView: View {
 				}
 				note()
 					.padding(.top)
-				Divider()
-					.padding(.vertical)
 				changeStatusButtons()
 			}
 			.padding(.horizontal)
@@ -139,16 +137,39 @@ struct OrderView: View {
 	
 	@ViewBuilder
 	func changeStatusButtons() -> some View {
-		HStack {
-			Spacer()
-			HStack(spacing: 10) {
-				button(isProminent: false, symbol: "xmark", title: "Decline") {
-					
-				}
-				button(isProminent: true, symbol: "checkmark", title: "Approve") {
-					
+		if viewModel.order.payment == nil {
+			VStack {
+				Divider()
+					.padding(.vertical)
+				HStack {
+					Spacer()
+					HStack(spacing: 10) {
+						switch viewModel.order.orderStatus {
+						case .pending:
+							declineButton()
+							approveButton()
+						case .approved:
+							declineButton()
+						case .declined, .completed:
+							EmptyView()
+						}
+					}
 				}
 			}
+		}
+	}
+	
+	@ViewBuilder
+	func approveButton() -> some View {
+		button(isProminent: true, symbol: "checkmark", title: "Approve") {
+			viewModel.approveOrder()
+		}
+	}
+	
+	@ViewBuilder
+	func declineButton() -> some View {
+		button(isProminent: false, symbol: "xmark", title: "Decline") {
+			viewModel.declineOrder()
 		}
 	}
 	
