@@ -36,15 +36,7 @@ struct AppMenuModifier<Menu: View>: ViewModifier {
 								.readRect {
 									self.rect = $0
 								}
-								.background {
-									ZStack {
-										let cornerRadius: CGFloat = SizeConstants.textCornerRadius
-										RoundedRectangle(cornerRadius: cornerRadius)
-											.fill(Color.white)
-										RoundedRectangle(cornerRadius: cornerRadius)
-											.stroke(Color.app.tertiaryText.opacity(0.5))
-									}
-								}
+								.background(CardBackground())
 								.offset(
 									x: getXOffset(parent: geometry[parentAnchor]),
 									y: geometry[parentAnchor].maxY + 10

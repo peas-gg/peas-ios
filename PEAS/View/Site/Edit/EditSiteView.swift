@@ -123,7 +123,7 @@ struct EditSiteView: View {
 										}
 										.font(Font.app.body)
 										.padding()
-										.background(textBackground())
+										.background(CardBackground())
 									}
 									.disabled(blockId == nil)
 									Spacer()
@@ -340,7 +340,7 @@ struct EditSiteView: View {
 		.foregroundColor(Color.app.primaryText)
 		.padding(.horizontal)
 		.padding(.vertical, textfieldVerticalPadding)
-		.background(textBackground())
+		.background(CardBackground())
 	}
 	
 	@ViewBuilder
@@ -361,7 +361,7 @@ struct EditSiteView: View {
 		}
 		.font(Font.app.footnote)
 		.padding()
-		.background(textBackground())
+		.background(CardBackground())
 	}
 	
 	@ViewBuilder
@@ -376,7 +376,7 @@ struct EditSiteView: View {
 			.font(Font.app.bodySemiBold)
 			.padding(.horizontal)
 			.padding(.vertical, textfieldVerticalPadding)
-			.background(textBackground())
+			.background(CardBackground())
 			.onTapGesture {
 				self.isPriceKeyboardFocused.toggle()
 			}
@@ -468,7 +468,7 @@ struct EditSiteView: View {
 							RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
 								.fill(Color.app.accent)
 						} else {
-							textBackground()
+							CardBackground()
 						}
 					}
 				}
@@ -561,15 +561,6 @@ struct EditSiteView: View {
 		}
 		.multilineTextAlignment(.center)
 		.padding(.top)
-	}
-	
-	@ViewBuilder
-	func textBackground() -> some View {
-		let cornerRadius: CGFloat = SizeConstants.textCornerRadius
-		RoundedRectangle(cornerRadius: cornerRadius)
-			.fill(Color.white)
-		RoundedRectangle(cornerRadius: cornerRadius)
-			.stroke(Color.app.tertiaryText.opacity(0.5))
 	}
 	
 	func getCurrentDayForegroundColor(weekDay: Int) -> Color {

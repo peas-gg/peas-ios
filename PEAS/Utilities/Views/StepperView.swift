@@ -35,19 +35,13 @@ struct StepperView: View {
 	
 	@ViewBuilder
 	func container(name: String) -> some View {
-		let cornerRadius: CGFloat = SizeConstants.textCornerRadius
-		ZStack {
-			RoundedRectangle(cornerRadius: cornerRadius)
-				.fill(Color.white)
-			RoundedRectangle(cornerRadius: cornerRadius)
-				.stroke(Color.app.tertiaryText.opacity(0.5))
-		}
-		.frame(dimension: 46)
-		.overlay(
-			Image(systemName: name)
-				.font(.system(size: FontSizes.body, weight: .heavy, design: .rounded))
-				.foregroundColor(Color.black)
-		)
+		CardBackground()
+			.frame(dimension: 46)
+			.overlay(
+				Image(systemName: name)
+					.font(.system(size: FontSizes.body, weight: .heavy, design: .rounded))
+					.foregroundColor(Color.black)
+			)
 	}
 	
 	func increment() {

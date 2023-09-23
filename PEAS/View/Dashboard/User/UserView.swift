@@ -81,7 +81,7 @@ struct UserView: View {
 			Spacer(minLength: 0)
 		}
 		.padding()
-		.background(TextBackground())
+		.background(CardBackground())
 	}
 }
 
