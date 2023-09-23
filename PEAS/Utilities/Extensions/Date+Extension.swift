@@ -30,4 +30,10 @@ extension Date {
 	func startOfMonth() -> Date {
 		return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: self)))!
 	}
+	
+	func timeAgoDisplay() -> String {
+		let formatter = RelativeDateTimeFormatter()
+		formatter.unitsStyle = .short
+		return formatter.localizedString(for: self, relativeTo: Date())
+	}
 }

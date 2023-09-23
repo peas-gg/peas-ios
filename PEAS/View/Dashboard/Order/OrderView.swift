@@ -44,8 +44,7 @@ struct OrderView: View {
 							VStack(alignment: alignment) {
 								title("Customer:")
 								Button(action: {}) {
-									let customer: Customer = viewModel.order.customer
-									label("\(customer.firstName) \(customer.lastName)")
+									label(customerName())
 										.underline()
 								}
 							}
@@ -71,7 +70,26 @@ struct OrderView: View {
 				.padding(.bottom)
 			}
 		case .dashboard:
-			EmptyView()
+			HStack {
+				image()
+				VStack(alignment: .leading, spacing: 8) {
+					label(viewModel.order.title)
+					Text("$\(PriceFormatter.price(value: String(viewModel.order.price)))")
+						.font(Font.app.body)
+						.foregroundColor(Color.app.tertiaryText)
+					HStack(spacing: 6) {
+						Text(customerName())
+							.foregroundColor(Color.app.primaryText)
+							.underline()
+						Text("•")
+						let date: Date = ServerDateFormatter.formatToLocal(from: viewModel.order.startTime)
+						Text(date.timeAgoDisplay())
+						
+					}
+					.font(Font.app.footnote)
+					.foregroundColor(Color.app.tertiaryText)
+				}
+			}
 		case .calendar:
 			EmptyView()
 		}
@@ -211,18 +229,18 @@ struct OrderView: View {
 	
 	func formattedTime() -> String {
 		let date: Date = ServerDateFormatter.formatToLocal(from: viewModel.order.startTime)
-		let components = Calendar.current.dateComponents([.month, .day, .weekday,], from: date)
+		let components = Calendar.current.dateComponents([.month, .day, .weekday], from: date)
 		
 		let time: String = TimeFormatter.getTime(date: date)
 		let weekDay: String = {
 			if let weekDay = components.weekday {
-				return calendarClient.weekDaysShort[weekDay]
+				return calendarClient.weekDaysShort[weekDay - 1]
 			}
 			return ""
 		}()
 		let month: String = {
 			if let month = components.month {
-				return calendarClient.monthFormatter.shortMonthSymbols[month]
+				return calendarClient.monthFormatter.shortMonthSymbols[month - 1]
 			}
 			return ""
 		}()
@@ -233,6 +251,10 @@ struct OrderView: View {
 			return ""
 		}()
 		return "\(time)  @  \(weekDay), \(month) \(day)"
+	}
+	
+	func customerName() -> String {
+		return "\(viewModel.order.customer.firstName) \(viewModel.order.customer.lastName)"
 	}
 }
 
