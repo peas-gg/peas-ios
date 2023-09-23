@@ -30,6 +30,7 @@ protocol APIRequests {
 	func addBlock(businessId: Business.ID, _ model : Business.Block) -> AnyPublisher<Business, APIClientError>
 	func updateBlock(businessId: Business.ID, _ model: UpdateBusiness.Block) -> AnyPublisher<Business, APIClientError>
 	func deleteBlock(businessId: Business.ID, blockId: Business.Block.ID) -> AnyPublisher<Business, APIClientError>
+	func getCustomers(businessId: Business.ID) -> AnyPublisher<[Customer], APIClientError>
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
 	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError>
@@ -95,6 +96,7 @@ final class APIClient: APIRequests {
 		}
 	}
 	
+	//MARK: Business
 	func getBusinessAccount() -> AnyPublisher<Business, APIClientError> {
 		let getBusiness = APPUrlRequest(
 			httpMethod: .get,
@@ -170,6 +172,18 @@ final class APIClient: APIRequests {
 		return apiRequest(appRequest: deleteBlock, output: Business.self)
 	}
 	
+	func getCustomers(businessId: Business.ID) -> AnyPublisher<[Customer], APIClientError> {
+		let getCustomers = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["business", "customers"],
+			query: [
+				URLQueryItem(name: "businessId", value: businessId),
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: getCustomers, output: [Customer].self)
+	}
+	
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError> {
 		let getLocation = APPUrlRequest(
 			httpMethod: .get,
@@ -237,7 +251,6 @@ final class APIClient: APIRequests {
 		return apiRequest(appRequest: resetPasswordRequest, output: EmptyResponse.self)
 	}
 	
-	//MARK: Business
 	func getTemplates() -> AnyPublisher<[Template], APIClientError> {
 		let getTemplates = APPUrlRequest(
 			httpMethod: .get,

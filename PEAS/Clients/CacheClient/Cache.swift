@@ -7,6 +7,7 @@
 
 import CryptoKit
 import Foundation
+import IdentifiedCollections
 
 struct Cache: Identifiable {
 	let key: String
@@ -21,4 +22,5 @@ struct CacheKey<Object: Codable> {
 
 extension CacheKey {
 	static var businessDraft: CacheKey<Business> { .init(name: "businessDraft") }
+	static var customers: CacheKey<IdentifiedArrayOf<Customer>> { .init(name: "customers") }
 }

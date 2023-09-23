@@ -69,6 +69,9 @@ struct CustomersView: View {
 			}
 			.background(Color.app.secondaryBackground)
 		}
+		.banner(data: $viewModel.bannerData)
+		.progressView(isShowing: viewModel.isLoading, style: .white)
+		.onAppear { viewModel.refresh() }
 	}
 	
 	@ViewBuilder
@@ -123,7 +126,7 @@ struct CustomersView: View {
 
 struct CustomersView_Previews: PreviewProvider {
 	static var previews: some View {
-		CustomersView(viewModel: .init(customers: [Customer.mock1, Customer.mock2]))
-		CustomersView(viewModel: .init())
+		CustomersView(viewModel: .init(businessId: Business.mock1.id, customers: [Customer.mock1, Customer.mock2]))
+		CustomersView(viewModel: .init(businessId: Business.mock1.id))
 	}
 }

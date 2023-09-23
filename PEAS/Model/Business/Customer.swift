@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Customer: Equatable, Hashable, Identifiable {
+struct Customer: Codable, Equatable, Hashable, Identifiable {
 	let id: String
 	let firstName: String
 	let lastName: String
