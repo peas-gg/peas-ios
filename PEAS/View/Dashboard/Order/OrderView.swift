@@ -84,9 +84,7 @@ struct OrderView: View {
 								.foregroundColor(Color.app.primaryText)
 								.underline()
 						}
-						Text("•")
-						let date: Date = ServerDateFormatter.formatToLocal(from: viewModel.order.startTime)
-						Text(date.timeAgoDisplay())
+						timeView()
 						Spacer(minLength: 0)
 						Image(systemName: "doc.text")
 							.font(.system(size: FontSizes.title3, weight: .semibold))
@@ -230,6 +228,25 @@ struct OrderView: View {
 			.padding(10)
 			.background(CardBackground(style: cardStyle))
 		}
+	}
+	
+	@ViewBuilder
+	func timeView() -> some View {
+		let nowText: String = "Now"
+		let order: Order = viewModel.order
+		let startDate: Date = ServerDateFormatter.formatToDate(from: order.startTime)
+		let endDate: Date = ServerDateFormatter.formatToDate(from: order.endTime)
+		
+		let timeDisplay: String = {
+			if Date.now.isBetween(startDate, and: endDate) {
+				return nowText
+			} else {
+				return startDate.timeAgoDisplay()
+			}
+		}()
+		Text(" •  \(timeDisplay) ")
+			.font(Font.app.body)
+			.foregroundColor(timeDisplay == nowText ? Color.app.accent : Color.app.tertiaryText)
 	}
 	
 	func formattedTime() -> String {
