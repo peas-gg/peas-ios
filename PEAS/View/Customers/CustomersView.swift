@@ -46,7 +46,7 @@ struct CustomersView: View {
 						}
 					}
 				}
-				.padding(.horizontal)
+				.padding([.top, .horizontal])
 				Spacer(minLength: 0)
 			}
 			.background(Color.app.secondaryBackground)
@@ -68,13 +68,11 @@ struct CustomersView: View {
 							.resizable()
 							.frame(dimension: 24)
 					}
-					Button(action: {}) {
-						Image(systemName: "phone")
-							.font(.system(size: 20, weight: .bold))
+					avatarButton(title: "phone") {
+						
 					}
-					Button(action: {}) {
-						Image(systemName: "envelope")
-							.font(.system(size: 20, weight: .bold))
+					avatarButton(title: "envelope") {
+						
 					}
 				}
 				.foregroundColor(Color.app.tertiaryText)
@@ -87,13 +85,21 @@ struct CustomersView: View {
 	func avatar(customer: Customer) -> some View {
 		let size: CGSize = CGSize(width: 50, height: 60)
 		RoundedRectangle(cornerRadius: size.width)
-			.fill(Color.gray)
+			.fill(customer.color.opacity(0.5))
 			.frame(size: size)
 			.overlay(
 				Text(customer.initial)
 					.font(Font.app.title2Display)
 					.foregroundColor(Color.app.primaryText)
 			)
+	}
+	
+	@ViewBuilder
+	func avatarButton(title: String, action: @escaping () -> ()) -> some View {
+		Button(action: { action() }) {
+			Image(systemName: title)
+				.font(.system(size: 20, weight: .bold))
+		}
 	}
 }
 

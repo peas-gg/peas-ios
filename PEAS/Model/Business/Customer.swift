@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Customer: Equatable, Hashable, Identifiable {
 	let id: String
@@ -18,6 +19,10 @@ struct Customer: Equatable, Hashable, Identifiable {
 extension Customer {
 	var initial: String {
 		return "\(firstName.first ?? Character(""))\(lastName.first ?? Character(""))"
+	}
+	
+	var color: Color {
+		Color(uiColor: UIColor.generateColor(text: email))
 	}
 }
 
