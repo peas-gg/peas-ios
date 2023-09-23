@@ -15,40 +15,45 @@ struct OrderView: View {
 	
 	var body: some View {
 		VStack {
-			HStack(alignment: .top, spacing: 20) {
-				VStack {
-					image()
-				}
-				let alignment: HorizontalAlignment = .leading
-				VStack(alignment: alignment, spacing: 20) {
-					HStack {
+			VStack {
+				HStack(alignment: .top, spacing: 20) {
+					VStack {
+						image()
+					}
+					let alignment: HorizontalAlignment = .leading
+					VStack(alignment: alignment, spacing: 20) {
+						HStack {
+							VStack(alignment: alignment) {
+								title("Plan:")
+								label(viewModel.order.title)
+							}
+							Spacer(minLength: 0)
+							statusBadge()
+						}
 						VStack(alignment: alignment) {
-							title("Plan:")
-							label(viewModel.order.title)
+							title("Price:")
+							Text("$\(PriceFormatter.price(value: String(viewModel.order.price)))")
+								.font(Font.app.largeTitle)
+								.foregroundColor(Color.app.primaryText)
 						}
-						Spacer(minLength: 0)
-						statusBadge()
-					}
-					VStack(alignment: alignment) {
-						title("Price:")
-						Text("$\(PriceFormatter.price(value: String(viewModel.order.price)))")
-							.font(Font.app.largeTitle)
-							.foregroundColor(Color.app.primaryText)
-					}
-					VStack(alignment: alignment) {
-						title("Customer:")
-						Button(action: {}) {
-							let customer: Customer = viewModel.order.customer
-							label("\(customer.firstName) \(customer.lastName)")
-								.underline()
+						VStack(alignment: alignment) {
+							title("Customer:")
+							Button(action: {}) {
+								let customer: Customer = viewModel.order.customer
+								label("\(customer.firstName) \(customer.lastName)")
+									.underline()
+							}
 						}
-					}
-					VStack(alignment: alignment) {
-						title("Time & Date:")
-						label("\(formattedTime())")
+						VStack(alignment: alignment) {
+							title("Time & Date:")
+							label("\(formattedTime())")
+						}
 					}
 				}
+				note()
+					.padding(.top)
 			}
+			.padding(.horizontal)
 		}
 	}
 	
@@ -107,6 +112,23 @@ struct OrderView: View {
 			.padding(.horizontal, 6)
 			.background(status.backgroundColor)
 			.cornerRadius(5)
+	}
+	
+	@ViewBuilder
+	func note() -> some View {
+		if let note = viewModel.order.note {
+			Text(note)
+				.font(Font.app.body)
+				.foregroundColor(Color.app.primaryText)
+				.padding()
+				.background(CardBackground(isAlternate: true))
+				.overlay(alignment: .topLeading) {
+					Image(systemName: "paperclip")
+						.font(Font.app.title2)
+						.rotationEffect(.degrees(-190))
+						.offset(x: -6, y: -10)
+				}
+		}
 	}
 	
 	func formattedTime() -> String {
