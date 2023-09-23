@@ -31,5 +31,9 @@ extension OrderView {
 		func declineOrder() {
 			
 		}
+		
+		func requestPayment() {
+			AppState.shared.setIsShowingPaymentView(true)
+		}
 	}
 }

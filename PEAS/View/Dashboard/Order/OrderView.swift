@@ -63,6 +63,12 @@ struct OrderView: View {
 				.padding(.vertical)
 				.background(CardBackground())
 				.padding(.horizontal)
+				Spacer()
+				Button(action: { viewModel.requestPayment() }) {
+					Text(viewModel.order.didRequestPayment ? "Requested..." : "Request Payment")
+				}
+				.buttonStyle(.expanded(style: .green))
+				.padding(.bottom)
 			case .dashboard:
 				EmptyView()
 			case .calendar:
@@ -112,7 +118,7 @@ struct OrderView: View {
 			)
 			.id(viewModel.order.image)
 		
-
+		
 	}
 	
 	@ViewBuilder
