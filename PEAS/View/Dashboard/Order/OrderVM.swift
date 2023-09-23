@@ -11,7 +11,7 @@ extension OrderView {
 	@MainActor class ViewModel: ObservableObject {
 		enum Context: Equatable {
 			case detail
-			case minimal
+			case dashboard
 			case calendar
 		}
 		

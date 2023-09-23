@@ -15,52 +15,59 @@ struct OrderView: View {
 	
 	var body: some View {
 		VStack {
-			VStack {
-				HStack(alignment: .top, spacing: 20) {
-					VStack {
-						image()
-					}
-					let alignment: HorizontalAlignment = .leading
-					VStack(alignment: alignment, spacing: 20) {
-						HStack {
+			switch viewModel.context {
+			case .detail:
+				VStack {
+					HStack(alignment: .top, spacing: 20) {
+						VStack {
+							image()
+						}
+						let alignment: HorizontalAlignment = .leading
+						VStack(alignment: alignment, spacing: 20) {
+							HStack {
+								VStack(alignment: alignment) {
+									title("Plan:")
+									label(viewModel.order.title)
+								}
+								Spacer(minLength: 0)
+								statusBadge()
+							}
 							VStack(alignment: alignment) {
-								title("Plan:")
-								label(viewModel.order.title)
+								title("Price:")
+								let amount: Int = {
+									return viewModel.order.payment?.total ?? viewModel.order.price
+								}()
+								Text("$\(PriceFormatter.price(value: String(amount)))")
+									.font(Font.app.largeTitle)
+									.foregroundColor(viewModel.order.payment == nil ? Color.app.primaryText : Color.app.accent)
 							}
-							Spacer(minLength: 0)
-							statusBadge()
-						}
-						VStack(alignment: alignment) {
-							title("Price:")
-							let amount: Int = {
-								return viewModel.order.payment?.total ?? viewModel.order.price
-							}()
-							Text("$\(PriceFormatter.price(value: String(amount)))")
-								.font(Font.app.largeTitle)
-								.foregroundColor(viewModel.order.payment == nil ? Color.app.primaryText : Color.app.accent)
-						}
-						VStack(alignment: alignment) {
-							title("Customer:")
-							Button(action: {}) {
-								let customer: Customer = viewModel.order.customer
-								label("\(customer.firstName) \(customer.lastName)")
-									.underline()
+							VStack(alignment: alignment) {
+								title("Customer:")
+								Button(action: {}) {
+									let customer: Customer = viewModel.order.customer
+									label("\(customer.firstName) \(customer.lastName)")
+										.underline()
+								}
 							}
-						}
-						VStack(alignment: alignment) {
-							title("Time & Date:")
-							label("\(formattedTime())")
+							VStack(alignment: alignment) {
+								title("Time & Date:")
+								label("\(formattedTime())")
+							}
 						}
 					}
+					note()
+						.padding(.top)
+					changeStatusButtons()
 				}
-				note()
-					.padding(.top)
-				changeStatusButtons()
+				.padding(.horizontal)
+				.padding(.vertical)
+				.background(CardBackground())
+				.padding(.horizontal)
+			case .dashboard:
+				EmptyView()
+			case .calendar:
+				EmptyView()
 			}
-			.padding(.horizontal)
-			.padding(.vertical)
-			.background(CardBackground())
-			.padding(.horizontal)
 		}
 	}
 	
@@ -221,7 +228,6 @@ struct OrderView: View {
 		}()
 		return "\(time)  @  \(weekDay), \(month) \(day)"
 	}
-	
 }
 
 struct OrderView_Previews: PreviewProvider {
