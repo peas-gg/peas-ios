@@ -14,9 +14,9 @@ struct OrderView: View {
 	let calendarClient: CalendarClient = CalendarClient.shared
 	
 	var body: some View {
-		VStack {
-			switch viewModel.context {
-			case .detail:
+		switch viewModel.context {
+		case .detail:
+			VStack {
 				VStack {
 					HStack(alignment: .top, spacing: 20) {
 						VStack {
@@ -69,11 +69,11 @@ struct OrderView: View {
 				}
 				.buttonStyle(.expanded(style: .green))
 				.padding(.bottom)
-			case .dashboard:
-				EmptyView()
-			case .calendar:
-				EmptyView()
 			}
+		case .dashboard:
+			EmptyView()
+		case .calendar:
+			EmptyView()
 		}
 	}
 	
@@ -240,5 +240,6 @@ struct OrderView_Previews: PreviewProvider {
 	static var previews: some View {
 		OrderView(viewModel: .init(context: .detail, order: Order.mock1))
 		OrderView(viewModel: .init(context: .detail, order: Order.mock2))
+		OrderView(viewModel: .init(context: .dashboard, order: Order.mock2))
 	}
 }
