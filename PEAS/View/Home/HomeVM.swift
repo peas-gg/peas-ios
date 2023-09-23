@@ -12,7 +12,7 @@ extension HomeView {
 	@MainActor class ViewModel: ObservableObject {
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
-		@Published var siteVM: SiteView.ViewModel
+		@Published var business: Business
 		
 		@Published var bannerData: BannerData?
 		
@@ -21,7 +21,7 @@ extension HomeView {
 		private let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User, business: Business) {
-			self.siteVM = SiteView.ViewModel(isTemplate: false, business: business)
+			self.business = business
 		}
 		
 		func refreshBusiness() {
@@ -36,8 +36,8 @@ extension HomeView {
 						}
 					},
 					receiveValue: { business in
-						self.keychainClient.set(key: .business, value: business)
-						self.siteVM.business = business
+						AppState.shared.updateBusiness(business: business)
+						self.business = business
 					}
 				)
 				.store(in: &cancellableBag)

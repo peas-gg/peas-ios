@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-08-11.
 //
 
+import IdentifiedCollections
 import SwiftUI
 
 struct CustomersView: View {
@@ -69,8 +70,8 @@ struct CustomersView: View {
 			}
 			.background(Color.app.secondaryBackground)
 		}
-		.banner(data: $viewModel.customerRepository.bannerData)
-		.progressView(isShowing: viewModel.customerRepository.isLoading, style: .white)
+		.banner(data: $viewModel.bannerData)
+		.progressView(isShowing: viewModel.isLoading, style: .white)
 		.onAppear { viewModel.refresh() }
 	}
 	
@@ -126,6 +127,6 @@ struct CustomersView: View {
 
 struct CustomersView_Previews: PreviewProvider {
 	static var previews: some View {
-		CustomersView(viewModel: .init())
+		CustomersView(viewModel: .init(business: Business.mock1, customers: IdentifiedArray(uniqueElements: [Customer.mock1, Customer.mock2])))
 	}
 }

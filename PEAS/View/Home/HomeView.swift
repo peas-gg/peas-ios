@@ -19,7 +19,7 @@ struct HomeView: View {
 	
 	var body: some View {
 		TabView {
-			DashboardView(viewModel: DashboardView.ViewModel())
+			DashboardView(viewModel: DashboardView.ViewModel(business: viewModel.business))
 				.tabItem {
 					Label("Dashboard", systemImage: "tray.full.fill")
 				}
@@ -27,12 +27,12 @@ struct HomeView: View {
 				.tabItem {
 					Label("Calendar", systemImage: "calendar")
 				}
-			CustomersView(viewModel: CustomersView.ViewModel())
+			CustomersView(viewModel: CustomersView.ViewModel(business: viewModel.business))
 				.tabItem {
 					Label("Customers", systemImage: "person.text.rectangle")
 						.environment(\.symbolVariants, .none)
 				}
-			SiteView(viewModel: viewModel.siteVM)
+			SiteView(viewModel: SiteView.ViewModel(isTemplate: false, business: viewModel.business))
 				.tabItem {
 					Label("Site", systemImage: "globe")
 				}

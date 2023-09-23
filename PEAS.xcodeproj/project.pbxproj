@@ -68,8 +68,6 @@
 		D074FBFB2ABEBF41009E7944 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074FBFA2ABEBF41009E7944 /* Order.swift */; };
 		D074FBFD2ABEC01B009E7944 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074FBFC2ABEC01B009E7944 /* Currency.swift */; };
 		D074FBFF2ABEC064009E7944 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074FBFE2ABEC064009E7944 /* Payment.swift */; };
-		D074FC012ABEC2B1009E7944 /* OrderRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074FC002ABEC2B1009E7944 /* OrderRepository.swift */; };
-		D074FC032ABED6C7009E7944 /* CustomerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074FC022ABED6C7009E7944 /* CustomerRepository.swift */; };
 		D0793D232A9FBC7500139783 /* SiteOnboardingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */; };
 		D0793D252A9FC69600139783 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D242A9FC69600139783 /* Notification+Name.swift */; };
 		D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D262AA0554400139783 /* MenuViewModifier.swift */; };
@@ -167,8 +165,6 @@
 		D074FBFA2ABEBF41009E7944 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		D074FBFC2ABEC01B009E7944 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		D074FBFE2ABEC064009E7944 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
-		D074FC002ABEC2B1009E7944 /* OrderRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OrderRepository.swift; path = PEAS/Model/Business/OrderRepository.swift; sourceTree = SOURCE_ROOT; };
-		D074FC022ABED6C7009E7944 /* CustomerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomerRepository.swift; path = PEAS/Model/Business/CustomerRepository.swift; sourceTree = SOURCE_ROOT; };
 		D0793D222A9FBC7500139783 /* SiteOnboardingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteOnboardingVM.swift; sourceTree = "<group>"; };
 		D0793D242A9FC69600139783 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		D0793D262AA0554400139783 /* MenuViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModifier.swift; sourceTree = "<group>"; };
@@ -242,7 +238,6 @@
 				D02659912A868D8F00655C23 /* Clients */,
 				D02659922A868DDC00655C23 /* Model */,
 				D02659942A868DF300655C23 /* View */,
-				D02659932A868DE600655C23 /* ViewModel */,
 				D02659962A868E5800655C23 /* Utilities */,
 				D0CE04682AAA863F001B876F /* Resources */,
 				D017617D2A86216600926960 /* PEASApp.swift */,
@@ -289,15 +284,6 @@
 				D0B23CAA2AA80E8400CBDA26 /* BannerData.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		D02659932A868DE600655C23 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				D074FC002ABEC2B1009E7944 /* OrderRepository.swift */,
-				D074FC022ABED6C7009E7944 /* CustomerRepository.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		D02659942A868DF300655C23 /* View */ = {
@@ -646,7 +632,6 @@
 				D01761802A86216600926960 /* AppView.swift in Sources */,
 				D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */,
 				D04A8C0E2ABAA245002F2356 /* ServerDateFormatter.swift in Sources */,
-				D074FC012ABEC2B1009E7944 /* OrderRepository.swift in Sources */,
 				D02659A52A87342100655C23 /* DashboardView.swift in Sources */,
 				D02659AF2A8736AD00655C23 /* SiteVM.swift in Sources */,
 				D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */,
@@ -694,7 +679,6 @@
 				D0FB0B012A8FF26200C56178 /* KeychainClient.swift in Sources */,
 				D0332A262AA5621C000E7515 /* Array+Extension.swift in Sources */,
 				D0FB0AFF2A8FEF8400C56178 /* APIClient.swift in Sources */,
-				D074FC032ABED6C7009E7944 /* CustomerRepository.swift in Sources */,
 				D0B23CAD2AA840A300CBDA26 /* LocationClient.swift in Sources */,
 				D02659AA2A87363E00655C23 /* CalendarVM.swift in Sources */,
 				D0793D2B2AA279E500139783 /* CreateBusiness.swift in Sources */,
