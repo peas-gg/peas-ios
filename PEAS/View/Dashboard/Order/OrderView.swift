@@ -70,14 +70,22 @@ struct OrderView: View {
 			compactView()
 		case .calendar:
 			HStack {
-				VStack {
+				VStack(spacing: 2) {
 					let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDate)
 					let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDate)
 					Text(startTime)
-					
+					ForEach(0..<3) {
+						Circle()
+							.fill(Color.gray)
+							.frame(dimension: 3)
+							.id($0)
+					}
 					Text(endTime)
+					Text(getTimeDifference())
+						.font(Font.app.footnote)
+						.foregroundColor(Color.app.tertiaryText)
 				}
-				.font(Font.app.bodySemiBold)
+				.font(.system(size: FontSizes.footnote, weight: .semibold, design: .rounded))
 				compactView()
 			}
 		}
@@ -297,6 +305,23 @@ struct OrderView: View {
 		return "\(time)  @  \(weekDay), \(month) \(day)"
 	}
 	
+	func getTimeDifference() -> String {
+		let timeComponents: DateComponents = Calendar.current.dateComponents([.hour, .minute], from: viewModel.order.startTimeDate, to: viewModel.order.endTimeDate)
+		var hourText: String = ""
+		var minuteText: String = ""
+		if let hour = timeComponents.hour {
+			hourText = hour > 0 ? "\(hour)h" : ""
+		}
+		if let minute = timeComponents.minute {
+			minuteText = minute > 0 ? "\(minute)m" : ""
+		}
+		if hourText.isEmpty && minuteText.isEmpty {
+			return ""
+		} else {
+			return "(\(hourText) \(minuteText))"
+		}
+	}
+	
 	func customerName() -> String {
 		return "\(viewModel.order.customer.firstName) \(viewModel.order.customer.lastName)"
 	}
@@ -307,6 +332,11 @@ struct OrderView_Previews: PreviewProvider {
 		OrderView(viewModel: .init(context: .detail, order: Order.mock1))
 		OrderView(viewModel: .init(context: .detail, order: Order.mock2))
 		OrderView(viewModel: .init(context: .dashboard, order: Order.mock2))
-		OrderView(viewModel: .init(context: .calendar, order: Order.mock2))
+		VStack {
+			Spacer()
+			OrderView(viewModel: .init(context: .calendar, order: Order.mock2))
+			Spacer()
+		}
+		.background(Color.app.secondaryBackground)
 	}
 }
