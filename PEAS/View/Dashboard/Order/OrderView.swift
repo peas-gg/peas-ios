@@ -52,7 +52,13 @@ struct OrderView: View {
 				}
 				note()
 					.padding(.top)
+				Divider()
+					.padding(.vertical)
+				changeStatusButtons()
 			}
+			.padding(.horizontal)
+			.padding(.vertical)
+			.background(CardBackground())
 			.padding(.horizontal)
 		}
 	}
@@ -121,13 +127,44 @@ struct OrderView: View {
 				.font(Font.app.body)
 				.foregroundColor(Color.app.primaryText)
 				.padding()
-				.background(CardBackground(isAlternate: true))
+				.background(CardBackground())
 				.overlay(alignment: .topLeading) {
 					Image(systemName: "paperclip")
 						.font(Font.app.title2)
 						.rotationEffect(.degrees(-190))
 						.offset(x: -6, y: -10)
 				}
+		}
+	}
+	
+	@ViewBuilder
+	func changeStatusButtons() -> some View {
+		HStack {
+			Spacer()
+			HStack(spacing: 10) {
+				button(isProminent: false, symbol: "xmark", title: "Decline") {
+					
+				}
+				button(isProminent: true, symbol: "checkmark", title: "Approve") {
+					
+				}
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func button(isProminent: Bool, symbol: String, title: String, action: @escaping () -> ()) -> some View {
+		let foregroundColor: Color = isProminent ? Color.app.secondaryText : Color.app.primaryText
+		let cardStyle: CardBackground.Style = isProminent ? .black : .white
+		Button(action: { action() }) {
+			HStack {
+				Image(systemName: symbol)
+				Text(title)
+			}
+			.font(Font.app.bodySemiBold)
+			.foregroundColor(foregroundColor)
+			.padding(10)
+			.background(CardBackground(style: cardStyle))
 		}
 	}
 	

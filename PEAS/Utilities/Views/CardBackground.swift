@@ -8,17 +8,31 @@
 import SwiftUI
 
 struct CardBackground: View {
-	let isAlternate: Bool
+	enum Style {
+		case white
+		case lightGray
+		case black
+		
+		var backgroundColor: Color {
+			switch self {
+			case .white: return Color.white
+			case .lightGray: return Color.gray.opacity(0.1)
+			case .black: return Color.black
+			}
+		}
+	}
 	
-	init(isAlternate: Bool = false) {
-		self.isAlternate = isAlternate
+	let style: Style
+	
+	init(style: Style = .white) {
+		self.style = style
 	}
 	
 	var body: some View {
 		ZStack{
 			let cornerRadius: CGFloat = 10
 			RoundedRectangle(cornerRadius: cornerRadius)
-				.fill(isAlternate ? Color.gray.opacity(0.1) : Color.white)
+				.fill(style.backgroundColor)
 			RoundedRectangle(cornerRadius: cornerRadius)
 				.stroke(Color.app.tertiaryText.opacity(0.5))
 		}
@@ -27,6 +41,6 @@ struct CardBackground: View {
 
 struct CardBackground_Previews: PreviewProvider {
 	static var previews: some View {
-		CardBackground()
+		CardBackground(style: .white)
 	}
 }
