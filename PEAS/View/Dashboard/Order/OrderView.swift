@@ -95,6 +95,29 @@ struct OrderView: View {
 				.padding(.horizontal)
 			}
 		}
+		.alert(
+			isPresented: Binding(
+				get: { viewModel.action != nil } ,
+				set: { _ in viewModel.resetAlert() }
+		)
+		) {
+			if let alert = viewModel.action {
+				let title: String = alert.rawValue.capitalized
+				return Alert(
+					title: Text("Are you sure you want to \"\(title)\" this reservation?"),
+					message: Text("This action is not reversible"),
+					primaryButton: alert == .decline ? .destructive(Text("\(title)")) : .default(Text("\(title)")) {
+						switch alert {
+						case .decline: viewModel.declineOrder()
+						case .approve: viewModel.approveOrder()
+						case .complete: viewModel.completeOrder()
+						}
+					},
+					secondaryButton: .cancel()
+				)
+			}
+			return Alert(title: Text("Something went wrong"))
+		}
 		.sheet(isPresented: $viewModel.isShowingCustomerCard) {
 			CustomerView(customer: viewModel.order.customer, context: .detail)
 		}
@@ -244,21 +267,21 @@ struct OrderView: View {
 	@ViewBuilder
 	func approveButton() -> some View {
 		button(isProminent: true, symbol: "checkmark", title: "Approve") {
-			viewModel.approveOrder()
+			viewModel.requestAction(action: .approve)
 		}
 	}
 	
 	@ViewBuilder
 	func declineButton() -> some View {
 		button(isProminent: false, symbol: "xmark", title: "Decline") {
-			viewModel.declineOrder()
+			viewModel.requestAction(action: .decline)
 		}
 	}
 	
 	@ViewBuilder
 	func completeButton() -> some View {
 		button(isProminent: false, symbol: "checkmark", title: "Complete") {
-			viewModel.completeOrder()
+			viewModel.requestAction(action: .complete)
 		}
 	}
 	

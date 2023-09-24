@@ -15,10 +15,17 @@ extension OrderView {
 			case calendar
 		}
 		
+		enum OrderStatusAction: String, Equatable {
+			case decline
+			case approve
+			case complete
+		}
+		
 		let context: Context
 		
 		@Published var order: Order
 		@Published var isShowingCustomerCard: Bool = false
+		@Published var action: OrderStatusAction?
 		
 		var orderAmount: Int {
 			return order.payment?.total ?? order.price
@@ -27,6 +34,10 @@ extension OrderView {
 		init(context: Context, order: Order) {
 			self.context = context
 			self.order = order
+		}
+		
+		func resetAlert() {
+			self.action = nil
 		}
 		
 		func approveOrder() {
@@ -39,6 +50,10 @@ extension OrderView {
 		
 		func completeOrder() {
 			
+		}
+		
+		func requestAction(action: OrderStatusAction) {
+			self.action = action
 		}
 		
 		func requestPayment() {
