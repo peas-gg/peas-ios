@@ -278,14 +278,14 @@ struct OrderView: View {
 	
 	@ViewBuilder
 	func declineButton() -> some View {
-		button(isProminent: false, symbol: "xmark", title: "Decline", cardStyle: .lightGray) {
+		button(isProminent: false, symbol: "xmark", title: "Decline", cardStyle: .white) {
 			viewModel.requestAction(action: .decline)
 		}
 	}
 	
 	@ViewBuilder
 	func completeButton() -> some View {
-		button(isProminent: true, symbol: "checkmark", title: "Complete", foregroundColor: Color.app.primaryText, cardStyle: .white) {
+		button(isProminent: true, symbol: "checkmark", title: "Complete", cardStyle: .white) {
 			viewModel.requestAction(action: .complete)
 		}
 	}
@@ -302,9 +302,14 @@ struct OrderView: View {
 		Button(action: { action() }) {
 			HStack {
 				Image(systemName: symbol)
-				Text(title)
+				ZStack {
+					Text(title)
+						.font(Font.app.bodySemiBold)
+						.opacity(0)
+					Text(title)
+				}
 			}
-			.font(isProminent ? Font.app.bodySemiBold : Font.app.body)
+			.font(isProminent ? Font.app.bodySemiBold : Font.app.callout)
 			.foregroundColor(foregroundColor)
 			.padding(10)
 			.background(CardBackground(style: cardStyle))
