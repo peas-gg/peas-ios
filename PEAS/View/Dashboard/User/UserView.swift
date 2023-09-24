@@ -5,70 +5,67 @@
 //  Created by Kingsley Okeke on 2023-09-11.
 //
 
+import PhoneNumberKit
 import SwiftUI
 
 struct UserView: View {
 	@StateObject var viewModel: ViewModel
+	
+	let phoneNumberKit: PhoneNumberKit = PhoneNumberKit()
 	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
 	
 	var body: some View {
-		VStack{
-			ZStack{
-				Rectangle()
-					.foregroundColor(Color(red: 0.98, green: 0.98, blue: 0.98))
-					.frame(maxHeight: .infinity)
-					.background(Color(red: 0.98, green: 0.98, blue: 0.98))
-					.cornerRadius(15)
-					.ignoresSafeArea()
-				VStack{
-					SymmetricHStack {
+		VStack {
+			VStack(spacing: 10) {
+				SymmetricHStack(
+					content: {
 						Text("Account")
 							.font(Font.app.title2)
 							.foregroundColor(.black)
-					} leading: {
+					}, leading: {
 						EmptyView()
-					} trailing: {
-						Button(action: {
-						}) {
-							HStack{
-								Image(systemName: "trash")
-									.foregroundColor(.white)
-								Text("DELETE")
-									.font(Font.app.caption)
-									.foregroundColor(.white)
-							}
-							.padding(8)
-							.background(
-								RoundedRectangle(cornerRadius: 15)
-									.fill(Color.black)
-							)
+					}, trailing: {
+						Button(action: {}) {
+							Image(systemName: "trash")
+							Text("delete")
+								.font(Font.app.captionSemiBold)
+								.textCase(.uppercase)
 						}
-						.buttonStyle(PlainButtonStyle())
+						.padding(6)
+						.background(CardBackground(style: .lightGray))
 					}
-					.padding()
-					VStack(spacing: 20) {
-						textView("\(viewModel.user.firstName) \(viewModel.user.lastName)")
-						textView(viewModel.user.email)
-						textView(viewModel.user.phone)
-					}
-					.padding(.horizontal)
-					Text("You can request to edit your account information by tapping the button below")
-						.font(Font.app.footnote)
-						.multilineTextAlignment(.center)
-						.foregroundColor(.black.opacity(0.5))
-						.frame(width: 325, alignment: .top)
-						.padding()
-					Button(action: {  }) {
-						Text("Request Edit")
-					}
-					.buttonStyle(.expanded(style: .black))
+				)
+				.padding(.vertical)
+				textView(viewModel.user.firstName)
+				textView(viewModel.user.lastName)
+				textView(viewModel.user.email)
+				textView(viewModel.user.interacEmailValue)
+				if let phoneNumber = try? phoneNumberKit.parse(viewModel.user.phone) {
+					let formattedPhoneNumber = phoneNumberKit.format(phoneNumber, toType: .national)
+					textView(formattedPhoneNumber)
+				} else {
+					textView(viewModel.user.phone)
 				}
-				.padding(.horizontal)
 			}
+			.padding(.horizontal)
+			.padding(.horizontal)
+			Spacer(minLength: 0)
+			Button(action: {}) {
+				Text("Log out")
+					.font(Font.app.title2Display)
+					.underline()
+					.padding(.horizontal)
+			}
+			Button(action: {}) {
+				Text("Request edit")
+			}
+			.buttonStyle(.expanded)
+			.padding(.horizontal)
 		}
+		.foregroundColor(Color.app.primaryText)
 		.presentationDetents([.height(SizeConstants.detentHeight)])
 	}
 	
