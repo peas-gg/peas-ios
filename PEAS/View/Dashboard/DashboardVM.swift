@@ -21,6 +21,7 @@ extension DashboardView {
 		@Published var business: Business
 		@Published var orders: IdentifiedArrayOf<Order>
 		
+		@Published var isShowingUserView: Bool = false
 		@Published var isShowingFilterMenu: Bool = false
 		@Published var selectedOrderFilter: Order.Status?
 		
@@ -56,6 +57,10 @@ extension DashboardView {
 					self.selectedOrderFilter = nil
 				}
 			}
+		}
+		
+		func showUserView() {
+			self.isShowingUserView = true
 		}
 		
 		func selectFilter(_ orderFilter: Order.Status) {

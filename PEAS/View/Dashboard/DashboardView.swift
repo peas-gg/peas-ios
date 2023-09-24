@@ -26,7 +26,7 @@ struct DashboardView: View {
 						}
 						.font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
 						Spacer(minLength: 0)
-						Button(action: {}) {
+						Button(action: { viewModel.showUserView() }) {
 							CachedAvatar(
 								url: viewModel.business.profilePhoto,
 								height: SizeConstants.avatarHeight + 10
@@ -122,6 +122,9 @@ struct DashboardView: View {
 			.foregroundColor(Color.app.primaryText)
 			.padding()
 			.frame(width: 160)
+		}
+		.sheet(isPresented: $viewModel.isShowingUserView) {
+			UserView(viewModel: UserView.ViewModel(user: viewModel.user))
 		}
 	}
 	

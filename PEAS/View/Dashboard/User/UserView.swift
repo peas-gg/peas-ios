@@ -66,7 +66,7 @@ struct UserView: View {
 			.padding(.horizontal)
 		}
 		.foregroundColor(Color.app.primaryText)
-		.presentationDetents([.height(SizeConstants.detentHeight)])
+		.presentationDetents([.height(SizeConstants.detentHeight + 100)])
 	}
 	
 	@ViewBuilder
