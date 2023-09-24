@@ -99,7 +99,7 @@ struct OrderView: View {
 			isPresented: Binding(
 				get: { viewModel.action != nil } ,
 				set: { _ in viewModel.resetAlert() }
-		)
+			)
 		) {
 			if let alert = viewModel.action {
 				let title: String = alert.rawValue.capitalized
@@ -225,7 +225,7 @@ struct OrderView: View {
 				.font(Font.app.body)
 				.foregroundColor(Color.app.primaryText)
 				.padding()
-				.background(CardBackground())
+				.background(CardBackground(style: .lightGray))
 				.overlay(alignment: .topLeading) {
 					Image(systemName: "paperclip")
 						.font(Font.app.title2)
