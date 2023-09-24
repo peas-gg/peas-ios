@@ -93,9 +93,9 @@ extension Order {
 			note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
 			startTime: "2023-09-23T22:00:00Z",
 			endTime: "2023-09-23T23:10:00Z",
-			orderStatus: .completed,
+			orderStatus: .pending,
 			didRequestPayment: false,
-			payment: Payment.mock1,
+			payment: nil,
 			created: "2023-09-22T07:10:00Z"
 		)
 	}

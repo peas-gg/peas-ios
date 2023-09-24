@@ -31,6 +31,17 @@ extension OrderView {
 			return order.payment?.total ?? order.price
 		}
 		
+		var canRequestPayment: Bool {
+			switch order.orderStatus {
+			case .pending, .declined:
+				return false
+			case .approved:
+				return order.payment == nil
+			case .completed:
+				return false
+			}
+		}
+		
 		init(context: Context, order: Order) {
 			self.context = context
 			self.order = order

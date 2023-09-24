@@ -66,6 +66,7 @@ struct OrderView: View {
 					}
 					.buttonStyle(.expanded(style: .green))
 					.padding(.bottom)
+					.opacity(viewModel.canRequestPayment ? 1.0 : 0.0)
 				}
 			case .dashboard:
 				compactView()
@@ -254,7 +255,9 @@ struct OrderView: View {
 						declineButton()
 						approveButton()
 					case .approved:
-						declineButton()
+						if viewModel.order.payment == nil {
+							declineButton()
+						}
 						completeButton()
 					case .declined, .completed:
 						EmptyView()
@@ -266,29 +269,28 @@ struct OrderView: View {
 	
 	@ViewBuilder
 	func approveButton() -> some View {
-		button(isProminent: true, symbol: "checkmark", title: "Approve") {
+		button(isProminent: true, symbol: "checkmark", title: "Approve", cardStyle: .black) {
 			viewModel.requestAction(action: .approve)
 		}
 	}
 	
 	@ViewBuilder
 	func declineButton() -> some View {
-		button(isProminent: false, symbol: "xmark", title: "Decline") {
+		button(isProminent: false, symbol: "xmark", title: "Decline", cardStyle: .lightGray) {
 			viewModel.requestAction(action: .decline)
 		}
 	}
 	
 	@ViewBuilder
 	func completeButton() -> some View {
-		button(isProminent: false, symbol: "checkmark", title: "Complete") {
+		button(isProminent: false, symbol: "checkmark", title: "Complete", cardStyle: .white) {
 			viewModel.requestAction(action: .complete)
 		}
 	}
 	
 	@ViewBuilder
-	func button(isProminent: Bool, symbol: String, title: String, action: @escaping () -> ()) -> some View {
+	func button(isProminent: Bool, symbol: String, title: String, cardStyle: CardBackground.Style, action: @escaping () -> ()) -> some View {
 		let foregroundColor: Color = isProminent ? Color.app.secondaryText : Color.app.primaryText
-		let cardStyle: CardBackground.Style = isProminent ? .black : .white
 		Button(action: { action() }) {
 			HStack {
 				Image(systemName: symbol)
