@@ -8,8 +8,8 @@
 import Foundation
 import SwiftUI
 
-struct Order: Codable, Identifiable {
-	enum Status: String, Codable, CaseIterable, Equatable, Identifiable {
+struct Order: Codable, Identifiable, Hashable {
+	enum Status: String, Codable, CaseIterable, Equatable, Identifiable, Hashable {
 		case pending
 		case approved
 		case declined

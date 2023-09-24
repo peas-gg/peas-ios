@@ -13,81 +13,99 @@ struct DashboardView: View {
 	@StateObject var viewModel: ViewModel
 	
 	var body: some View {
-		VStack {
-			VStack(spacing: 20) {
-				HStack {
-					VStack (alignment: .leading){
-						Text("Welcome,")
-							.foregroundColor(Color.app.tertiaryText)
-						Text(viewModel.user.firstName)
-							.foregroundColor(Color.app.primaryText)
-							.lineLimit(1)
-					}
-					.font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
-					Spacer(minLength: 0)
-					Button(action: {}) {
-						CachedAvatar(
-							url: viewModel.business.profilePhoto,
-							height: SizeConstants.avatarHeight + 10
-						)
-					}
-				}
-				.padding(.top, 30)
-				Text("$2,378.56")
-					.foregroundColor(.green)
-					.font(.system(size: 50, weight: .semibold, design: .rounded))
-				HStack {
-					Spacer()
-					buttonView(symbol: "dollarsign.circle", title: "CashOut") {
-						
-					}
-					Spacer()
-						.frame(width: 20)
-					buttonView(symbol: "doc.text", title: "Transactions") {
-						
-					}
-					Spacer()
-				}
-			}
-			.padding(.horizontal)
-			.padding(.horizontal, 10)
+		NavigationStack(path: $viewModel.navStack) {
 			VStack {
-				VStack {
+				VStack(spacing: 20) {
 					HStack {
-						Text("Services (7 pending)")
-							.font(Font.app.bodySemiBold)
-						Spacer()
-						if let selectedOrderFilter = viewModel.selectedOrderFilter {
-							filterIndicator(filter: selectedOrderFilter)
+						VStack (alignment: .leading){
+							Text("Welcome,")
+								.foregroundColor(Color.app.tertiaryText)
+							Text(viewModel.user.firstName)
+								.foregroundColor(Color.app.primaryText)
+								.lineLimit(1)
 						}
-						Button(action: { viewModel.toggleFilterMenu() }) {
-							Image(systemName: viewModel.selectedOrderFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+						.font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
+						Spacer(minLength: 0)
+						Button(action: {}) {
+							CachedAvatar(
+								url: viewModel.business.profilePhoto,
+								height: SizeConstants.avatarHeight + 10
+							)
 						}
-						.opacity(viewModel.isShowingFilterMenu ? 0.5 : 1.0)
-						.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [filterMenuId : $0] }
 					}
-					Divider()
-					ScrollView {
-						LazyVStack {
-							OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
-							OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
+					.padding(.top, 30)
+					Text("$2,378.56")
+						.foregroundColor(.green)
+						.font(.system(size: 50, weight: .semibold, design: .rounded))
+					HStack {
+						Spacer()
+						buttonView(symbol: "dollarsign.circle", title: "CashOut") {
+							
 						}
-						.padding(.top, 10)
+						Spacer()
+							.frame(width: 20)
+						buttonView(symbol: "doc.text", title: "Transactions") {
+							
+						}
+						Spacer()
 					}
 				}
-				.padding()
+				.padding(.horizontal)
+				.padding(.horizontal, 10)
+				VStack {
+					VStack {
+						HStack {
+							Text("Services (7 pending)")
+								.font(Font.app.bodySemiBold)
+							Spacer()
+							if let selectedOrderFilter = viewModel.selectedOrderFilter {
+								filterIndicator(filter: selectedOrderFilter)
+							}
+							Button(action: { viewModel.toggleFilterMenu() }) {
+								Image(systemName: viewModel.selectedOrderFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+							}
+							.opacity(viewModel.isShowingFilterMenu ? 0.5 : 1.0)
+							.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [filterMenuId : $0] }
+						}
+						Divider()
+						ScrollView {
+							LazyVStack {
+								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
+									OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
+								}
+								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
+									OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
+								}
+								.buttonStyle(.plain)
+							}
+							.padding(.top, 10)
+						}
+					}
+					.padding()
+				}
+				.background {
+					Color.app.primaryBackground
+						.cornerRadius(10, corners: [.topLeft, .topRight])
+				}
+				.edgesIgnoringSafeArea(.bottom)
+				.padding(.horizontal, 10)
+				.padding(.top)
+				Spacer(minLength: 0)
 			}
-			.background {
-				Color.app.primaryBackground
-					.cornerRadius(10, corners: [.topLeft, .topRight])
+			.background(Color.app.secondaryBackground)
+			.foregroundColor(Color.app.primaryText)
+			.navigationTitle("")
+			.navigationDestination(for: ViewModel.Route.self) { route in
+				Group {
+					switch route {
+					case .order(let order):
+						OrderView(viewModel: OrderView.ViewModel(context: .detail, order: order))
+					}
+				}
+				.navigationBarTitleDisplayMode(.inline)
 			}
-			.edgesIgnoringSafeArea(.bottom)
-			.padding(.horizontal, 10)
-			.padding(.top)
-			Spacer(minLength: 0)
 		}
-		.foregroundColor(Color.app.primaryText)
-		.background(Color.app.secondaryBackground)
+		.tint(Color.app.primaryText)
 		.appMenu(id: filterMenuId, isShowing: $viewModel.isShowingFilterMenu) {
 			VStack {
 				ForEach(Order.Status.allCases) { status in

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Payment: Equatable, Codable {
+struct Payment: Equatable, Codable, Hashable {
 	let id: Int
 	let currency: Currency
 	let base: Int

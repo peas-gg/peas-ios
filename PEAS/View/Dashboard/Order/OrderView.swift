@@ -158,6 +158,7 @@ struct OrderView: View {
 				.foregroundColor(Color.app.tertiaryText)
 			}
 		}
+		.background(Color.white.opacity(0.001))
 	}
 	
 	@ViewBuilder

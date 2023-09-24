@@ -11,6 +11,10 @@ import SwiftUI
 
 extension DashboardView {
 	@MainActor class ViewModel: ObservableObject {
+		enum Route: Hashable {
+			case order(Order)
+		}
+		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var user: User
@@ -19,6 +23,8 @@ extension DashboardView {
 		
 		@Published var isShowingFilterMenu: Bool = false
 		@Published var selectedOrderFilter: Order.Status?
+		
+		@Published var navStack: [Route] = []
 		
 		@Published var bannerData: BannerData?
 		
@@ -77,6 +83,10 @@ extension DashboardView {
 					}
 				)
 				.store(in: &cancellableBag)
+		}
+		
+		func pushStack(_ route: Route) {
+			self.navStack.append(route)
 		}
 	}
 }
