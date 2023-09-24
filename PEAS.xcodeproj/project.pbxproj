@@ -89,6 +89,7 @@
 		D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */; };
 		D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */; };
 		D0CE046B2AAA8677001B876F /* DaysOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0CE046A2AAA8677001B876F /* DaysOne-Regular.ttf */; };
+		D0CE86342ABFEBE100FC4844 /* CustomerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CE86332ABFEBE100FC4844 /* CustomerView.swift */; };
 		D0E220F52A996977003864E3 /* CornerRadiusStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F42A996977003864E3 /* CornerRadiusStyle.swift */; };
 		D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F62A9BA456003864E3 /* Int+Extension.swift */; };
 		D0E220F92A9C59B2003864E3 /* EditSiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E220F82A9C59B2003864E3 /* EditSiteView.swift */; };
@@ -186,6 +187,7 @@
 		D0BF26D72A888A9F001FCC05 /* VerticalTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabView.swift; sourceTree = "<group>"; };
 		D0BF26DA2A88927C001FCC05 /* View+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Overlay.swift"; sourceTree = "<group>"; };
 		D0CE046A2AAA8677001B876F /* DaysOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DaysOne-Regular.ttf"; sourceTree = "<group>"; };
+		D0CE86332ABFEBE100FC4844 /* CustomerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerView.swift; sourceTree = "<group>"; };
 		D0DFF56C2AAA8A5600B6B439 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D0E220F42A996977003864E3 /* CornerRadiusStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusStyle.swift; sourceTree = "<group>"; };
 		D0E220F62A9BA456003864E3 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 			children = (
 				D02659B12A87372500655C23 /* CustomersView.swift */,
 				D02659B32A87373700655C23 /* CustomersVM.swift */,
+				D0CE86332ABFEBE100FC4844 /* CustomerView.swift */,
 			);
 			path = Customers;
 			sourceTree = "<group>";
@@ -704,6 +707,7 @@
 				D066F8172A9457EC00B65CA4 /* SiteOnboardingView.swift in Sources */,
 				D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */,
 				D0E562842AA34E25000965B6 /* EditSiteVM.swift in Sources */,
+				D0CE86342ABFEBE100FC4844 /* CustomerView.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */,
 				D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */,

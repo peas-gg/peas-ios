@@ -51,7 +51,7 @@ struct CustomersView: View {
 								.frame(height: 20)
 							LazyVStack(spacing: 20) {
 								ForEach(viewModel.customers.indices, id: \.self) { index in
-									customerView(customer: viewModel.customers[index])
+									CustomerView(customer: viewModel.customers[index], context: .compact)
 									if index != viewModel.customers.count - 1 {
 										Divider()
 									}
@@ -73,55 +73,6 @@ struct CustomersView: View {
 		.banner(data: $viewModel.bannerData)
 		.progressView(isShowing: viewModel.isLoading, style: .white)
 		.onAppear { viewModel.refresh() }
-	}
-	
-	@ViewBuilder
-	func customerView(customer: Customer) -> some View {
-		HStack {
-			avatar(customer: customer)
-			VStack(alignment: .leading) {
-				Text("\(customer.firstName) \(customer.lastName)")
-					.font(Font.app.bodySemiBold)
-					.foregroundColor(Color.app.primaryText)
-					.lineLimit(1)
-				HStack(spacing: 30) {
-					Button(action: {}) {
-						Image("chat")
-							.resizable()
-							.frame(dimension: 24)
-					}
-					avatarButton(title: "phone") {
-						
-					}
-					avatarButton(title: "envelope") {
-						
-					}
-				}
-				.foregroundColor(Color.app.tertiaryText)
-			}
-			Spacer(minLength: 0)
-		}
-	}
-	
-	@ViewBuilder
-	func avatar(customer: Customer) -> some View {
-		let size: CGSize = CGSize(width: 50, height: 60)
-		RoundedRectangle(cornerRadius: size.width)
-			.fill(customer.color.opacity(0.5))
-			.frame(size: size)
-			.overlay(
-				Text(customer.initial)
-					.font(Font.app.title2Display)
-					.foregroundColor(Color.app.primaryText)
-			)
-	}
-	
-	@ViewBuilder
-	func avatarButton(title: String, action: @escaping () -> ()) -> some View {
-		Button(action: { action() }) {
-			Image(systemName: title)
-				.font(.system(size: 20, weight: .bold))
-		}
 	}
 }
 
