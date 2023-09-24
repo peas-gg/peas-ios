@@ -232,6 +232,7 @@ struct OrderView: View {
 						approveButton()
 					case .approved:
 						declineButton()
+						completeButton()
 					case .declined, .completed:
 						EmptyView()
 					}
@@ -251,6 +252,13 @@ struct OrderView: View {
 	func declineButton() -> some View {
 		button(isProminent: false, symbol: "xmark", title: "Decline") {
 			viewModel.declineOrder()
+		}
+	}
+	
+	@ViewBuilder
+	func completeButton() -> some View {
+		button(isProminent: false, symbol: "checkmark", title: "Complete") {
+			viewModel.completeOrder()
 		}
 	}
 	
