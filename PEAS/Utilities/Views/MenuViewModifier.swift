@@ -36,7 +36,7 @@ struct AppMenuModifier<Menu: View>: ViewModifier {
 								.readRect {
 									self.rect = $0
 								}
-								.background(CardBackground())
+								.background(CardBackground().shadow(color: Color.black.opacity(0.10), radius: 5))
 								.offset(
 									x: getXOffset(parent: geometry[parentAnchor]),
 									y: geometry[parentAnchor].maxY + 10
