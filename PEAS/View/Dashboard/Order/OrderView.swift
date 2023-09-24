@@ -59,7 +59,7 @@ struct OrderView: View {
 					.padding(.horizontal)
 					.padding(.vertical)
 					.background(CardBackground())
-					.padding(.horizontal)
+					.padding()
 					Spacer()
 					Button(action: { viewModel.requestPayment() }) {
 						Text(viewModel.order.didRequestPayment ? "Requested..." : "Request Payment")
@@ -68,6 +68,7 @@ struct OrderView: View {
 					.padding(.bottom)
 					.opacity(viewModel.canRequestPayment ? 1.0 : 0.0)
 				}
+				.background(Color.app.secondaryBackground)
 			case .dashboard:
 				compactView()
 			case .calendar:
