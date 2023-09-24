@@ -12,38 +12,75 @@ struct DashboardView: View {
 	
 	var body: some View {
 		VStack {
-			HStack {
-				VStack (alignment: .leading){
-					Text("Welcome,")
-						.foregroundColor(Color.app.tertiaryText)
-					Text(viewModel.user.firstName)
-						.foregroundColor(Color.app.primaryText)
-						.lineLimit(1)
+			VStack(spacing: 20) {
+				HStack {
+					VStack (alignment: .leading){
+						Text("Welcome,")
+							.foregroundColor(Color.app.tertiaryText)
+						Text(viewModel.user.firstName)
+							.foregroundColor(Color.app.primaryText)
+							.lineLimit(1)
+					}
+					.font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
+					Spacer(minLength: 0)
+					Button(action: {}) {
+						CachedAvatar(
+							url: viewModel.business.profilePhoto,
+							height: SizeConstants.avatarHeight + 10
+						)
+					}
 				}
-				.font(.system(size: FontSizes.title1, weight: .semibold, design: .rounded))
-				Spacer(minLength: 0)
-				CachedAvatar(
-					url: viewModel.business.profilePhoto,
-					height: SizeConstants.avatarHeight + 10
-				)
+				.padding(.top, 30)
+				Text("$2,378.56")
+					.foregroundColor(.green)
+					.font(.system(size: 50, weight: .semibold, design: .rounded))
+				HStack {
+					Spacer()
+					buttonView(symbol: "dollarsign.circle", title: "CashOut") {
+						
+					}
+					Spacer()
+						.frame(width: 20)
+					buttonView(symbol: "doc.text", title: "Transactions") {
+						
+					}
+					Spacer()
+				}
 			}
-			.padding(.top, 30)
-			Text("$2,378.56")
-				.foregroundColor(.green)
-				.font(.system(size: 50, weight: .semibold, design: .rounded))
-			HStack {
-				Spacer()
-				buttonView(symbol: "dollarsign.circle", title: "CashOut") {
-					
+			.padding(.horizontal)
+			.padding(.horizontal, 10)
+			VStack {
+				VStack {
+					HStack {
+						Text("Services (7 pending)")
+							.font(Font.app.bodySemiBold)
+						Spacer()
+						if let selectedOrderFilter = viewModel.selectedOrderFilter {
+							filterIndicator(filter: selectedOrderFilter)
+						}
+						Button(action: {}) {
+							Image(systemName: viewModel.selectedOrderFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+						}
+					}
+					Divider()
+					ScrollView {
+						LazyVStack {
+							OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
+							OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
+						}
+						.padding(.top, 10)
+					}
 				}
-				Spacer()
-					.frame(width: 20)
-				buttonView(symbol: "doc.text", title: "Transactions") {
-					
-				}
-				Spacer()
+				.padding()
 			}
-			Spacer()
+			.background {
+				Color.app.primaryBackground
+					.cornerRadius(10, corners: [.topLeft, .topRight])
+			}
+			.edgesIgnoringSafeArea(.bottom)
+			.padding(.horizontal, 10)
+			.padding(.top)
+			Spacer(minLength: 0)
 		}
 		.foregroundColor(Color.app.primaryText)
 		.background(Color.app.secondaryBackground)
@@ -64,6 +101,17 @@ struct DashboardView: View {
 					.fill(Color.white)
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func filterIndicator(filter: Order.Status) -> some View {
+		ZStack {
+			Circle()
+				.fill(filter.backgroundColor)
+			Circle()
+				.stroke(filter.foregroundColor)
+		}
+		.frame(dimension: 15)
 	}
 }
 

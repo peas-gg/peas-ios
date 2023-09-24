@@ -16,6 +16,8 @@ extension DashboardView {
 		@Published var business: Business
 		@Published var orders: IdentifiedArrayOf<Order>
 		
+		@Published var selectedOrderFilter: Order.Status? = .approved
+		
 		@Published var bannerData: BannerData?
 		
 		//Clients
