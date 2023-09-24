@@ -73,11 +73,13 @@ struct UserView: View {
 	func textView(_ content: String, isInterac: Bool = false) -> some View {
 		let interacImageDimension: CGFloat = 30
 		HStack{
+			Image(systemName: "lock")
 			Text(content)
 				.font(Font.app.bodySemiBold)
-				.foregroundColor(Color.app.tertiaryText)
+				.lineLimit(1)
 			Spacer(minLength: interacImageDimension)
 		}
+		.foregroundColor(Color.app.tertiaryText)
 		.padding()
 		.background(CardBackground())
 		.overlay(isShown: isInterac, alignment: .trailing) {
