@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DashboardView: View {
+	let filterMenuId: String = "FilterMenuId"
+	
 	@StateObject var viewModel: ViewModel
 	
 	var body: some View {
@@ -58,9 +60,10 @@ struct DashboardView: View {
 						if let selectedOrderFilter = viewModel.selectedOrderFilter {
 							filterIndicator(filter: selectedOrderFilter)
 						}
-						Button(action: {}) {
+						Button(action: { viewModel.showFilterMenu() }) {
 							Image(systemName: viewModel.selectedOrderFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
 						}
+						.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [filterMenuId : $0] }
 					}
 					Divider()
 					ScrollView {
@@ -84,6 +87,23 @@ struct DashboardView: View {
 		}
 		.foregroundColor(Color.app.primaryText)
 		.background(Color.app.secondaryBackground)
+		.appMenu(id: filterMenuId, isShowing: $viewModel.isShowingFilterMenu) {
+			VStack {
+				ForEach(Order.Status.allCases) { status in
+					Button(action: {}) {
+						HStack {
+							Text(status.rawValue.capitalized)
+								.font(Font.app.body)
+							Spacer()
+							filterIndicator(filter: status)
+						}
+					}
+				}
+			}
+			.foregroundColor(Color.app.primaryText)
+			.padding()
+			.frame(width: 160)
+		}
 	}
 	
 	@ViewBuilder
@@ -117,6 +137,8 @@ struct DashboardView: View {
 
 struct DashboardView_Previews: PreviewProvider {
 	static var previews: some View {
-		DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1))
+		VStack {
+			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1))
+		}
 	}
 }

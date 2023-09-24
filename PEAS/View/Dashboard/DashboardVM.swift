@@ -7,6 +7,7 @@
 import Combine
 import Foundation
 import IdentifiedCollections
+import SwiftUI
 
 extension DashboardView {
 	@MainActor class ViewModel: ObservableObject {
@@ -16,7 +17,8 @@ extension DashboardView {
 		@Published var business: Business
 		@Published var orders: IdentifiedArrayOf<Order>
 		
-		@Published var selectedOrderFilter: Order.Status? = .approved
+		@Published var isShowingFilterMenu: Bool = false
+		@Published var selectedOrderFilter: Order.Status?
 		
 		@Published var bannerData: BannerData?
 		
@@ -37,6 +39,12 @@ extension DashboardView {
 					self.orders = orders
 				}
 				refreshOrders()
+			}
+		}
+		
+		func showFilterMenu() {
+			withAnimation(.default) {
+				self.isShowingFilterMenu = true
 			}
 		}
 		

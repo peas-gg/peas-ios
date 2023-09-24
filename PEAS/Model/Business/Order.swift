@@ -9,11 +9,13 @@ import Foundation
 import SwiftUI
 
 struct Order: Codable, Identifiable {
-	enum Status: String, Codable, Equatable {
+	enum Status: String, Codable, CaseIterable, Equatable, Identifiable {
 		case pending
 		case approved
 		case declined
 		case completed
+		
+		var id: String { self.rawValue }
 		
 		var foregroundColor: Color {
 			switch self {
