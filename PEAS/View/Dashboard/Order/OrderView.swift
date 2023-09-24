@@ -104,7 +104,7 @@ struct OrderView: View {
 			if let alert = viewModel.action {
 				let title: String = alert.rawValue.capitalized
 				return Alert(
-					title: Text("Are you sure you want to \"\(title)\" this reservation?"),
+					title: Text("Are you sure you would like to \"\(title)\" this reservation?"),
 					message: Text("This action is not reversible"),
 					primaryButton: alert == .decline ? .destructive(Text("\(title)")) : .default(Text("\(title)")) {
 						switch alert {
