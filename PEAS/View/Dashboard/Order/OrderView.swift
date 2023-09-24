@@ -271,7 +271,7 @@ struct OrderView: View {
 	
 	@ViewBuilder
 	func approveButton() -> some View {
-		button(isProminent: true, symbol: "checkmark", title: "Approve", cardStyle: .black) {
+		button(isProminent: true, symbol: "checkmark", title: "Approve", foregroundColor: Color.app.secondaryText, cardStyle: .black) {
 			viewModel.requestAction(action: .approve)
 		}
 	}
@@ -285,20 +285,26 @@ struct OrderView: View {
 	
 	@ViewBuilder
 	func completeButton() -> some View {
-		button(isProminent: false, symbol: "checkmark", title: "Complete", cardStyle: .white) {
+		button(isProminent: true, symbol: "checkmark", title: "Complete", foregroundColor: Color.app.primaryText, cardStyle: .white) {
 			viewModel.requestAction(action: .complete)
 		}
 	}
 	
 	@ViewBuilder
-	func button(isProminent: Bool, symbol: String, title: String, cardStyle: CardBackground.Style, action: @escaping () -> ()) -> some View {
-		let foregroundColor: Color = isProminent ? Color.app.secondaryText : Color.app.primaryText
+	func button(
+		isProminent: Bool,
+		symbol: String,
+		title: String,
+		foregroundColor: Color = Color.app.primaryText,
+		cardStyle: CardBackground.Style,
+		action: @escaping () -> ()
+	) -> some View {
 		Button(action: { action() }) {
 			HStack {
 				Image(systemName: symbol)
 				Text(title)
 			}
-			.font(Font.app.bodySemiBold)
+			.font(isProminent ? Font.app.bodySemiBold : Font.app.body)
 			.foregroundColor(foregroundColor)
 			.padding(10)
 			.background(CardBackground(style: cardStyle))
