@@ -37,7 +37,7 @@ struct CustomerView: View {
 					.lineLimit(1)
 				HStack(spacing: 30) {
 					Button(action: {}) {
-						Image("chat")
+						Image("Chat")
 							.resizable()
 							.frame(dimension: 24)
 					}
@@ -70,7 +70,7 @@ struct CustomerView: View {
 				HStack(spacing: 30) {
 					Spacer(minLength: 0)
 					Button(action: {}) {
-						Image("chat")
+						Image("Chat")
 							.resizable()
 							.frame(dimension: context == .detail ? 34 : 24)
 					}

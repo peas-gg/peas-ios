@@ -42,7 +42,7 @@ struct UserView: View {
 				textView(viewModel.user.firstName)
 				textView(viewModel.user.lastName)
 				textView(viewModel.user.email)
-				textView(viewModel.user.interacEmailValue)
+				textView(viewModel.user.interacEmailValue, isInterac: true)
 				if let phoneNumber = try? phoneNumberKit.parse(viewModel.user.phone) {
 					let formattedPhoneNumber = phoneNumberKit.format(phoneNumber, toType: .national)
 					textView(formattedPhoneNumber)
@@ -70,15 +70,24 @@ struct UserView: View {
 	}
 	
 	@ViewBuilder
-	func textView(_ content: String) -> some View {
+	func textView(_ content: String, isInterac: Bool = false) -> some View {
+		let interacImageDimension: CGFloat = 30
 		HStack{
 			Text(content)
 				.font(Font.app.bodySemiBold)
 				.foregroundColor(Color.app.tertiaryText)
-			Spacer(minLength: 0)
+			Spacer(minLength: interacImageDimension)
 		}
 		.padding()
 		.background(CardBackground())
+		.overlay(isShown: isInterac, alignment: .trailing) {
+			Image("Interac")
+				.resizable()
+				.scaledToFit()
+				.frame(dimension: interacImageDimension)
+				.padding(.trailing)
+				.offset(x: 4)
+		}
 	}
 }
 
