@@ -22,6 +22,7 @@ struct CustomerView: View {
 			compactView()
 		case .detail:
 			detailView()
+				.presentationDetents([.height(240)])
 		}
 	}
 	
@@ -57,7 +58,7 @@ struct CustomerView: View {
 	func detailView() -> some View {
 		VStack(spacing: 20) {
 			avatar()
-			VStack(alignment: .leading) {
+			VStack(spacing: 30) {
 				HStack {
 					Spacer()
 					Text("\(customer.firstName) \(customer.lastName)")

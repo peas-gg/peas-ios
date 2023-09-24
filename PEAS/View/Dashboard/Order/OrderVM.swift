@@ -18,6 +18,7 @@ extension OrderView {
 		let context: Context
 		
 		@Published var order: Order
+		@Published var isShowingCustomerCard: Bool = false
 		
 		var orderAmount: Int {
 			return order.payment?.total ?? order.price
@@ -41,7 +42,7 @@ extension OrderView {
 		}
 		
 		func openCustomerView() {
-			
+			self.isShowingCustomerCard = true
 		}
 	}
 }

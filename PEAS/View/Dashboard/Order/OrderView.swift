@@ -14,84 +14,89 @@ struct OrderView: View {
 	let calendarClient: CalendarClient = CalendarClient.shared
 	
 	var body: some View {
-		switch viewModel.context {
-		case .detail:
-			VStack {
+		Group {
+			switch viewModel.context {
+			case .detail:
 				VStack {
-					HStack(alignment: .top, spacing: 20) {
-						VStack {
-							image()
-						}
-						let alignment: HorizontalAlignment = .leading
-						VStack(alignment: alignment, spacing: 20) {
-							HStack {
+					VStack {
+						HStack(alignment: .top, spacing: 20) {
+							VStack {
+								image()
+							}
+							let alignment: HorizontalAlignment = .leading
+							VStack(alignment: alignment, spacing: 20) {
+								HStack {
+									VStack(alignment: alignment) {
+										title("Plan:")
+										label(viewModel.order.title)
+									}
+									Spacer(minLength: 0)
+									statusBadge()
+								}
 								VStack(alignment: alignment) {
-									title("Plan:")
-									label(viewModel.order.title)
+									title("Price:")
+									Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
+										.font(Font.app.largeTitle)
+										.foregroundColor(viewModel.order.payment == nil ? Color.app.primaryText : Color.app.accent)
 								}
-								Spacer(minLength: 0)
-								statusBadge()
-							}
-							VStack(alignment: alignment) {
-								title("Price:")
-								Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
-									.font(Font.app.largeTitle)
-									.foregroundColor(viewModel.order.payment == nil ? Color.app.primaryText : Color.app.accent)
-							}
-							VStack(alignment: alignment) {
-								title("Customer:")
-								Button(action: { viewModel.openCustomerView() }) {
-									label(customerName())
-										.underline()
+								VStack(alignment: alignment) {
+									title("Customer:")
+									Button(action: { viewModel.openCustomerView() }) {
+										label(customerName())
+											.underline()
+									}
 								}
-							}
-							VStack(alignment: alignment) {
-								title("Time & Date:")
-								label("\(formattedTime())")
+								VStack(alignment: alignment) {
+									title("Time & Date:")
+									label("\(formattedTime())")
+								}
 							}
 						}
+						note()
+							.padding(.top)
+						changeStatusButtons()
 					}
-					note()
-						.padding(.top)
-					changeStatusButtons()
-				}
-				.padding(.horizontal)
-				.padding(.vertical)
-				.background(CardBackground())
-				.padding(.horizontal)
-				Spacer()
-				Button(action: { viewModel.requestPayment() }) {
-					Text(viewModel.order.didRequestPayment ? "Requested..." : "Request Payment")
-				}
-				.buttonStyle(.expanded(style: .green))
-				.padding(.bottom)
-			}
-		case .dashboard:
-			compactView()
-		case .calendar:
-			HStack(spacing: 20) {
-				VStack(spacing: 2) {
-					let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDate)
-					let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDate)
-					Text(startTime)
-					ForEach(0..<3) {
-						Circle()
-							.fill(Color.gray)
-							.frame(dimension: 3)
-							.id($0)
-					}
-					Text(endTime)
-					Text(getTimeDifference())
-						.font(Font.app.footnote)
-						.foregroundColor(Color.app.tertiaryText)
-				}
-				.font(.system(size: FontSizes.footnote, weight: .semibold, design: .rounded))
-				.foregroundColor(Color.app.primaryText)
-				compactView()
-					.padding(8)
+					.padding(.horizontal)
+					.padding(.vertical)
 					.background(CardBackground())
+					.padding(.horizontal)
+					Spacer()
+					Button(action: { viewModel.requestPayment() }) {
+						Text(viewModel.order.didRequestPayment ? "Requested..." : "Request Payment")
+					}
+					.buttonStyle(.expanded(style: .green))
+					.padding(.bottom)
+				}
+			case .dashboard:
+				compactView()
+			case .calendar:
+				HStack(spacing: 20) {
+					VStack(spacing: 2) {
+						let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDate)
+						let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDate)
+						Text(startTime)
+						ForEach(0..<3) {
+							Circle()
+								.fill(Color.gray)
+								.frame(dimension: 3)
+								.id($0)
+						}
+						Text(endTime)
+						Text(getTimeDifference())
+							.font(Font.app.footnote)
+							.foregroundColor(Color.app.tertiaryText)
+					}
+					.font(.system(size: FontSizes.footnote, weight: .semibold, design: .rounded))
+					.foregroundColor(Color.app.primaryText)
+					compactView()
+						.padding(8)
+						.background(CardBackground())
+				}
+				.padding(.horizontal)
 			}
-			.padding(.horizontal)
+		}
+		.sheet(isPresented: $viewModel.isShowingCustomerCard) {
+			CustomerView(customer: viewModel.order.customer, context: .detail)
 		}
 	}
 	
@@ -118,6 +123,7 @@ struct OrderView: View {
 						Text(customerName())
 							.foregroundColor(Color.app.primaryText)
 							.underline()
+							.lineLimit(1)
 					}
 					timeView()
 					Spacer(minLength: 0)
