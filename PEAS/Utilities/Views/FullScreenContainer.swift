@@ -11,7 +11,7 @@ struct FullScreenContainer<Content: View>: View {
 		case up, down
 	}
 	
-	let size: CGSize = UIScreen.main.bounds.size
+	let size: CGSize = SizeConstants.screenSize
 	
 	let appearAnimation: Animation = .interactiveSpring().speed(0.30)
 	let swipeAnimation: Animation = .linear
@@ -19,7 +19,7 @@ struct FullScreenContainer<Content: View>: View {
 	@Binding var isShowing: Bool
 	@ViewBuilder var content: () -> Content
 	
-	@State var yOffset: CGFloat = UIScreen.main.bounds.size.height
+	@State var yOffset: CGFloat = SizeConstants.screenSize.height
 	
 	var body: some View {
 		content()
