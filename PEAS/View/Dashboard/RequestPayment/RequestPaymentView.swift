@@ -51,9 +51,9 @@ struct RequestPaymentView: View {
 			}
 			Spacer(minLength: 0)
 			VStack(spacing: 10) {
-				Text("Gia Lopez")
+				Text(viewModel.order.customer.fullName)
 					.font(Font.app.bodySemiBold)
-				Text("Will receive an email with the invoice and payment link")
+				Text("Payment link will be sent to \n \(viewModel.order.customer.email) \n")
 					.multilineTextAlignment(.center)
 					.fixedSize(horizontal: false, vertical: true)
 					.padding(.bottom)
@@ -93,6 +93,6 @@ struct RequestPaymentView: View {
 
 struct RequestPaymentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RequestPaymentView(viewModel: .init())
+		RequestPaymentView(viewModel: .init(order: Order.mock1))
 	}
 }

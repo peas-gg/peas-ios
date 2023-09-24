@@ -39,8 +39,17 @@ struct HomeView: View {
 		}
 		.tint(Color.black)
 		.banner(data: $viewModel.bannerData)
-		.fullScreenContainer(isShowing: $appState.isShowingRequestPayment) {
-			RequestPaymentView(viewModel: .init())
+		.fullScreenContainer(
+			isShowing: Binding(
+				get: { appState.requestPaymentVM != nil },
+				set: { isShowing in
+					if !isShowing {
+						appState.setRequestPaymentVM(nil)
+					}
+				}
+			)
+		) {
+			RequestPaymentView(viewModel: appState.safeRequestPaymentVM)
 				.overlay {
 					/**
 					 We need this because for some reason, when the full screen container is in a TabView,

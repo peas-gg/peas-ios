@@ -51,15 +51,6 @@ struct CalendarView: View {
 			}
 			.opacity(isExpanded ? 0.0 : 1.0)
 			.animation(.linear.speed(4.0), value: isExpanded)
-			
-			VStack {
-				Spacer()
-				Button(action: { AppState.shared.setIsShowingPaymentView(true) }) {
-					Text("Request Payment")
-				}
-				.buttonStyle(.expanded(style: .green))
-				.padding(.bottom)
-			}
 		}
 		.overlay(alignment: .topTrailing) {
 			Button(action: {

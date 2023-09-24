@@ -68,7 +68,7 @@ extension OrderView {
 		}
 		
 		func requestPayment() {
-			AppState.shared.setIsShowingPaymentView(true)
+			AppState.shared.setRequestPaymentVM(RequestPaymentView.ViewModel(order: order))
 		}
 		
 		func openCustomerView() {

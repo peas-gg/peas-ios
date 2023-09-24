@@ -21,6 +21,10 @@ extension Customer {
 		return "\(firstName.first ?? Character(""))\(lastName.first ?? Character(""))"
 	}
 	
+	var fullName: String {
+		return "\(firstName) \(lastName)"
+	}
+	
 	var color: Color {
 		Color(uiColor: UIColor.generateColor(text: email))
 	}
