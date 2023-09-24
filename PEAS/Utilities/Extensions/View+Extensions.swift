@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-08-31.
 //
 
+import Foundation
 import SwiftUI
 
 struct CGRectPreferenceKey: PreferenceKey {
@@ -29,10 +30,13 @@ extension View {
 		background(
 			GeometryReader { geometryProxy in
 				Color.clear
-					.preference(key: CGRectPreferenceKey.self, value: geometryProxy.frame(in: .global))
+					.onAppear {
+						DispatchQueue.main.async {
+							onChange(geometryProxy.frame(in: .local))
+						}
+					}
 			}
 		)
-		.onPreferenceChange(CGRectPreferenceKey.self, perform: onChange)
 	}
 	
 	func appMenu<Menu: View>(id: String, isShowing: Binding<Bool>, @ViewBuilder menu: @escaping () -> Menu) -> some View {
