@@ -42,9 +42,20 @@ extension DashboardView {
 			}
 		}
 		
-		func showFilterMenu() {
+		func toggleFilterMenu() {
 			withAnimation(.default) {
-				self.isShowingFilterMenu = true
+				if self.selectedOrderFilter == nil {
+					self.isShowingFilterMenu = true
+				} else {
+					self.selectedOrderFilter = nil
+				}
+			}
+		}
+		
+		func selectFilter(_ orderFilter: Order.Status) {
+			self.selectedOrderFilter = orderFilter
+			withAnimation(.default) {
+				self.isShowingFilterMenu = false
 			}
 		}
 		

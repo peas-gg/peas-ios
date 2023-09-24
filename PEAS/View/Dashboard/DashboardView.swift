@@ -60,7 +60,7 @@ struct DashboardView: View {
 						if let selectedOrderFilter = viewModel.selectedOrderFilter {
 							filterIndicator(filter: selectedOrderFilter)
 						}
-						Button(action: { viewModel.showFilterMenu() }) {
+						Button(action: { viewModel.toggleFilterMenu() }) {
 							Image(systemName: viewModel.selectedOrderFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
 						}
 						.opacity(viewModel.isShowingFilterMenu ? 0.5 : 1.0)
@@ -91,7 +91,7 @@ struct DashboardView: View {
 		.appMenu(id: filterMenuId, isShowing: $viewModel.isShowingFilterMenu) {
 			VStack {
 				ForEach(Order.Status.allCases) { status in
-					Button(action: {}) {
+					Button(action: { viewModel.selectFilter(status) }) {
 						HStack {
 							Text(status.rawValue.capitalized)
 								.font(Font.app.body)
