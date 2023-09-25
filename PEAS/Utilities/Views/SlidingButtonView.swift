@@ -80,11 +80,8 @@ struct SlidingButtonView: View {
 					let opacity: CGFloat = {
 						return 1 - (xOffset / maxXDistance) - 0.2
 					}()
-					ZStack {
-						Text("Slide to cash out")
-							.font(Font.app.title3)
-							.foregroundColor(Color.app.secondaryText.opacity(opacity))
-					}
+					ShimmerTextView("Slide to cash out", font: Font.app.title3, color: Color.app.secondaryText)
+						.opacity(opacity)
 				}
 		}
 	}

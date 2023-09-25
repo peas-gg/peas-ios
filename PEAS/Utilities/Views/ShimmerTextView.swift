@@ -10,22 +10,22 @@ import SwiftUI
 struct ShimmerTextView: View {
 	let text: String
 	let font: Font
-	let foregroundColor: Color
+	let color: Color
 	
 	@State var width: CGFloat = .zero
 	@State var xOffset: CGFloat = .zero
 	
-	init(_ text: String, font: Font = Font.app.largeTitle, foregroundColor: Color = Color.gray) {
+	init(_ text: String, font: Font = Font.app.largeTitle, color: Color = Color.gray) {
 		self.text = text
 		self.font = font
-		self.foregroundColor = foregroundColor
+		self.color = color
 	}
 	
 	var body: some View {
 		ZStack {
 			Text(text)
 				.font(font)
-				.foregroundColor(foregroundColor)
+				.foregroundColor(color)
 				.readRect { rect in
 					self.width = rect.width
 				}
@@ -33,13 +33,8 @@ struct ShimmerTextView: View {
 				ForEach(0..<text.count, id: \.self) { index in
 					Text(String(text[text.index(text.startIndex, offsetBy: index)]))
 						.font(font)
-						.foregroundStyle(
-							LinearGradient(
-								colors: [Color.white, Color.white.opacity(0.6)],
-								startPoint: .leading,
-								endPoint: .trailing
-							)
-						)
+						.foregroundColor(Color.white)
+						.brightness(1.2)
 				}
 			}
 			.mask {
