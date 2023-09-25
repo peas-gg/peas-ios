@@ -25,6 +25,14 @@ extension CashOutView {
 		
 		@Published var currentEmailSelection: EmailSelection = .account
 		@Published var differentEmail: String = ""
+		@Published var isShowingConfirmation: Bool = false
+		
+		var selectedEmail: String {
+			switch currentEmailSelection {
+			case .account: return user.email
+			case .different: return differentEmail
+			}
+		}
 		
 		init(user: User) {
 			if user.interacEmail == nil {
@@ -43,6 +51,18 @@ extension CashOutView {
 				if differentEmail.isValidEmail {
 					self.currentEmailSelection = selection
 				}
+			}
+		}
+		
+		func setIsShowingConfirmation(_ isShowing: Bool) {
+			self.isShowingConfirmation = isShowing
+		}
+		
+		func advance() {
+			if self.isShowingConfirmation {
+				//Send request to api
+			} else {
+				self.isShowingConfirmation = true
 			}
 		}
 	}

@@ -24,14 +24,14 @@ struct CashOutView: View {
 							.font(Font.app.title2Display)
 					},
 					leading: {
-						EmptyView()
-					},
-					trailing: {
 						Button(action: {}) {
-							Text("Done")
+							Text("Cancel")
 								.font(.system(size: FontSizes.title3))
 								.padding()
 						}
+					},
+					trailing: {
+						EmptyView()
 					}
 				)
 				Divider()
@@ -53,22 +53,45 @@ struct CashOutView: View {
 							Spacer()
 						}
 						.padding(.top)
-						Text("Your earnings will be deposited via interac. Set your interac email to cash out")
-							.font(Font.app.subHeader)
-							.multilineTextAlignment(.leading)
+						if viewModel.isShowingConfirmation {
+							Spacer(minLength: 0)
+							Text("Please confirm the email address is correct")
+								.multilineTextAlignment(.center)
+								.padding(.top)
+							Text(viewModel.selectedEmail)
+								.font(Font.app.title1)
+							Button(action: { viewModel.setIsShowingConfirmation(false) }) {
+								Image(systemName: "arrow.left")
+								Text("Update email")
+									.underline()
+							}
+							.font(Font.app.body)
 							.padding(.vertical)
-						VStack(spacing: 2) {
-							label("Use account email")
-							emailSelectionView(selection: .account)
-						}
-						VStack(spacing: 2) {
-							label("Use a different email")
-							emailSelectionView(selection: .different)
-								.focused($isTextFieldFocused)
+							Spacer(minLength: 0)
+							Spacer(minLength: 0)
+						} else {
+							Text("Set your interac e-transfer email to cash out your earnings")
+								.font(Font.app.subHeader)
+								.multilineTextAlignment(.leading)
+								.padding(.vertical)
+							VStack(spacing: 2) {
+								label("Use account email")
+								emailSelectionView(selection: .account)
+							}
+							VStack(spacing: 2) {
+								label("Use a different email")
+								emailSelectionView(selection: .different)
+									.focused($isTextFieldFocused)
+							}
 						}
 					}
 					.padding(.horizontal)
 					Spacer(minLength: 0)
+					Button(action: { viewModel.advance() }) {
+						Text(viewModel.isShowingConfirmation ? "Looks good 👍" : "Next")
+					}
+					.buttonStyle(.expanded)
+					.padding(.horizontal)
 				}
 				.background(Color.app.secondaryBackground)
 			}
