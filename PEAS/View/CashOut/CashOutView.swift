@@ -74,6 +74,7 @@ struct CashOutView: View {
 								.font(Font.app.subHeader)
 								.multilineTextAlignment(.leading)
 								.padding(.vertical)
+								.fixedSize(horizontal: false, vertical: true)
 							VStack(spacing: 2) {
 								label("Use account email")
 								emailSelectionView(selection: .account)
@@ -91,7 +92,7 @@ struct CashOutView: View {
 						Text(viewModel.isShowingConfirmation ? "Looks good 👍" : "Next")
 					}
 					.buttonStyle(.expanded)
-					.padding(.horizontal)
+					.padding([.horizontal, .bottom])
 				}
 				.background(Color.app.secondaryBackground)
 			}
