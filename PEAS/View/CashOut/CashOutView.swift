@@ -102,10 +102,27 @@ struct CashOutView: View {
 			.background(Color.app.primaryBackground)
 		case .cashOut:
 			VStack {
-				Text(pageTitle)
-					.font(Font.app.title2Display)
-					.foregroundColor(Color.app.darkGreen)
-					.padding(.top)
+				SymmetricHStack(
+					content: {
+						Text(pageTitle)
+							.font(Font.app.title2Display)
+							.foregroundColor(Color.app.darkGreen)
+					},
+					leading: {
+						Button(action: { onDismiss() }) {
+							Image(systemName: "xmark")
+								.font(.system(size: FontSizes.title2))
+								.fontWeight(.bold)
+								.foregroundColor(Color.app.darkGreen)
+								.padding()
+						}
+					},
+					trailing: {
+						EmptyView()
+					}
+				)
+				.padding(.top)
+				.padding(.top)
 				VStack(spacing: 20) {
 					Text("$2,378.56")
 						.foregroundColor(Color.app.secondaryText)
@@ -134,6 +151,7 @@ struct CashOutView: View {
 			.background(Color.app.accent)
 			.presentationDetents([.height(320)])
 			.edgesIgnoringSafeArea(.bottom)
+			.interactiveDismissDisabled()
 		}
 	}
 	

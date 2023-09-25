@@ -129,7 +129,7 @@ struct DashboardView: View {
 		.sheet(isPresented: $viewModel.isShowingCashOut) {
 			CashOutView(
 				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .cashOut),
-				onDismiss: { }
+				onDismiss: { viewModel.setIsShowingCashOut(false) }
 			)
 		}
 		.fullScreenCover(isPresented: $viewModel.isShowingCashOutOnboarding) {

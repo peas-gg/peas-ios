@@ -97,8 +97,12 @@ extension DashboardView {
 			if self.user.interacEmail == nil {
 				setIsShowingCashOutOnboarding(true)
 			} else {
-				self.isShowingCashOut = true
+				setIsShowingCashOut(true)
 			}
+		}
+		
+		func setIsShowingCashOut(_ isShowing: Bool) {
+			self.isShowingCashOut = isShowing
 		}
 		
 		func setIsShowingCashOutOnboarding(_ isShowing: Bool) {
