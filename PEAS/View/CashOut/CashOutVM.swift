@@ -34,13 +34,9 @@ extension CashOutView {
 			}
 		}
 		
-		init(user: User) {
-			if user.interacEmail == nil {
-				self.context = .onboarding
-			} else {
-				self.context = .cashOut
-			}
+		init(user: User, context: Context) {
 			self.user = user
+			self.context = context
 		}
 		
 		func selectEmail(selection: EmailSelection) {

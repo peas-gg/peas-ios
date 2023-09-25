@@ -40,7 +40,7 @@ struct DashboardView: View {
 					HStack {
 						Spacer()
 						buttonView(symbol: "dollarsign.circle", title: "CashOut") {
-							
+							viewModel.cashOut()
 						}
 						Spacer()
 							.frame(width: 20)
@@ -125,6 +125,12 @@ struct DashboardView: View {
 		}
 		.sheet(isPresented: $viewModel.isShowingUserView) {
 			UserView(viewModel: UserView.ViewModel(user: viewModel.user))
+		}
+		.fullScreenCover(isPresented: $viewModel.isShowingCashOutOnboarding) {
+			CashOutView(
+				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .onboarding),
+				onDismiss: { viewModel.setIsShowingCashOutOnboarding(false) }
+			)
 		}
 	}
 	

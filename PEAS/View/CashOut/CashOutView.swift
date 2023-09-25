@@ -14,6 +14,8 @@ struct CashOutView: View {
 	
 	@FocusState var isTextFieldFocused: Bool
 	
+	var onDismiss: () -> ()
+	
 	var body: some View {
 		switch viewModel.context {
 		case .onboarding:
@@ -24,7 +26,7 @@ struct CashOutView: View {
 							.font(Font.app.title2Display)
 					},
 					leading: {
-						Button(action: {}) {
+						Button(action: { onDismiss() }) {
 							Text("Cancel")
 								.font(.system(size: FontSizes.title3))
 								.padding()
@@ -175,6 +177,6 @@ struct CashOutView: View {
 
 struct CashOutView_Previews: PreviewProvider {
 	static var previews: some View {
-		CashOutView(viewModel: .init(user: User.mock1))
+		CashOutView(viewModel: .init(user: User.mock1, context: .onboarding), onDismiss: {})
 	}
 }

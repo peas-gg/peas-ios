@@ -25,6 +25,9 @@ extension DashboardView {
 		@Published var isShowingFilterMenu: Bool = false
 		@Published var selectedOrderFilter: Order.Status?
 		
+		@Published var isShowingCashOutOnboarding: Bool = false
+		@Published var isShowingCashOut: Bool = false
+		
 		@Published var navStack: [Route] = []
 		
 		@Published var bannerData: BannerData?
@@ -88,6 +91,18 @@ extension DashboardView {
 					}
 				)
 				.store(in: &cancellableBag)
+		}
+		
+		func cashOut() {
+			if self.user.interacEmail == nil {
+				setIsShowingCashOutOnboarding(true)
+			} else {
+				self.isShowingCashOut = true
+			}
+		}
+		
+		func setIsShowingCashOutOnboarding(_ isShowing: Bool) {
+			self.isShowingCashOutOnboarding = isShowing
 		}
 		
 		func pushStack(_ route: Route) {
