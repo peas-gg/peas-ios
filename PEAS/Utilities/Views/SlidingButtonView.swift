@@ -29,50 +29,50 @@ struct SlidingButtonView: View {
 	}
 	
 	var body: some View {
-		HStack {
-			GeometryReader { proxy in
-				let width: CGFloat = proxy.frame(in: .local).width
-				HStack {
-					ZStack {
-						Circle()
-							.fill(Color.app.accent)
-						Circle()
-							.stroke(
-								LinearGradient(
-									colors: [Color.clear, Color.white.opacity(0.5), Color.white],
-									startPoint: .leading,
-									endPoint: .trailing
-								)
+		GeometryReader { proxy in
+			let width: CGFloat = proxy.frame(in: .local).width
+			HStack {
+				ZStack {
+					Circle()
+						.fill(Color.app.accent)
+					Circle()
+						.stroke(
+							LinearGradient(
+								colors: [Color.clear, Color.white.opacity(0.5), Color.white],
+								startPoint: .leading,
+								endPoint: .trailing
 							)
-						Image(systemName: didComplete ? "checkmark" : "arrow.right")
-							.font(.system(size: 26, weight: .bold))
-							.foregroundColor(Color.white)
-					}
-					.frame(dimension: buttonDimension)
-					.offset(x: xOffset)
+						)
+					Image(systemName: didComplete ? "checkmark" : "arrow.right")
+						.font(.system(size: 26, weight: .bold))
+						.foregroundColor(Color.white)
 				}
-				.frame(width: width, height: proxy.size.height, alignment: .leading)
-				.onAppear { self.width = width }
-				.gesture(
-					DragGesture()
-						.onChanged { value in
-							if (baseOffset..<maxXDistance).contains(value.translation.width) {
-								self.xOffset = value.translation.width
-							}
-						}
-						.onEnded { _ in
-							if self.xOffset < (maxXDistance - baseOffset) {
-								self.xOffset = baseOffset
-							} else {
-								self.didComplete = true
-								self.feedbackClient.medium()
-							}
-						}
-				)
+				.frame(dimension: buttonDimension)
+				.offset(x: xOffset)
 			}
-			.frame(height: height)
-			.animation(.spring(), value: xOffset)
+			.frame(width: width, height: proxy.size.height, alignment: .leading)
+			.gesture(
+				DragGesture()
+					.onChanged { value in
+						if (baseOffset..<maxXDistance).contains(value.translation.width) {
+							self.xOffset = value.translation.width
+						}
+					}
+					.onEnded { _ in
+						if self.xOffset < (maxXDistance - baseOffset) {
+							self.xOffset = baseOffset
+						} else {
+							self.didComplete = true
+							self.feedbackClient.medium()
+						}
+					}
+			)
 		}
+		.frame(height: height)
+		.readRect { size in
+			self.width = size.width
+		}
+		.animation(.spring(), value: xOffset)
 		.background {
 			Capsule()
 				.fill(Color.app.darkGreen)
