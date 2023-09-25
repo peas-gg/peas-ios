@@ -63,7 +63,7 @@ extension SiteOnboardingView {
 					receiveValue: { templates in
 						self.templates = IdentifiedArray(uniqueElements: templates)
 						self.isLoading = false
-				})
+					})
 				.store(in: &cancellableBag)
 		}
 		
@@ -100,16 +100,48 @@ extension SiteOnboardingView {
 							self.bannerData = BannerData(detail: "Please set a location before proceeding")
 							return
 						}
+						
+						//Upload the business image to the server
+						guard
+							let uploadedBusinessImageUrl: URL = await self.apiClient.uploadImage(localUrl: businessDraft.profilePhoto)
+						else {
+							self.isLoading = false
+							self.bannerData = BannerData(detail: "Could not upload business profile image")
+							return
+						}
+						
+						//Upload the block images to the server
+						var blocks: IdentifiedArrayOf<Business.Block> = []
+						await businessDraft.blocks.concurrentForEach { blockDraft in
+							if let uploadedImageUrl = await self.apiClient.uploadImage(localUrl: blockDraft.image) {
+								blocks.append(
+									Business.Block(
+										id: blockDraft.id,
+										blockType: blockDraft.blockType,
+										image: uploadedImageUrl,
+										price: blockDraft.price,
+										duration: blockDraft.duration,
+										title: blockDraft.title,
+										description: blockDraft.description
+									)
+								)
+							} else {
+								self.isLoading = false
+								self.bannerData = BannerData(detail: "Could not upload block images")
+								return
+							}
+						}
+						
 						let newBusiness: CreateBusiness = CreateBusiness(
 							sign: businessDraft.sign,
 							name: businessDraft.name,
 							category: businessDraft.category,
 							color: businessDraft.color,
 							description: businessDraft.description,
-							profilePhoto: businessDraft.profilePhoto,
+							profilePhoto: uploadedBusinessImageUrl,
 							latitude: latitude,
 							longitude: longitude,
-							blocks: businessDraft.blocks
+							blocks: blocks
 						)
 						apiClient.createBusiness(newBusiness)
 							.receive(on: DispatchQueue.main)
