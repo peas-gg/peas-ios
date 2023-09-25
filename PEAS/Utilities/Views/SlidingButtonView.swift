@@ -73,7 +73,20 @@ struct SlidingButtonView: View {
 			.frame(height: height)
 			.animation(.spring(), value: xOffset)
 		}
-		.background(Color.app.darkGreen, in: Capsule())
+		.background {
+			Capsule()
+				.fill(Color.app.darkGreen)
+				.overlay {
+					let opacity: CGFloat = {
+						return 1 - (xOffset / maxXDistance) - 0.2
+					}()
+					ZStack {
+						Text("Slide to cash out")
+							.font(Font.app.title3)
+							.foregroundColor(Color.app.secondaryText.opacity(opacity))
+					}
+				}
+		}
 	}
 }
 
