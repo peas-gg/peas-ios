@@ -97,6 +97,19 @@ final class APIClient: APIRequests {
 		}
 	}
 	
+	func uploadImage(localUrl: URL) async -> URL? {
+		let fetchImageTask = Task { () -> Data? in
+			if let image = await CacheClient.shared.getImage(url: localUrl) {
+				return image.jpegData(compressionQuality: 1.0)
+			}
+			return nil
+		}
+		if let imageData = await fetchImageTask.value {
+			return await uploadImage(imageData: imageData)
+		}
+		return nil
+	}
+	
 	//MARK: Business
 	func getBusinessAccount() -> AnyPublisher<Business, APIClientError> {
 		let getBusiness = APPUrlRequest(

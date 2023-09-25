@@ -303,19 +303,6 @@ extension EditSiteView {
 			self.endDateForPicker = end
 		}
 		
-		func uploadImage(localUrl: URL) async -> URL? {
-			let fetchImageTask = Task { () -> Data? in
-				if let image = await cacheClient.getImage(url: localUrl) {
-					return image.jpegData(compressionQuality: 1.0)
-				}
-				return nil
-			}
-			if let imageData = await fetchImageTask.value {
-				return await self.apiClient.uploadImage(imageData: imageData)
-			}
-			return nil
-		}
-		
 		func updateBusiness(_ model: UpdateBusiness) {
 			self.apiClient.updateBusiness(model)
 				.receive(on: DispatchQueue.main)
@@ -451,7 +438,7 @@ extension EditSiteView {
 						//Upload Photo
 						let currentPhoto: URL = self.photo
 						if self.business.profilePhoto != currentPhoto {
-							if let url = await uploadImage(localUrl: currentPhoto) {
+							if let url = await apiClient.uploadImage(localUrl: currentPhoto) {
 								updateBusinessModel.profilePhoto = url
 							} else {
 								self.bannerData = BannerData(detail: "Could not upload business profile photo")
@@ -485,7 +472,7 @@ extension EditSiteView {
 							updateBlockModel.duration = self.blockTimeDuration
 							updateBlockModel.price = Int(self.blockPriceText) ?? 0
 							if self.business.blocks[id: blockId]?.image != currentBlockImage {
-								if let url = await uploadImage(localUrl: currentBlockImage) {
+								if let url = await apiClient.uploadImage(localUrl: currentBlockImage) {
 									updateBlockModel.image = url
 								} else {
 									self.isLoading = false
@@ -495,7 +482,7 @@ extension EditSiteView {
 							//Update block
 							updateBlock(updateBlockModel)
 						} else {
-							if let imageUrl = await uploadImage(localUrl: currentBlockImage) {
+							if let imageUrl = await apiClient.uploadImage(localUrl: currentBlockImage) {
 								let newBlock = Business.Block(
 									id: UUID().uuidString,
 									blockType: .Genesis,
