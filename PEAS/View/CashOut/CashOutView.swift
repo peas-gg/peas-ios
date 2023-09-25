@@ -102,9 +102,37 @@ struct CashOutView: View {
 			.background(Color.app.primaryBackground)
 		case .cashOut:
 			VStack {
-				SlidingButtonView()
+				VStack(spacing: 20) {
+					Text(pageTitle)
+						.font(Font.app.title2Display)
+						.foregroundColor(Color.app.darkGreen)
+					Text("$2,378.56")
+						.foregroundColor(Color.app.secondaryText)
+						.font(.system(size: 50, weight: .semibold, design: .rounded))
+					HStack(spacing: 20) {
+						Image("Interac")
+							.resizable()
+							.scaledToFit()
+							.frame(dimension: 50)
+						Group {
+							Text("Your earnings will be sent to")
+							+ Text(" \(viewModel.user.interacEmail ?? "") ")
+								.fontWeight(.bold)
+							+ Text("using \nInterac e-Transfer")
+						}
+						.font(Font.app.body)
+						.foregroundColor(Color.app.darkGreen)
+						Spacer(minLength: 0)
+					}
+					.padding(.vertical)
+					SlidingButtonView()
+				}
+				.padding()
+				.padding(.bottom)
 			}
 			.background(Color.app.accent)
+			.edgesIgnoringSafeArea(.bottom)
+			.presentationDetents([.height(SizeConstants.detentHeight)])
 		}
 	}
 	

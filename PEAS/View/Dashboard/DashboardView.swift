@@ -35,7 +35,7 @@ struct DashboardView: View {
 					}
 					.padding(.top, 30)
 					Text("$2,378.56")
-						.foregroundColor(.green)
+						.foregroundColor(Color.app.accent)
 						.font(.system(size: 50, weight: .semibold, design: .rounded))
 					HStack {
 						Spacer()
