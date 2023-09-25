@@ -126,6 +126,12 @@ struct DashboardView: View {
 		.sheet(isPresented: $viewModel.isShowingUserView) {
 			UserView(viewModel: UserView.ViewModel(user: viewModel.user))
 		}
+		.sheet(isPresented: $viewModel.isShowingCashOut) {
+			CashOutView(
+				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .cashOut),
+				onDismiss: { }
+			)
+		}
 		.fullScreenCover(isPresented: $viewModel.isShowingCashOutOnboarding) {
 			CashOutView(
 				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .onboarding),

@@ -102,10 +102,11 @@ struct CashOutView: View {
 			.background(Color.app.primaryBackground)
 		case .cashOut:
 			VStack {
+				Text(pageTitle)
+					.font(Font.app.title2Display)
+					.foregroundColor(Color.app.darkGreen)
+					.padding(.top)
 				VStack(spacing: 20) {
-					Text(pageTitle)
-						.font(Font.app.title2Display)
-						.foregroundColor(Color.app.darkGreen)
 					Text("$2,378.56")
 						.foregroundColor(Color.app.secondaryText)
 						.font(.system(size: 50, weight: .semibold, design: .rounded))
@@ -128,11 +129,11 @@ struct CashOutView: View {
 					SlidingButtonView()
 				}
 				.padding()
-				.padding(.bottom)
 			}
+			.pushOutFrame()
 			.background(Color.app.accent)
+			.presentationDetents([.height(320)])
 			.edgesIgnoringSafeArea(.bottom)
-			.presentationDetents([.height(SizeConstants.detentHeight)])
 		}
 	}
 	
