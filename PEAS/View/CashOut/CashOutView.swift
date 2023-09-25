@@ -12,6 +12,8 @@ struct CashOutView: View {
 	
 	let pageTitle: String = "CashOut"
 	
+	@FocusState var isTextFieldFocused: Bool
+	
 	var body: some View {
 		switch viewModel.context {
 		case .onboarding:
@@ -54,6 +56,7 @@ struct CashOutView: View {
 						Text("Your earnings will be deposited via interac. Set your interac email to cash out")
 							.font(Font.app.subHeader)
 							.multilineTextAlignment(.leading)
+							.padding(.vertical)
 						VStack(spacing: 2) {
 							label("Use account email")
 							emailSelectionView(selection: .account)
@@ -61,6 +64,7 @@ struct CashOutView: View {
 						VStack(spacing: 2) {
 							label("Use a different email")
 							emailSelectionView(selection: .different)
+								.focused($isTextFieldFocused)
 						}
 					}
 					.padding(.horizontal)
@@ -109,7 +113,10 @@ struct CashOutView: View {
 		.padding(.horizontal)
 		.shadow(color: isCurrentSelection ? Color.black.opacity(0.1) : Color.clear, radius: 10, x: 0, y: 4)
 		.overlay(alignment: .trailing) {
-			Button(action: { viewModel.selectEmail(selection: selection) }) {
+			Button(action: {
+				viewModel.selectEmail(selection: selection)
+				self.isTextFieldFocused = false
+			}) {
 				Group {
 					if isCurrentSelection {
 						Image(systemName: "checkmark.circle.fill")
