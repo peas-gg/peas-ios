@@ -55,7 +55,7 @@ struct UserView: View {
 			.padding(.horizontal)
 			.padding(.horizontal)
 			Spacer(minLength: 0)
-			Button(action: {}) {
+			Button(action: { viewModel.requestLogOut() }) {
 				Text("Log out")
 					.font(Font.app.title2Display)
 					.underline()
@@ -69,6 +69,13 @@ struct UserView: View {
 		}
 		.foregroundColor(Color.app.primaryText)
 		.presentationDetents([.height(SizeConstants.detentHeight + 100)])
+		.alert(isPresented: $viewModel.isShowingLogOutAlert) {
+			Alert(
+				title: Text("Are you sure you would like to logout?"),
+				primaryButton: .destructive(Text("Logout")) { viewModel.logOut() },
+				secondaryButton: .cancel()
+			)
+		}
 	}
 	
 	@ViewBuilder
