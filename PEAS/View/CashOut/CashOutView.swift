@@ -101,7 +101,10 @@ struct CashOutView: View {
 			.foregroundColor(Color.app.primaryText)
 			.background(Color.app.primaryBackground)
 		case .cashOut:
-			EmptyView()
+			VStack {
+				SlidingButtonView()
+			}
+			.background(Color.app.accent)
 		}
 	}
 	
@@ -178,5 +181,6 @@ struct CashOutView: View {
 struct CashOutView_Previews: PreviewProvider {
 	static var previews: some View {
 		CashOutView(viewModel: .init(user: User.mock1, context: .onboarding), onDismiss: {})
+		CashOutView(viewModel: .init(user: User.mock1, context: .cashOut), onDismiss: {})
 	}
 }

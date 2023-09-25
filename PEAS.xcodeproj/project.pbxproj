@@ -32,6 +32,7 @@
 		D0332A212AA45040000E7515 /* AuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A202AA45040000E7515 /* AuthenticateView.swift */; };
 		D0332A242AA4DBE1000E7515 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = D0332A232AA4DBE1000E7515 /* iPhoneNumberField */; };
 		D0332A262AA5621C000E7515 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0332A252AA5621C000E7515 /* Array+Extension.swift */; };
+		D03D8BFE2AC12E75007656F4 /* SlidingButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03D8BFD2AC12E75007656F4 /* SlidingButtonView.swift */; };
 		D04A8C0A2ABA46A1002F2356 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */; };
 		D04A8C0E2ABAA245002F2356 /* ServerDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A8C0D2ABAA245002F2356 /* ServerDateFormatter.swift */; };
 		D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F11542A9C99670011242C /* Binding+Extension.swift */; };
@@ -133,6 +134,7 @@
 		D0332A1E2AA4502B000E7515 /* AuthenticateVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateVM.swift; sourceTree = "<group>"; };
 		D0332A202AA45040000E7515 /* AuthenticateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateView.swift; sourceTree = "<group>"; };
 		D0332A252AA5621C000E7515 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		D03D8BFD2AC12E75007656F4 /* SlidingButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingButtonView.swift; sourceTree = "<group>"; };
 		D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		D04A8C0D2ABAA245002F2356 /* ServerDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDateFormatter.swift; sourceTree = "<group>"; };
 		D04F11542A9C99670011242C /* Binding+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extension.swift"; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 				D0B23CA82AA80BF200CBDA26 /* BannerViewModifier.swift */,
 				D012F3652AAAE75600269DA1 /* WebView.swift */,
 				D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */,
+				D03D8BFD2AC12E75007656F4 /* SlidingButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -653,6 +656,7 @@
 				D02659AF2A8736AD00655C23 /* SiteVM.swift in Sources */,
 				D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */,
 				D066F8232A9493DA00B65CA4 /* Business.swift in Sources */,
+				D03D8BFE2AC12E75007656F4 /* SlidingButtonView.swift in Sources */,
 				D066F8262A956DA800B65CA4 /* CacheClient.swift in Sources */,
 				D026599E2A87328D00655C23 /* Colors.swift in Sources */,
 				D0332A1F2AA4502B000E7515 /* AuthenticateVM.swift in Sources */,
