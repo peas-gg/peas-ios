@@ -42,7 +42,9 @@ struct UserView: View {
 				textView(viewModel.user.firstName)
 				textView(viewModel.user.lastName)
 				textView(viewModel.user.email)
-				textView(viewModel.user.interacEmailValue, isInterac: true)
+				if let interacEmail = viewModel.user.interacEmail {
+					textView(interacEmail, isInterac: true)
+				}
 				if let phoneNumber = try? phoneNumberKit.parse(viewModel.user.phone) {
 					let formattedPhoneNumber = phoneNumberKit.format(phoneNumber, toType: .national)
 					textView(formattedPhoneNumber)

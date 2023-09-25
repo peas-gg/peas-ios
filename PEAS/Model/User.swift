@@ -19,12 +19,6 @@ struct User: Codable {
 }
 
 extension User {
-	var interacEmailValue: String {
-		return interacEmail ?? email
-	}
-}
-
-extension User {
 	static let mock1: Self = {
 		return User (
 			firstName: "Melissa",
