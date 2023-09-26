@@ -138,6 +138,9 @@ struct DashboardView: View {
 				onDismiss: { viewModel.setIsShowingCashOutOnboarding(false) }
 			)
 		}
+		.onAppear {
+			viewModel.refresh()
+		}
 	}
 	
 	@ViewBuilder

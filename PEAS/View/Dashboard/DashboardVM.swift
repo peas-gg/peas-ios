@@ -35,6 +35,7 @@ extension DashboardView {
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
+		private let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User, business: Business, orders: IdentifiedArrayOf<Order> = []) {
 			self.user = user
@@ -91,6 +92,16 @@ extension DashboardView {
 					}
 				)
 				.store(in: &cancellableBag)
+		}
+		
+		func refresh() {
+			if let user = keychainClient.get(key: .user) {
+				self.user = user
+			}
+			if let business = keychainClient.get(key: .business) {
+				self.business = business
+			}
+			refreshOrders()
 		}
 		
 		func cashOut() {
