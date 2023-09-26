@@ -63,8 +63,8 @@ struct SiteOnboardingView: View {
 						.padding(.top, padding)
 					ZStack {
 						Color.clear
-							.progressView(isShowing: viewModel.isLoading, style: .black, coverOpacity: 0.0)
-							.opacity(viewModel.isLoading ? 1.0 : 0.0)
+							.progressView(isShowing: viewModel.isLoadingTemplates, style: .black, coverOpacity: 0.0)
+							.opacity(viewModel.isLoadingTemplates ? 1.0 : 0.0)
 							.transition(
 								.asymmetric(
 									insertion: .opacity.animation(.easeIn.delay(0.1)),
@@ -88,6 +88,7 @@ struct SiteOnboardingView: View {
 				}
 			}
 		}
+		.progressView(isShowing: viewModel.isCreatingBusiness, style: .black)
 		.banner(data: $viewModel.bannerData)
 		.confirmationDialog(
 			"",

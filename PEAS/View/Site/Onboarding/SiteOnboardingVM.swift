@@ -19,7 +19,8 @@ extension SiteOnboardingView {
 		@Published var isShowingResetWarning: Bool = false
 		
 		@Published var isShowingAuthenticateView: Bool = false
-		@Published var isLoading: Bool = true
+		@Published var isLoadingTemplates: Bool = true
+		@Published var isCreatingBusiness: Bool = false
 		@Published var bannerData: BannerData?
 		
 		var isUserLoggedIn: Bool {
@@ -57,12 +58,12 @@ extension SiteOnboardingView {
 						switch completion {
 						case .finished: return
 						case .failure:
-							self.isLoading = false
+							self.isLoadingTemplates = false
 						}
 					},
 					receiveValue: { templates in
 						self.templates = IdentifiedArray(uniqueElements: templates)
-						self.isLoading = false
+						self.isLoadingTemplates = false
 					})
 				.store(in: &cancellableBag)
 		}
@@ -97,14 +98,14 @@ extension SiteOnboardingView {
 		
 		func proceed() {
 			if isUserLoggedIn {
-				self.isLoading = true
+				self.isCreatingBusiness = true
 				Task {
 					if let businessDraft = await cacheClient.getData(key: .businessDraft) {
 						guard
 							let latitude: Double = businessDraft.latitude,
 							let longitude: Double = businessDraft.longitude
 						else {
-							self.isLoading = false
+							self.isCreatingBusiness = false
 							self.bannerData = BannerData(detail: "Please set a location before proceeding")
 							return
 						}
@@ -113,7 +114,7 @@ extension SiteOnboardingView {
 						guard
 							let businessImageUrl: URL = await self.getOrUploadImage(url: businessDraft.profilePhoto)
 						else {
-							self.isLoading = false
+							self.isCreatingBusiness = false
 							self.bannerData = BannerData(detail: "Could not upload business profile image")
 							return
 						}
@@ -134,7 +135,7 @@ extension SiteOnboardingView {
 									)
 								)
 							} else {
-								self.isLoading = false
+								self.isCreatingBusiness = false
 								self.bannerData = BannerData(detail: "Could not upload block images")
 								return
 							}
@@ -158,12 +159,12 @@ extension SiteOnboardingView {
 									switch completion {
 									case .finished: return
 									case .failure(let error):
-										self.isLoading = false
+										self.isCreatingBusiness = false
 										self.bannerData = BannerData(error: error)
 									}
 								},
 								receiveValue: { business in
-									self.isLoading = false
+									self.isCreatingBusiness = false
 									AppState.shared.setUserBusiness(business: business)
 								}
 							)
