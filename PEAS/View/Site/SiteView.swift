@@ -303,7 +303,7 @@ struct SiteView: View {
 				RoundedRectangle(cornerRadius: cornerRadius)
 					.fill(
 						LinearGradient(
-							colors: [Color.clear, Color.black.opacity(0.8)],
+							colors: [Color.clear, Color.clear,  Color.black.opacity(0.8)],
 							startPoint: .top,
 							endPoint: .bottom
 						)
