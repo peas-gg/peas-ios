@@ -37,9 +37,8 @@ struct CashOutView: View {
 					}
 				)
 				Divider()
-					.padding(.top, 10)
 				VStack {
-					VStack(spacing: 20) {
+					VStack(spacing: 10) {
 						HStack(spacing: 10) {
 							Spacer()
 							Image("SiteLogo")
