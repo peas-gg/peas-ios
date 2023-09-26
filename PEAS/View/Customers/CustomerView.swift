@@ -16,6 +16,8 @@ struct CustomerView: View {
 	let customer: Customer
 	let context: Context
 	
+	@Environment(\.openURL) var openURL
+	
 	var body: some View {
 		switch context {
 		case .compact:
@@ -36,16 +38,16 @@ struct CustomerView: View {
 					.foregroundColor(Color.app.primaryText)
 					.lineLimit(1)
 				HStack(spacing: 30) {
-					Button(action: {}) {
+					Button(action: { openMessage() }) {
 						Image("Chat")
 							.resizable()
 							.frame(dimension: 24)
 					}
 					avatarButton(title: "phone") {
-						
+						openPhone()
 					}
 					avatarButton(title: "envelope") {
-						
+						openEmail()
 					}
 				}
 				.foregroundColor(Color.app.tertiaryText)
@@ -69,18 +71,18 @@ struct CustomerView: View {
 				}
 				HStack(spacing: 30) {
 					Spacer(minLength: 0)
-					Button(action: {}) {
+					Button(action: { openMessage() }) {
 						Image("Chat")
 							.resizable()
 							.frame(dimension: context == .detail ? 34 : 24)
 					}
 					Spacer(minLength: 0)
 					avatarButton(title: "phone") {
-						
+						openPhone()
 					}
 					Spacer(minLength: 0)
 					avatarButton(title: "envelope") {
-						
+						openEmail()
 					}
 					Spacer(minLength: 0)
 				}
@@ -112,6 +114,24 @@ struct CustomerView: View {
 		Button(action: { action() }) {
 			Image(systemName: title)
 				.font(.system(size: context == .detail ? 30 : 20, weight: .bold))
+		}
+	}
+	
+	func openMessage() {
+		if let url = URL(string: "sms:\(customer.phone)") {
+			openURL(url)
+		}
+	}
+	
+	func openPhone() {
+		if let url = URL(string: "tel:\(customer.phone)") {
+			openURL(url)
+		}
+	}
+	
+	func openEmail() {
+		if let url = URL(string: "mailto:\(customer.email)") {
+			openURL(url)
 		}
 	}
 }
