@@ -133,6 +133,7 @@ import SwiftUI
 	
 	func logUserOut(isUserRequested: Bool) {
 		self.keychainClient.clearAllKeys()
+		self.cacheClient.clear()
 		if isUserRequested {
 			self.refreshAppMode()
 		} else {
