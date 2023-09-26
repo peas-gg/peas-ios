@@ -87,6 +87,14 @@ extension SiteOnboardingView {
 			self.isShowingAuthenticateView = isShowing
 		}
 		
+		func getOrUploadImage(url: URL) async -> URL? {
+			if url.isFileURL {
+				return await self.apiClient.uploadImage(localUrl: url)
+			} else {
+				return url
+			}
+		}
+		
 		func proceed() {
 			if isUserLoggedIn {
 				self.isLoading = true
@@ -103,7 +111,7 @@ extension SiteOnboardingView {
 						
 						//Upload the business image to the server
 						guard
-							let uploadedBusinessImageUrl: URL = await self.apiClient.uploadImage(localUrl: businessDraft.profilePhoto)
+							let businessImageUrl: URL = await self.getOrUploadImage(url: businessDraft.profilePhoto)
 						else {
 							self.isLoading = false
 							self.bannerData = BannerData(detail: "Could not upload business profile image")
@@ -113,12 +121,12 @@ extension SiteOnboardingView {
 						//Upload the block images to the server
 						var blocks: IdentifiedArrayOf<Business.Block> = []
 						await businessDraft.blocks.concurrentForEach { blockDraft in
-							if let uploadedImageUrl = await self.apiClient.uploadImage(localUrl: blockDraft.image) {
+							if let blockImageUrl = await self.getOrUploadImage(url: blockDraft.image) {
 								blocks.append(
 									Business.Block(
 										id: blockDraft.id,
 										blockType: blockDraft.blockType,
-										image: uploadedImageUrl,
+										image: blockImageUrl,
 										price: blockDraft.price,
 										duration: blockDraft.duration,
 										title: blockDraft.title,
@@ -138,7 +146,7 @@ extension SiteOnboardingView {
 							category: businessDraft.category,
 							color: businessDraft.color,
 							description: businessDraft.description,
-							profilePhoto: uploadedBusinessImageUrl,
+							profilePhoto: businessImageUrl,
 							latitude: latitude,
 							longitude: longitude,
 							blocks: blocks
