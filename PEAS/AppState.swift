@@ -93,6 +93,7 @@ import SwiftUI
 				} else {
 					self.mode = .welcome(WelcomeView.ViewModel(onboardingVM: onboardingVM))
 				}
+				self.isUserLoggedIn = false
 			}
 		}
 	}
