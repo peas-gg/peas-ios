@@ -31,6 +31,7 @@ protocol APIRequests {
 	func updateBlock(businessId: Business.ID, _ model: UpdateBusiness.Block) -> AnyPublisher<Business, APIClientError>
 	func deleteBlock(businessId: Business.ID, blockId: Business.Block.ID) -> AnyPublisher<Business, APIClientError>
 	func getOrders(businessId: Business.ID) -> AnyPublisher<[Order], APIClientError>
+	func updateOrder(businessId: Business.ID, _ model: UpdateOrder) -> AnyPublisher<Order, APIClientError>
 	func getCustomers(businessId: Business.ID) -> AnyPublisher<[Customer], APIClientError>
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
@@ -197,7 +198,18 @@ final class APIClient: APIRequests {
 		)
 		return apiRequest(appRequest: getOrders, output: [Order].self)
 	}
-	
+	func updateOrder(businessId: Business.ID, _ model: UpdateOrder) -> AnyPublisher<Order, APIClientError> {
+		let updateOrder = APPUrlRequest(
+			httpMethod: .patch,
+			pathComponents: ["business", "order"],
+			query: [
+				URLQueryItem(name: "businessId", value: businessId),
+			],
+			body: model,
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: updateOrder, output: Order.self)
+	}
 	func getCustomers(businessId: Business.ID) -> AnyPublisher<[Customer], APIClientError> {
 		let getCustomers = APPUrlRequest(
 			httpMethod: .get,
