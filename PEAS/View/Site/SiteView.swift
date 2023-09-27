@@ -187,13 +187,13 @@ struct SiteView: View {
 		}
 		.appMenu(id: linksMenuId, isShowing: $viewModel.isShowingSocialLinksMenu) {
 			VStack {
-				if let twitter = business.twitter {
+				if let twitter = getSocialLink(handle: business.twitter) {
 					socialLink(title: "X", link: "\(AppConstants.twitterUrlString + twitter)")
 				}
-				if let instagram = business.instagram {
+				if let instagram = getSocialLink(handle: business.instagram) {
 					socialLink(title: "Instagram", link: "\(AppConstants.instagramUrlString + instagram)")
 				}
-				if let tiktok = business.tiktok {
+				if let tiktok = getSocialLink(handle: business.tiktok) {
 					socialLink(title: "Tiktok", link: "\(AppConstants.tiktokUrlString + tiktok)")
 				}
 				if !viewModel.hasSocialLink {
@@ -443,6 +443,18 @@ struct SiteView: View {
 	func hintText(_ text: String) -> some View {
 		Text(text)
 			.opacity(0.2)
+	}
+	
+	func getSocialLink(handle: String?) -> String? {
+		if let handle = handle {
+			if handle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+				return nil
+			} else {
+				return handle
+			}
+		} else {
+			return nil
+		}
 	}
 }
 
