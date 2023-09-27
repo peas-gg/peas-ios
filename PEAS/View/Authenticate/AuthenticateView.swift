@@ -129,27 +129,15 @@ struct AuthenticateView: View {
 		switch flow {
 		case .nameAndTerms:
 			VStack(spacing: verticalStackSpacing) {
-				Spacer(minLength: 0)
 				textField(hint: "First name", text: $viewModel.firstName) {
 					self.setFocusField(.lastName)
 				}
 				.focused($focusField, equals: .firstName)
+				.padding(.top)
 				textField(hint: "Last name", text: $viewModel.lastName) {
 					self.focusField = .firstName
 				}
 				.focused($focusField, equals: .lastName)
-				Spacer(minLength: 0)
-				VStack(spacing: 2) {
-					Text("Already have an account?")
-						.font(Font.app.body)
-						.foregroundColor(Color.app.tertiaryText)
-					Button(action: { viewModel.switchToLoginContext() }) {
-						Text("Login")
-							.font(Font.app.title2)
-							.foregroundColor(Color.app.secondaryText)
-							.underline()
-					}
-				}
 				SymmetricHStack(
 					content: {
 						Group {
@@ -204,6 +192,22 @@ struct AuthenticateView: View {
 						EmptyView()
 					}
 				)
+				Text("Accept privacy conditions and terms of service to continue")
+					.font(Font.app.body)
+					.foregroundStyle(Color.app.tertiaryText)
+					.multilineTextAlignment(.center)
+					.fixedSize(horizontal: false, vertical: true)
+				VStack(spacing: 2) {
+					Text("Already have an account?")
+						.font(Font.app.body)
+						.foregroundColor(Color.app.tertiaryText)
+					Button(action: { viewModel.switchToLoginContext() }) {
+						Text("Login")
+							.font(Font.app.title2)
+							.foregroundColor(Color.app.secondaryText)
+							.underline()
+					}
+				}
 			}
 			.multilineTextAlignment(.leading)
 			.onAppear { self.setFocusField(.firstName) }
