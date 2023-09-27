@@ -32,6 +32,7 @@ protocol APIRequests {
 	func deleteBlock(businessId: Business.ID, blockId: Business.Block.ID) -> AnyPublisher<Business, APIClientError>
 	func getOrders(businessId: Business.ID) -> AnyPublisher<[Order], APIClientError>
 	func updateOrder(businessId: Business.ID, _ model: UpdateOrder) -> AnyPublisher<Order, APIClientError>
+	func requestPayment(businessId: Business.ID, _ model: RequestPayment) -> AnyPublisher<Order, APIClientError>
 	func getCustomers(businessId: Business.ID) -> AnyPublisher<[Customer], APIClientError>
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
@@ -198,6 +199,7 @@ final class APIClient: APIRequests {
 		)
 		return apiRequest(appRequest: getOrders, output: [Order].self)
 	}
+	
 	func updateOrder(businessId: Business.ID, _ model: UpdateOrder) -> AnyPublisher<Order, APIClientError> {
 		let updateOrder = APPUrlRequest(
 			httpMethod: .patch,
@@ -210,6 +212,20 @@ final class APIClient: APIRequests {
 		)
 		return apiRequest(appRequest: updateOrder, output: Order.self)
 	}
+	
+	func requestPayment(businessId: Business.ID, _ model: RequestPayment) -> AnyPublisher<Order, APIClientError> {
+		let requestPayment = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["business", "payment"],
+			query: [
+				URLQueryItem(name: "businessId", value: businessId),
+			],
+			body: model,
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: requestPayment, output: Order.self)
+	}
+	
 	func getCustomers(businessId: Business.ID) -> AnyPublisher<[Customer], APIClientError> {
 		let getCustomers = APPUrlRequest(
 			httpMethod: .get,
