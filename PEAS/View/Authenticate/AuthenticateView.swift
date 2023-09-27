@@ -155,7 +155,7 @@ struct AuthenticateView: View {
 									.underline()
 							}
 							.foregroundColor(viewModel.didReadPrivacy ? Color.app.secondaryText :  Color.app.tertiaryText)
-							.opacity(shouldAnimatePrivacy ? 0.5 : 1.0)
+							.opacity(shouldAnimatePrivacy ? 0.2 : 1.0)
 							.animation(animation, value: viewModel.isAnimatingPrivacyButton)
 							Text("&")
 								.foregroundColor(Color.app.tertiaryText)
@@ -164,7 +164,7 @@ struct AuthenticateView: View {
 									.underline()
 							}
 							.foregroundColor(viewModel.didReadTerms ? Color.app.secondaryText :  Color.app.tertiaryText)
-							.opacity(shouldAnimateTerms ? 0.5 : 1.0)
+							.opacity(shouldAnimateTerms ? 0.2 : 1.0)
 							.animation(animation, value: viewModel.isAnimatingTermsButton)
 						}
 						.font(Font.app.title2)
