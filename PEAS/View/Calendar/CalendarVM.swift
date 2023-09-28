@@ -66,6 +66,7 @@ extension CalendarView {
 					self.allOrders = orders
 				}
 				setCurrentOrders()
+				updateDaysWithOrders()
 			}
 		}
 		
