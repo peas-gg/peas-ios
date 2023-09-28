@@ -8,15 +8,9 @@
 import SwiftUI
 
 struct CalendarView: View {
-	@StateObject var viewModel: ViewModel
-	
-	let months: [Date] = CalendarClient.shared.months
 	let yOffsetPadding: CGFloat = 200
 	
-	@State var isExpanded: Bool = false
-	
-	@State var selectedDate: Date = Date.now
-	@State var selectedDateIndex: Int = 0
+	@StateObject var viewModel: ViewModel
 	
 	@State var yOffset: CGFloat
 	
@@ -27,14 +21,14 @@ struct CalendarView: View {
 	
 	var body: some View {
 		ZStack {
-			VerticalTabView(selection: $selectedDateIndex, hasOffset: yOffset > 0) {
-				ForEach(0..<months.count, id: \.self) {
+			VerticalTabView(selection: $viewModel.selectedDateIndex, hasOffset: yOffset > 0) {
+				ForEach(0..<viewModel.months.count, id: \.self) {
 					monthsView(currentIndex: $0)
 						.tag($0 / 2)
 				}
 				.tint(Color.clear)
-				.opacity(isExpanded ? 1.0 : 0.0)
-				.animation(.easeInOut, value: isExpanded)
+				.opacity(viewModel.isExpanded ? 1.0 : 0.0)
+				.animation(.easeInOut, value: viewModel.isExpanded)
 			}
 			.tabViewStyle(.page(indexDisplayMode: .never))
 			.background(Color.app.accent.edgesIgnoringSafeArea(.top))
@@ -42,36 +36,36 @@ struct CalendarView: View {
 			.animation(.linear.speed(2.0), value: yOffset)
 			
 			VStack {
-				MonthView(month: selectedDate, selectedDate: selectedDate, isCollapsed: true) { date in
-					self.selectedDate = date
+				MonthView(month: viewModel.selectedDate, selectedDate: viewModel.selectedDate, isCollapsed: true) { date in
+					self.viewModel.selectedDate = date
 				}
 				.padding(.bottom)
 				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
 				Spacer()
 			}
-			.opacity(isExpanded ? 0.0 : 1.0)
-			.animation(.linear.speed(4.0), value: isExpanded)
+			.opacity(viewModel.isExpanded ? 0.0 : 1.0)
+			.animation(.linear.speed(4.0), value: viewModel.isExpanded)
 		}
 		.overlay(alignment: .topTrailing) {
 			Button(action: {
 				setSelectedDateIndex()
 				withAnimation(.default) {
-					self.isExpanded.toggle()
+					self.viewModel.isExpanded.toggle()
 				}
 			}) {
 				Image(systemName: "chevron.down.circle.fill")
 					.font(Font.app.largeTitle)
 					.foregroundColor(Color.white)
-					.rotationEffect(isExpanded ? .degrees(180) : .degrees(0))
-					.animation(.easeInOut, value: isExpanded)
+					.rotationEffect(viewModel.isExpanded ? .degrees(180) : .degrees(0))
+					.animation(.easeInOut, value: viewModel.isExpanded)
 			}
 			.padding(.trailing)
 		}
 		.onAppear { self.setSelectedDateIndex() }
-		.onChange(of: self.selectedDate) { _ in
+		.onChange(of: self.viewModel.selectedDate) { _ in
 			self.setSelectedDateIndex()
 		}
-		.onChange(of: isExpanded) { _ in
+		.onChange(of: viewModel.isExpanded) { _ in
 			setYOffset()
 		}
 	}
@@ -81,12 +75,12 @@ struct CalendarView: View {
 		let nextIndex = currentIndex + 1
 		if currentIndex % 2 == 0 || currentIndex == 0 {
 			VStack {
-				MonthView(month: months[currentIndex], selectedDate: selectedDate) { date in
+				MonthView(month: viewModel.months[currentIndex], selectedDate: viewModel.selectedDate) { date in
 					dateSelected(date: date)
 				}
 				Spacer()
-				if nextIndex < months.count {
-					MonthView(month: months[nextIndex], selectedDate: selectedDate) { date in
+				if nextIndex < viewModel.months.count {
+					MonthView(month: viewModel.months[nextIndex], selectedDate: viewModel.selectedDate) { date in
 						dateSelected(date: date)
 					}
 					Spacer()
@@ -96,20 +90,20 @@ struct CalendarView: View {
 	}
 	
 	func setSelectedDateIndex() {
-		let month: Date = selectedDate.startOfMonth()
-		let index = (months.firstIndex(of: month) ?? 0)
-		self.selectedDateIndex = index / 2
+		let month: Date = viewModel.selectedDate.startOfMonth()
+		let index = (viewModel.months.firstIndex(of: month) ?? 0)
+		self.viewModel.selectedDateIndex = index / 2
 	}
 	
 	func dateSelected(date: Date) {
-		self.selectedDate = date
+		self.viewModel.selectedDate = date
 		withAnimation(.default) {
-			self.isExpanded.toggle()
+			self.viewModel.isExpanded.toggle()
 		}
 	}
 	
 	func setYOffset() {
-		if isExpanded {
+		if viewModel.isExpanded {
 			yOffset = 0
 		} else {
 			yOffset = SizeConstants.screenSize.height - yOffsetPadding
