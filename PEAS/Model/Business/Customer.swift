@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct Customer: Codable, Equatable, Hashable, Identifiable {
-	let id: String
+	let id: Int
 	let firstName: String
 	let lastName: String
 	let email: String
@@ -33,7 +33,7 @@ extension Customer {
 extension Customer {
 	static let mock1: Self = {
 		return Customer(
-			id: UUID().uuidString,
+			id: 0,
 			firstName: "Leonardo",
 			lastName: "Brodie",
 			email: "leonardo@mail.com",
@@ -43,7 +43,7 @@ extension Customer {
 	
 	static let mock2: Self = {
 		return Customer(
-			id: UUID().uuidString,
+			id: 2,
 			firstName: "Amir",
 			lastName: "Wilde",
 			email: "amirwilde@mail.com",
