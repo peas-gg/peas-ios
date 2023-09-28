@@ -70,13 +70,13 @@ struct DashboardView: View {
 						Divider()
 						ScrollView {
 							LazyVStack {
-								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
-									OrderView(viewModel: .init(context: .dashboard, business: viewModel.business, order: Order.mock1))
+								ForEach(viewModel.orders, id: \.self) { order in
+									Button(action: { viewModel.pushStack(.order(order)) }) {
+										OrderView(viewModel: .init(context: .dashboard, business: viewModel.business, order: order))
+									}
+									.buttonStyle(.plain)
+									.padding(.bottom)
 								}
-								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
-									OrderView(viewModel: .init(context: .dashboard, business: viewModel.business, order: Order.mock1))
-								}
-								.buttonStyle(.plain)
 							}
 							.padding(.top, 10)
 						}
@@ -175,7 +175,7 @@ struct DashboardView: View {
 struct DashboardView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1))
+			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1, orders: [Order.mock1, Order.mock2]))
 		}
 	}
 }
