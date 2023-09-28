@@ -56,6 +56,18 @@ extension OrderView {
 			self.context = context
 			self.business = business
 			self.order = order
+			
+			//Register for updates
+			OrderRepository.shared
+				.$orders
+				.sink { orders in
+					if let order = orders[id: self.order.id] {
+						if order != self.order {
+							self.order = order
+						}
+					}
+				}
+				.store(in: &cancellableBag)
 		}
 		
 		func resetAlert() {
@@ -94,7 +106,7 @@ extension OrderView {
 					},
 					receiveValue: { order in
 						self.isLoading = false
-						self.order = order
+						OrderRepository.shared.update(order: order)
 					}
 				)
 				.store(in: &cancellableBag)
