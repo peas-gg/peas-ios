@@ -63,7 +63,7 @@ struct DashboardView: View {
 							}
 							Button(action: { viewModel.toggleFilterMenu() }) {
 								Image(systemName: viewModel.selectedOrderFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
-									.font(Font.app.title2)
+									.font(.system(size: 24))
 							}
 							.opacity(viewModel.isShowingFilterMenu ? 0.5 : 1.0)
 							.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [filterMenuId : $0] }
@@ -114,7 +114,7 @@ struct DashboardView: View {
 					Button(action: { viewModel.selectFilter(status) }) {
 						HStack {
 							Text(status.rawValue.capitalized)
-								.font(Font.app.body)
+								.font(.system(size: FontSizes.title3, weight: .regular, design: .rounded))
 							Spacer()
 							filterIndicator(filter: status)
 						}
@@ -123,7 +123,7 @@ struct DashboardView: View {
 			}
 			.foregroundColor(Color.app.primaryText)
 			.padding()
-			.frame(width: 160)
+			.frame(width: 180)
 		}
 		.sheet(isPresented: $viewModel.isShowingUserView) {
 			UserView(viewModel: UserView.ViewModel(user: viewModel.user))
@@ -170,7 +170,7 @@ struct DashboardView: View {
 			Circle()
 				.stroke(filter.foregroundColor)
 		}
-		.frame(dimension: 15)
+		.frame(dimension: 20)
 	}
 }
 
