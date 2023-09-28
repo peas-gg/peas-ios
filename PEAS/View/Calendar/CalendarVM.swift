@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-08-11.
 //
 
+import Combine
 import Foundation
 import IdentifiedCollections
 import SwiftUI
@@ -17,12 +18,15 @@ extension CalendarView {
 		
 		let months: [Date] = CalendarClient.shared.months
 		
+		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
+		
 		@Published var isExpanded: Bool = false
 		
 		@Published var business: Business
 		
 		@Published var orders: IdentifiedArrayOf<Order>
-		@Published var currentOrders: IdentifiedArrayOf<Order>
+		@Published var currentShowingOrders: IdentifiedArrayOf<Order>
+		@Published var daysWithOrders: Set<Date>
 		
 		@Published var selectedDate: Date = Date.now
 		@Published var selectedDateIndex: Int = 0
@@ -32,25 +36,38 @@ extension CalendarView {
 		//Clients
 		let apiClient: APIClient = APIClient.shared
 		let cacheClient: CacheClient = CacheClient.shared
+		let calendarClient: CalendarClient = CalendarClient.shared
 		
 		init(business: Business, orders: IdentifiedArrayOf<Order> = []) {
 			self.business = business
 			self.orders = orders
-			self.currentOrders = [Order.mock1, Order.mock2]
+			self.currentShowingOrders = []
+			self.daysWithOrders = []
 			refresh()
+			self.$orders
+				.sink { _ in self.updateDaysWithOrders() }
+				.store(in: &cancellableBag)
 		}
 		
 		func refresh() {
 			Task {
 				if let orders = await cacheClient.getData(key: .orders) {
 					self.orders = orders
-					setCurrentOrders()
 				}
+				setCurrentOrders()
 			}
+		}
+		
+		func updateDaysWithOrders() {
+			self.daysWithOrders = Set(self.orders.map { self.calendarClient.getStartOfDay($0.startTimeDate) })
 		}
 		
 		func setCurrentOrders() {
 			//Sort orders based on dates then sort them in descending order
+			let sortedOrders: [Order] = orders
+				.filter { calendarClient.getStartOfDay($0.startTimeDate) == self.selectedDate }
+				.sorted(by: { $0.startTimeDate < $1.startTimeDate })
+			self.currentShowingOrders = IdentifiedArray(uniqueElements: sortedOrders)
 		}
 		
 		func setSelectedDateIndex() {
@@ -61,6 +78,7 @@ extension CalendarView {
 		
 		func dateSelected(date: Date) {
 			self.selectedDate = date
+			setCurrentOrders()
 			withAnimation(.default) {
 				self.isExpanded.toggle()
 			}

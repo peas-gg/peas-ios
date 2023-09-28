@@ -50,6 +50,10 @@ class CalendarClient {
 		}
 	}
 	
+	func getStartOfDay(_ date: Date) -> Date {
+		Calendar.current.startOfDay(for: date)
+	}
+	
 	func getDaysInWeek(_ day: Date) -> [Date] {
 		let firstDayOfTheWeek: Int = 1
 		var calendar = Calendar.current

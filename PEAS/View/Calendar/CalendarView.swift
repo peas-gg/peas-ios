@@ -36,14 +36,19 @@ struct CalendarView: View {
 				.offset(y: -yOffset)
 				.animation(.linear.speed(2.0), value: yOffset)
 				VStack(spacing: 0) {
-					MonthView(month: viewModel.selectedDate, selectedDate: viewModel.selectedDate, isCollapsed: true) { date in
+					MonthView(
+						month: viewModel.selectedDate,
+						selectedDate: viewModel.selectedDate,
+						isCollapsed: true,
+						daysToHighlight: viewModel.daysWithOrders
+					) { date in
 						self.viewModel.selectedDate = date
 					}
 					.padding(.bottom)
 					.background(Color.app.accent.edgesIgnoringSafeArea(.top))
 					ScrollView {
 						LazyVStack {
-							ForEach(viewModel.currentOrders) { order in
+							ForEach(viewModel.currentShowingOrders) { order in
 								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
 									OrderView(
 										viewModel: OrderView.ViewModel(
@@ -104,12 +109,20 @@ struct CalendarView: View {
 		let nextIndex = currentIndex + 1
 		if currentIndex % 2 == 0 || currentIndex == 0 {
 			VStack {
-				MonthView(month: viewModel.months[currentIndex], selectedDate: viewModel.selectedDate) { date in
+				MonthView(
+					month: viewModel.months[currentIndex],
+					selectedDate: viewModel.selectedDate,
+					daysToHighlight: viewModel.daysWithOrders
+				) { date in
 					viewModel.dateSelected(date: date)
 				}
 				Spacer()
 				if nextIndex < viewModel.months.count {
-					MonthView(month: viewModel.months[nextIndex], selectedDate: viewModel.selectedDate) { date in
+					MonthView(
+						month: viewModel.months[nextIndex],
+						selectedDate: viewModel.selectedDate,
+						daysToHighlight: viewModel.daysWithOrders
+					) { date in
 						viewModel.dateSelected(date: date)
 					}
 					Spacer()
@@ -130,7 +143,7 @@ struct CalendarView: View {
 struct CalendarView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			CalendarView(viewModel: .init(business: Business.mock1))
+			CalendarView(viewModel: .init(business: Business.mock1, orders: [Order.mock1, Order.mock2]))
 		}
 	}
 }
