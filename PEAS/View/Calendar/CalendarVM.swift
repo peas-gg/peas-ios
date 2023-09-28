@@ -34,7 +34,7 @@ extension CalendarView {
 		@Published var navStack: [Route] = []
 		
 		var orders: IdentifiedArrayOf<Order> {
-			allOrders.filter { $0.orderStatus != .Declined }
+			allOrders.filter { $0.orderStatus == .Approved || $0.orderStatus == .Completed }
 		}
 		
 		//Clients
