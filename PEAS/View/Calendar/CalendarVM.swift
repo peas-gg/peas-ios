@@ -24,7 +24,7 @@ extension CalendarView {
 		
 		@Published var business: Business
 		
-		@Published var orders: IdentifiedArrayOf<Order>
+		@Published var allOrders: IdentifiedArrayOf<Order>
 		@Published var currentShowingOrders: IdentifiedArrayOf<Order>
 		@Published var daysWithOrders: Set<Date>
 		
@@ -32,6 +32,10 @@ extension CalendarView {
 		@Published var selectedDateIndex: Int
 		
 		@Published var navStack: [Route] = []
+		
+		var orders: IdentifiedArrayOf<Order> {
+			allOrders.filter { $0.orderStatus != .Declined }
+		}
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
@@ -45,13 +49,13 @@ extension CalendarView {
 			self.selectedDateIndex = 0
 			
 			self.business = business
-			self.orders = orders
+			self.allOrders = orders
 			self.currentShowingOrders = []
 			self.daysWithOrders = []
 			
 			refresh()
 			
-			self.$orders
+			self.$allOrders
 				.sink { _ in self.updateDaysWithOrders() }
 				.store(in: &cancellableBag)
 		}
@@ -59,7 +63,7 @@ extension CalendarView {
 		func refresh() {
 			Task {
 				if let orders = await cacheClient.getData(key: .orders) {
-					self.orders = orders
+					self.allOrders = orders
 				}
 				setCurrentOrders()
 			}
