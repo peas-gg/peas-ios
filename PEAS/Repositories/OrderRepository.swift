@@ -13,9 +13,34 @@ import IdentifiedCollections
 	
 	@Published var orders: IdentifiedArrayOf<Order> = []
 	
-	init() { }
+	//Clients
+	private let cacheClient: CacheClient = CacheClient.shared
+	
+	init() {
+		setUp()
+	}
 	
 	func update(order: Order) {
 		self.orders.updateOrAppend(order)
+		update()
+	}
+	
+	func update(orders: [Order]) {
+		self.orders = IdentifiedArray(uniqueElements: orders)
+		update()
+	}
+	
+	private func setUp() {
+		Task {
+			if let orders = await cacheClient.getData(key: .orders) {
+				self.orders = orders
+			}
+		}
+	}
+	
+	private func update() {
+		Task {
+			await cacheClient.setData(key: .orders, value: self.orders)
+		}
 	}
 }

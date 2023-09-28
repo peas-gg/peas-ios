@@ -56,7 +56,6 @@ extension DashboardView {
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
-		private let cacheClient: CacheClient = CacheClient.shared
 		private let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User, business: Business, orders: IdentifiedArrayOf<Order> = []) {
@@ -64,15 +63,19 @@ extension DashboardView {
 			self.business = business
 			self.unSortedOrders = orders
 			setUp()
+			
+			//Register for updates
+			OrderRepository.shared
+				.$orders
+				.sink { orders in
+					self.unSortedOrders = orders
+				}
+				.store(in: &cancellableBag)
 		}
 		
 		func setUp() {
-			Task(priority: .high) {
-				if let orders = await cacheClient.getData(key: .orders) {
-					self.unSortedOrders = orders
-				}
-				refreshOrders()
-			}
+			self.unSortedOrders = OrderRepository.shared.orders
+			refreshOrders()
 		}
 		
 		func toggleFilterMenu() {
@@ -110,10 +113,7 @@ extension DashboardView {
 						}
 					},
 					receiveValue: { orders in
-						Task {
-							await self.cacheClient.setData(key: .orders, value: IdentifiedArray(uniqueElements: orders))
-							self.unSortedOrders = IdentifiedArray(uniqueElements: orders)
-						}
+						OrderRepository.shared.update(orders: orders)
 					}
 				)
 				.store(in: &cancellableBag)

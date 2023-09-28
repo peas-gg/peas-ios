@@ -24,7 +24,7 @@ extension CalendarView {
 		
 		@Published var business: Business
 		
-		@Published var allOrders: IdentifiedArrayOf<Order>
+		@Published var orders: IdentifiedArrayOf<Order>
 		@Published var currentShowingOrders: IdentifiedArrayOf<Order>
 		@Published var daysWithOrders: Set<Date>
 		
@@ -32,10 +32,6 @@ extension CalendarView {
 		@Published var selectedDateIndex: Int
 		
 		@Published var navStack: [Route] = []
-		
-		var orders: IdentifiedArrayOf<Order> {
-			allOrders.filter { $0.orderStatus == .Approved || $0.orderStatus == .Completed }
-		}
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
@@ -49,14 +45,19 @@ extension CalendarView {
 			self.selectedDateIndex = 0
 			
 			self.business = business
-			self.allOrders = orders
+			self.orders = orders
 			self.currentShowingOrders = []
 			self.daysWithOrders = []
 			
 			refresh()
 			
-			self.$allOrders
-				.sink { _ in self.updateDaysWithOrders() }
+			//Register for updates
+			OrderRepository.shared
+				.$orders
+				.sink { orders in
+					self.orders = self.filteredOrders(orders: orders)
+					self.updateDaysWithOrders()
+				}
 				.store(in: &cancellableBag)
 		}
 		
@@ -67,9 +68,7 @@ extension CalendarView {
 		
 		func refresh() {
 			Task {
-				if let orders = await cacheClient.getData(key: .orders) {
-					self.allOrders = orders
-				}
+				self.orders = filteredOrders(orders: OrderRepository.shared.orders)
 				setCurrentOrders()
 				updateDaysWithOrders()
 			}
@@ -105,6 +104,10 @@ extension CalendarView {
 		
 		func pushStack(_ route: Route) {
 			self.navStack.append(route)
+		}
+		
+		func filteredOrders(orders: IdentifiedArrayOf<Order>) -> IdentifiedArrayOf<Order> {
+			return orders.filter { $0.orderStatus == .Approved || $0.orderStatus == .Completed }
 		}
 	}
 }
