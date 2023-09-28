@@ -49,7 +49,7 @@ struct CalendarView: View {
 					ScrollView {
 						LazyVStack {
 							ForEach(viewModel.currentShowingOrders) { order in
-								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
+								Button(action: { viewModel.pushStack(.order(order)) }) {
 									OrderView(
 										viewModel: OrderView.ViewModel(
 											context: .calendar,
