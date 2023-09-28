@@ -10,28 +10,28 @@ import SwiftUI
 
 struct Order: Codable, Identifiable, Hashable {
 	enum Status: String, Codable, CaseIterable, Equatable, Identifiable, Hashable {
-		case pending
-		case approved
-		case declined
-		case completed
+		case Pending
+		case Approved
+		case Declined
+		case Completed
 		
 		var id: String { self.rawValue }
 		
 		var foregroundColor: Color {
 			switch self {
-			case .pending: return Color.app.pendingText
-			case .approved: return Color.app.approvedText
-			case .declined: return Color.app.declinedText
-			case .completed: return Color.app.completedText
+			case .Pending: return Color.app.pendingText
+			case .Approved: return Color.app.approvedText
+			case .Declined: return Color.app.declinedText
+			case .Completed: return Color.app.completedText
 			}
 		}
 		
 		var backgroundColor: Color {
 			switch self {
-			case .pending: return Color.app.pendingBackground
-			case .approved: return Color.app.approvedBackground
-			case .declined: return Color.app.declinedBackground
-			case .completed: return Color.app.completedBackground
+			case .Pending: return Color.app.pendingBackground
+			case .Approved: return Color.app.approvedBackground
+			case .Declined: return Color.app.declinedBackground
+			case .Completed: return Color.app.completedBackground
 			}
 		}
 	}
@@ -47,12 +47,14 @@ struct Order: Codable, Identifiable, Hashable {
 	let startTime: String
 	let endTime: String
 	let orderStatus: Status
-	let didRequestPayment: Bool
 	let payment: Payment?
 	let created: String
 }
 
 extension Order {
+	var didRequestPayment: Bool {
+		
+	}
 	var startTimeDate: Date {
 		ServerDateFormatter.formatToLocal(from: self.startTime)
 	}
@@ -74,7 +76,7 @@ extension Order {
 			note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
 			startTime: "2023-09-22T07:00:00Z",
 			endTime: "2023-09-22T07:10:00Z",
-			orderStatus: .approved,
+			orderStatus: .Approved,
 			didRequestPayment: false,
 			payment: nil,
 			created: "2023-09-22T07:10:00Z"
@@ -93,7 +95,7 @@ extension Order {
 			note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
 			startTime: "2023-09-23T22:00:00Z",
 			endTime: "2023-09-23T23:10:00Z",
-			orderStatus: .pending,
+			orderStatus: .Pending,
 			didRequestPayment: false,
 			payment: nil,
 			created: "2023-09-22T07:10:00Z"
@@ -112,7 +114,7 @@ extension Order {
 			note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
 			startTime: "2023-09-28T22:00:00Z",
 			endTime: "2023-09-28T23:10:00Z",
-			orderStatus: .pending,
+			orderStatus: .Pending,
 			didRequestPayment: false,
 			payment: nil,
 			created: "2023-09-22T07:10:00Z"

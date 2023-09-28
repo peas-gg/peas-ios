@@ -40,11 +40,11 @@ extension OrderView {
 		
 		var canRequestPayment: Bool {
 			switch order.orderStatus {
-			case .pending, .declined:
+			case .Pending, .Declined:
 				return false
-			case .approved:
+			case .Approved:
 				return order.payment == nil
-			case .completed:
+			case .Completed:
 				return false
 			}
 		}
@@ -63,15 +63,15 @@ extension OrderView {
 		}
 		
 		func approveOrder() {
-			updateOrder(orderStatus: .approved)
+			updateOrder(orderStatus: .Approved)
 		}
 		
 		func declineOrder() {
-			updateOrder(orderStatus: .declined)
+			updateOrder(orderStatus: .Declined)
 		}
 		
 		func completeOrder() {
-			updateOrder(orderStatus: .completed)
+			updateOrder(orderStatus: .Completed)
 		}
 		
 		func updateOrder(orderStatus: Order.Status) {

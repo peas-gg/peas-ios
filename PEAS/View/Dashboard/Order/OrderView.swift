@@ -246,25 +246,25 @@ struct OrderView: View {
 		let orderStatus: Order.Status = viewModel.order.orderStatus
 		VStack {
 			switch orderStatus {
-			case .pending, .approved:
+			case .Pending, .Approved:
 				Divider()
 					.padding(.vertical)
-			case .declined, .completed:
+			case .Declined, .Completed:
 				EmptyView()
 			}
 			HStack {
 				Spacer()
 				HStack(spacing: 10) {
 					switch orderStatus {
-					case .pending:
+					case .Pending:
 						declineButton()
 						approveButton()
-					case .approved:
+					case .Approved:
 						if viewModel.order.payment == nil {
 							declineButton()
 						}
 						completeButton()
-					case .declined, .completed:
+					case .Declined, .Completed:
 						EmptyView()
 					}
 				}

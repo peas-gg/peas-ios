@@ -34,7 +34,7 @@ extension DashboardView {
 		
 		var currentShowingOrders: IdentifiedArrayOf<Order> {
 			switch selectedOrderFilter {
-			case .approved, .completed, .declined, .pending:
+			case .Approved, .Completed, .Declined, .Pending:
 				return orders.filter { $0.orderStatus == selectedOrderFilter }
 			case .none:
 				return orders
@@ -42,7 +42,7 @@ extension DashboardView {
 		}
 		
 		var pendingServicesText: String {
-			let noOfPendingServices: Int = orders.filter { $0.orderStatus == .pending }.count
+			let noOfPendingServices: Int = orders.filter { $0.orderStatus == .Pending }.count
 			if noOfPendingServices > 0 {
 				return " (\(noOfPendingServices) pending)"
 			} else {
