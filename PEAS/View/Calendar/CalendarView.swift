@@ -35,7 +35,6 @@ struct CalendarView: View {
 				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
 				.offset(y: -yOffset)
 				.animation(.linear.speed(2.0), value: yOffset)
-				
 				VStack(spacing: 0) {
 					MonthView(month: viewModel.selectedDate, selectedDate: viewModel.selectedDate, isCollapsed: true) { date in
 						self.viewModel.selectedDate = date
