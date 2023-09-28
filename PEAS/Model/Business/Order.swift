@@ -47,14 +47,12 @@ struct Order: Codable, Identifiable, Hashable {
 	let startTime: String
 	let endTime: String
 	let orderStatus: Status
+	let didRequestPayment: Bool
 	let payment: Payment?
 	let created: String
 }
 
 extension Order {
-	var didRequestPayment: Bool {
-		
-	}
 	var startTimeDate: Date {
 		ServerDateFormatter.formatToLocal(from: self.startTime)
 	}
