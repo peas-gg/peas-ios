@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-09-22.
 //
 
+import Combine
 import Foundation
 
 extension OrderView {
@@ -23,10 +24,15 @@ extension OrderView {
 		
 		let context: Context
 		
+		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
+		
 		@Published var business: Business
 		@Published var order: Order
 		@Published var isShowingCustomerCard: Bool = false
 		@Published var action: OrderStatusAction?
+		
+		@Published var isLoading: Bool = false
+		@Published var bannerData: BannerData?
 		
 		var orderAmount: Int {
 			return order.payment?.total ?? order.price
@@ -43,6 +49,9 @@ extension OrderView {
 			}
 		}
 		
+		//Clients
+		private let apiClient: APIClient = APIClient.shared
+		
 		init(context: Context, business: Business, order: Order) {
 			self.context = context
 			self.business = business
@@ -54,15 +63,40 @@ extension OrderView {
 		}
 		
 		func approveOrder() {
-			
+			updateOrder(orderStatus: .approved)
 		}
 		
 		func declineOrder() {
-			
+			updateOrder(orderStatus: .declined)
 		}
 		
 		func completeOrder() {
-			
+			updateOrder(orderStatus: .completed)
+		}
+		
+		func updateOrder(orderStatus: Order.Status) {
+			let updateOrder: UpdateOrder = UpdateOrder(
+				orderId: order.id,
+				orderStatus: orderStatus
+			)
+			self.apiClient
+				.updateOrder(businessId: business.id, updateOrder)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { order in
+						self.isLoading = false
+						self.order = order
+					}
+				)
+				.store(in: &cancellableBag)
 		}
 		
 		func requestAction(action: OrderStatusAction) {
