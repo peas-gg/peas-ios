@@ -108,6 +108,7 @@ struct DashboardView: View {
 			}
 		}
 		.tint(Color.app.primaryText)
+		.banner(data: $viewModel.bannerData)
 		.appMenu(id: filterMenuId, isShowing: $viewModel.isShowingFilterMenu) {
 			VStack {
 				ForEach(Order.Status.allCases) { status in
