@@ -53,7 +53,7 @@ struct DashboardView: View {
 				.padding(.horizontal)
 				.padding(.horizontal, 10)
 				VStack {
-					VStack {
+					VStack(spacing: 0) {
 						HStack {
 							Text("Services (7 pending)")
 								.font(Font.app.bodySemiBold)
@@ -68,6 +68,7 @@ struct DashboardView: View {
 							.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [filterMenuId : $0] }
 						}
 						Divider()
+							.padding(.top)
 						ScrollView {
 							LazyVStack {
 								ForEach(viewModel.orders, id: \.self) { order in
@@ -78,7 +79,7 @@ struct DashboardView: View {
 									.padding(.bottom)
 								}
 							}
-							.padding(.top, 10)
+							.padding(.top, 20)
 						}
 					}
 					.padding()
