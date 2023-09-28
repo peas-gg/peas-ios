@@ -60,6 +60,11 @@ extension CalendarView {
 				.store(in: &cancellableBag)
 		}
 		
+		func didAppear() {
+			self.setSelectedDateIndex()
+			self.refresh()
+		}
+		
 		func refresh() {
 			Task {
 				if let orders = await cacheClient.getData(key: .orders) {

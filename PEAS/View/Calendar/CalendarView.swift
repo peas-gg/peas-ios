@@ -95,7 +95,7 @@ struct CalendarView: View {
 				}
 				.navigationBarTitleDisplayMode(.inline)
 			}
-			.onAppear { self.viewModel.setSelectedDateIndex() }
+			.onAppear { self.viewModel.didAppear() }
 			.onChange(of: self.viewModel.selectedDate) { _ in
 				self.viewModel.setSelectedDateIndex()
 			}
