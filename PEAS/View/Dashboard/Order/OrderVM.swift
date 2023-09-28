@@ -75,6 +75,7 @@ extension OrderView {
 		}
 		
 		func updateOrder(orderStatus: Order.Status) {
+			self.isLoading = true
 			let updateOrder: UpdateOrder = UpdateOrder(
 				orderId: order.id,
 				orderStatus: orderStatus
