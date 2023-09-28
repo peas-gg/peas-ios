@@ -35,13 +35,28 @@ struct CalendarView: View {
 			.offset(y: -yOffset)
 			.animation(.linear.speed(2.0), value: yOffset)
 			
-			VStack {
+			VStack(spacing: 0) {
 				MonthView(month: viewModel.selectedDate, selectedDate: viewModel.selectedDate, isCollapsed: true) { date in
 					self.viewModel.selectedDate = date
 				}
 				.padding(.bottom)
 				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
-				Spacer()
+				ScrollView {
+					LazyVStack {
+						ForEach(viewModel.currentOrders) { order in
+							OrderView(
+								viewModel: OrderView.ViewModel(
+									context: .calendar, 
+									business: viewModel.business,
+									order: order
+								)
+							)
+							.padding(.bottom, 20)
+						}
+					}
+					.padding(.top, 40)
+				}
+				Spacer(minLength: 0)
 			}
 			.opacity(viewModel.isExpanded ? 0.0 : 1.0)
 			.animation(.linear.speed(4.0), value: viewModel.isExpanded)
@@ -101,7 +116,7 @@ struct CalendarView: View {
 struct CalendarView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			CalendarView(viewModel: .init())
+			CalendarView(viewModel: .init(business: Business.mock1))
 		}
 	}
 }

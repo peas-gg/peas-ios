@@ -16,7 +16,10 @@ extension CalendarView {
 		
 		@Published var isExpanded: Bool = false
 		
+		@Published var business: Business
+		
 		@Published var orders: IdentifiedArrayOf<Order>
+		@Published var currentOrders: IdentifiedArrayOf<Order>
 		
 		@Published var selectedDate: Date = Date.now
 		@Published var selectedDateIndex: Int = 0
@@ -25,16 +28,24 @@ extension CalendarView {
 		let apiClient: APIClient = APIClient.shared
 		let cacheClient: CacheClient = CacheClient.shared
 		
-		init(orders: IdentifiedArrayOf<Order> = []) {
+		init(business: Business, orders: IdentifiedArrayOf<Order> = []) {
+			self.business = business
 			self.orders = orders
+			self.currentOrders = [Order.mock1, Order.mock2]
+			refresh()
 		}
 		
 		func refresh() {
 			Task {
 				if let orders = await cacheClient.getData(key: .orders) {
 					self.orders = orders
+					setCurrentOrders()
 				}
 			}
+		}
+		
+		func setCurrentOrders() {
+			//Sort orders based on dates then sort them in descending order
 		}
 		
 		func setSelectedDateIndex() {
