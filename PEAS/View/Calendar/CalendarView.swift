@@ -48,7 +48,7 @@ struct CalendarView: View {
 		}
 		.overlay(alignment: .topTrailing) {
 			Button(action: {
-				setSelectedDateIndex()
+				viewModel.setSelectedDateIndex()
 				withAnimation(.default) {
 					self.viewModel.isExpanded.toggle()
 				}
@@ -61,9 +61,9 @@ struct CalendarView: View {
 			}
 			.padding(.trailing)
 		}
-		.onAppear { self.setSelectedDateIndex() }
+		.onAppear { self.viewModel.setSelectedDateIndex() }
 		.onChange(of: self.viewModel.selectedDate) { _ in
-			self.setSelectedDateIndex()
+			self.viewModel.setSelectedDateIndex()
 		}
 		.onChange(of: viewModel.isExpanded) { _ in
 			setYOffset()
@@ -76,29 +76,16 @@ struct CalendarView: View {
 		if currentIndex % 2 == 0 || currentIndex == 0 {
 			VStack {
 				MonthView(month: viewModel.months[currentIndex], selectedDate: viewModel.selectedDate) { date in
-					dateSelected(date: date)
+					viewModel.dateSelected(date: date)
 				}
 				Spacer()
 				if nextIndex < viewModel.months.count {
 					MonthView(month: viewModel.months[nextIndex], selectedDate: viewModel.selectedDate) { date in
-						dateSelected(date: date)
+						viewModel.dateSelected(date: date)
 					}
 					Spacer()
 				}
 			}
-		}
-	}
-	
-	func setSelectedDateIndex() {
-		let month: Date = viewModel.selectedDate.startOfMonth()
-		let index = (viewModel.months.firstIndex(of: month) ?? 0)
-		self.viewModel.selectedDateIndex = index / 2
-	}
-	
-	func dateSelected(date: Date) {
-		self.viewModel.selectedDate = date
-		withAnimation(.default) {
-			self.viewModel.isExpanded.toggle()
 		}
 	}
 	
