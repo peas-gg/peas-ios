@@ -72,7 +72,7 @@ struct OrderView: View {
 			case .dashboard:
 				compactView()
 			case .calendar:
-				HStack(spacing: 20) {
+				HStack(spacing: 10) {
 					VStack(spacing: 2) {
 						let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDate)
 						let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDate)
@@ -90,6 +90,7 @@ struct OrderView: View {
 					}
 					.font(.system(size: FontSizes.footnote, weight: .semibold, design: .rounded))
 					.foregroundColor(Color.app.primaryText)
+					.frame(maxWidth: 70)
 					compactView()
 						.padding(8)
 						.background(CardBackground())
@@ -393,6 +394,7 @@ struct OrderView_Previews: PreviewProvider {
 		OrderView(viewModel: .init(context: .dashboard, business: Business.mock1, order: Order.mock2))
 		VStack {
 			Spacer()
+			OrderView(viewModel: .init(context: .calendar, business: Business.mock1, order: Order.mock1))
 			OrderView(viewModel: .init(context: .calendar, business: Business.mock1, order: Order.mock2))
 			Spacer()
 		}
