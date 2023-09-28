@@ -32,6 +32,15 @@ extension DashboardView {
 		
 		@Published var bannerData: BannerData?
 		
+		var currentShowingOrders: IdentifiedArrayOf<Order> {
+			switch selectedOrderFilter {
+			case .approved, .completed, .declined, .pending:
+				return orders.filter { $0.orderStatus == selectedOrderFilter }
+			case .none:
+				return orders
+			}
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared

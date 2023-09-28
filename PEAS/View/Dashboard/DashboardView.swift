@@ -72,7 +72,7 @@ struct DashboardView: View {
 							.padding(.top)
 						ScrollView {
 							LazyVStack {
-								ForEach(viewModel.orders, id: \.self) { order in
+								ForEach(viewModel.currentShowingOrders, id: \.self) { order in
 									Button(action: { viewModel.pushStack(.order(order)) }) {
 										OrderView(viewModel: .init(context: .dashboard, business: viewModel.business, order: order))
 									}
