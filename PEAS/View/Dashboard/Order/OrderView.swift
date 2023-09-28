@@ -385,12 +385,12 @@ struct OrderView: View {
 
 struct OrderView_Previews: PreviewProvider {
 	static var previews: some View {
-		OrderView(viewModel: .init(context: .detail, order: Order.mock1))
-		OrderView(viewModel: .init(context: .detail, order: Order.mock2))
-		OrderView(viewModel: .init(context: .dashboard, order: Order.mock2))
+		OrderView(viewModel: .init(context: .detail, business: Business.mock1, order: Order.mock1))
+		OrderView(viewModel: .init(context: .detail, business: Business.mock1, order: Order.mock2))
+		OrderView(viewModel: .init(context: .dashboard, business: Business.mock1, order: Order.mock2))
 		VStack {
 			Spacer()
-			OrderView(viewModel: .init(context: .calendar, order: Order.mock2))
+			OrderView(viewModel: .init(context: .calendar, business: Business.mock1, order: Order.mock2))
 			Spacer()
 		}
 		.background(Color.app.secondaryBackground)

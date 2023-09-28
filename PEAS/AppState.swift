@@ -32,7 +32,7 @@ import SwiftUI
 	@Published var bannerData: BannerData?
 	
 	var safeRequestPaymentVM: RequestPaymentView.ViewModel {
-		return requestPaymentVM ?? .init(order: Order.mock1)
+		return requestPaymentVM ?? .init(business: Business.mock1, order: Order.mock1)
 	}
 	
 	//Clients

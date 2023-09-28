@@ -5,19 +5,28 @@
 //  Created by Kingsley Okeke on 2023-09-12.
 //
 
+import Combine
 import Foundation
 
 extension RequestPaymentView {
 	@MainActor class ViewModel: ObservableObject {
 		let keypad: [String] = ["1", "2", "3", "4", "5", "6", "7" ,"8", "9", ".", "0", AppConstants.keypadDelete]
 		
+		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
+		
+		@Published var business: Business
 		@Published var order: Order
 		@Published var priceText: String
 		
+		@Published var bannerData: BannerData?
+		@Published var isLoading: Bool = false
+		
 		//Clients
+		private let apiClient: APIClient = APIClient.shared
 		private let feedbackClient: FeedbackClient = FeedbackClient.shared
 		
-		init(order: Order) {
+		init(business: Business, order: Order) {
+			self.business = business
 			self.order = order
 			self.priceText = String(order.price)
 		}
@@ -34,6 +43,37 @@ extension RequestPaymentView {
 					feedbackClient.light()
 				}
 			}
+		}
+		
+		func request() {
+			self.isLoading = true
+			let requestPayment: RequestPayment = RequestPayment(
+				orderId: order.id,
+				price: Int(priceText) ?? 0
+			)
+			self.apiClient
+				.requestPayment(businessId: self.business.id, requestPayment)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { order in
+						Task {
+							self.order = order
+							self.bannerData = BannerData(detail: "Payment request sent")
+							self.isLoading = false
+							try await Task.sleep(for: .seconds(2))
+							AppState.shared.setRequestPaymentVM(nil)
+						}
+					}
+				)
+				.store(in: &cancellableBag)
 		}
 	}
 }

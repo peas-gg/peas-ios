@@ -71,10 +71,10 @@ struct DashboardView: View {
 						ScrollView {
 							LazyVStack {
 								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
-									OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
+									OrderView(viewModel: .init(context: .dashboard, business: viewModel.business, order: Order.mock1))
 								}
 								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
-									OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
+									OrderView(viewModel: .init(context: .dashboard, business: viewModel.business, order: Order.mock1))
 								}
 								.buttonStyle(.plain)
 							}
@@ -99,7 +99,7 @@ struct DashboardView: View {
 				Group {
 					switch route {
 					case .order(let order):
-						OrderView(viewModel: OrderView.ViewModel(context: .detail, order: order))
+						OrderView(viewModel: OrderView.ViewModel(context: .detail, business: viewModel.business, order: order))
 					}
 				}
 				.navigationBarTitleDisplayMode(.inline)

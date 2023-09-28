@@ -23,6 +23,7 @@ extension OrderView {
 		
 		let context: Context
 		
+		@Published var business: Business
 		@Published var order: Order
 		@Published var isShowingCustomerCard: Bool = false
 		@Published var action: OrderStatusAction?
@@ -42,8 +43,9 @@ extension OrderView {
 			}
 		}
 		
-		init(context: Context, order: Order) {
+		init(context: Context, business: Business, order: Order) {
 			self.context = context
+			self.business = business
 			self.order = order
 		}
 		
@@ -68,7 +70,7 @@ extension OrderView {
 		}
 		
 		func requestPayment() {
-			AppState.shared.setRequestPaymentVM(RequestPaymentView.ViewModel(order: order))
+			AppState.shared.setRequestPaymentVM(RequestPaymentView.ViewModel(business: business, order: order))
 		}
 		
 		func openCustomerView() {
