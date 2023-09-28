@@ -20,68 +20,83 @@ struct CalendarView: View {
 	}
 	
 	var body: some View {
-		ZStack {
-			VerticalTabView(selection: $viewModel.selectedDateIndex, hasOffset: yOffset > 0) {
-				ForEach(0..<viewModel.months.count, id: \.self) {
-					monthsView(currentIndex: $0)
-						.tag($0 / 2)
-				}
-				.tint(Color.clear)
-				.opacity(viewModel.isExpanded ? 1.0 : 0.0)
-				.animation(.easeInOut, value: viewModel.isExpanded)
-			}
-			.tabViewStyle(.page(indexDisplayMode: .never))
-			.background(Color.app.accent.edgesIgnoringSafeArea(.top))
-			.offset(y: -yOffset)
-			.animation(.linear.speed(2.0), value: yOffset)
-			
-			VStack(spacing: 0) {
-				MonthView(month: viewModel.selectedDate, selectedDate: viewModel.selectedDate, isCollapsed: true) { date in
-					self.viewModel.selectedDate = date
-				}
-				.padding(.bottom)
-				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
-				ScrollView {
-					LazyVStack {
-						ForEach(viewModel.currentOrders) { order in
-							OrderView(
-								viewModel: OrderView.ViewModel(
-									context: .calendar, 
-									business: viewModel.business,
-									order: order
-								)
-							)
-							.padding(.bottom, 20)
-						}
+		NavigationStack(path: $viewModel.navStack) {
+			ZStack {
+				VerticalTabView(selection: $viewModel.selectedDateIndex, hasOffset: yOffset > 0) {
+					ForEach(0..<viewModel.months.count, id: \.self) {
+						monthsView(currentIndex: $0)
+							.tag($0 / 2)
 					}
-					.padding(.top, 40)
-				}
-				Spacer(minLength: 0)
-			}
-			.opacity(viewModel.isExpanded ? 0.0 : 1.0)
-			.animation(.linear.speed(4.0), value: viewModel.isExpanded)
-		}
-		.overlay(alignment: .topTrailing) {
-			Button(action: {
-				viewModel.setSelectedDateIndex()
-				withAnimation(.default) {
-					self.viewModel.isExpanded.toggle()
-				}
-			}) {
-				Image(systemName: "chevron.down.circle.fill")
-					.font(Font.app.largeTitle)
-					.foregroundColor(Color.white)
-					.rotationEffect(viewModel.isExpanded ? .degrees(180) : .degrees(0))
+					.tint(Color.clear)
+					.opacity(viewModel.isExpanded ? 1.0 : 0.0)
 					.animation(.easeInOut, value: viewModel.isExpanded)
+				}
+				.tabViewStyle(.page(indexDisplayMode: .never))
+				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+				.offset(y: -yOffset)
+				.animation(.linear.speed(2.0), value: yOffset)
+				
+				VStack(spacing: 0) {
+					MonthView(month: viewModel.selectedDate, selectedDate: viewModel.selectedDate, isCollapsed: true) { date in
+						self.viewModel.selectedDate = date
+					}
+					.padding(.bottom)
+					.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+					ScrollView {
+						LazyVStack {
+							ForEach(viewModel.currentOrders) { order in
+								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
+									OrderView(
+										viewModel: OrderView.ViewModel(
+											context: .calendar,
+											business: viewModel.business,
+											order: order
+										)
+									)
+								}
+								.buttonStyle(.plain)
+								.padding(.bottom, 20)
+							}
+						}
+						.padding(.top, 40)
+					}
+					Spacer(minLength: 0)
+				}
+				.opacity(viewModel.isExpanded ? 0.0 : 1.0)
+				.animation(.linear.speed(4.0), value: viewModel.isExpanded)
 			}
-			.padding(.trailing)
-		}
-		.onAppear { self.viewModel.setSelectedDateIndex() }
-		.onChange(of: self.viewModel.selectedDate) { _ in
-			self.viewModel.setSelectedDateIndex()
-		}
-		.onChange(of: viewModel.isExpanded) { _ in
-			setYOffset()
+			.overlay(alignment: .topTrailing) {
+				Button(action: {
+					viewModel.setSelectedDateIndex()
+					withAnimation(.default) {
+						self.viewModel.isExpanded.toggle()
+					}
+				}) {
+					Image(systemName: "chevron.down.circle.fill")
+						.font(Font.app.largeTitle)
+						.foregroundColor(Color.white)
+						.rotationEffect(viewModel.isExpanded ? .degrees(180) : .degrees(0))
+						.animation(.easeInOut, value: viewModel.isExpanded)
+				}
+				.padding(.trailing)
+			}
+			.navigationTitle("")
+			.navigationDestination(for: ViewModel.Route.self) { route in
+				Group {
+					switch route {
+					case .order(let order):
+						OrderView(viewModel: OrderView.ViewModel(context: .detail, business: viewModel.business, order: order))
+					}
+				}
+				.navigationBarTitleDisplayMode(.inline)
+			}
+			.onAppear { self.viewModel.setSelectedDateIndex() }
+			.onChange(of: self.viewModel.selectedDate) { _ in
+				self.viewModel.setSelectedDateIndex()
+			}
+			.onChange(of: viewModel.isExpanded) { _ in
+				setYOffset()
+			}
 		}
 	}
 	

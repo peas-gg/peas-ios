@@ -11,6 +11,9 @@ import SwiftUI
 
 extension CalendarView {
 	@MainActor class ViewModel: ObservableObject {
+		enum Route: Hashable {
+			case order(Order)
+		}
 		
 		let months: [Date] = CalendarClient.shared.months
 		
@@ -23,6 +26,8 @@ extension CalendarView {
 		
 		@Published var selectedDate: Date = Date.now
 		@Published var selectedDateIndex: Int = 0
+		
+		@Published var navStack: [Route] = []
 		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
@@ -59,6 +64,10 @@ extension CalendarView {
 			withAnimation(.default) {
 				self.isExpanded.toggle()
 			}
+		}
+		
+		func pushStack(_ route: Route) {
+			self.navStack.append(route)
 		}
 	}
 }
