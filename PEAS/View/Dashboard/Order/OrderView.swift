@@ -96,6 +96,7 @@ struct OrderView: View {
 						.background(CardBackground())
 				}
 				.padding(.horizontal)
+				.opacity(viewModel.order.orderStatus == .Completed ? 0.6 : 1.0)
 			}
 		}
 		.progressView(isShowing: viewModel.isLoading, style: .white)
