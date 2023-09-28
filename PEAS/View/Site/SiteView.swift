@@ -166,7 +166,7 @@ struct SiteView: View {
 						.edgesIgnoringSafeArea(.bottom)
 				}
 				.padding(.top, 10)
-				.padding(.bottom, 60)
+				.padding(.bottom, SizeConstants.scrollViewBottomPadding)
 			}
 		}
 		.foregroundColor(Color.app.primaryText)

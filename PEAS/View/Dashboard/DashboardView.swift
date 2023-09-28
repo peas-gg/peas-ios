@@ -70,7 +70,7 @@ struct DashboardView: View {
 						}
 						Divider()
 							.padding(.top)
-						ScrollView {
+						ScrollView(showsIndicators: false) {
 							LazyVStack {
 								ForEach(viewModel.currentShowingOrders, id: \.self) { order in
 									Button(action: { viewModel.pushStack(.order(order)) }) {
@@ -81,6 +81,7 @@ struct DashboardView: View {
 								}
 							}
 							.padding(.top, 20)
+							.padding(.bottom, SizeConstants.scrollViewBottomPadding)
 						}
 					}
 					.padding()

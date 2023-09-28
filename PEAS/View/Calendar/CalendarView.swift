@@ -63,6 +63,7 @@ struct CalendarView: View {
 							}
 						}
 						.padding(.top, 40)
+						.padding(.bottom, SizeConstants.scrollViewBottomPadding)
 					}
 					Spacer(minLength: 0)
 				}
