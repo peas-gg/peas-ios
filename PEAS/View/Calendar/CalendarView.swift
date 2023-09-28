@@ -42,7 +42,7 @@ struct CalendarView: View {
 						isCollapsed: true,
 						daysToHighlight: viewModel.daysWithOrders
 					) { date in
-						self.viewModel.selectedDate = date
+						self.viewModel.dateSelected(date: date)
 					}
 					.padding(.bottom)
 					.background(Color.app.accent.edgesIgnoringSafeArea(.top))

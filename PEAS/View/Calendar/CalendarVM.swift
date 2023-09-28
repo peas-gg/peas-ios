@@ -86,8 +86,10 @@ extension CalendarView {
 		func dateSelected(date: Date) {
 			self.selectedDate = date
 			setCurrentOrders()
-			withAnimation(.default) {
-				self.isExpanded.toggle()
+			if self.isExpanded {
+				withAnimation(.default) {
+					self.isExpanded.toggle()
+				}
 			}
 		}
 		
