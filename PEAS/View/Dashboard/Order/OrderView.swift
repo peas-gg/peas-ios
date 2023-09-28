@@ -98,6 +98,8 @@ struct OrderView: View {
 				.padding(.horizontal)
 			}
 		}
+		.progressView(isShowing: viewModel.isLoading, style: .white)
+		.banner(data: $viewModel.bannerData)
 		.alert(
 			isPresented: Binding(
 				get: { viewModel.action != nil } ,
@@ -109,13 +111,21 @@ struct OrderView: View {
 				return Alert(
 					title: Text("Are you sure you would like to \"\(title)\" this reservation?"),
 					message: Text("This action is not reversible"),
-					primaryButton: alert == .decline ? .destructive(Text("\(title)")) : .default(Text("\(title)")) {
-						switch alert {
-						case .decline: viewModel.declineOrder()
-						case .approve: viewModel.approveOrder()
-						case .complete: viewModel.completeOrder()
+					primaryButton: {
+						if alert == .decline  {
+							return .destructive(Text("\(title)")) {
+								viewModel.declineOrder()
+							}
+						} else {
+							return .default(Text("\(title)")) {
+								switch alert {
+								case .decline: return
+								case .approve: viewModel.approveOrder()
+								case .complete: viewModel.completeOrder()
+								}
+							}
 						}
-					},
+					}(),
 					secondaryButton: .cancel()
 				)
 			}
