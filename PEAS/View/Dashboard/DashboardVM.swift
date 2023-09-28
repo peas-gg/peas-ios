@@ -106,7 +106,10 @@ extension DashboardView {
 						}
 					},
 					receiveValue: { orders in
-						self.orders = IdentifiedArray(uniqueElements: orders)
+						Task {
+							await self.cacheClient.setData(key: .orders, value: IdentifiedArray(uniqueElements: orders))
+							self.orders = IdentifiedArray(uniqueElements: orders)
+						}
 					}
 				)
 				.store(in: &cancellableBag)
