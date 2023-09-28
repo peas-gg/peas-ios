@@ -42,7 +42,12 @@ extension DashboardView {
 		}
 		
 		var pendingServicesText: String {
-			return " (\(orders.filter { $0.orderStatus == .pending }.count) pending)"
+			let noOfPendingServices: Int = orders.filter { $0.orderStatus == .pending }.count
+			if noOfPendingServices > 0 {
+				return " (\(noOfPendingServices) pending)"
+			} else {
+				return ""
+			}
 		}
 		
 		//Clients
