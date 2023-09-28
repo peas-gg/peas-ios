@@ -53,6 +53,9 @@ struct Order: Codable, Identifiable, Hashable {
 }
 
 extension Order {
+	var createdDate: Date {
+		ServerDateFormatter.formatToLocal(from: self.created)
+	}
 	var startTimeDate: Date {
 		ServerDateFormatter.formatToLocal(from: self.startTime)
 	}

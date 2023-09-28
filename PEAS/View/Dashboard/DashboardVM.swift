@@ -19,7 +19,7 @@ extension DashboardView {
 		
 		@Published var user: User
 		@Published var business: Business
-		@Published var orders: IdentifiedArrayOf<Order>
+		@Published var unSortedOrders: IdentifiedArrayOf<Order>
 		
 		@Published var isShowingUserView: Bool = false
 		@Published var isShowingFilterMenu: Bool = false
@@ -50,6 +50,10 @@ extension DashboardView {
 			}
 		}
 		
+		var orders: IdentifiedArrayOf<Order> {
+			IdentifiedArray(uniqueElements: unSortedOrders.sorted(by: { $0.createdDate > $1.createdDate }))
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
@@ -58,14 +62,14 @@ extension DashboardView {
 		init(user: User, business: Business, orders: IdentifiedArrayOf<Order> = []) {
 			self.user = user
 			self.business = business
-			self.orders = orders
+			self.unSortedOrders = orders
 			setUp()
 		}
 		
 		func setUp() {
 			Task(priority: .high) {
 				if let orders = await cacheClient.getData(key: .orders) {
-					self.orders = orders
+					self.unSortedOrders = orders
 				}
 				refreshOrders()
 			}
@@ -108,7 +112,7 @@ extension DashboardView {
 					receiveValue: { orders in
 						Task {
 							await self.cacheClient.setData(key: .orders, value: IdentifiedArray(uniqueElements: orders))
-							self.orders = IdentifiedArray(uniqueElements: orders)
+							self.unSortedOrders = IdentifiedArray(uniqueElements: orders)
 						}
 					}
 				)
