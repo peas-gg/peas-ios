@@ -69,13 +69,12 @@ struct MonthView: View {
 	
 	@ViewBuilder
 	func dayView(date: Date) -> some View {
+		let isDateSelected: Bool = selectedDate == date
 		let foregroundColor: Color = Color.app.secondaryText
 		let isShowingHighlight: Bool = daysToHighlight.contains(date)
 		Button(action: { self.dateTapped(date) }) {
 			ZStack {
 				let cornerRadius: CGFloat = 10
-				let isDateSelected: Bool = selectedDate == date
-				
 				RoundedRectangle(cornerRadius: cornerRadius)
 					.fill(Color.clear)
 				
@@ -98,7 +97,7 @@ struct MonthView: View {
 			)
 			.overlay(isShown: isShowingHighlight, alignment: .bottom) {
 				Circle()
-					.fill(Color.app.darkGreen)
+					.fill(isDateSelected ? Color.white : Color.app.darkGreen)
 					.frame(dimension: 6)
 					.padding(.bottom, 3)
 			}
