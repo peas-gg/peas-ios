@@ -55,7 +55,7 @@ struct DashboardView: View {
 				VStack {
 					VStack(spacing: 0) {
 						HStack {
-							Text("Services (7 pending)")
+							Text("Services\(viewModel.pendingServicesText)")
 								.font(Font.app.bodySemiBold)
 							Spacer()
 							if let selectedOrderFilter = viewModel.selectedOrderFilter {

@@ -41,6 +41,10 @@ extension DashboardView {
 			}
 		}
 		
+		var pendingServicesText: String {
+			return " (\(orders.filter { $0.orderStatus == .pending }.count) pending)"
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
