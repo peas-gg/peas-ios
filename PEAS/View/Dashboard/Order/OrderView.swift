@@ -140,9 +140,12 @@ struct OrderView: View {
 						EmptyView()
 					}
 				}
-				Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
-					.font(Font.app.body)
-					.foregroundColor(viewModel.order.payment == nil ? Color.app.tertiaryText : Color.app.accent)
+				HStack(spacing: 20) {
+					Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
+						.font(Font.app.body)
+						.foregroundColor(viewModel.order.payment == nil ? Color.app.tertiaryText : Color.app.accent)
+					timeView()
+				}
 				HStack(spacing: 6) {
 					Button(action: { viewModel.openCustomerView() }) {
 						Text(customerName())
@@ -150,7 +153,6 @@ struct OrderView: View {
 							.underline()
 							.lineLimit(1)
 					}
-					timeView()
 					Spacer(minLength: 0)
 					Image(systemName: "doc.text")
 						.font(.system(size: FontSizes.title3, weight: .semibold))
@@ -333,6 +335,7 @@ struct OrderView: View {
 		Text(" •  \(timeDisplay) ")
 			.font(Font.app.body)
 			.foregroundColor(timeDisplay == nowText ? Color.app.accent : Color.app.tertiaryText)
+			.lineLimit(1)
 	}
 	
 	func formattedTime() -> String {
