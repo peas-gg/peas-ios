@@ -143,7 +143,7 @@ struct CalendarView: View {
 struct CalendarView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			CalendarView(viewModel: .init(business: Business.mock1, orders: [Order.mock1, Order.mock2]))
+			CalendarView(viewModel: .init(business: Business.mock1, orders: [Order.mock1, Order.mock2, Order.mock3]))
 		}
 	}
 }

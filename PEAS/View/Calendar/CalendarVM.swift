@@ -16,7 +16,7 @@ extension CalendarView {
 			case order(Order)
 		}
 		
-		let months: [Date] = CalendarClient.shared.months
+		let months: [Date]
 		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
@@ -28,8 +28,8 @@ extension CalendarView {
 		@Published var currentShowingOrders: IdentifiedArrayOf<Order>
 		@Published var daysWithOrders: Set<Date>
 		
-		@Published var selectedDate: Date = Date.now
-		@Published var selectedDateIndex: Int = 0
+		@Published var selectedDate: Date
+		@Published var selectedDateIndex: Int
 		
 		@Published var navStack: [Route] = []
 		
@@ -39,11 +39,18 @@ extension CalendarView {
 		let calendarClient: CalendarClient = CalendarClient.shared
 		
 		init(business: Business, orders: IdentifiedArrayOf<Order> = []) {
+			self.months = calendarClient.months
+			
+			self.selectedDate = calendarClient.getStartOfDay(Date.now)
+			self.selectedDateIndex = 0
+			
 			self.business = business
 			self.orders = orders
 			self.currentShowingOrders = []
 			self.daysWithOrders = []
+			
 			refresh()
+			
 			self.$orders
 				.sink { _ in self.updateDaysWithOrders() }
 				.store(in: &cancellableBag)
