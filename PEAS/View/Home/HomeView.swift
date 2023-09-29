@@ -39,29 +39,22 @@ struct HomeView: View {
 		}
 		.tint(Color.black)
 		.banner(data: $viewModel.bannerData)
-		.fullScreenContainer(
-			isShowing: Binding(
-				get: { appState.requestPaymentVM != nil },
-				set: { isShowing in
-					if !isShowing {
-						appState.setRequestPaymentVM(nil)
+		.fullScreenContainer(isShowing: $appState.isShowingRequestPayment) {
+			if let viewModel = appState.requestPaymentVM {
+				RequestPaymentView(viewModel: viewModel)
+					.overlay {
+						/**
+						 We need this because for some reason, when the full screen container is in a TabView,
+						 it does not dismiss correctly. (NOT SURE WHY THIS FIXES IT BUT IT DOES.)
+						 (PLEASE DO NOT REMOVE)
+						 */
+						Button(action: {}) {
+							Text("Weird button")
+						}
+						.buttonStyle(.borderedProminent)
+						.opacity(0.0001)
 					}
-				}
-			)
-		) {
-			RequestPaymentView(viewModel: appState.safeRequestPaymentVM)
-				.overlay {
-					/**
-					 We need this because for some reason, when the full screen container is in a TabView,
-					 it does not dismiss correctly. (NOT SURE WHY THIS FIXES IT BUT IT DOES.)
-					 (PLEASE DO NOT REMOVE)
-					 */
-					Button(action: {}) {
-						Text("Weird button")
-					}
-					.buttonStyle(.borderedProminent)
-					.opacity(0.0001)
-				}
+			}
 		}
 		.onAppear {
 			self.viewModel.refreshBusiness()

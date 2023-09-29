@@ -27,13 +27,10 @@ import SwiftUI
 	@Published var mode: AppMode?
 	@Published var isUserLoggedIn: Bool = false
 	
+	@Published var isShowingRequestPayment: Bool = false
 	@Published var requestPaymentVM: RequestPaymentView.ViewModel?
 	
 	@Published var bannerData: BannerData?
-	
-	var safeRequestPaymentVM: RequestPaymentView.ViewModel {
-		return requestPaymentVM ?? .init(business: Business.mock1, order: Order.mock1)
-	}
 	
 	//Clients
 	let apiClient = APIClient.shared
@@ -105,7 +102,15 @@ import SwiftUI
 	}
 	
 	func setRequestPaymentVM(_ viewModel: RequestPaymentView.ViewModel?) {
-		self.requestPaymentVM = viewModel
+		if let viewModel = viewModel {
+			self.isShowingRequestPayment = true
+			self.requestPaymentVM = viewModel
+		} else {
+			self.isShowingRequestPayment = false
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+				self.requestPaymentVM = nil
+			}
+		}
 	}
 	
 	func updateBusiness(business: Business) {
