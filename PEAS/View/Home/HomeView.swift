@@ -23,7 +23,7 @@ struct HomeView: View {
 				.tabItem {
 					Label("Dashboard", systemImage: "tray.full.fill")
 				}
-			CalendarView(viewModel: CalendarView.ViewModel())
+			CalendarView(viewModel: CalendarView.ViewModel(business: viewModel.business))
 				.tabItem {
 					Label("Calendar", systemImage: "calendar")
 				}

@@ -62,6 +62,7 @@ struct CustomersView: View {
 								RoundedRectangle(cornerRadius: 10)
 									.fill(Color.app.primaryBackground)
 							}
+							.padding(.bottom, SizeConstants.scrollViewBottomPadding)
 						}
 					}
 				}

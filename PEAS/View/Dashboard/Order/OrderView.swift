@@ -72,7 +72,7 @@ struct OrderView: View {
 			case .dashboard:
 				compactView()
 			case .calendar:
-				HStack(spacing: 20) {
+				HStack(spacing: 10) {
 					VStack(spacing: 2) {
 						let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDate)
 						let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDate)
@@ -90,13 +90,17 @@ struct OrderView: View {
 					}
 					.font(.system(size: FontSizes.footnote, weight: .semibold, design: .rounded))
 					.foregroundColor(Color.app.primaryText)
+					.frame(maxWidth: 70)
 					compactView()
 						.padding(8)
 						.background(CardBackground())
 				}
 				.padding(.horizontal)
+				.opacity(viewModel.order.orderStatus == .Completed ? 0.6 : 1.0)
 			}
 		}
+		.progressView(isShowing: viewModel.isLoading, style: .white)
+		.banner(data: $viewModel.bannerData)
 		.alert(
 			isPresented: Binding(
 				get: { viewModel.action != nil } ,
@@ -108,13 +112,21 @@ struct OrderView: View {
 				return Alert(
 					title: Text("Are you sure you would like to \"\(title)\" this reservation?"),
 					message: Text("This action is not reversible"),
-					primaryButton: alert == .decline ? .destructive(Text("\(title)")) : .default(Text("\(title)")) {
-						switch alert {
-						case .decline: viewModel.declineOrder()
-						case .approve: viewModel.approveOrder()
-						case .complete: viewModel.completeOrder()
+					primaryButton: {
+						if alert == .decline  {
+							return .destructive(Text("\(title)")) {
+								viewModel.declineOrder()
+							}
+						} else {
+							return .default(Text("\(title)")) {
+								switch alert {
+								case .decline: return
+								case .approve: viewModel.approveOrder()
+								case .complete: viewModel.completeOrder()
+								}
+							}
 						}
-					},
+					}(),
 					secondaryButton: .cancel()
 				)
 			}
@@ -140,9 +152,12 @@ struct OrderView: View {
 						EmptyView()
 					}
 				}
-				Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
-					.font(Font.app.body)
-					.foregroundColor(viewModel.order.payment == nil ? Color.app.tertiaryText : Color.app.accent)
+				HStack(spacing: 20) {
+					Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
+						.font(Font.app.body)
+						.foregroundColor(viewModel.order.payment == nil ? Color.app.tertiaryText : Color.app.accent)
+					timeView()
+				}
 				HStack(spacing: 6) {
 					Button(action: { viewModel.openCustomerView() }) {
 						Text(customerName())
@@ -150,7 +165,6 @@ struct OrderView: View {
 							.underline()
 							.lineLimit(1)
 					}
-					timeView()
 					Spacer(minLength: 0)
 					Image(systemName: "doc.text")
 						.font(.system(size: FontSizes.title3, weight: .semibold))
@@ -243,25 +257,25 @@ struct OrderView: View {
 		let orderStatus: Order.Status = viewModel.order.orderStatus
 		VStack {
 			switch orderStatus {
-			case .pending, .approved:
+			case .Pending, .Approved:
 				Divider()
 					.padding(.vertical)
-			case .declined, .completed:
+			case .Declined, .Completed:
 				EmptyView()
 			}
 			HStack {
 				Spacer()
 				HStack(spacing: 10) {
 					switch orderStatus {
-					case .pending:
+					case .Pending:
 						declineButton()
 						approveButton()
-					case .approved:
+					case .Approved:
 						if viewModel.order.payment == nil {
 							declineButton()
 						}
 						completeButton()
-					case .declined, .completed:
+					case .Declined, .Completed:
 						EmptyView()
 					}
 				}
@@ -333,6 +347,7 @@ struct OrderView: View {
 		Text(" •  \(timeDisplay) ")
 			.font(Font.app.body)
 			.foregroundColor(timeDisplay == nowText ? Color.app.accent : Color.app.tertiaryText)
+			.lineLimit(1)
 	}
 	
 	func formattedTime() -> String {
@@ -385,12 +400,13 @@ struct OrderView: View {
 
 struct OrderView_Previews: PreviewProvider {
 	static var previews: some View {
-		OrderView(viewModel: .init(context: .detail, order: Order.mock1))
-		OrderView(viewModel: .init(context: .detail, order: Order.mock2))
-		OrderView(viewModel: .init(context: .dashboard, order: Order.mock2))
+		OrderView(viewModel: .init(context: .detail, business: Business.mock1, order: Order.mock1))
+		OrderView(viewModel: .init(context: .detail, business: Business.mock1, order: Order.mock2))
+		OrderView(viewModel: .init(context: .dashboard, business: Business.mock1, order: Order.mock2))
 		VStack {
 			Spacer()
-			OrderView(viewModel: .init(context: .calendar, order: Order.mock2))
+			OrderView(viewModel: .init(context: .calendar, business: Business.mock1, order: Order.mock1))
+			OrderView(viewModel: .init(context: .calendar, business: Business.mock1, order: Order.mock2))
 			Spacer()
 		}
 		.background(Color.app.secondaryBackground)

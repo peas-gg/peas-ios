@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-09-22.
 //
 
+import Combine
 import Foundation
 
 extension OrderView {
@@ -23,9 +24,15 @@ extension OrderView {
 		
 		let context: Context
 		
+		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
+		
+		@Published var business: Business
 		@Published var order: Order
 		@Published var isShowingCustomerCard: Bool = false
 		@Published var action: OrderStatusAction?
+		
+		@Published var isLoading: Bool = false
+		@Published var bannerData: BannerData?
 		
 		var orderAmount: Int {
 			return order.payment?.total ?? order.price
@@ -33,18 +40,34 @@ extension OrderView {
 		
 		var canRequestPayment: Bool {
 			switch order.orderStatus {
-			case .pending, .declined:
+			case .Pending, .Declined:
 				return false
-			case .approved:
+			case .Approved:
 				return order.payment == nil
-			case .completed:
+			case .Completed:
 				return false
 			}
 		}
 		
-		init(context: Context, order: Order) {
+		//Clients
+		private let apiClient: APIClient = APIClient.shared
+		
+		init(context: Context, business: Business, order: Order) {
 			self.context = context
+			self.business = business
 			self.order = order
+			
+			//Register for updates
+			OrderRepository.shared
+				.$orders
+				.sink { orders in
+					if let order = orders[id: self.order.id] {
+						if order != self.order {
+							self.order = order
+						}
+					}
+				}
+				.store(in: &cancellableBag)
 		}
 		
 		func resetAlert() {
@@ -52,15 +75,41 @@ extension OrderView {
 		}
 		
 		func approveOrder() {
-			
+			updateOrder(orderStatus: .Approved)
 		}
 		
 		func declineOrder() {
-			
+			updateOrder(orderStatus: .Declined)
 		}
 		
 		func completeOrder() {
-			
+			updateOrder(orderStatus: .Completed)
+		}
+		
+		func updateOrder(orderStatus: Order.Status) {
+			self.isLoading = true
+			let updateOrder: UpdateOrder = UpdateOrder(
+				orderId: order.id,
+				orderStatus: orderStatus
+			)
+			self.apiClient
+				.updateOrder(businessId: business.id, updateOrder)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isLoading = false
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { order in
+						self.isLoading = false
+						OrderRepository.shared.update(order: order)
+					}
+				)
+				.store(in: &cancellableBag)
 		}
 		
 		func requestAction(action: OrderStatusAction) {
@@ -68,7 +117,7 @@ extension OrderView {
 		}
 		
 		func requestPayment() {
-			AppState.shared.setRequestPaymentVM(RequestPaymentView.ViewModel(order: order))
+			AppState.shared.setRequestPaymentVM(RequestPaymentView.ViewModel(business: business, order: order))
 		}
 		
 		func openCustomerView() {

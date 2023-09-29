@@ -46,6 +46,12 @@ extension SiteOnboardingView {
 				withAnimation(.default) {
 					self.businessDraft = businessDraft
 				}
+				
+				try await Task.sleep(for: .seconds(1.0))
+				self.bannerData = BannerData(
+					timeOut: 10,
+					detail: "This is an example of a business profile. Tap the pencil to personalize it and make it yours 😉"
+				)
 			}
 		}
 		

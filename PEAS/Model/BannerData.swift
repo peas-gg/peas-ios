@@ -17,9 +17,9 @@ extension BannerData {
 		switch error {
 		case .httpError(statusCode: let statusCode, data: _):
 			if statusCode < 500 {
-				self.init(detail: error.errorDescription ?? "")
+				self.init(detail: error.errorDescription ?? "Something went wrong 1000")
 			} else {
-				self.init(detail: "")
+				self.init(detail: "Something went wrong 1001")
 			}
 		case .authExpired:
 			self.init(detail: "")
@@ -27,10 +27,10 @@ extension BannerData {
 			if description.contains("1001") || description.contains("1020") {
 				self.init(detail: "Not connected to the internet")
 			} else {
-				self.init(detail: error.errorDescription ?? "")
+				self.init(detail: error.errorDescription ?? "Something went wrong 1002")
 			}
 		default:
-			self.init(detail: error.errorDescription ?? "")
+			self.init(detail: error.errorDescription ?? "Something went wrong 1003")
 		}
 	}
 }

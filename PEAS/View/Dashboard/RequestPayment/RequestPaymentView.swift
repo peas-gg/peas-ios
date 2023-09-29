@@ -68,6 +68,8 @@ struct RequestPaymentView: View {
 			.padding(.bottom, SizeConstants.isSmallPhone ? 20 : 0)
 		}
 		.background(Color.app.accent)
+		.banner(data: $viewModel.bannerData)
+		.progressView(isShowing: viewModel.isLoading, style: .green)
 	}
 	
 	@ViewBuilder
@@ -93,6 +95,6 @@ struct RequestPaymentView: View {
 
 struct RequestPaymentView_Previews: PreviewProvider {
 	static var previews: some View {
-		RequestPaymentView(viewModel: .init(order: Order.mock1))
+		RequestPaymentView(viewModel: .init(business: Business.mock1, order: Order.mock1))
 	}
 }

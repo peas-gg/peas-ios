@@ -26,7 +26,7 @@ struct BannerViewModifier: ViewModifier {
 					}
 					.safeAreaInset(edge: .top) {
 						if let data = data {
-							if isShowing {
+							if isShowing && !data.detail.isEmpty {
 								HStack {
 									Image(systemName: "info.circle.fill")
 										.font(Font.app.title2)

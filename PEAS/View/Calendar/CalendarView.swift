@@ -8,15 +8,9 @@
 import SwiftUI
 
 struct CalendarView: View {
-	@StateObject var viewModel: ViewModel
-	
-	let months: [Date] = CalendarClient.shared.months
 	let yOffsetPadding: CGFloat = 200
 	
-	@State var isExpanded: Bool = false
-	
-	@State var selectedDate: Date = Date.now
-	@State var selectedDateIndex: Int = 0
+	@StateObject var viewModel: ViewModel
 	
 	@State var yOffset: CGFloat
 	
@@ -26,53 +20,88 @@ struct CalendarView: View {
 	}
 	
 	var body: some View {
-		ZStack {
-			VerticalTabView(selection: $selectedDateIndex, hasOffset: yOffset > 0) {
-				ForEach(0..<months.count, id: \.self) {
-					monthsView(currentIndex: $0)
-						.tag($0 / 2)
+		NavigationStack(path: $viewModel.navStack) {
+			ZStack {
+				VerticalTabView(selection: $viewModel.selectedDateIndex, hasOffset: yOffset > 0) {
+					ForEach(0..<viewModel.months.count, id: \.self) {
+						monthsView(currentIndex: $0)
+							.tag($0 / 2)
+					}
+					.tint(Color.clear)
+					.opacity(viewModel.isExpanded ? 1.0 : 0.0)
+					.animation(.easeInOut, value: viewModel.isExpanded)
 				}
-				.tint(Color.clear)
-				.opacity(isExpanded ? 1.0 : 0.0)
-				.animation(.easeInOut, value: isExpanded)
-			}
-			.tabViewStyle(.page(indexDisplayMode: .never))
-			.background(Color.app.accent.edgesIgnoringSafeArea(.top))
-			.offset(y: -yOffset)
-			.animation(.linear.speed(2.0), value: yOffset)
-			
-			VStack {
-				MonthView(month: selectedDate, selectedDate: selectedDate, isCollapsed: true) { date in
-					self.selectedDate = date
-				}
-				.padding(.bottom)
+				.tabViewStyle(.page(indexDisplayMode: .never))
 				.background(Color.app.accent.edgesIgnoringSafeArea(.top))
-				Spacer()
-			}
-			.opacity(isExpanded ? 0.0 : 1.0)
-			.animation(.linear.speed(4.0), value: isExpanded)
-		}
-		.overlay(alignment: .topTrailing) {
-			Button(action: {
-				setSelectedDateIndex()
-				withAnimation(.default) {
-					self.isExpanded.toggle()
+				.offset(y: -yOffset)
+				.animation(.linear.speed(2.0), value: yOffset)
+				VStack(spacing: 0) {
+					MonthView(
+						month: viewModel.selectedDate,
+						selectedDate: viewModel.selectedDate,
+						isCollapsed: true,
+						daysToHighlight: viewModel.daysWithOrders
+					) { date in
+						self.viewModel.dateSelected(date: date)
+					}
+					.padding(.bottom)
+					.background(Color.app.accent.edgesIgnoringSafeArea(.top))
+					ScrollView {
+						LazyVStack {
+							ForEach(viewModel.currentShowingOrders) { order in
+								Button(action: { viewModel.pushStack(.order(order)) }) {
+									OrderView(
+										viewModel: OrderView.ViewModel(
+											context: .calendar,
+											business: viewModel.business,
+											order: order
+										)
+									)
+								}
+								.buttonStyle(.plain)
+								.padding(.bottom, 20)
+							}
+						}
+						.padding(.top, 40)
+						.padding(.bottom, SizeConstants.scrollViewBottomPadding)
+					}
+					Spacer(minLength: 0)
 				}
-			}) {
-				Image(systemName: "chevron.down.circle.fill")
-					.font(Font.app.largeTitle)
-					.foregroundColor(Color.white)
-					.rotationEffect(isExpanded ? .degrees(180) : .degrees(0))
-					.animation(.easeInOut, value: isExpanded)
+				.opacity(viewModel.isExpanded ? 0.0 : 1.0)
+				.animation(.linear.speed(4.0), value: viewModel.isExpanded)
 			}
-			.padding(.trailing)
-		}
-		.onAppear { self.setSelectedDateIndex() }
-		.onChange(of: self.selectedDate) { _ in
-			self.setSelectedDateIndex()
-		}
-		.onChange(of: isExpanded) { _ in
-			setYOffset()
+			.overlay(alignment: .topTrailing) {
+				Button(action: {
+					viewModel.setSelectedDateIndex()
+					withAnimation(.default) {
+						self.viewModel.isExpanded.toggle()
+					}
+				}) {
+					Image(systemName: "chevron.down.circle.fill")
+						.font(Font.app.largeTitle)
+						.foregroundColor(Color.white)
+						.rotationEffect(viewModel.isExpanded ? .degrees(180) : .degrees(0))
+						.animation(.easeInOut, value: viewModel.isExpanded)
+				}
+				.padding(.trailing)
+			}
+			.navigationTitle("")
+			.navigationDestination(for: ViewModel.Route.self) { route in
+				Group {
+					switch route {
+					case .order(let order):
+						OrderView(viewModel: OrderView.ViewModel(context: .detail, business: viewModel.business, order: order))
+					}
+				}
+				.navigationBarTitleDisplayMode(.inline)
+			}
+			.onAppear { self.viewModel.didAppear() }
+			.onChange(of: self.viewModel.selectedDate) { _ in
+				self.viewModel.setSelectedDateIndex()
+			}
+			.onChange(of: viewModel.isExpanded) { _ in
+				setYOffset()
+			}
 		}
 	}
 	
@@ -81,13 +110,21 @@ struct CalendarView: View {
 		let nextIndex = currentIndex + 1
 		if currentIndex % 2 == 0 || currentIndex == 0 {
 			VStack {
-				MonthView(month: months[currentIndex], selectedDate: selectedDate) { date in
-					dateSelected(date: date)
+				MonthView(
+					month: viewModel.months[currentIndex],
+					selectedDate: viewModel.selectedDate,
+					daysToHighlight: viewModel.daysWithOrders
+				) { date in
+					viewModel.dateSelected(date: date)
 				}
 				Spacer()
-				if nextIndex < months.count {
-					MonthView(month: months[nextIndex], selectedDate: selectedDate) { date in
-						dateSelected(date: date)
+				if nextIndex < viewModel.months.count {
+					MonthView(
+						month: viewModel.months[nextIndex],
+						selectedDate: viewModel.selectedDate,
+						daysToHighlight: viewModel.daysWithOrders
+					) { date in
+						viewModel.dateSelected(date: date)
 					}
 					Spacer()
 				}
@@ -95,21 +132,8 @@ struct CalendarView: View {
 		}
 	}
 	
-	func setSelectedDateIndex() {
-		let month: Date = selectedDate.startOfMonth()
-		let index = (months.firstIndex(of: month) ?? 0)
-		self.selectedDateIndex = index / 2
-	}
-	
-	func dateSelected(date: Date) {
-		self.selectedDate = date
-		withAnimation(.default) {
-			self.isExpanded.toggle()
-		}
-	}
-	
 	func setYOffset() {
-		if isExpanded {
+		if viewModel.isExpanded {
 			yOffset = 0
 		} else {
 			yOffset = SizeConstants.screenSize.height - yOffsetPadding
@@ -120,7 +144,7 @@ struct CalendarView: View {
 struct CalendarView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			CalendarView(viewModel: .init())
+			CalendarView(viewModel: .init(business: Business.mock1, orders: [Order.mock1, Order.mock2, Order.mock3]))
 		}
 	}
 }

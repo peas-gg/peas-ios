@@ -19,7 +19,7 @@ extension DashboardView {
 		
 		@Published var user: User
 		@Published var business: Business
-		@Published var orders: IdentifiedArrayOf<Order>
+		@Published var unSortedOrders: IdentifiedArrayOf<Order>
 		
 		@Published var isShowingUserView: Bool = false
 		@Published var isShowingFilterMenu: Bool = false
@@ -32,24 +32,50 @@ extension DashboardView {
 		
 		@Published var bannerData: BannerData?
 		
+		var currentShowingOrders: IdentifiedArrayOf<Order> {
+			switch selectedOrderFilter {
+			case .Approved, .Completed, .Declined, .Pending:
+				return orders.filter { $0.orderStatus == selectedOrderFilter }
+			case .none:
+				return orders
+			}
+		}
+		
+		var pendingServicesText: String {
+			let noOfPendingServices: Int = orders.filter { $0.orderStatus == .Pending }.count
+			if noOfPendingServices > 0 {
+				return " (\(noOfPendingServices) pending)"
+			} else {
+				return ""
+			}
+		}
+		
+		var orders: IdentifiedArrayOf<Order> {
+			IdentifiedArray(uniqueElements: unSortedOrders.sorted(by: { $0.createdDate > $1.createdDate }))
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
-		private let cacheClient: CacheClient = CacheClient.shared
+		private let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User, business: Business, orders: IdentifiedArrayOf<Order> = []) {
 			self.user = user
 			self.business = business
-			self.orders = orders
+			self.unSortedOrders = orders
 			setUp()
+			
+			//Register for updates
+			OrderRepository.shared
+				.$orders
+				.sink { orders in
+					self.unSortedOrders = orders
+				}
+				.store(in: &cancellableBag)
 		}
 		
 		func setUp() {
-			Task(priority: .high) {
-				if let orders = await cacheClient.getData(key: .orders) {
-					self.orders = orders
-				}
-				refreshOrders()
-			}
+			self.unSortedOrders = OrderRepository.shared.orders
+			refreshOrders()
 		}
 		
 		func toggleFilterMenu() {
@@ -87,10 +113,20 @@ extension DashboardView {
 						}
 					},
 					receiveValue: { orders in
-						self.orders = IdentifiedArray(uniqueElements: orders)
+						OrderRepository.shared.update(orders: orders)
 					}
 				)
 				.store(in: &cancellableBag)
+		}
+		
+		func refresh() {
+			if let user = keychainClient.get(key: .user) {
+				self.user = user
+			}
+			if let business = keychainClient.get(key: .business) {
+				self.business = business
+			}
+			refreshOrders()
 		}
 		
 		func cashOut() {

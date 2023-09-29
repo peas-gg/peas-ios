@@ -53,9 +53,9 @@ struct DashboardView: View {
 				.padding(.horizontal)
 				.padding(.horizontal, 10)
 				VStack {
-					VStack {
+					VStack(spacing: 0) {
 						HStack {
-							Text("Services (7 pending)")
+							Text("Services\(viewModel.pendingServicesText)")
 								.font(Font.app.bodySemiBold)
 							Spacer()
 							if let selectedOrderFilter = viewModel.selectedOrderFilter {
@@ -63,22 +63,25 @@ struct DashboardView: View {
 							}
 							Button(action: { viewModel.toggleFilterMenu() }) {
 								Image(systemName: viewModel.selectedOrderFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+									.font(.system(size: 24))
 							}
 							.opacity(viewModel.isShowingFilterMenu ? 0.5 : 1.0)
 							.anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) { [filterMenuId : $0] }
 						}
 						Divider()
-						ScrollView {
+							.padding(.top)
+						ScrollView(showsIndicators: false) {
 							LazyVStack {
-								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
-									OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
+								ForEach(viewModel.currentShowingOrders, id: \.self) { order in
+									Button(action: { viewModel.pushStack(.order(order)) }) {
+										OrderView(viewModel: .init(context: .dashboard, business: viewModel.business, order: order))
+									}
+									.buttonStyle(.plain)
+									.padding(.bottom)
 								}
-								Button(action: { viewModel.pushStack(.order(Order.mock1)) }) {
-									OrderView(viewModel: .init(context: .dashboard, order: Order.mock1))
-								}
-								.buttonStyle(.plain)
 							}
-							.padding(.top, 10)
+							.padding(.top, 20)
+							.padding(.bottom, SizeConstants.scrollViewBottomPadding)
 						}
 					}
 					.padding()
@@ -99,20 +102,21 @@ struct DashboardView: View {
 				Group {
 					switch route {
 					case .order(let order):
-						OrderView(viewModel: OrderView.ViewModel(context: .detail, order: order))
+						OrderView(viewModel: OrderView.ViewModel(context: .detail, business: viewModel.business, order: order))
 					}
 				}
 				.navigationBarTitleDisplayMode(.inline)
 			}
 		}
 		.tint(Color.app.primaryText)
+		.banner(data: $viewModel.bannerData)
 		.appMenu(id: filterMenuId, isShowing: $viewModel.isShowingFilterMenu) {
 			VStack {
 				ForEach(Order.Status.allCases) { status in
 					Button(action: { viewModel.selectFilter(status) }) {
 						HStack {
 							Text(status.rawValue.capitalized)
-								.font(Font.app.body)
+								.font(.system(size: FontSizes.title3, weight: .regular, design: .rounded))
 							Spacer()
 							filterIndicator(filter: status)
 						}
@@ -121,7 +125,7 @@ struct DashboardView: View {
 			}
 			.foregroundColor(Color.app.primaryText)
 			.padding()
-			.frame(width: 160)
+			.frame(width: 180)
 		}
 		.sheet(isPresented: $viewModel.isShowingUserView) {
 			UserView(viewModel: UserView.ViewModel(user: viewModel.user))
@@ -137,6 +141,9 @@ struct DashboardView: View {
 				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .onboarding),
 				onDismiss: { viewModel.setIsShowingCashOutOnboarding(false) }
 			)
+		}
+		.onAppear {
+			viewModel.refresh()
 		}
 	}
 	
@@ -165,14 +172,14 @@ struct DashboardView: View {
 			Circle()
 				.stroke(filter.foregroundColor)
 		}
-		.frame(dimension: 15)
+		.frame(dimension: 20)
 	}
 }
 
 struct DashboardView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1))
+			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1, orders: [Order.mock1, Order.mock2]))
 		}
 	}
 }

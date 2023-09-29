@@ -18,10 +18,11 @@ struct MonthView: View {
 	
 	let isCollapsed: Bool
 	let selectedDate: Date?
+	let daysToHighlight: Set<Date>
 	
 	let dateTapped: (Date) -> ()
 	
-	init(month: Date, selectedDate: Date? = nil, isCollapsed: Bool = false, dateTapped: @escaping (Date) -> ()) {
+	init(month: Date, selectedDate: Date? = nil, isCollapsed: Bool = false, daysToHighlight: Set<Date>, dateTapped: @escaping (Date) -> ()) {
 		self.month = month
 		self.days = CalendarClient.shared.getDaysInMonth(month)
 		self.weekDays = CalendarClient.shared.weekDaysShort
@@ -32,6 +33,7 @@ struct MonthView: View {
 			}
 			return nil
 		}()
+		self.daysToHighlight = daysToHighlight
 		self.dateTapped = dateTapped
 	}
 	
@@ -67,12 +69,12 @@ struct MonthView: View {
 	
 	@ViewBuilder
 	func dayView(date: Date) -> some View {
+		let isDateSelected: Bool = selectedDate == date
 		let foregroundColor: Color = Color.app.secondaryText
+		let isShowingHighlight: Bool = daysToHighlight.contains(date)
 		Button(action: { self.dateTapped(date) }) {
 			ZStack {
 				let cornerRadius: CGFloat = 10
-				let isDateSelected: Bool = selectedDate == date
-				
 				RoundedRectangle(cornerRadius: cornerRadius)
 					.fill(Color.clear)
 				
@@ -93,6 +95,12 @@ struct MonthView: View {
 					.font(Font.app.bodySemiBold)
 					.foregroundColor(foregroundColor)
 			)
+			.overlay(isShown: isShowingHighlight, alignment: .bottom) {
+				Circle()
+					.fill(isDateSelected ? Color.white : Color.app.darkGreen)
+					.frame(dimension: 6)
+					.padding(.bottom, 3)
+			}
 		}
 	}
 	
@@ -108,14 +116,15 @@ struct MonthView: View {
 
 struct MonthView_Previews: PreviewProvider {
 	static var previews: some View {
-		MonthView(month: Date.now) { _ in
+		MonthView(month: Date.now, daysToHighlight: Set()) { _ in
 			
 		}
 		.background(Color.app.accent)
 		MonthView(
 			month: Date.now,
 			selectedDate: Calendar.current.date(byAdding: .init(day: -10), to: Date.now),
-			isCollapsed: true
+			isCollapsed: true,
+			daysToHighlight: Set()
 		) { _ in
 			
 		}
