@@ -17,9 +17,7 @@ struct SlidingButtonView: View {
 	
 	@State var didComplete: Bool = false
 	
-	var maxXDistance: CGFloat {
-		width - buttonDimension - baseOffset
-	}
+	@State var maxXDistance: CGFloat = .zero
 	
 	//Clients
 	let feedbackClient: FeedbackClient = FeedbackClient.shared
@@ -49,17 +47,20 @@ struct SlidingButtonView: View {
 				}
 				.frame(dimension: buttonDimension)
 				.offset(x: xOffset)
+				.onAppear { self.maxXDistance = getMaxDistance(width: width) }
 			}
 			.frame(width: width, height: proxy.size.height, alignment: .leading)
 			.gesture(
 				DragGesture()
 					.onChanged { value in
+						let maxXDistance = getMaxDistance(width: width)
 						if (baseOffset..<maxXDistance).contains(value.translation.width) {
 							self.xOffset = value.translation.width
+							self.maxXDistance = maxXDistance
 						}
 					}
 					.onEnded { _ in
-						if self.xOffset < (maxXDistance - baseOffset) {
+						if self.xOffset < (getMaxDistance(width: width) - baseOffset) {
 							self.xOffset = baseOffset
 						} else {
 							self.didComplete = true
@@ -69,9 +70,6 @@ struct SlidingButtonView: View {
 			)
 		}
 		.frame(height: height)
-		.readRect { size in
-			self.width = size.width
-		}
 		.animation(.spring(), value: xOffset)
 		.background {
 			Capsule()
@@ -84,6 +82,10 @@ struct SlidingButtonView: View {
 						.opacity(opacity)
 				}
 		}
+	}
+	
+	func getMaxDistance(width: CGFloat) -> CGFloat {
+		return width - buttonDimension - baseOffset
 	}
 }
 
