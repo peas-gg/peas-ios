@@ -145,12 +145,13 @@ struct CashOutView: View {
 						}
 						.padding(.vertical)
 						SlidingButtonView()
+							.padding(.bottom, 20)
 					}
 					.padding()
 				}
 				.pushOutFrame()
 				.background(Color.app.accent)
-				.presentationDetents([.height(320)])
+				.presentationDetents([.height(360)])
 				.edgesIgnoringSafeArea(.bottom)
 				.interactiveDismissDisabled()
 			}
