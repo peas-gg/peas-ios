@@ -53,6 +53,16 @@ struct Order: Codable, Identifiable, Hashable {
 }
 
 extension Order {
+	var validNote: String? {
+		if let note = note {
+			if !note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+				return note
+			}
+			return nil
+		}
+		return nil
+	}
+	
 	var createdDate: Date {
 		ServerDateFormatter.formatToLocal(from: self.created)
 	}

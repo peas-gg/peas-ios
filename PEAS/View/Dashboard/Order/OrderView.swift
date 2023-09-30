@@ -168,6 +168,7 @@ struct OrderView: View {
 					Spacer(minLength: 0)
 					Image(systemName: "doc.text")
 						.font(.system(size: FontSizes.title3, weight: .semibold))
+						.opacity(viewModel.order.validNote == nil ? 0.0 : 1.0)
 				}
 				.font(Font.app.body)
 				.foregroundColor(Color.app.tertiaryText)
@@ -237,7 +238,7 @@ struct OrderView: View {
 	
 	@ViewBuilder
 	func note() -> some View {
-		if let note = viewModel.order.note {
+		if let note = viewModel.order.validNote {
 			Text(note)
 				.font(Font.app.body)
 				.foregroundColor(Color.app.primaryText)
