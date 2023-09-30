@@ -113,6 +113,10 @@ import SwiftUI
 		}
 	}
 	
+	func updateUser(user: User) {
+		self.keychainClient.set(key: .user, value: user)
+	}
+	
 	func updateBusiness(business: Business) {
 		self.keychainClient.set(key: .business, value: business)
 	}

@@ -66,9 +66,10 @@ extension RequestPaymentView {
 					receiveValue: { order in
 						Task {
 							self.order = order
-							self.bannerData = BannerData(detail: "Payment request sent")
+							self.bannerData = BannerData(isSuccess: true, detail: "Sent")
 							self.isLoading = false
-							try await Task.sleep(for: .seconds(2))
+							OrderRepository.shared.update(order: order)
+							try await Task.sleep(for: .seconds(1))
 							AppState.shared.setRequestPaymentVM(nil)
 						}
 					}

@@ -145,6 +145,11 @@ struct DashboardView: View {
 		.onAppear {
 			viewModel.refresh()
 		}
+		.onChange(of: viewModel.isShowingCashOutOnboarding) { isShowing in
+			if !isShowing {
+				viewModel.didCloseCashOutOnboarding()
+			}
+		}
 	}
 	
 	@ViewBuilder

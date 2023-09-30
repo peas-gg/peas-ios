@@ -53,13 +53,33 @@ struct Order: Codable, Identifiable, Hashable {
 }
 
 extension Order {
+	var validNote: String? {
+		if let note = note {
+			if !note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+				return note
+			}
+			return nil
+		}
+		return nil
+	}
+	
 	var createdDate: Date {
 		ServerDateFormatter.formatToLocal(from: self.created)
 	}
+	
 	var startTimeDate: Date {
+		ServerDateFormatter.formatToDate(from: self.startTime)
+	}
+	
+	var endTimeDate: Date {
+		ServerDateFormatter.formatToDate(from: self.endTime)
+	}
+	
+	var startTimeDateLocal: Date {
 		ServerDateFormatter.formatToLocal(from: self.startTime)
 	}
-	var endTimeDate: Date {
+	
+	var endTimeDateLocal: Date {
 		ServerDateFormatter.formatToLocal(from: self.endTime)
 	}
 }

@@ -25,30 +25,28 @@ struct CustomersView: View {
 				.padding(.top)
 			Divider()
 				.padding(.top)
-			VStack {
-				VStack(spacing: 0) {
-					HStack {
-						let numberOfCustomers: String = {
-							return numberFormatter.string(from: viewModel.customers.count as NSNumber) ?? String(viewModel.customers.count)
-						}()
-						Text(numberOfCustomers)
-						Text("customers")
-						Spacer()
-					}
-					.font(Font.app.title2Display)
-					.padding(.bottom, 4)
-					if viewModel.customers.count == 0 {
-						VStack {
-							Spacer()
-							Text("Your customers contacts will go here")
-								.font(Font.app.body)
-								.foregroundColor(Color.app.tertiaryText)
-							Spacer()
-						}
-					} else {
-						ScrollView {
-							Spacer()
-								.frame(height: 20)
+			VStack(spacing: 0) {
+				HStack {
+					let numberOfCustomers: String = {
+						return numberFormatter.string(from: viewModel.customers.count as NSNumber) ?? String(viewModel.customers.count)
+					}()
+					Text(numberOfCustomers)
+					Text("customers")
+					Spacer()
+				}
+				.font(Font.app.title2Display)
+				.padding()
+				ScrollView {
+					VStack(spacing: 0) {
+						if viewModel.customers.count == 0 {
+							VStack {
+								Spacer()
+								Text("Your customers contacts will go here")
+									.font(Font.app.body)
+									.foregroundColor(Color.app.tertiaryText)
+								Spacer()
+							}
+						} else {
 							LazyVStack(spacing: 20) {
 								ForEach(viewModel.customers.indices, id: \.self) { index in
 									CustomerView(customer: viewModel.customers[index], context: .compact)
@@ -65,8 +63,8 @@ struct CustomersView: View {
 							.padding(.bottom, SizeConstants.scrollViewBottomPadding)
 						}
 					}
+					.padding([.top, .horizontal])
 				}
-				.padding([.top, .horizontal])
 				Spacer(minLength: 0)
 			}
 			.background(Color.app.secondaryBackground)

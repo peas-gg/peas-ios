@@ -57,6 +57,9 @@ struct HomeView: View {
 			}
 		}
 		.onAppear {
+			let tabBarAppearance = UITabBarAppearance()
+			tabBarAppearance.configureWithDefaultBackground()
+			UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
 			self.viewModel.refreshBusiness()
 		}
 	}

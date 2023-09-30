@@ -57,7 +57,7 @@ struct RequestPaymentView: View {
 					.multilineTextAlignment(.center)
 					.fixedSize(horizontal: false, vertical: true)
 					.padding(.bottom)
-				Button(action: {}) {
+				Button(action: { viewModel.request() }) {
 					Text("Request Payment")
 				}
 				.buttonStyle(.expanded(style: .darkGreen))
