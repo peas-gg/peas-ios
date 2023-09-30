@@ -5,6 +5,7 @@
 //  Created by Kingsley Okeke on 2023-09-24.
 //
 
+import Combine
 import Foundation
 
 extension CashOutView {
@@ -21,11 +22,18 @@ extension CashOutView {
 		
 		let context: Context
 		
+		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
+		
 		@Published var user: User
 		
 		@Published var currentEmailSelection: EmailSelection = .account
 		@Published var differentEmail: String = ""
 		@Published var isShowingConfirmation: Bool = false
+		
+		@Published var shouldDismiss: Bool = false
+		
+		@Published var isLoading: Bool = false
+		@Published var bannerData: BannerData?
 		
 		var selectedEmail: String {
 			switch currentEmailSelection {
@@ -33,6 +41,10 @@ extension CashOutView {
 			case .different: return differentEmail
 			}
 		}
+		
+		//Clients
+		private let apiClient: APIClient = APIClient.shared
+		private let keychainClient: KeychainClient = KeychainClient.shared
 		
 		init(user: User, context: Context) {
 			self.user = user
@@ -55,10 +67,46 @@ extension CashOutView {
 		}
 		
 		func advance() {
-			if self.isShowingConfirmation {
-				//Send request to api
-			} else {
-				self.isShowingConfirmation = true
+			switch context {
+			case .onboarding:
+				if self.isShowingConfirmation {
+					self.isLoading = true
+					self.apiClient
+						.setInteracEmail(selectedEmail)
+						.receive(on: DispatchQueue.main)
+						.sink(
+							receiveCompletion: { completion in
+								switch completion {
+								case .finished: return
+								case .failure(let error):
+									self.isLoading = false
+									self.bannerData = BannerData(error: error)
+									return
+								}
+							},
+							receiveValue: { email in
+								if let user = self.keychainClient.get(key: .user) {
+									let updatedUser = User(
+										firstName: user.firstName,
+										lastName: user.lastName,
+										email: user.email,
+										interacEmail: email,
+										phone: user.phone,
+										role: user.role,
+										accessToken: user.accessToken,
+										refreshToken: user.refreshToken
+									)
+									AppState.shared.updateUser(user: updatedUser)
+									self.isLoading = false
+									self.shouldDismiss = true
+								}
+							}
+						)
+						.store(in: &cancellableBag)
+				} else {
+					self.isShowingConfirmation = true
+				}
+			case .cashOut: return
 			}
 		}
 	}

@@ -22,6 +22,8 @@ protocol APIRequests {
 	func requestOtpCode(phoneNumber: String) -> AnyPublisher<EmptyResponse, APIClientError>
 	func requestPasswordReset(email: String) -> AnyPublisher<EmptyResponse, APIClientError>
 	func resetPassword(_ model: ResetPasswordRequest) -> AnyPublisher<EmptyResponse, APIClientError>
+	//Account
+	func setInteracEmail(_ email: String) -> AnyPublisher<String, APIClientError>
 	//Business
 	func getBusinessAccount() -> AnyPublisher<Business, APIClientError>
 	func createBusiness(_ model: CreateBusiness) -> AnyPublisher<Business, APIClientError>
@@ -303,6 +305,16 @@ final class APIClient: APIRequests {
 			body: model
 		)
 		return apiRequest(appRequest: resetPasswordRequest, output: EmptyResponse.self)
+	}
+	
+	func setInteracEmail(_ email: String) -> AnyPublisher<String, APIClientError> {
+		let setInteracEmailRequest = APPUrlRequest(
+			httpMethod: .patch,
+			pathComponents: ["account", "interacEmail"],
+			query: [URLQueryItem(name: "email", value: email)],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: setInteracEmailRequest, output: String.self)
 	}
 	
 	func getTemplates() -> AnyPublisher<[Template], APIClientError> {
