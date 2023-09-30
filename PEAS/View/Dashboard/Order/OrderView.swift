@@ -74,8 +74,8 @@ struct OrderView: View {
 			case .calendar:
 				HStack(spacing: 10) {
 					VStack(spacing: 2) {
-						let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDate)
-						let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDate)
+						let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDateLocal)
+						let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDateLocal)
 						Text(startTime)
 						ForEach(0..<3) {
 							Circle()
@@ -352,7 +352,7 @@ struct OrderView: View {
 	}
 	
 	func formattedTime() -> String {
-		let date: Date = viewModel.order.startTimeDate
+		let date: Date = viewModel.order.startTimeDateLocal
 		let components = Calendar.current.dateComponents([.month, .day, .weekday], from: date)
 		
 		let time: String = TimeFormatter.getTime(date: date)
@@ -378,7 +378,7 @@ struct OrderView: View {
 	}
 	
 	func getTimeDifference() -> String {
-		let timeComponents: DateComponents = Calendar.current.dateComponents([.hour, .minute], from: viewModel.order.startTimeDate, to: viewModel.order.endTimeDate)
+		let timeComponents: DateComponents = Calendar.current.dateComponents([.hour, .minute], from: viewModel.order.startTimeDateLocal, to: viewModel.order.endTimeDateLocal)
 		var hourText: String = ""
 		var minuteText: String = ""
 		if let hour = timeComponents.hour {
