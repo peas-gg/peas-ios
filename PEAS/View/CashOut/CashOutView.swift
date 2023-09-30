@@ -122,8 +122,6 @@ struct CashOutView: View {
 							EmptyView()
 						}
 					)
-					.padding(.top)
-					.padding(.top)
 					VStack(spacing: 20) {
 						Text("$2,378.56")
 							.foregroundColor(Color.app.secondaryText)
@@ -151,7 +149,7 @@ struct CashOutView: View {
 				}
 				.pushOutFrame()
 				.background(Color.app.accent)
-				.presentationDetents([.height(360)])
+				.presentationDetents([.height(350)])
 				.edgesIgnoringSafeArea(.bottom)
 				.interactiveDismissDisabled()
 			}
