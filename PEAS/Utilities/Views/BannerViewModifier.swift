@@ -28,11 +28,18 @@ struct BannerViewModifier: ViewModifier {
 						if let data = data {
 							if isShowing && !data.detail.isEmpty {
 								HStack {
-									Image(systemName: "info.circle.fill")
-										.font(Font.app.title2)
+									if !data.isSuccess {
+										Image(systemName: "info.circle.fill")
+											.font(Font.app.title2)
+									}
 									Text(data.detail)
 										.font(Font.app.body)
-										.foregroundColor(Color.app.primaryText)
+										.foregroundStyle(Color.app.primaryText)
+									if data.isSuccess {
+										Image(systemName: "checkmark.circle.fill")
+											.font(Font.app.title2)
+											.foregroundStyle(Color.app.accent)
+									}
 								}
 								.padding()
 								.background {

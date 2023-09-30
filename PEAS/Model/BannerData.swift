@@ -8,8 +8,15 @@
 import Foundation
 
 struct BannerData: Equatable {
-	var timeOut: Double = 4.0
+	let isSuccess: Bool
+	var timeOut: Double
 	var detail: String
+	
+	init(isSuccess: Bool = false, timeOut: Double = 4.0, detail: String) {
+		self.isSuccess = isSuccess
+		self.timeOut = timeOut
+		self.detail = detail
+	}
 }
 
 extension BannerData {
