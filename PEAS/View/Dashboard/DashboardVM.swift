@@ -129,6 +129,18 @@ extension DashboardView {
 			refreshOrders()
 		}
 		
+		func didCloseCashOutOnboarding() {
+			Task {
+				try await Task.sleep(for: .seconds(0.5))
+				if let user = keychainClient.get(key: .user) {
+					if user.interacEmail != nil {
+						self.user = user
+						cashOut()
+					}
+				}
+			}
+		}
+		
 		func cashOut() {
 			if self.user.interacEmail == nil {
 				setIsShowingCashOutOnboarding(true)

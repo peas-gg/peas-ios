@@ -30,7 +30,7 @@ extension CashOutView {
 		@Published var differentEmail: String = ""
 		@Published var isShowingConfirmation: Bool = false
 		
-		@Published var shouldDismiss: Bool = false
+		@Published var dismiss: Bool = false
 		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
@@ -97,8 +97,9 @@ extension CashOutView {
 										refreshToken: user.refreshToken
 									)
 									AppState.shared.updateUser(user: updatedUser)
+									
 									self.isLoading = false
-									self.shouldDismiss = true
+									self.dismiss.toggle()
 								}
 							}
 						)

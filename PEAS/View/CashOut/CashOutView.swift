@@ -156,11 +156,7 @@ struct CashOutView: View {
 			}
 		}
 		.banner(data: $viewModel.bannerData)
-		.onChange(of: viewModel.shouldDismiss) { shouldDismiss in
-			if shouldDismiss {
-				onDismiss()
-			}
-		}
+		.onChange(of: viewModel.dismiss) { _ in onDismiss() }
 	}
 	
 	@ViewBuilder
