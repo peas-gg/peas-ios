@@ -115,6 +115,7 @@ import SwiftUI
 	
 	func updateUser(user: User) {
 		self.keychainClient.set(key: .user, value: user)
+		self.refreshAppMode()
 	}
 	
 	func updateBusiness(business: Business) {
