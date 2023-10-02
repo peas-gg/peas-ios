@@ -337,12 +337,10 @@ struct OrderView: View {
 		let order: Order = viewModel.order
 		
 		let timeDisplay: String = {
-			let startDate: Date = ServerDateFormatter.formatToDate(from: order.startTime)
-			let endDate: Date = ServerDateFormatter.formatToDate(from: order.endTime)
-			if Date.now.isBetween(startDate, and: endDate) {
+			if Date.now.isBetween(order.startTimeDate, and: order.endTimeDate) {
 				return nowText
 			} else {
-				return startDate.timeAgoDisplay()
+				return order.startTimeDate.timeAgoDisplay()
 			}
 		}()
 		Text(" •  \(timeDisplay) ")

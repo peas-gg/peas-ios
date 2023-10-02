@@ -32,7 +32,7 @@ extension DashboardView {
 		
 		@Published var bannerData: BannerData?
 		
-		var currentShowingOrders: IdentifiedArrayOf<Order> {
+		var currentShowingOrders: [Order] {
 			switch selectedOrderFilter {
 			case .Approved, .Completed, .Declined, .Pending:
 				return orders.filter { $0.orderStatus == selectedOrderFilter }
@@ -50,8 +50,8 @@ extension DashboardView {
 			}
 		}
 		
-		var orders: IdentifiedArrayOf<Order> {
-			IdentifiedArray(uniqueElements: unSortedOrders.sorted(by: { $0.createdDate > $1.createdDate }))
+		var orders: [Order] {
+			unSortedOrders.sorted(by: { $0.created > $1.created })
 		}
 		
 		//Clients
@@ -112,8 +112,8 @@ extension DashboardView {
 							return
 						}
 					},
-					receiveValue: { orders in
-						OrderRepository.shared.update(orders: orders)
+					receiveValue: { ordersResponse in
+						OrderRepository.shared.update(orders: ordersResponse.compactMap({ Order(orderResponse: $0) }))
 					}
 				)
 				.store(in: &cancellableBag)

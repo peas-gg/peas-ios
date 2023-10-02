@@ -104,9 +104,9 @@ extension OrderView {
 							self.bannerData = BannerData(error: error)
 						}
 					},
-					receiveValue: { order in
+					receiveValue: { orderResponse in
 						self.isLoading = false
-						OrderRepository.shared.update(order: order)
+						OrderRepository.shared.update(order: Order(orderResponse: orderResponse))
 					}
 				)
 				.store(in: &cancellableBag)
