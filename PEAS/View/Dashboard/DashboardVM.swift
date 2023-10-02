@@ -32,7 +32,7 @@ extension DashboardView {
 		
 		@Published var bannerData: BannerData?
 		
-		var currentShowingOrders: IdentifiedArrayOf<Order> {
+		var currentShowingOrders: [Order] {
 			switch selectedOrderFilter {
 			case .Approved, .Completed, .Declined, .Pending:
 				return orders.filter { $0.orderStatus == selectedOrderFilter }
@@ -50,8 +50,8 @@ extension DashboardView {
 			}
 		}
 		
-		var orders: IdentifiedArrayOf<Order> {
-			IdentifiedArray(uniqueElements: unSortedOrders.sorted(by: { $0.createdDate > $1.createdDate }))
+		var orders: [Order] {
+			unSortedOrders.sorted(by: { $0.createdDate > $1.createdDate })
 		}
 		
 		//Clients
