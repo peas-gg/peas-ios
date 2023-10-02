@@ -188,7 +188,7 @@ struct SiteView: View {
 		.appMenu(id: linksMenuId, isShowing: $viewModel.isShowingSocialLinksMenu) {
 			VStack {
 				if let twitter = getSocialLink(handle: business.twitter) {
-					socialLink(title: "X", link: "\(AppConstants.twitterUrlString + twitter)")
+					socialLink(title: "X / Twitter", link: "\(AppConstants.twitterUrlString + twitter)")
 				}
 				if let instagram = getSocialLink(handle: business.instagram) {
 					socialLink(title: "Instagram", link: "\(AppConstants.instagramUrlString + instagram)")
