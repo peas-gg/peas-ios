@@ -51,7 +51,7 @@ extension DashboardView {
 		}
 		
 		var orders: [Order] {
-			unSortedOrders.sorted(by: { $0.createdDate > $1.createdDate })
+			unSortedOrders.sorted(by: { $0.created > $1.created })
 		}
 		
 		//Clients
@@ -112,8 +112,8 @@ extension DashboardView {
 							return
 						}
 					},
-					receiveValue: { orders in
-						OrderRepository.shared.update(orders: orders)
+					receiveValue: { ordersResponse in
+						OrderRepository.shared.update(orders: ordersResponse.compactMap({ Order(orderResponse: $0) }))
 					}
 				)
 				.store(in: &cancellableBag)
