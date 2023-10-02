@@ -7,33 +7,38 @@
 
 import Foundation
 
-struct ServerDateFormatter {
+class ServerDateFormatter {
+	static let shared: ServerDateFormatter = ServerDateFormatter()
 	static let dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 	static let serverTimeZone: TimeZone = TimeZone(abbreviation: "UTC")!
 	
-	static func formatToLocal(from serverDate: String) -> Date {
+	static let serverDateFormatter: DateFormatter = {
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = dateFormat
 		dateFormatter.timeZone = serverTimeZone
-		if let date = dateFormatter.date(from: serverDate) {
-			dateFormatter.timeZone = TimeZone.current
-			return dateFormatter.string(from: date).toDate()
+		return dateFormatter
+	}()
+	
+	static let localDateFormatter: DateFormatter = {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = dateFormat
+		dateFormatter.timeZone = TimeZone.current
+		return dateFormatter
+	}()
+	
+	static func formatToLocal(from serverDate: String) -> Date {
+		if let date = serverDateFormatter.date(from: serverDate) {
+			return serverDateFormatter.date(from: localDateFormatter.string(from: date)) ?? Date()
 		}
 		return Date()
 	}
 	
 	static func formatToDate(from serverDate: String) -> Date {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = dateFormat
-		dateFormatter.timeZone = serverTimeZone
-		return dateFormatter.date(from: serverDate) ?? Date()
+		return serverDateFormatter.date(from: serverDate) ?? Date()
 	}
 	
 	static func formatToUTC(from localDate: Date) -> String {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = dateFormat
-		dateFormatter.timeZone = serverTimeZone
-		return dateFormatter.string(from: localDate)
+		return serverDateFormatter.string(from: localDate)
 	}
 }
 
@@ -47,14 +52,5 @@ struct TimeFormatter {
 	
 	static func getTime(date: Date) -> String {
 		return timeFormatter.string(from: date)
-	}
-}
-
-fileprivate extension String {
-	func toDate() -> Date {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = ServerDateFormatter.dateFormat
-		dateFormatter.timeZone = ServerDateFormatter.serverTimeZone
-		return dateFormatter.date(from: self) ?? Date()
 	}
 }
