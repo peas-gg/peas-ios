@@ -24,6 +24,7 @@ protocol APIRequests {
 	func resetPassword(_ model: ResetPasswordRequest) -> AnyPublisher<EmptyResponse, APIClientError>
 	//Account
 	func setInteracEmail(_ email: String) -> AnyPublisher<String, APIClientError>
+	func addDevice(_ token: String) -> AnyPublisher<EmptyResponse, APIClientError>
 	//Business
 	func getBusinessAccount() -> AnyPublisher<Business, APIClientError>
 	func createBusiness(_ model: CreateBusiness) -> AnyPublisher<Business, APIClientError>
@@ -315,6 +316,19 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: setInteracEmailRequest, output: String.self)
+	}
+	
+	func addDevice(_ token: String) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let addDeviceRequest = APPUrlRequest(
+			httpMethod: .post,
+			pathComponents: ["account", "device"],
+			query: [
+				URLQueryItem(name: "token", value: token),
+				URLQueryItem(name: "deviceType", value: "Apple")
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: addDeviceRequest, output: EmptyResponse.self)
 	}
 	
 	func getTemplates() -> AnyPublisher<[Template], APIClientError> {
