@@ -7,12 +7,13 @@
 import Combine
 import UIKit
 
-final class AppDelegate: NSObject, UIApplicationDelegate {
+final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 	
 	private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 	
 	override init() {
 		super.init()
+		UNUserNotificationCenter.current().delegate = self
 	}
 	
 	func application(
