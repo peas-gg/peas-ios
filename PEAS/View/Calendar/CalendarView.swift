@@ -102,6 +102,9 @@ struct CalendarView: View {
 			.onChange(of: viewModel.isExpanded) { _ in
 				setYOffset()
 			}
+			.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+				self.viewModel.didAppear()
+			}
 		}
 	}
 	
