@@ -64,6 +64,8 @@ extension DashboardView {
 			self.unSortedOrders = orders
 			setUp()
 			
+			registerForPushNotifications()
+			
 			//Register for updates
 			OrderRepository.shared
 				.$orders
@@ -159,6 +161,24 @@ extension DashboardView {
 		
 		func pushStack(_ route: Route) {
 			self.navStack.append(route)
+		}
+		
+		func registerForPushNotifications() {
+			UNUserNotificationCenter
+				.current()
+				.requestAuthorization(
+					options: [.alert, .sound, .badge]
+				) { granted, _ in
+					guard granted else { return }
+					UNUserNotificationCenter
+						.current()
+						.getNotificationSettings { settings in
+							guard settings.authorizationStatus == .authorized else { return }
+							DispatchQueue.main.async {
+								UIApplication.shared.registerForRemoteNotifications()
+							}
+						}
+				}
 		}
 	}
 }

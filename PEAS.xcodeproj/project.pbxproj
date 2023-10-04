@@ -64,6 +64,8 @@
 		D066F8322A95741B00B65CA4 /* CachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8312A95741B00B65CA4 /* CachedImage.swift */; };
 		D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8332A957A4800B65CA4 /* ButtonStyles.swift */; };
 		D066F8362A97CEC800B65CA4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066F8352A97CEC800B65CA4 /* AppState.swift */; };
+		D068F34A2ACBBF32003E8BC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3492ACBBF32003E8BC5 /* AppDelegate.swift */; };
+		D068F34C2ACBBFCA003E8BC5 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F34B2ACBBFCA003E8BC5 /* Data+Extension.swift */; };
 		D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */; };
 		D06A2ADE2AB109D4002E3221 /* RequestPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */; };
 		D06A2AE02AB12084002E3221 /* FullScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */; };
@@ -171,6 +173,9 @@
 		D066F8312A95741B00B65CA4 /* CachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImage.swift; sourceTree = "<group>"; };
 		D066F8332A957A4800B65CA4 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		D066F8352A97CEC800B65CA4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		D068F3492ACBBF32003E8BC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D068F34B2ACBBFCA003E8BC5 /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
+		D068F3502ACC7AA7003E8BC5 /* PEAS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PEAS.entitlements; sourceTree = "<group>"; };
 		D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentView.swift; sourceTree = "<group>"; };
 		D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentVM.swift; sourceTree = "<group>"; };
 		D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenContainer.swift; sourceTree = "<group>"; };
@@ -254,6 +259,7 @@
 		D017617C2A86216600926960 /* PEAS */ = {
 			isa = PBXGroup;
 			children = (
+				D068F3502ACC7AA7003E8BC5 /* PEAS.entitlements */,
 				D0DFF56C2AAA8A5600B6B439 /* Info.plist */,
 				D02659912A868D8F00655C23 /* Clients */,
 				D02659922A868DDC00655C23 /* Model */,
@@ -264,6 +270,7 @@
 				D017617D2A86216600926960 /* PEASApp.swift */,
 				D017617F2A86216600926960 /* AppView.swift */,
 				D066F8352A97CEC800B65CA4 /* AppState.swift */,
+				D068F3492ACBBF32003E8BC5 /* AppDelegate.swift */,
 				D01761812A86216700926960 /* Assets.xcassets */,
 				D01761832A86216700926960 /* Preview Content */,
 				D017618B2A86245800926960 /* LaunchScreen.storyboard */,
@@ -351,6 +358,7 @@
 				D0332A252AA5621C000E7515 /* Array+Extension.swift */,
 				D04A8C092ABA46A1002F2356 /* UIImage+Extension.swift */,
 				D03D8C012AC23D7F007656F4 /* Sequence+Extension.swift */,
+				D068F34B2ACBBFCA003E8BC5 /* Data+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -692,6 +700,7 @@
 				D0B23CAB2AA80E8400CBDA26 /* BannerData.swift in Sources */,
 				D074FBFF2ABEC064009E7944 /* Payment.swift in Sources */,
 				D066F81F2A9490E500B65CA4 /* User.swift in Sources */,
+				D068F34C2ACBBFCA003E8BC5 /* Data+Extension.swift in Sources */,
 				D0B23CA92AA80BF200CBDA26 /* BannerViewModifier.swift in Sources */,
 				D0FB0B0A2A8FFBA500C56178 /* AppError.swift in Sources */,
 				D06455792A97D068003E342C /* HomeVM.swift in Sources */,
@@ -741,6 +750,7 @@
 				D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */,
 				D0B23CA72AA7A76600CBDA26 /* KeyboardClient.swift in Sources */,
 				D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */,
+				D068F34A2ACBBF32003E8BC5 /* AppDelegate.swift in Sources */,
 				D03D8C002AC1EBBC007656F4 /* ShimmerTextView.swift in Sources */,
 				D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */,
 				D04F11572A9D0E840011242C /* Helpers.swift in Sources */,
@@ -898,6 +908,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PEAS/PEAS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PEAS/Preview Content\"";
@@ -936,6 +947,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PEAS/PEAS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PEAS/Preview Content\"";

@@ -72,6 +72,9 @@ struct CustomersView: View {
 		.banner(data: $viewModel.bannerData)
 		.progressView(isShowing: viewModel.isLoading, style: .white)
 		.onAppear { viewModel.refresh() }
+		.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+			viewModel.refresh()
+		}
 	}
 }
 
