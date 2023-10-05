@@ -9,7 +9,6 @@ import Foundation
 
 struct Payment: Equatable, Codable, Hashable {
 	let id: Int
-	let currency: Currency
 	let base: Int
 	let deposit: Int
 	let tip: Int
@@ -22,7 +21,6 @@ extension Payment {
 	static var mock1: Self {
 		return Payment(
 			id: 0,
-			currency: .CAD,
 			base: 12000,
 			deposit: 0,
 			tip: 1200,
