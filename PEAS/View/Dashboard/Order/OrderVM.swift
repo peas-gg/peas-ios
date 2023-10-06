@@ -35,7 +35,7 @@ extension OrderView {
 		@Published var bannerData: BannerData?
 		
 		var orderAmount: Int {
-			return order.payment?.total ?? order.price
+			return isOrderPaidFor ? order.payment?.total ?? 0 : order.price
 		}
 		
 		var canRequestPayment: Bool {

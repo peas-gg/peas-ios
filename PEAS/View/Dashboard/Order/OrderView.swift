@@ -155,7 +155,7 @@ struct OrderView: View {
 				HStack(spacing: 20) {
 					Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
 						.font(Font.app.body)
-						.foregroundColor(viewModel.order.payment == nil ? Color.app.tertiaryText : Color.app.accent)
+						.foregroundColor(viewModel.isOrderPaidFor ? Color.app.accent : Color.app.primaryText)
 					timeView()
 				}
 				HStack(spacing: 6) {
