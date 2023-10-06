@@ -43,9 +43,17 @@ extension OrderView {
 			case .Pending, .Declined:
 				return false
 			case .Approved:
-				return order.payment == nil
+				return !isOrderPaidFor
 			case .Completed:
 				return false
+			}
+		}
+		
+		var isOrderPaidFor: Bool {
+			if order.price > 0 {
+				return order.payment?.total ?? 0 > 0
+			} else {
+				return true
 			}
 		}
 		

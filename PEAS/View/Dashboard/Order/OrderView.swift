@@ -37,7 +37,7 @@ struct OrderView: View {
 									title("Price:")
 									Text("$\(PriceFormatter.price(value: String(viewModel.orderAmount)))")
 										.font(Font.app.largeTitle)
-										.foregroundColor(viewModel.order.payment == nil ? Color.app.primaryText : Color.app.accent)
+										.foregroundColor(viewModel.isOrderPaidFor ? Color.app.accent : Color.app.primaryText)
 								}
 								VStack(alignment: alignment) {
 									title("Customer:")
