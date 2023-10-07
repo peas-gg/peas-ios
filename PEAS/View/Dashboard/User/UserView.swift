@@ -13,6 +13,8 @@ struct UserView: View {
 	
 	let phoneNumberKit: PhoneNumberKit = PhoneNumberKit()
 	
+	@Environment(\.openURL) var openURL
+	
 	init(viewModel: ViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
 	}
@@ -28,7 +30,7 @@ struct UserView: View {
 					}, leading: {
 						EmptyView()
 					}, trailing: {
-						Button(action: {}) {
+						Button(action: { openEmail() }) {
 							Image(systemName: "trash")
 							Text("delete")
 								.font(Font.app.captionSemiBold)
@@ -61,7 +63,7 @@ struct UserView: View {
 					.underline()
 					.padding(.horizontal)
 			}
-			Button(action: {}) {
+			Button(action: { openEmail() }) {
 				Text("Request edit")
 			}
 			.buttonStyle(.expanded)
@@ -98,6 +100,12 @@ struct UserView: View {
 				.frame(dimension: interacImageDimension)
 				.padding(.trailing)
 				.offset(x: 4)
+		}
+	}
+	
+	func openEmail() {
+		if let url = URL(string: "mailto:hello@peas.gg") {
+			openURL(url)
 		}
 	}
 }
