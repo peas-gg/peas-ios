@@ -21,6 +21,7 @@ extension DashboardView {
 		@Published var user: User
 		@Published var business: Business
 		@Published var unSortedOrders: IdentifiedArrayOf<Order>
+		@Published var wallet: Wallet
 		
 		@Published var isShowingUserView: Bool = false
 		@Published var isShowingFilterMenu: Bool = false
@@ -59,10 +60,22 @@ extension DashboardView {
 		private let apiClient: APIClient = APIClient.shared
 		private let keychainClient: KeychainClient = KeychainClient.shared
 		
-		init(user: User, business: Business, orders: IdentifiedArrayOf<Order> = []) {
+		init(
+			user: User,
+			business: Business,
+			orders: IdentifiedArrayOf<Order> = [],
+			wallet: Wallet = Wallet(
+				walletResponse: WalletResponse(
+					balance: 0,
+					holdBalance: 0,
+					transactions: []
+				)
+			)
+		) {
 			self.user = user
 			self.business = business
 			self.unSortedOrders = orders
+			self.wallet = wallet
 			setUp()
 			
 			registerForPushNotifications()

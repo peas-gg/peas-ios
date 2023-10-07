@@ -34,9 +34,11 @@ struct DashboardView: View {
 						}
 					}
 					.padding(.top, 30)
-					Text("$2,378.56")
+					let price: String = PriceFormatter.price(value: String(viewModel.wallet.balance))
+					let fontSize: CGFloat = price.count > 10 ? 40 : 50
+					Text("$\(price)")
 						.foregroundColor(Color.app.accent)
-						.font(.system(size: 50, weight: .semibold, design: .rounded))
+						.font(.system(size: fontSize, weight: .semibold, design: .rounded))
 					HStack {
 						Spacer()
 						buttonView(symbol: "dollarsign.circle", title: "CashOut") {
@@ -189,7 +191,7 @@ struct DashboardView: View {
 struct DashboardView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1, orders: [Order.mock1, Order.mock2]))
+			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1, orders: [Order.mock1, Order.mock2], wallet: Wallet.mock1))
 		}
 	}
 }
