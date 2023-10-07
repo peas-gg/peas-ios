@@ -101,7 +101,7 @@ struct CashOutView: View {
 				.foregroundColor(Color.app.primaryText)
 				.background(Color.app.primaryBackground)
 				.progressView(isShowing: viewModel.isLoading, style: .white)
-			case .cashOut:
+			case .cashOut(let balance, let holdBalance):
 				VStack {
 					SymmetricHStack(
 						content: {
@@ -123,9 +123,19 @@ struct CashOutView: View {
 						}
 					)
 					VStack(spacing: 20) {
-						Text("$2,378.56")
-							.foregroundColor(Color.app.secondaryText)
-							.font(.system(size: 50, weight: .semibold, design: .rounded))
+						VStack {
+							let balanceString: String = PriceFormatter.price(value: String(balance - holdBalance))
+							let holdBalanceString: String = PriceFormatter.price(value: String(holdBalance))
+							let fontSize: CGFloat = balanceString.count > 8 ? 40 : 50
+							Text("$\(balanceString)")
+								.foregroundColor(Color.app.secondaryText)
+								.font(.system(size: fontSize, weight: .semibold, design: .rounded))
+							Text("Hold: $\(holdBalanceString)")
+								.foregroundColor(Color.app.darkGreen)
+								.font(Font.app.bodySemiBold)
+								.lineLimit(1)
+								.opacity(holdBalance > 0 ? 1.0 : 0.0)
+						}
 						HStack(spacing: 20) {
 							Image("Interac")
 								.resizable()
@@ -231,6 +241,6 @@ struct CashOutView: View {
 struct CashOutView_Previews: PreviewProvider {
 	static var previews: some View {
 		CashOutView(viewModel: .init(user: User.mock1, context: .onboarding), onDismiss: {})
-		CashOutView(viewModel: .init(user: User.mock1, context: .cashOut), onDismiss: {})
+		CashOutView(viewModel: .init(user: User.mock1, context: .cashOut(balance: 10000, holdBalance: 1000)), onDismiss: {})
 	}
 }

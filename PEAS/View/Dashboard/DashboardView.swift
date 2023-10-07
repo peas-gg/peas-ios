@@ -135,8 +135,12 @@ struct DashboardView: View {
 			UserView(viewModel: UserView.ViewModel(user: viewModel.user))
 		}
 		.sheet(isPresented: $viewModel.isShowingCashOut) {
+			let wallet: Wallet = viewModel.wallet
 			CashOutView(
-				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .cashOut),
+				viewModel: CashOutView.ViewModel(
+					user: viewModel.user,
+					context: .cashOut(balance: wallet.balance, holdBalance: wallet.holdBalance)
+				),
 				onDismiss: { viewModel.setIsShowingCashOut(false) }
 			)
 		}

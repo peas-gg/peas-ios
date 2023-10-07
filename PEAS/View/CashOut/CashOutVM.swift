@@ -12,7 +12,7 @@ extension CashOutView {
 	@MainActor class ViewModel: ObservableObject {
 		enum Context {
 			case onboarding
-			case cashOut
+			case cashOut(balance: Int64, holdBalance: Int64)
 		}
 		
 		enum EmailSelection {
