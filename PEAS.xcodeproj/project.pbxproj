@@ -70,6 +70,8 @@
 		D068F3652ACFE619003E8BC5 /* order.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D068F3632ACFE619003E8BC5 /* order.mp3 */; };
 		D068F36B2AD1CAD2003E8BC5 /* WalletResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F36A2AD1CAD2003E8BC5 /* WalletResponse.swift */; };
 		D068F36D2AD1CE3B003E8BC5 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */; };
+		D068F3782AD20F36003E8BC5 /* TransactionsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3772AD20F35003E8BC5 /* TransactionsVM.swift */; };
+		D068F37A2AD20F45003E8BC5 /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3792AD20F45003E8BC5 /* TransactionsView.swift */; };
 		D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */; };
 		D06A2ADE2AB109D4002E3221 /* RequestPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */; };
 		D06A2AE02AB12084002E3221 /* FullScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */; };
@@ -184,6 +186,8 @@
 		D068F3632ACFE619003E8BC5 /* order.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = order.mp3; sourceTree = "<group>"; };
 		D068F36A2AD1CAD2003E8BC5 /* WalletResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletResponse.swift; sourceTree = "<group>"; };
 		D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
+		D068F3772AD20F35003E8BC5 /* TransactionsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsVM.swift; sourceTree = "<group>"; };
+		D068F3792AD20F45003E8BC5 /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
 		D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentView.swift; sourceTree = "<group>"; };
 		D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentVM.swift; sourceTree = "<group>"; };
 		D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenContainer.swift; sourceTree = "<group>"; };
@@ -384,6 +388,7 @@
 		D02659A12A8733F300655C23 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				D068F3762AD20F07003E8BC5 /* Transaction */,
 				D074FBF52ABEA607009E7944 /* Order */,
 				D06A2ADA2AB109AD002E3221 /* RequestPayment */,
 				D0F089582AAFB6560043EEE3 /* User */,
@@ -467,6 +472,15 @@
 				D068F3632ACFE619003E8BC5 /* order.mp3 */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		D068F3762AD20F07003E8BC5 /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				D068F3772AD20F35003E8BC5 /* TransactionsVM.swift */,
+				D068F3792AD20F45003E8BC5 /* TransactionsView.swift */,
+			);
+			path = Transaction;
 			sourceTree = "<group>";
 		};
 		D06A2ADA2AB109AD002E3221 /* RequestPayment */ = {
@@ -733,6 +747,7 @@
 				D066F8282A956E4400B65CA4 /* Cache.swift in Sources */,
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
 				D034B80F2ACB42CA00A99A6F /* OrderResponse.swift in Sources */,
+				D068F3782AD20F36003E8BC5 /* TransactionsVM.swift in Sources */,
 				D04F115D2A9E4A0B0011242C /* StepperView.swift in Sources */,
 				D074FBF42ABE5DF6009E7944 /* Customer.swift in Sources */,
 				D0F0895C2AAFB66D0043EEE3 /* UserVM.swift in Sources */,
@@ -749,6 +764,7 @@
 				D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */,
 				D068F36B2AD1CAD2003E8BC5 /* WalletResponse.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
+				D068F37A2AD20F45003E8BC5 /* TransactionsView.swift in Sources */,
 				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
 				D074FBFB2ABEBF41009E7944 /* Order.swift in Sources */,
 				071633F52AB3B7D300FB2B94 /* CardBackground.swift in Sources */,
