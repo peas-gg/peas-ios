@@ -159,7 +159,7 @@ struct CashOutView: View {
 				}
 				.pushOutFrame()
 				.background(Color.app.accent)
-				.presentationDetents([.height(350)])
+				.presentationDetents([.height(370)])
 				.edgesIgnoringSafeArea(.bottom)
 				.interactiveDismissDisabled()
 			}
