@@ -75,13 +75,15 @@ struct Wallet: Codable {
 			case .Earning:
 				if let earning = transactionResponse.earning {
 					self.info = .earning(Earning(earningResponse: earning))
+				} else {
+					throw AppError.APIClientError.decodingError
 				}
-				throw AppError.APIClientError.decodingError
 			case .Withdrawal:
 				if let withdrawal = transactionResponse.withdrawal {
 					self.info = .withdrawal(Withdrawal(withdrawalResponse: withdrawal))
+				} else {
+					throw AppError.APIClientError.decodingError
 				}
-				throw AppError.APIClientError.decodingError
 			}
 		}
 	}
