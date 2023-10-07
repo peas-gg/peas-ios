@@ -115,7 +115,31 @@ extension Wallet {
 				balance: 10000,
 				holdBalance: 800,
 				transactions: [
-					
+					WalletResponse.TransactionResponse(
+						transactionType: .Earning,
+						earning: .init(
+							orderId: "ABCD-EFG-HIJKLM-NOPQRS",
+							title: "Box braids",
+							base: 10000,
+							deposit: 0,
+							tip: 3000,
+							fee: 800,
+							total: 13000,
+							created: "2023-09-22T07:10:00Z",
+							completed: "2023-09-22T07:10:00Z"
+						),
+						withdrawal: nil
+					),
+					WalletResponse.TransactionResponse(
+						transactionType: .Withdrawal,
+						earning: nil,
+						withdrawal: .init(
+							amount: 200000,
+							withdrawalStatus: .Succeeded,
+							created: "2023-09-22T07:10:00Z",
+							completed: "2023-09-22T010:10:00Z"
+						)
+					)
 				]
 			)
 		)
