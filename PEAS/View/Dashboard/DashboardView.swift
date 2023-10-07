@@ -45,7 +45,7 @@ struct DashboardView: View {
 						Spacer()
 							.frame(width: 20)
 						buttonView(symbol: "doc.text", title: "Transactions") {
-							
+							viewModel.showTransactions()
 						}
 						Spacer()
 					}
@@ -103,6 +103,8 @@ struct DashboardView: View {
 					switch route {
 					case .order(let order):
 						OrderView(viewModel: OrderView.ViewModel(context: .detail, business: viewModel.business, order: order))
+					case .transactions:
+						TransactionsView(viewModel: .init(transactions: Wallet.mock1.transactions))
 					}
 				}
 				.navigationBarTitleDisplayMode(.inline)

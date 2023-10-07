@@ -13,6 +13,7 @@ extension DashboardView {
 	@MainActor class ViewModel: ObservableObject {
 		enum Route: Hashable {
 			case order(Order)
+			case transactions
 		}
 		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -149,6 +150,10 @@ extension DashboardView {
 			} else {
 				setIsShowingCashOut(true)
 			}
+		}
+		
+		func showTransactions() {
+			self.navStack.append(.transactions)
 		}
 		
 		func setIsShowingCashOut(_ isShowing: Bool) {
