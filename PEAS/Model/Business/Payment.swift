@@ -15,6 +15,7 @@ struct Payment: Equatable, Codable, Hashable {
 	let fee: Int
 	let total: Int
 	let created: String
+	let completed: String?
 }
 
 extension Payment {
@@ -26,7 +27,8 @@ extension Payment {
 			tip: 1200,
 			fee: 0,
 			total: 13200,
-			created: "2023-09-22T07:50:00Z"
+			created: "2023-09-22T07:50:00Z",
+			completed: nil
 		)
 	}
 }
