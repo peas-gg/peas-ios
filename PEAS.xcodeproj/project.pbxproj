@@ -71,6 +71,9 @@
 		D068F3672AD1CA9C003E8BC5 /* WithdrawalResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3662AD1CA9C003E8BC5 /* WithdrawalResponse.swift */; };
 		D068F3692AD1CABB003E8BC5 /* TransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3682AD1CABB003E8BC5 /* TransactionResponse.swift */; };
 		D068F36B2AD1CAD2003E8BC5 /* WalletResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F36A2AD1CAD2003E8BC5 /* WalletResponse.swift */; };
+		D068F36D2AD1CE3B003E8BC5 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */; };
+		D068F36F2AD1D83B003E8BC5 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F36E2AD1D83B003E8BC5 /* Transaction.swift */; };
+		D068F3712AD1D8BE003E8BC5 /* Withdrawal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3702AD1D8BE003E8BC5 /* Withdrawal.swift */; };
 		D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */; };
 		D06A2ADE2AB109D4002E3221 /* RequestPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */; };
 		D06A2AE02AB12084002E3221 /* FullScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */; };
@@ -186,6 +189,9 @@
 		D068F3662AD1CA9C003E8BC5 /* WithdrawalResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalResponse.swift; sourceTree = "<group>"; };
 		D068F3682AD1CABB003E8BC5 /* TransactionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResponse.swift; sourceTree = "<group>"; };
 		D068F36A2AD1CAD2003E8BC5 /* WalletResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletResponse.swift; sourceTree = "<group>"; };
+		D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
+		D068F36E2AD1D83B003E8BC5 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		D068F3702AD1D8BE003E8BC5 /* Withdrawal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Withdrawal.swift; sourceTree = "<group>"; };
 		D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentView.swift; sourceTree = "<group>"; };
 		D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentVM.swift; sourceTree = "<group>"; };
 		D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenContainer.swift; sourceTree = "<group>"; };
@@ -511,6 +517,9 @@
 				D074FBFE2ABEC064009E7944 /* Payment.swift */,
 				D0AE1E4C2AC4F6B4004F0A67 /* UpdateOrder.swift */,
 				D0AE1E4E2AC4F7FD004F0A67 /* RequestPayment.swift */,
+				D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */,
+				D068F36E2AD1D83B003E8BC5 /* Transaction.swift */,
+				D068F3702AD1D8BE003E8BC5 /* Withdrawal.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -708,6 +717,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D068F36D2AD1CE3B003E8BC5 /* Wallet.swift in Sources */,
 				D01761802A86216600926960 /* AppView.swift in Sources */,
 				D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */,
 				D04A8C0E2ABAA245002F2356 /* ServerDateFormatter.swift in Sources */,
@@ -721,6 +731,7 @@
 				D0332A1F2AA4502B000E7515 /* AuthenticateVM.swift in Sources */,
 				D0793D302AA29FA100139783 /* LoadingIndicator.swift in Sources */,
 				D0793D232A9FBC7500139783 /* SiteOnboardingVM.swift in Sources */,
+				D068F36F2AD1D83B003E8BC5 /* Transaction.swift in Sources */,
 				D066F8362A97CEC800B65CA4 /* AppState.swift in Sources */,
 				D0B23CAB2AA80E8400CBDA26 /* BannerData.swift in Sources */,
 				D074FBFF2ABEC064009E7944 /* Payment.swift in Sources */,
@@ -752,6 +763,7 @@
 				D068F36B2AD1CAD2003E8BC5 /* WalletResponse.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
 				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
+				D068F3712AD1D8BE003E8BC5 /* Withdrawal.swift in Sources */,
 				D074FBFB2ABEBF41009E7944 /* Order.swift in Sources */,
 				071633F52AB3B7D300FB2B94 /* CardBackground.swift in Sources */,
 				D0332A212AA45040000E7515 /* AuthenticateView.swift in Sources */,

@@ -8,13 +8,8 @@
 import Foundation
 
 struct WithdrawalResponse: Decodable {
-	enum Status: Decodable {
-		case Pending
-		case Succeeded
-		case Failed
-	}
 	let amount: Int
-	let withdrawalStatus: Status
+	let withdrawalStatus: Withdrawal.Status
 	let created: String
 	let completed: String?
 }

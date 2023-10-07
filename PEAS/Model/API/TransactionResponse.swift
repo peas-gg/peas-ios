@@ -7,12 +7,8 @@
 
 import Foundation
 
-struct TransactionResponse {
-	enum `Type` {
-		case Order
-		case Withdrawal
-	}
-	let transactionType: `Type`
+struct TransactionResponse: Decodable {
+	let transactionType: Transaction.TransactionType
 	let order: OrderResponse
 	let withdrawal: WithdrawalResponse
 }
