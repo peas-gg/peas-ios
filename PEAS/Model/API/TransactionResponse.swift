@@ -8,7 +8,11 @@
 import Foundation
 
 struct TransactionResponse: Decodable {
-	let transactionType: Transaction.TransactionType
-	let order: OrderResponse
-	let withdrawal: WithdrawalResponse
+	enum TransactionType: Decodable {
+		case Order
+		case Withdrawal
+	}
+	let transactionType: TransactionType
+	let order: OrderResponse?
+	let withdrawal: WithdrawalResponse?
 }

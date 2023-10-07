@@ -18,4 +18,16 @@ struct Withdrawal: Codable {
 	let withdrawalStatus: Status
 	let created: Date
 	let completed: Date?
+	
+	init(withdrawalResponse: WithdrawalResponse) {
+		self.amount = withdrawalResponse.amount
+		self.withdrawalStatus = withdrawalResponse.withdrawalStatus
+		self.created = ServerDateFormatter.formatToLocal(from: withdrawalResponse.created)
+		self.completed = {
+			if let completed = withdrawalResponse.completed {
+				return ServerDateFormatter.formatToLocal(from: completed)
+			}
+			return nil
+		}()
+	}
 }
