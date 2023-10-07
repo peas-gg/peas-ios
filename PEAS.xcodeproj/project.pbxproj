@@ -72,6 +72,7 @@
 		D068F36D2AD1CE3B003E8BC5 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */; };
 		D068F3782AD20F36003E8BC5 /* TransactionsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3772AD20F35003E8BC5 /* TransactionsVM.swift */; };
 		D068F37A2AD20F45003E8BC5 /* TransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3792AD20F45003E8BC5 /* TransactionsView.swift */; };
+		D068F37C2AD224BD003E8BC5 /* WalletRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F37B2AD224BD003E8BC5 /* WalletRepository.swift */; };
 		D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */; };
 		D06A2ADE2AB109D4002E3221 /* RequestPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */; };
 		D06A2AE02AB12084002E3221 /* FullScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */; };
@@ -188,6 +189,7 @@
 		D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
 		D068F3772AD20F35003E8BC5 /* TransactionsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsVM.swift; sourceTree = "<group>"; };
 		D068F3792AD20F45003E8BC5 /* TransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsView.swift; sourceTree = "<group>"; };
+		D068F37B2AD224BD003E8BC5 /* WalletRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletRepository.swift; sourceTree = "<group>"; };
 		D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentView.swift; sourceTree = "<group>"; };
 		D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentVM.swift; sourceTree = "<group>"; };
 		D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenContainer.swift; sourceTree = "<group>"; };
@@ -442,6 +444,7 @@
 			isa = PBXGroup;
 			children = (
 				D042E5AF2AC63B9D0057DC91 /* OrderRepository.swift */,
+				D068F37B2AD224BD003E8BC5 /* WalletRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -808,6 +811,7 @@
 				D066F8172A9457EC00B65CA4 /* SiteOnboardingView.swift in Sources */,
 				D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */,
 				D0E562842AA34E25000965B6 /* EditSiteVM.swift in Sources */,
+				D068F37C2AD224BD003E8BC5 /* WalletRepository.swift in Sources */,
 				D0CE86342ABFEBE100FC4844 /* CustomerView.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */,

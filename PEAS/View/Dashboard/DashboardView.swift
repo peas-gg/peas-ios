@@ -106,7 +106,9 @@ struct DashboardView: View {
 					case .order(let order):
 						OrderView(viewModel: OrderView.ViewModel(context: .detail, business: viewModel.business, order: order))
 					case .transactions:
-						TransactionsView(viewModel: .init(transactions: Wallet.mock1.transactions))
+						TransactionsView(
+							viewModel: TransactionsView.ViewModel(transactions: viewModel.wallet.transactions)
+						)
 					}
 				}
 				.navigationBarTitleDisplayMode(.inline)

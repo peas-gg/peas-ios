@@ -81,6 +81,13 @@ extension DashboardView {
 			registerForPushNotifications()
 			
 			//Register for updates
+			WalletRepository.shared
+				.$wallet
+				.sink { wallet in
+					self.wallet = wallet
+				}
+				.store(in: &cancellableBag)
+			
 			OrderRepository.shared
 				.$orders
 				.sink { orders in
@@ -92,6 +99,7 @@ extension DashboardView {
 		func setUp() {
 			self.unSortedOrders = OrderRepository.shared.orders
 			refreshOrders()
+			refreshWallet()
 		}
 		
 		func toggleFilterMenu() {
@@ -113,6 +121,26 @@ extension DashboardView {
 			withAnimation(.default) {
 				self.isShowingFilterMenu = false
 			}
+		}
+		
+		func refreshWallet() {
+			self.apiClient
+				.getWallet(businessId: business.id)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.bannerData = BannerData(error: error)
+							return
+						}
+					},
+					receiveValue: { walletResponse in
+						WalletRepository.shared.update(wallet: Wallet(walletResponse: walletResponse))
+					}
+				)
+				.store(in: &cancellableBag)
 		}
 		
 		func refreshOrders() {
@@ -142,6 +170,7 @@ extension DashboardView {
 			if let business = keychainClient.get(key: .business) {
 				self.business = business
 			}
+			refreshWallet()
 			refreshOrders()
 		}
 		
