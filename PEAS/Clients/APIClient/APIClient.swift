@@ -37,6 +37,8 @@ protocol APIRequests {
 	func updateOrder(businessId: Business.ID, _ model: UpdateOrder) -> AnyPublisher<OrderResponse, APIClientError>
 	func requestPayment(businessId: Business.ID, _ model: RequestPayment) -> AnyPublisher<OrderResponse, APIClientError>
 	func getCustomers(businessId: Business.ID) -> AnyPublisher<[Customer], APIClientError>
+	func getWallet(businessId: Business.ID) -> AnyPublisher<WalletResponse, APIClientError>
+	func withdraw(businessId: Business.ID) -> AnyPublisher<WalletResponse, APIClientError>
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError>
 	func getTemplates() -> AnyPublisher<[Template], APIClientError>
 	func getColours() -> AnyPublisher<Dictionary<String, String>, APIClientError>
@@ -239,6 +241,30 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: getCustomers, output: [Customer].self)
+	}
+	
+	func getWallet(businessId: Business.ID) -> AnyPublisher<WalletResponse, APIClientError> {
+		let getWallet = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["business", "wallet"],
+			query: [
+				URLQueryItem(name: "businessId", value: businessId),
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: getWallet, output: WalletResponse.self)
+	}
+	
+	func withdraw(businessId: Business.ID) -> AnyPublisher<WalletResponse, APIClientError> {
+		let withdraw = APPUrlRequest(
+			httpMethod: .get,
+			pathComponents: ["business", "wallet", "withdraw"],
+			query: [
+				URLQueryItem(name: "businessId", value: businessId),
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: withdraw, output: WalletResponse.self)
 	}
 	
 	func getLocation(latitude: Double, longitude: Double) -> AnyPublisher<String, APIClientError> {
