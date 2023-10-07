@@ -257,7 +257,7 @@ final class APIClient: APIRequests {
 	
 	func withdraw(businessId: Business.ID) -> AnyPublisher<WalletResponse, APIClientError> {
 		let withdraw = APPUrlRequest(
-			httpMethod: .get,
+			httpMethod: .post,
 			pathComponents: ["business", "wallet", "withdraw"],
 			query: [
 				URLQueryItem(name: "businessId", value: businessId),
