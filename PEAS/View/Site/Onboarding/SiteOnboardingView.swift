@@ -43,7 +43,7 @@ struct SiteOnboardingView: View {
 					let padding: CGFloat = 10
 					SymmetricHStack(
 						content: {
-							Text("What is your art?")
+							Text("Business Profile")
 								.font(Font.app.title2)
 								.foregroundColor(Color.app.primaryText)
 						},
@@ -57,7 +57,7 @@ struct SiteOnboardingView: View {
 						}
 					)
 					.padding(.horizontal)
-					Text("Select your art to start setting up your business site")
+					Text("Select a template to start setting up your business")
 						.font(Font.app.body)
 						.multilineTextAlignment(.leading)
 						.padding(.top, padding)

@@ -78,6 +78,7 @@ extension SiteOnboardingView {
 			Task {
 				await cacheClient.delete(key: .businessDraft)
 				withAnimation(.default) {
+					self.bannerData = nil
 					self.businessDraft = nil
 				}
 			}
