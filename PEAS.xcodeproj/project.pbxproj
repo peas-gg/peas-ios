@@ -68,6 +68,9 @@
 		D068F34C2ACBBFCA003E8BC5 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F34B2ACBBFCA003E8BC5 /* Data+Extension.swift */; };
 		D068F3642ACFE619003E8BC5 /* cash.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D068F3622ACFE619003E8BC5 /* cash.mp3 */; };
 		D068F3652ACFE619003E8BC5 /* order.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D068F3632ACFE619003E8BC5 /* order.mp3 */; };
+		D068F3672AD1CA9C003E8BC5 /* WithdrawalResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3662AD1CA9C003E8BC5 /* WithdrawalResponse.swift */; };
+		D068F3692AD1CABB003E8BC5 /* TransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F3682AD1CABB003E8BC5 /* TransactionResponse.swift */; };
+		D068F36B2AD1CAD2003E8BC5 /* WalletResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D068F36A2AD1CAD2003E8BC5 /* WalletResponse.swift */; };
 		D06A2ADC2AB109BD002E3221 /* RequestPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */; };
 		D06A2ADE2AB109D4002E3221 /* RequestPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */; };
 		D06A2AE02AB12084002E3221 /* FullScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */; };
@@ -180,6 +183,9 @@
 		D068F3502ACC7AA7003E8BC5 /* PEAS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PEAS.entitlements; sourceTree = "<group>"; };
 		D068F3622ACFE619003E8BC5 /* cash.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cash.mp3; sourceTree = "<group>"; };
 		D068F3632ACFE619003E8BC5 /* order.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = order.mp3; sourceTree = "<group>"; };
+		D068F3662AD1CA9C003E8BC5 /* WithdrawalResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalResponse.swift; sourceTree = "<group>"; };
+		D068F3682AD1CABB003E8BC5 /* TransactionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResponse.swift; sourceTree = "<group>"; };
+		D068F36A2AD1CAD2003E8BC5 /* WalletResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletResponse.swift; sourceTree = "<group>"; };
 		D06A2ADB2AB109BD002E3221 /* RequestPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentView.swift; sourceTree = "<group>"; };
 		D06A2ADD2AB109D4002E3221 /* RequestPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPaymentVM.swift; sourceTree = "<group>"; };
 		D06A2ADF2AB12084002E3221 /* FullScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenContainer.swift; sourceTree = "<group>"; };
@@ -611,6 +617,9 @@
 				D0FB0B0C2A8FFC9500C56178 /* ResponseTypes.swift */,
 				D066F81C2A948F8D00B65CA4 /* Authenticate.swift */,
 				D034B80E2ACB42CA00A99A6F /* OrderResponse.swift */,
+				D068F3662AD1CA9C003E8BC5 /* WithdrawalResponse.swift */,
+				D068F3682AD1CABB003E8BC5 /* TransactionResponse.swift */,
+				D068F36A2AD1CAD2003E8BC5 /* WalletResponse.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -740,6 +749,7 @@
 				D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */,
 				D04F11632A9F2F750011242C /* PulseView.swift in Sources */,
 				D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */,
+				D068F36B2AD1CAD2003E8BC5 /* WalletResponse.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
 				D066F8192A948EA000B65CA4 /* TokenManager.swift in Sources */,
 				D074FBFB2ABEBF41009E7944 /* Order.swift in Sources */,
@@ -760,6 +770,7 @@
 				D0793D2B2AA279E500139783 /* CreateBusiness.swift in Sources */,
 				D042E5B02AC63B9D0057DC91 /* OrderRepository.swift in Sources */,
 				D0AE1E4D2AC4F6B4004F0A67 /* UpdateOrder.swift in Sources */,
+				D068F3672AD1CA9C003E8BC5 /* WithdrawalResponse.swift in Sources */,
 				D04A8C0A2ABA46A1002F2356 /* UIImage+Extension.swift in Sources */,
 				D0E220F92A9C59B2003864E3 /* EditSiteView.swift in Sources */,
 				D0793D292AA1A6D500139783 /* View+Extensions.swift in Sources */,
@@ -785,6 +796,7 @@
 				D0BF26D42A8863E9001FCC05 /* View+Frame.swift in Sources */,
 				D0E562842AA34E25000965B6 /* EditSiteVM.swift in Sources */,
 				D0CE86342ABFEBE100FC4844 /* CustomerView.swift in Sources */,
+				D068F3692AD1CABB003E8BC5 /* TransactionResponse.swift in Sources */,
 				D02659A02A87333000655C23 /* UIColor+Extension.swift in Sources */,
 				D04F11552A9C99670011242C /* Binding+Extension.swift in Sources */,
 				D0BF26D22A885834001FCC05 /* MonthView.swift in Sources */,
