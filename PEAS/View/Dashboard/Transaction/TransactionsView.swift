@@ -43,8 +43,7 @@ struct TransactionsView: View {
 				subTitle(transaction: transaction)
 				Text(transaction.created, style: .date)
 					.font(Font.app.callout)
-					.foregroundStyle(Color.app.tertiaryText)
-					.opacity(0.6)
+					.foregroundStyle(Color.app.primaryText.opacity(0.8))
 			}
 			Spacer(minLength: 0)
 			amount(transaction: transaction)
