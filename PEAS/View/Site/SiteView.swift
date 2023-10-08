@@ -138,7 +138,7 @@ struct SiteView: View {
 				}
 				.padding(.horizontal)
 				LazyVGrid(columns: Array(repeating: GridItem(spacing: 15), count: 2), spacing: 15) {
-					ForEach(business.blocks) { block in
+					ForEach(business.blocks.sorted(by: { $0.index < $1.index })) { block in
 						blockView(block)
 					}
 					if viewModel.isInEditMode {
