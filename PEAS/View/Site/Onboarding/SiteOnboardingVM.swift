@@ -133,12 +133,14 @@ extension SiteOnboardingView {
 								blocks.append(
 									Business.Block(
 										id: blockDraft.id,
+										index: blockDraft.index,
 										blockType: blockDraft.blockType,
 										image: blockImageUrl,
 										price: blockDraft.price,
 										duration: blockDraft.duration,
 										title: blockDraft.title,
-										description: blockDraft.description
+										description: blockDraft.description,
+										isActive: blockDraft.isActive
 									)
 								)
 							} else {

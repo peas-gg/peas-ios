@@ -97,7 +97,7 @@ struct SiteView: View {
 								} else {
 									HStack {
 										Image(systemName: "person.crop.circle.badge.checkmark")
-										Text("0")
+										Text("\(viewModel.business.orderCount)")
 									}
 									.font(Font.app.bodySemiBold)
 									.foregroundColor(Color.app.primaryText)
