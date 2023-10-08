@@ -153,8 +153,11 @@ struct CashOutView: View {
 							Spacer(minLength: 0)
 						}
 						.padding(.vertical)
-						SlidingButtonView(status: $viewModel.slidingButtonStatus)
-							.padding(.bottom, 20)
+						SlidingButtonView(
+							status: $viewModel.slidingButtonStatus,
+							didComplete: { viewModel.advance() }
+						)
+						.padding(.bottom, 20)
 					}
 					.padding()
 				}
