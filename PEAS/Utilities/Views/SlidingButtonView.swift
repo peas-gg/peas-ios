@@ -88,14 +88,29 @@ struct SlidingButtonView: View {
 		.frame(height: height)
 		.animation(.spring(), value: xOffset)
 		.background {
+			let textFont: Font = Font.app.title3
+			let textForegroundColor: Color = Color.app.secondaryText
 			Capsule()
 				.fill(Color.app.darkGreen)
 				.overlay {
-					let opacity: CGFloat = {
-						return 1 - (xOffset / maxXDistance) - 0.2
-					}()
-					ShimmerTextView("Slide to cash out", font: Font.app.title3, color: Color.app.secondaryText)
-						.opacity(opacity)
+					switch self.status {
+					case .inProgress:
+						ShimmerTextView(
+							"Processing...",
+							font: textFont,
+							color: textForegroundColor
+						)
+					case .success:
+						Text("Completed")
+							.font(textFont)
+							.foregroundStyle(textForegroundColor)
+					case .unknown:
+						let opacity: CGFloat = {
+							return 1 - (xOffset / maxXDistance) - 0.2
+						}()
+						ShimmerTextView("Slide to cash out", font: textFont, color: textForegroundColor)
+							.opacity(opacity)
+					}
 				}
 		}
 		.onChange(of: self.status) { newStatus in
