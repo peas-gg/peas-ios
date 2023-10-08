@@ -12,6 +12,14 @@ struct SlidingButtonView: View {
 	let baseOffset: CGFloat = 6
 	let buttonDimension: CGFloat = 60
 	
+	enum Status {
+		case inProgress
+		case success
+		case unknown
+	}
+	
+	@Binding var status: Status
+	
 	@State var xOffset: CGFloat
 	@State var width: CGFloat = .zero
 	
@@ -22,7 +30,8 @@ struct SlidingButtonView: View {
 	//Clients
 	let feedbackClient: FeedbackClient = FeedbackClient.shared
 	
-	init() {
+	init(status: Binding<Status>) {
+		self._status = status
 		self._xOffset = State(initialValue: baseOffset)
 	}
 	
@@ -91,6 +100,6 @@ struct SlidingButtonView: View {
 
 struct SlidingButtonView_Previews: PreviewProvider {
 	static var previews: some View {
-		SlidingButtonView()
+		SlidingButtonView(status: Binding.constant(.inProgress))
 	}
 }

@@ -12,7 +12,7 @@ extension CashOutView {
 	@MainActor class ViewModel: ObservableObject {
 		enum Context {
 			case onboarding
-			case cashOut(balance: Int64, holdBalance: Int64)
+			case cashOut
 		}
 		
 		enum EmailSelection {
@@ -25,12 +25,16 @@ extension CashOutView {
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var user: User
+		@Published var business: Business
+		@Published var wallet: Wallet
 		
 		@Published var currentEmailSelection: EmailSelection = .account
 		@Published var differentEmail: String = ""
 		@Published var isShowingConfirmation: Bool = false
 		
 		@Published var dismiss: Bool = false
+		
+		@Published var slidingButtonStatus: SlidingButtonView.Status = .unknown
 		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
@@ -46,9 +50,19 @@ extension CashOutView {
 		private let apiClient: APIClient = APIClient.shared
 		private let keychainClient: KeychainClient = KeychainClient.shared
 		
-		init(user: User, context: Context) {
-			self.user = user
+		init(context: Context, user: User, business: Business, wallet: Wallet) {
 			self.context = context
+			self.user = user
+			self.business = business
+			self.wallet = wallet
+			
+			//Register for updates
+			WalletRepository.shared
+				.$wallet
+				.sink { wallet in
+					self.wallet = wallet
+				}
+				.store(in: &cancellableBag)
 		}
 		
 		func selectEmail(selection: EmailSelection) {
@@ -107,7 +121,27 @@ extension CashOutView {
 				} else {
 					self.isShowingConfirmation = true
 				}
-			case .cashOut: return
+			case .cashOut:
+				self.slidingButtonStatus = .inProgress
+				self.apiClient
+					.withdraw(businessId: business.id)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { completion in
+							switch completion {
+							case .finished: return
+							case .failure(let error):
+								self.slidingButtonStatus = .unknown
+								self.bannerData = BannerData(error: error)
+								return
+							}
+						},
+						receiveValue: { walletResponse in
+							WalletRepository.shared.update(wallet: Wallet(walletResponse: walletResponse))
+							self.slidingButtonStatus = .success
+						}
+					)
+					.store(in: &cancellableBag)
 			}
 		}
 	}

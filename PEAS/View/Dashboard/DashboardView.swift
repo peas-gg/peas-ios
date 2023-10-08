@@ -137,18 +137,24 @@ struct DashboardView: View {
 			UserView(viewModel: UserView.ViewModel(user: viewModel.user))
 		}
 		.sheet(isPresented: $viewModel.isShowingCashOut) {
-			let wallet: Wallet = viewModel.wallet
 			CashOutView(
 				viewModel: CashOutView.ViewModel(
+					context: .cashOut,
 					user: viewModel.user,
-					context: .cashOut(balance: wallet.balance, holdBalance: wallet.holdBalance)
+					business: viewModel.business,
+					wallet: viewModel.wallet
 				),
 				onDismiss: { viewModel.setIsShowingCashOut(false) }
 			)
 		}
 		.fullScreenCover(isPresented: $viewModel.isShowingCashOutOnboarding) {
 			CashOutView(
-				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .onboarding),
+				viewModel: CashOutView.ViewModel(
+					context: .onboarding,
+					user: viewModel.user,
+					business: viewModel.business,
+					wallet: viewModel.wallet
+				),
 				onDismiss: { viewModel.setIsShowingCashOutOnboarding(false) }
 			)
 		}
