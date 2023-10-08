@@ -25,7 +25,11 @@ struct SizeConstants {
 }
 
 struct AppConstants {
+#if DEBUG
+	static let appUrlString: String = "https://dev.peas.gg/"
+#else
 	static let appUrlString: String = "https://peas.gg/"
+#endif
 	static let twitterUrlString: String = "https://x.com/"
 	static let instagramUrlString: String = "https://instagram.com/"
 	static let tiktokUrlString: String = "https://tiktok.com/"
