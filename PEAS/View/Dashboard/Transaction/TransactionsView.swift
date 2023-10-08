@@ -14,7 +14,7 @@ struct TransactionsView: View {
 		VStack {
 			VStack {
 				Spacer()
-					.frame(height: 40)
+					.frame(height: 20)
 				ScrollView {
 					LazyVStack {
 						ForEach(viewModel.transactions.indices, id: \.self) { index in
@@ -33,6 +33,13 @@ struct TransactionsView: View {
 			.padding(.horizontal)
 		}
 		.background(Color.app.secondaryBackground)
+		.toolbar {
+			ToolbarItem(placement: .principal) {
+				Text("Transactions")
+					.font(Font.app.title2)
+					.foregroundStyle(Color.app.primaryText)
+			}
+		}
 	}
 	
 	@ViewBuilder
