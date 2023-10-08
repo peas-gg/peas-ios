@@ -12,14 +12,25 @@ struct TransactionsView: View {
 	
 	var body: some View {
 		VStack {
-			ScrollView {
-				LazyVStack {
-					ForEach(viewModel.transactions.indices, id: \.self) { index in
-						transactionView(viewModel.transactions[index])
+			VStack {
+				Spacer()
+					.frame(height: 40)
+				ScrollView {
+					LazyVStack {
+						ForEach(viewModel.transactions.indices, id: \.self) { index in
+							transactionView(viewModel.transactions[index])
+								.padding(.bottom, 10)
+						}
 					}
+					.padding()
 				}
-				.padding(.horizontal)
+				.background {
+					Color.app.primaryBackground
+						.cornerRadius(10, corners: [.topLeft, .topRight])
+				}
+				.edgesIgnoringSafeArea(.bottom)
 			}
+			.padding(.horizontal)
 		}
 		.background(Color.app.secondaryBackground)
 	}
@@ -30,6 +41,10 @@ struct TransactionsView: View {
 			VStack(alignment: .leading, spacing: 4) {
 				title(transaction: transaction)
 				subTitle(transaction: transaction)
+				Text(transaction.created, style: .date)
+					.font(Font.app.callout)
+					.foregroundStyle(Color.app.tertiaryText)
+					.opacity(0.6)
 			}
 			Spacer(minLength: 0)
 			amount(transaction: transaction)
