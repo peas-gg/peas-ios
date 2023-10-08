@@ -179,7 +179,7 @@ struct SiteView: View {
 				backgroundColour
 				if !viewModel.isInEditMode {
 					Color.white
-						.frame(height: SizeConstants.screenSize.height * 0.4)
+						.frame(height: SizeConstants.screenSize.height * 0.3)
 				}
 			}
 			.ignoresSafeArea()
