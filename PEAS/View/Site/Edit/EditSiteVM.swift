@@ -416,7 +416,7 @@ extension EditSiteView {
 						} else {
 							let newBlock: Business.Block = Business.Block(
 								id: UUID().uuidString,
-								index: 0,
+								index: business.blocks.count,
 								blockType: .Genesis,
 								image: self.blockImage,
 								price: 0,
