@@ -126,7 +126,7 @@ extension Wallet {
 							deposit: 0,
 							tip: 3000,
 							fee: 800,
-							total: 13000,
+							total: 12200,
 							created: "2023-09-22T07:10:00Z",
 							completed: "2023-09-22T07:10:00Z"
 						),

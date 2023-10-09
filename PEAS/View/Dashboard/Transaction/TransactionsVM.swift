@@ -11,12 +11,18 @@ extension TransactionsView {
 	@MainActor class ViewModel: ObservableObject {
 		@Published var transactionsUnsorted: [Wallet.Transaction]
 		
+		@Published var currentShowingTransaction: Wallet.Transaction?
+		
 		var transactions: [Wallet.Transaction] {
 			transactionsUnsorted.sorted(by: { $0.created < $1.created })
 		}
 		
 		init(transactions: [Wallet.Transaction]) {
 			self.transactionsUnsorted = transactions
+		}
+		
+		func setCurrentShowingTransaction(_ transaction: Wallet.Transaction?) {
+			self.currentShowingTransaction = transaction
 		}
 	}
 }
