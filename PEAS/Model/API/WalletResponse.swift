@@ -28,7 +28,7 @@ struct WalletResponse: Decodable {
 			let completed: String?
 		}
 		
-		enum TransactionType: Decodable {
+		enum TransactionType: String, Decodable {
 			case Earning
 			case Withdrawal
 		}

@@ -39,7 +39,7 @@ struct Wallet: Codable {
 		}
 		
 		struct Withdrawal: Codable {
-			enum Status: Codable {
+			enum Status: String, Codable {
 				case Pending
 				case Succeeded
 				case Failed
