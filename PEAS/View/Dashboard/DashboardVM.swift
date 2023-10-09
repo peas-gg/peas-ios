@@ -53,7 +53,7 @@ extension DashboardView {
 		}
 		
 		var orders: [Order] {
-			unSortedOrders.sorted(by: { $0.created > $1.created })
+			unSortedOrders.sorted(by: { $0.lastUpdated > $1.lastUpdated })
 		}
 		
 		//Clients

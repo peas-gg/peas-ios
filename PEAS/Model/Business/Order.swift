@@ -52,6 +52,7 @@ struct Order: Codable, Identifiable, Hashable {
 	let didRequestPayment: Bool
 	let payment: Payment?
 	let created: Date
+	let lastUpdated: Date
 	
 	var validNote: String? {
 		if let note = note {
@@ -80,6 +81,7 @@ struct Order: Codable, Identifiable, Hashable {
 		self.didRequestPayment = orderResponse.didRequestPayment
 		self.payment = orderResponse.payment
 		self.created = ServerDateFormatter.formatToLocal(from: orderResponse.created)
+		self.lastUpdated = ServerDateFormatter.formatToLocal(from: orderResponse.lastUpdated)
 	}
 }
 
@@ -100,7 +102,8 @@ extension Order {
 				orderStatus: .Approved,
 				didRequestPayment: false,
 				payment: nil,
-				created: "2023-09-22T07:10:00Z"
+				created: "2023-09-22T07:10:00Z",
+				lastUpdated: "2023-09-22T07:10:00Z"
 			)
 		)
 	}
@@ -121,7 +124,8 @@ extension Order {
 				orderStatus: .Pending,
 				didRequestPayment: false,
 				payment: nil,
-				created: "2023-09-22T07:10:00Z"
+				created: "2023-09-22T07:10:00Z",
+				lastUpdated: "2023-09-22T07:10:00Z"
 			)
 		)
 	}
@@ -142,7 +146,8 @@ extension Order {
 				orderStatus: .Pending,
 				didRequestPayment: false,
 				payment: nil,
-				created: "2023-09-22T07:10:00Z"
+				created: "2023-09-22T07:10:00Z",
+				lastUpdated: "2023-09-22T07:10:00Z"
 			)
 		)
 	}
