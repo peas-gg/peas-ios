@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension TransactionsView {
 	@MainActor class ViewModel: ObservableObject {
@@ -22,7 +23,9 @@ extension TransactionsView {
 		}
 		
 		func setCurrentShowingTransaction(_ transaction: Wallet.Transaction?) {
-			self.currentShowingTransaction = transaction
+			withAnimation(.default) {
+				self.currentShowingTransaction = transaction
+			}
 		}
 	}
 }

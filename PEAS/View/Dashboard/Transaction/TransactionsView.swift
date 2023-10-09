@@ -36,6 +36,7 @@ struct TransactionsView: View {
 		.overlay(isShown: viewModel.currentShowingTransaction != nil) {
 			Color.black.opacity(0.2)
 				.ignoresSafeArea()
+				.transition(.opacity)
 				.onTapGesture { viewModel.setCurrentShowingTransaction(nil) }
 				.overlay {
 					if let currentShowingTransaction = viewModel.currentShowingTransaction {
@@ -243,5 +244,7 @@ struct TransactionsView: View {
 }
 
 #Preview("Transactions") {
-	TransactionsView(viewModel: .init(transactions: Wallet.mock1.transactions))
+	VStack {
+		TransactionsView(viewModel: .init(transactions: Wallet.mock1.transactions))
+	}
 }
