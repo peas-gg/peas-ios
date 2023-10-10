@@ -29,12 +29,17 @@ protocol KeychainClientProtocol {
 }
 
 class KeychainClient: KeychainClientProtocol {
-	let accessibility: KeychainItemAccessibility = .afterFirstUnlock
-	
 	static let shared = KeychainClient()
 	
+	private let accessibility: KeychainItemAccessibility = .afterFirstUnlock
+	private let keychainWrapper: KeychainWrapper
+	
+	init() {
+		self.keychainWrapper = KeychainWrapper(serviceName: "PEAS", accessGroup: "group.com.strikingfinancial.business.PEAS")
+	}
+	
 	func get<Data>(key: KeychainClientKey<Data>) -> Data? where Data : Codable {
-		if let data = KeychainWrapper.standard.data(forKey: KeychainWrapper.Key(rawValue: key.name)) {
+		if let data = self.keychainWrapper.data(forKey: KeychainWrapper.Key(rawValue: key.name)) {
 			return try? JSONDecoder().decode(Data.self, from: data)
 		}
 		return nil
@@ -42,14 +47,14 @@ class KeychainClient: KeychainClientProtocol {
 	
 	func set<Data>(key: KeychainClientKey<Data>, value: Data) where Data : Codable {
 		if let data = try? JSONEncoder().encode(value) {
-			KeychainWrapper.standard.set(data, forKey: key.name, withAccessibility: accessibility)
+			self.keychainWrapper.set(data, forKey: key.name, withAccessibility: accessibility)
 		}
 	}
 	
 	func clearAllKeys() {
 		KeyDefinitions.allCases.forEach { key in
-			KeychainWrapper.standard.set("", forKey: key.rawValue, withAccessibility: accessibility)
+			self.keychainWrapper.set("", forKey: key.rawValue, withAccessibility: accessibility)
 		}
-		KeychainWrapper.standard.removeAllKeys()
+		self.keychainWrapper.removeAllKeys()
 	}
 }

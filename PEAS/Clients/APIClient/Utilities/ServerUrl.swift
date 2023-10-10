@@ -10,7 +10,7 @@ import Foundation
 class ServerUrl {
 	static var shared: ServerUrl = ServerUrl()
 	
-	enum Server {
+	enum Server: Codable {
 		case development
 		case production
 		
@@ -25,11 +25,15 @@ class ServerUrl {
 	var server: Server
 	
 	init() {
+		if let serverInDefaults = DefaultsClient.shared.get(key: .server) {
+			self.server = serverInDefaults
+		} else {
 #if DEBUG
 		self.server = .development
 #else
 		self.server = .production
 #endif
+		}
 	}
 	
 	func setServer(_ server: Server) {
