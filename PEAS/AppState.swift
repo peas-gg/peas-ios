@@ -35,6 +35,7 @@ import SwiftUI
 	//Clients
 	let apiClient = APIClient.shared
 	let cacheClient = CacheClient.shared
+	let defaultsClient = DefaultsClient.shared
 	let keychainClient = KeychainClient.shared
 	
 	init() {
@@ -163,6 +164,7 @@ import SwiftUI
 		case .production:
 			ServerUrl.shared.setServer(.development)
 		}
+		self.defaultsClient.set(key: .server, value: ServerUrl.shared.server)
 		self.bannerData = BannerData(isSuccess: true, detail: "Server set to \(ServerUrl.shared.server)")
 	}
 }

@@ -25,11 +25,15 @@ class ServerUrl {
 	var server: Server
 	
 	init() {
+		if let serverInDefaults = DefaultsClient.shared.get(key: .server) {
+			self.server = serverInDefaults
+		} else {
 #if DEBUG
 		self.server = .development
 #else
 		self.server = .production
 #endif
+		}
 	}
 	
 	func setServer(_ server: Server) {
