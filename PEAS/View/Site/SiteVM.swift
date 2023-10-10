@@ -26,7 +26,7 @@ extension SiteView {
 		@Published var isShowingSocialLinksMenu: Bool = false
 		
 		var siteUrl: URL? {
-			URL(string: "\(AppConstants.appUrlString)\(business.sign)")
+			URL(string: "\(AppConstants().appUrlString)\(business.sign)")
 		}
 		
 		//Clients
