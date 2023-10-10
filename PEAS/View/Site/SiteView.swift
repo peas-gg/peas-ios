@@ -12,6 +12,8 @@ struct SiteView: View {
 	let blockHeight: CGFloat = SizeConstants.screenSize.height / 3.5
 	let linksMenuId: String = "LinksMenu"
 	
+	@State var headerRect: CGRect = .zero
+	
 	@StateObject var viewModel: ViewModel
 	
 	@Environment(\.openURL) var openURL
@@ -137,6 +139,9 @@ struct SiteView: View {
 					.padding(.vertical, 2)
 				}
 				.padding(.horizontal)
+				.readRect {
+					self.headerRect = $0
+				}
 				LazyVGrid(columns: Array(repeating: GridItem(spacing: 15), count: 2), spacing: 15) {
 					ForEach(business.blocks.sorted(by: { $0.index < $1.index })) { block in
 						blockView(block)
@@ -175,11 +180,11 @@ struct SiteView: View {
 				.padding(.bottom)
 		}
 		.background {
-			VStack {
+			ZStack {
 				backgroundColour
 				if !viewModel.isInEditMode {
 					Color.white
-						.frame(height: SizeConstants.screenSize.height * 0.3)
+						.offset(y: headerRect.maxY + 120)
 				}
 			}
 			.ignoresSafeArea()
