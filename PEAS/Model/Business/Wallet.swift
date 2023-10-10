@@ -100,10 +100,10 @@ struct Wallet: Codable {
 }
 
 extension Wallet.Transaction {
-	var created: Date {
+	var date: Date {
 		switch info {
 		case .earning(let earning):
-			return earning.created
+			return earning.completed ?? Date()
 		case .withdrawal(let withdrawal):
 			return withdrawal.created
 		}

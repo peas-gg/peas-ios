@@ -15,7 +15,7 @@ extension TransactionsView {
 		@Published var currentShowingTransaction: Wallet.Transaction?
 		
 		var transactions: [Wallet.Transaction] {
-			transactionsUnsorted.sorted(by: { $0.created < $1.created })
+			transactionsUnsorted.sorted(by: { $0.date < $1.date })
 		}
 		
 		init(transactions: [Wallet.Transaction]) {

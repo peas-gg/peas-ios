@@ -59,7 +59,7 @@ struct TransactionsView: View {
 			VStack(alignment: .leading, spacing: 4) {
 				title(transaction: transaction)
 				subTitle(transaction: transaction)
-				Text(transaction.created, style: .date)
+				Text(transaction.date, style: .date)
 					.font(Font.app.callout)
 					.foregroundStyle(Color.app.primaryText.opacity(0.8))
 			}
