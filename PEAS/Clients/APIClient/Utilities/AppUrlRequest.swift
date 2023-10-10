@@ -8,12 +8,6 @@
 import Foundation
 
 struct APPUrlRequest {
-#if DEBUG
-	static let domain = "peasapidev.azurewebsites.net"
-#else
-	static let domain = "peasapi.azurewebsites.net"
-#endif
-	
 	let httpMethod: HTTPMethod
 	let pathComponents: [String]
 	let query: [URLQueryItem]
@@ -22,7 +16,7 @@ struct APPUrlRequest {
 	
 	var urlRequest: URLRequest {
 		get throws {
-			let baseUrl = URL(string: "https://\(APPUrlRequest.domain)/")
+			let baseUrl = URL(string: "https://\(ServerUrl.shared.server.domain)/")
 			guard var url = baseUrl else { throw AppError.apiClientError(.invalidURL) }
 			for pathComponent in pathComponents {
 				url.appendPathComponent(pathComponent)

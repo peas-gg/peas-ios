@@ -37,7 +37,7 @@ extension APIClient {
 						if !self.isRefreshing {
 							self.isRefreshing = true
 							if let user = self.keychainClient.get(key: .user), let cookie = HTTPCookie(properties: [
-								.domain: APPUrlRequest.domain,
+								.domain: ServerUrl.shared.server.domain,
 								.path: "/",
 								.name: "refreshToken",
 								.value: user.refreshToken,
