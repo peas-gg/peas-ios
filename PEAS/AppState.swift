@@ -154,4 +154,15 @@ import SwiftUI
 			}
 		}
 	}
+	
+	func toggleServer() {
+		let currentServer: ServerUrl.Server = ServerUrl.shared.server
+		switch currentServer {
+		case .development:
+			ServerUrl.shared.setServer(.production)
+		case .production:
+			ServerUrl.shared.setServer(.development)
+		}
+		self.bannerData = BannerData(isSuccess: true, detail: "Server set to \(ServerUrl.shared.server)")
+	}
 }

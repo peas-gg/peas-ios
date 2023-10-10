@@ -46,6 +46,9 @@ struct WelcomeView: View {
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.bottom, 40)
 					.padding(.top, 20)
+					.onLongPressGesture(minimumDuration: 20) {
+						AppState.shared.toggleServer()
+					}
 				Button(action: { viewModel.setIsShowingAuthenticateView(true) }) {
 					Text("Login")
 						.font(Font.app.title2Display)
