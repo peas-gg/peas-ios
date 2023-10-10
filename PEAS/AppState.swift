@@ -145,6 +145,7 @@ import SwiftUI
 	func logUserOut(isUserRequested: Bool) {
 		self.keychainClient.clearAllKeys()
 		self.cacheClient.clear()
+		self.defaultsClient.clear()
 		if isUserRequested {
 			self.refreshAppMode()
 		} else {
