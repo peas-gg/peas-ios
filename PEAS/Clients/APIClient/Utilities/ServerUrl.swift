@@ -10,7 +10,7 @@ import Foundation
 class ServerUrl {
 	static var shared: ServerUrl = ServerUrl()
 	
-	enum Server {
+	enum Server: Codable {
 		case development
 		case production
 		

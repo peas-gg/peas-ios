@@ -10,25 +10,22 @@ import IdentifiedCollections
 
 fileprivate enum KeyDefinitions: String, CaseIterable {
 	case cacheTracker
-	case badgeCount
-	case didAuthenticationFail
+	case serverUrl
 }
 
 protocol DefaultsClientProtocol {
-	func get<Data: Codable>(key: DefaultKey<Data>) -> Data?
-	func set<Data: Codable>(key: DefaultKey<Data>, value: Data)
+	func get<Data: Codable>(key: DefaultsKey<Data>) -> Data?
+	func set<Data: Codable>(key: DefaultsKey<Data>, value: Data)
 	func clear()
 }
 
-struct DefaultKey<T: Codable> {
+struct DefaultsKey<T: Codable> {
 	let name: String
 }
 
-
-extension DefaultKey {
-	static var cacheTracker: DefaultKey<IdentifiedArrayOf<CacheTrimmer.CacheTracker>> { .init(name: KeyDefinitions.cacheTracker.rawValue) }
-	static var badgeCount: DefaultKey<Int> { .init(name: KeyDefinitions.badgeCount.rawValue) }
-	static var didAuthenticationFail: DefaultKey<Bool> { .init(name: KeyDefinitions.didAuthenticationFail.rawValue) }
+extension DefaultsKey {
+	static var cacheTracker: DefaultsKey<IdentifiedArrayOf<CacheTrimmer.CacheTracker>> { .init(name: KeyDefinitions.cacheTracker.rawValue) }
+	static var server: DefaultsKey<ServerUrl.Server> { .init(name: KeyDefinitions.serverUrl.rawValue) }
 }
 
 class DefaultsClient: DefaultsClientProtocol {
@@ -36,14 +33,14 @@ class DefaultsClient: DefaultsClientProtocol {
 	
 	private let encoder: JSONEncoder = JSONEncoder()
 	private let decoder: JSONDecoder = JSONDecoder()
-	private let defaults: UserDefaults = UserDefaults(suiteName: "group.com.strikingfinancial.business.peas")!
+	private let defaults: UserDefaults = UserDefaults(suiteName: "group.com.strikingfinancial.business.PEAS")!
 	
-	func get<Data>(key: DefaultKey<Data>) -> Data? where Data : Codable {
+	func get<Data>(key: DefaultsKey<Data>) -> Data? where Data : Codable {
 		guard let dataObject = defaults.object(forKey: key.name) as? Foundation.Data else { return nil }
 		return try? self.decoder.decode(Data.self, from: dataObject)
 	}
 	
-	func set<Data>(key: DefaultKey<Data>, value: Data) where Data : Codable {
+	func set<Data>(key: DefaultsKey<Data>, value: Data) where Data : Codable {
 		let encodedData = try? self.encoder.encode(value)
 		defaults.set(encodedData, forKey: key.name)
 	}

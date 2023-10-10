@@ -29,11 +29,10 @@ protocol KeychainClientProtocol {
 }
 
 class KeychainClient: KeychainClientProtocol {
-	let accessibility: KeychainItemAccessibility = .afterFirstUnlock
-	
 	static let shared = KeychainClient()
 	
-	let keychainWrapper: KeychainWrapper
+	private let accessibility: KeychainItemAccessibility = .afterFirstUnlock
+	private let keychainWrapper: KeychainWrapper
 	
 	init() {
 		self.keychainWrapper = KeychainWrapper(serviceName: "PEAS", accessGroup: "group.com.strikingfinancial.business.PEAS")
