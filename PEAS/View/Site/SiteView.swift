@@ -97,7 +97,7 @@ struct SiteView: View {
 								} else {
 									HStack {
 										Image(systemName: "person.crop.circle.badge.checkmark")
-										Text("0")
+										Text("\(viewModel.business.orderCount)")
 									}
 									.font(Font.app.bodySemiBold)
 									.foregroundColor(Color.app.primaryText)
@@ -138,7 +138,7 @@ struct SiteView: View {
 				}
 				.padding(.horizontal)
 				LazyVGrid(columns: Array(repeating: GridItem(spacing: 15), count: 2), spacing: 15) {
-					ForEach(business.blocks) { block in
+					ForEach(business.blocks.sorted(by: { $0.index < $1.index })) { block in
 						blockView(block)
 					}
 					if viewModel.isInEditMode {
@@ -179,7 +179,7 @@ struct SiteView: View {
 				backgroundColour
 				if !viewModel.isInEditMode {
 					Color.white
-						.frame(height: SizeConstants.screenSize.height * 0.4)
+						.frame(height: SizeConstants.screenSize.height * 0.3)
 				}
 			}
 			.ignoresSafeArea()

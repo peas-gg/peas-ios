@@ -416,12 +416,14 @@ extension EditSiteView {
 						} else {
 							let newBlock: Business.Block = Business.Block(
 								id: UUID().uuidString,
+								index: business.blocks.count,
 								blockType: .Genesis,
 								image: self.blockImage,
 								price: 0,
 								duration: self.blockTimeDuration,
 								title:  self.blockTitle,
-								description: self.blockDescription
+								description: self.blockDescription,
+								isActive: true
 							)
 							self.business.blocks.append(newBlock)
 						}
@@ -485,12 +487,14 @@ extension EditSiteView {
 							if let imageUrl = await apiClient.uploadImage(localUrl: currentBlockImage) {
 								let newBlock = Business.Block(
 									id: UUID().uuidString,
+									index: 0,
 									blockType: .Genesis,
 									image: imageUrl,
 									price: Int(self.blockPriceText) ?? 0,
 									duration: self.blockTimeDuration,
 									title: self.blockTitle,
-									description: self.blockDescription
+									description: self.blockDescription,
+									isActive: true
 								)
 								self.addBlock(newBlock)
 							} else {

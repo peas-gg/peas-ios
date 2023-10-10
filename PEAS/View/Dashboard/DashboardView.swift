@@ -34,9 +34,11 @@ struct DashboardView: View {
 						}
 					}
 					.padding(.top, 30)
-					Text("$2,378.56")
+					let price: String = PriceFormatter.price(value: String(viewModel.wallet.balance))
+					let fontSize: CGFloat = price.count > 10 ? 40 : 50
+					Text("$\(price)")
 						.foregroundColor(Color.app.accent)
-						.font(.system(size: 50, weight: .semibold, design: .rounded))
+						.font(.system(size: fontSize, weight: .semibold, design: .rounded))
 					HStack {
 						Spacer()
 						buttonView(symbol: "dollarsign.circle", title: "CashOut") {
@@ -45,7 +47,7 @@ struct DashboardView: View {
 						Spacer()
 							.frame(width: 20)
 						buttonView(symbol: "doc.text", title: "Transactions") {
-							
+							viewModel.showTransactions()
 						}
 						Spacer()
 					}
@@ -103,6 +105,10 @@ struct DashboardView: View {
 					switch route {
 					case .order(let order):
 						OrderView(viewModel: OrderView.ViewModel(context: .detail, business: viewModel.business, order: order))
+					case .transactions:
+						TransactionsView(
+							viewModel: TransactionsView.ViewModel(transactions: viewModel.wallet.transactions)
+						)
 					}
 				}
 				.navigationBarTitleDisplayMode(.inline)
@@ -132,13 +138,23 @@ struct DashboardView: View {
 		}
 		.sheet(isPresented: $viewModel.isShowingCashOut) {
 			CashOutView(
-				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .cashOut),
+				viewModel: CashOutView.ViewModel(
+					context: .cashOut,
+					user: viewModel.user,
+					business: viewModel.business,
+					wallet: viewModel.wallet
+				),
 				onDismiss: { viewModel.setIsShowingCashOut(false) }
 			)
 		}
 		.fullScreenCover(isPresented: $viewModel.isShowingCashOutOnboarding) {
 			CashOutView(
-				viewModel: CashOutView.ViewModel(user: viewModel.user, context: .onboarding),
+				viewModel: CashOutView.ViewModel(
+					context: .onboarding,
+					user: viewModel.user,
+					business: viewModel.business,
+					wallet: viewModel.wallet
+				),
 				onDismiss: { viewModel.setIsShowingCashOutOnboarding(false) }
 			)
 		}
@@ -187,7 +203,7 @@ struct DashboardView: View {
 struct DashboardView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1, orders: [Order.mock1, Order.mock2]))
+			DashboardView(viewModel: .init(user: User.mock1, business: Business.mock1, orders: [Order.mock1, Order.mock2], wallet: Wallet.mock1))
 		}
 	}
 }

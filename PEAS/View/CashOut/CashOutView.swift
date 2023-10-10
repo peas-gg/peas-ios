@@ -123,9 +123,20 @@ struct CashOutView: View {
 						}
 					)
 					VStack(spacing: 20) {
-						Text("$2,378.56")
-							.foregroundColor(Color.app.secondaryText)
-							.font(.system(size: 50, weight: .semibold, design: .rounded))
+						VStack {
+							let wallet: Wallet = viewModel.wallet
+							let balanceString: String = PriceFormatter.price(value: String(wallet.balance - wallet.holdBalance))
+							let holdBalanceString: String = PriceFormatter.price(value: String(wallet.holdBalance))
+							let fontSize: CGFloat = balanceString.count > 8 ? 40 : 50
+							Text("$\(balanceString)")
+								.foregroundColor(Color.app.secondaryText)
+								.font(.system(size: fontSize, weight: .semibold, design: .rounded))
+							Text("Hold: $\(holdBalanceString)")
+								.foregroundColor(Color.app.darkGreen)
+								.font(Font.app.bodySemiBold)
+								.lineLimit(1)
+								.opacity(wallet.holdBalance > 0 ? 1.0 : 0.0)
+						}
 						HStack(spacing: 20) {
 							Image("Interac")
 								.resizable()
@@ -142,14 +153,17 @@ struct CashOutView: View {
 							Spacer(minLength: 0)
 						}
 						.padding(.vertical)
-						SlidingButtonView()
-							.padding(.bottom, 20)
+						SlidingButtonView(
+							status: $viewModel.slidingButtonStatus,
+							didComplete: { viewModel.advance() }
+						)
+						.padding(.bottom, 20)
 					}
 					.padding()
 				}
 				.pushOutFrame()
 				.background(Color.app.accent)
-				.presentationDetents([.height(350)])
+				.presentationDetents([.height(370)])
 				.edgesIgnoringSafeArea(.bottom)
 				.interactiveDismissDisabled()
 			}
@@ -230,7 +244,23 @@ struct CashOutView: View {
 
 struct CashOutView_Previews: PreviewProvider {
 	static var previews: some View {
-		CashOutView(viewModel: .init(user: User.mock1, context: .onboarding), onDismiss: {})
-		CashOutView(viewModel: .init(user: User.mock1, context: .cashOut), onDismiss: {})
+		CashOutView(
+			viewModel: .init(
+				context: .onboarding,
+				user: User.mock1,
+				business: Business.mock1,
+				wallet: Wallet.mock1
+			),
+			onDismiss: {}
+		)
+		CashOutView(
+			viewModel: .init(
+				context: .cashOut,
+				user: User.mock1,
+				business: Business.mock1,
+				wallet: Wallet.mock1
+			),
+			onDismiss: {}
+		)
 	}
 }

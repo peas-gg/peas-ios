@@ -22,4 +22,5 @@ struct OrderResponse : Decodable {
 	let didRequestPayment: Bool
 	let payment: Payment?
 	let created: String
+	let lastUpdated: String
 }

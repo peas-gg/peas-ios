@@ -21,7 +21,7 @@ extension Template {
 			id: "A",
 			category: "Modelling",
 			details: "",
-			photo: URL(string: "https://peasfilesdev.blob.core.windows.net/templates/Modelling.jpg")!,
+			photo: URL(string: "https://peasfiles.blob.core.windows.net/templates/Modelling.jpg")!,
 			business: Business.mock1
 		)
 	}()

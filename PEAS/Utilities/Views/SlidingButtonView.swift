@@ -12,18 +12,28 @@ struct SlidingButtonView: View {
 	let baseOffset: CGFloat = 6
 	let buttonDimension: CGFloat = 60
 	
+	enum Status {
+		case inProgress
+		case success
+		case unknown
+	}
+	
+	@Binding var status: Status
+	
 	@State var xOffset: CGFloat
 	@State var width: CGFloat = .zero
 	
-	@State var didComplete: Bool = false
-	
 	@State var maxXDistance: CGFloat = .zero
+	
+	var didComplete: () -> ()
 	
 	//Clients
 	let feedbackClient: FeedbackClient = FeedbackClient.shared
 	
-	init() {
+	init(status: Binding<Status>, didComplete: @escaping () ->() = {}) {
+		self._status = status
 		self._xOffset = State(initialValue: baseOffset)
+		self.didComplete = didComplete
 	}
 	
 	var body: some View {
@@ -41,9 +51,15 @@ struct SlidingButtonView: View {
 								endPoint: .trailing
 							)
 						)
-					Image(systemName: didComplete ? "checkmark" : "arrow.right")
-						.font(.system(size: 26, weight: .bold))
-						.foregroundColor(Color.white)
+					switch status {
+					case .inProgress:
+						LoadingIndicator(lineWidth: 4)
+							.frame(dimension: 30)
+					case .success, .unknown:
+						Image(systemName: status == .success ? "checkmark" : "arrow.right")
+							.font(.system(size: 26, weight: .bold))
+							.foregroundColor(Color.white)
+					}
 				}
 				.frame(dimension: buttonDimension)
 				.offset(x: xOffset)
@@ -63,7 +79,7 @@ struct SlidingButtonView: View {
 						if self.xOffset < (getMaxDistance(width: width) - baseOffset) {
 							self.xOffset = baseOffset
 						} else {
-							self.didComplete = true
+							didComplete()
 							self.feedbackClient.medium()
 						}
 					}
@@ -72,15 +88,38 @@ struct SlidingButtonView: View {
 		.frame(height: height)
 		.animation(.spring(), value: xOffset)
 		.background {
+			let textFont: Font = Font.app.title3
+			let textForegroundColor: Color = Color.app.secondaryText
 			Capsule()
 				.fill(Color.app.darkGreen)
 				.overlay {
-					let opacity: CGFloat = {
-						return 1 - (xOffset / maxXDistance) - 0.2
-					}()
-					ShimmerTextView("Slide to cash out", font: Font.app.title3, color: Color.app.secondaryText)
-						.opacity(opacity)
+					switch self.status {
+					case .inProgress:
+						ShimmerTextView(
+							"Processing...",
+							font: textFont,
+							color: textForegroundColor
+						)
+					case .success:
+						Text("Completed")
+							.font(textFont)
+							.foregroundStyle(textForegroundColor)
+					case .unknown:
+						let opacity: CGFloat = {
+							return 1 - (xOffset / maxXDistance) - 0.2
+						}()
+						ShimmerTextView("Slide to cash out", font: textFont, color: textForegroundColor)
+							.opacity(opacity)
+					}
 				}
+		}
+		.onChange(of: self.status) { newStatus in
+			switch newStatus {
+			case .inProgress, .success:
+				return
+			case .unknown:
+				self.xOffset = baseOffset
+			}
 		}
 	}
 	
@@ -91,6 +130,6 @@ struct SlidingButtonView: View {
 
 struct SlidingButtonView_Previews: PreviewProvider {
 	static var previews: some View {
-		SlidingButtonView()
+		SlidingButtonView(status: Binding.constant(.unknown))
 	}
 }

@@ -22,15 +22,16 @@ struct CardBackground: View {
 		}
 	}
 	
+	let cornerRadius: CGFloat
 	let style: Style
 	
-	init(style: Style = .white) {
+	init(cornerRadius: CGFloat = 10, style: Style = .white) {
+		self.cornerRadius = cornerRadius
 		self.style = style
 	}
 	
 	var body: some View {
 		ZStack{
-			let cornerRadius: CGFloat = 10
 			RoundedRectangle(cornerRadius: cornerRadius)
 				.fill(style.backgroundColor)
 			RoundedRectangle(cornerRadius: cornerRadius)

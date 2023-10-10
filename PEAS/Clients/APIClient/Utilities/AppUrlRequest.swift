@@ -11,7 +11,7 @@ struct APPUrlRequest {
 #if DEBUG
 	static let domain = "peasapidev.azurewebsites.net"
 #else
-	static let domain = "peasapidev.azurewebsites.net"
+	static let domain = "peasapi.azurewebsites.net"
 #endif
 	
 	let httpMethod: HTTPMethod

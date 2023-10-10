@@ -13,6 +13,7 @@ extension DashboardView {
 	@MainActor class ViewModel: ObservableObject {
 		enum Route: Hashable {
 			case order(Order)
+			case transactions
 		}
 		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -20,6 +21,7 @@ extension DashboardView {
 		@Published var user: User
 		@Published var business: Business
 		@Published var unSortedOrders: IdentifiedArrayOf<Order>
+		@Published var wallet: Wallet
 		
 		@Published var isShowingUserView: Bool = false
 		@Published var isShowingFilterMenu: Bool = false
@@ -51,22 +53,41 @@ extension DashboardView {
 		}
 		
 		var orders: [Order] {
-			unSortedOrders.sorted(by: { $0.created > $1.created })
+			unSortedOrders.sorted(by: { $0.lastUpdated > $1.lastUpdated })
 		}
 		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let keychainClient: KeychainClient = KeychainClient.shared
 		
-		init(user: User, business: Business, orders: IdentifiedArrayOf<Order> = []) {
+		init(
+			user: User,
+			business: Business,
+			orders: IdentifiedArrayOf<Order> = [],
+			wallet: Wallet = Wallet(
+				walletResponse: WalletResponse(
+					balance: 0,
+					holdBalance: 0,
+					transactions: []
+				)
+			)
+		) {
 			self.user = user
 			self.business = business
 			self.unSortedOrders = orders
+			self.wallet = wallet
 			setUp()
 			
 			registerForPushNotifications()
 			
 			//Register for updates
+			WalletRepository.shared
+				.$wallet
+				.sink { wallet in
+					self.wallet = wallet
+				}
+				.store(in: &cancellableBag)
+			
 			OrderRepository.shared
 				.$orders
 				.sink { orders in
@@ -78,6 +99,7 @@ extension DashboardView {
 		func setUp() {
 			self.unSortedOrders = OrderRepository.shared.orders
 			refreshOrders()
+			refreshWallet()
 		}
 		
 		func toggleFilterMenu() {
@@ -99,6 +121,26 @@ extension DashboardView {
 			withAnimation(.default) {
 				self.isShowingFilterMenu = false
 			}
+		}
+		
+		func refreshWallet() {
+			self.apiClient
+				.getWallet(businessId: business.id)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.bannerData = BannerData(error: error)
+							return
+						}
+					},
+					receiveValue: { walletResponse in
+						WalletRepository.shared.update(wallet: Wallet(walletResponse: walletResponse))
+					}
+				)
+				.store(in: &cancellableBag)
 		}
 		
 		func refreshOrders() {
@@ -128,6 +170,7 @@ extension DashboardView {
 			if let business = keychainClient.get(key: .business) {
 				self.business = business
 			}
+			refreshWallet()
 			refreshOrders()
 		}
 		
@@ -149,6 +192,10 @@ extension DashboardView {
 			} else {
 				setIsShowingCashOut(true)
 			}
+		}
+		
+		func showTransactions() {
+			self.navStack.append(.transactions)
 		}
 		
 		func setIsShowingCashOut(_ isShowing: Bool) {
