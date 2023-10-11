@@ -24,9 +24,18 @@ extension HomeView {
 		init(user: User, business: Business) {
 			self.user = user
 			self.business = business
+			
+			//Register for Notifications
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(refreshBusiness),
+					name: .refreshApp,
+					object: nil
+				)
 		}
 		
-		func refreshBusiness() {
+		@objc func refreshBusiness() {
 			self.apiClient.getBusinessAccount()
 				.receive(on: DispatchQueue.main)
 				.sink(

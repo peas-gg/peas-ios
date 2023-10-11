@@ -59,9 +59,18 @@ extension CalendarView {
 					self.updateDaysWithOrders()
 				}
 				.store(in: &cancellableBag)
+			
+			//Register for Notifications
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(didAppear),
+					name: .refreshApp,
+					object: nil
+				)
 		}
 		
-		func didAppear() {
+		@objc func didAppear() {
 			self.setSelectedDateIndex()
 			self.refresh()
 		}

@@ -27,6 +27,15 @@ extension CustomersView {
 			self.business = business
 			self.customers = customers
 			self.setUp()
+			
+			//Register for Notifications
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(refresh),
+					name: .refreshApp,
+					object: nil
+				)
 		}
 		
 		func setUp() {
@@ -40,7 +49,7 @@ extension CustomersView {
 			}
 		}
 		
-		func refresh() {
+		@objc func refresh() {
 			self.apiClient
 				.getCustomers(businessId: business.id)
 				.receive(on: DispatchQueue.main)

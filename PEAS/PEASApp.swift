@@ -11,6 +11,11 @@ import SwiftUI
 struct PEASApp: App {
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	
+	@Environment(\.scenePhase) var scenePhase
+	
+	//Clients
+	private var hubClient: HubClient = HubClient.shared
+	
 	var body: some Scene {
 		WindowGroup {
 			AppView()
@@ -19,6 +24,17 @@ struct PEASApp: App {
 						keyWindow.overrideUserInterfaceStyle = .light
 					}
 				}
+		}
+		.onChange(of: scenePhase) { newPhase in
+			switch newPhase {
+			case .active:
+				NotificationCenter.default.post(Notification(name: .refreshApp, userInfo: [:]))
+				self.hubClient.initializeConnection()
+			case .inactive, .background:
+				return
+			@unknown default:
+				return
+			}
 		}
 	}
 }
