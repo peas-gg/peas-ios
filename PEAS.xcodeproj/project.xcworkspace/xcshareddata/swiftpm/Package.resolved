@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "signalr-client-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/moozzyk/SignalR-Client-Swift.git",
+      "state" : {
+        "revision" : "75412e925680bce6aaacfc0a654d95b9eb96080e",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-collections",
