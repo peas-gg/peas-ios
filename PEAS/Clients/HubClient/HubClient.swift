@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import SignalRClient
 
 class HubClient: HubConnectionDelegate {
@@ -20,31 +19,35 @@ class HubClient: HubConnectionDelegate {
 	
 	func initializeConnection() {
 		self.connection = nil
-		connection = HubConnectionBuilder(url: URL(string: "https://\(ServerUrl.shared.server.domain)/appHub")!)
-			.withLogging(minLogLevel: .error)
-			.withHttpConnectionOptions(configureHttpOptions: { httpConnectionOptions in
-				httpConnectionOptions.accessTokenProvider = { KeychainClient.shared.get(key: .user)?.accessToken }
-			})
-			.withHubConnectionDelegate(delegate: self)
-			.withAutoReconnect()
-			.build()
-		
-		//Register for Events
-		connection?.on(method: "UnAuthorized", callback: {
-			self.subscribeForUpdates()
-		})
-
-		connection?.on(method: "OrderReceived", callback: { (message: String) in
-			//Update Orders
-		})
-		
-		connection?.on(method: "PaymentReceived") { (message: String) in
-			//Update Wallet
+		Task {
+			try? await Task.sleep(for: .seconds(2))
+			if await AppState.shared.isUserLoggedIn {
+				connection = HubConnectionBuilder(url: URL(string: "https://\(ServerUrl.shared.server.domain)/appHub")!)
+					.withLogging(minLogLevel: .error)
+					.withHubConnectionDelegate(delegate: self)
+					.withAutoReconnect()
+					.build()
+				
+				//Register for Events
+				connection?.on(method: "CouldNotSubscribe", callback: {
+					self.subscribeForUpdates()
+				})
+				
+				connection?.on(method: "OrderReceived", callback: { (message: String) in
+					//Update Orders
+					print(message)
+				})
+				
+				connection?.on(method: "PaymentReceived") { (message: String) in
+					//Update Wallet
+				}
+				connection?.start()
+			}
 		}
-		connection?.start()
 	}
 	
 	func stopConnection() {
+		self.unsubscribe()
 		self.connection?.stop()
 	}
 	
@@ -61,6 +64,14 @@ class HubClient: HubConnectionDelegate {
 	}
 	
 	func subscribeForUpdates() {
-		self.connection?.invoke(method: "Subscribe") { _ in }
+		if let userId = KeychainClient.shared.get(key: .user)?.id {
+			self.connection?.invoke(method: "Subscribe", userId) { _ in }
+		}
+	}
+	
+	func unsubscribe() {
+		if let userId = KeychainClient.shared.get(key: .user)?.id {
+			self.connection?.invoke(method: "UnSubscribe", userId) { _ in }
+		}
 	}
 }
