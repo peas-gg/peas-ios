@@ -129,6 +129,7 @@ import SwiftUI
 	
 	func logUserIn(_ authenticateResponse: AuthenticateResponse) {
 		let user: User = User(
+			id: authenticateResponse.id,
 			firstName: authenticateResponse.firstName,
 			lastName: authenticateResponse.lastName,
 			email: authenticateResponse.email,

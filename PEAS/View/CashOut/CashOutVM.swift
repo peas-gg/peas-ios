@@ -101,6 +101,7 @@ extension CashOutView {
 							receiveValue: { email in
 								if let user = self.keychainClient.get(key: .user) {
 									let updatedUser = User(
+										id: user.id,
 										firstName: user.firstName,
 										lastName: user.lastName,
 										email: user.email,
