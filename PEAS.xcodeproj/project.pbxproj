@@ -93,6 +93,7 @@
 		D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D312AA2A1FD00139783 /* AppProgressView.swift */; };
 		D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D342AA2B0DF00139783 /* WelcomeView.swift */; };
 		D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D362AA2B0F700139783 /* WelcomeVM.swift */; };
+		D07F59EA2AD7622000529BE4 /* SoundClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F59E92AD7622000529BE4 /* SoundClient.swift */; };
 		D08060B52AD4FB3900D58228 /* ServerUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08060B42AD4FB3900D58228 /* ServerUrl.swift */; };
 		D09371142AC0F6E900FF7C9F /* CashOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09371132AC0F6E900FF7C9F /* CashOutView.swift */; };
 		D09371162AC0F6FC00FF7C9F /* CashOutVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09371152AC0F6FC00FF7C9F /* CashOutVM.swift */; };
@@ -212,6 +213,7 @@
 		D0793D312AA2A1FD00139783 /* AppProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressView.swift; sourceTree = "<group>"; };
 		D0793D342AA2B0DF00139783 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D0793D362AA2B0F700139783 /* WelcomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVM.swift; sourceTree = "<group>"; };
+		D07F59E92AD7622000529BE4 /* SoundClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundClient.swift; sourceTree = "<group>"; };
 		D08060B42AD4FB3900D58228 /* ServerUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUrl.swift; sourceTree = "<group>"; };
 		D09371132AC0F6E900FF7C9F /* CashOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutView.swift; sourceTree = "<group>"; };
 		D09371152AC0F6FC00FF7C9F /* CashOutVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutVM.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				D0B23CA62AA7A76600CBDA26 /* KeyboardClient.swift */,
 				D0B23CAC2AA840A300CBDA26 /* LocationClient.swift */,
 				D0B23CB12AA9770600CBDA26 /* PermissionClient.swift */,
+				D07F59E92AD7622000529BE4 /* SoundClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -776,6 +779,7 @@
 				D09371162AC0F6FC00FF7C9F /* CashOutVM.swift in Sources */,
 				D0332A182AA3AC31000E7515 /* UpdateBusiness.swift in Sources */,
 				D02659AD2A87369C00655C23 /* SiteView.swift in Sources */,
+				D07F59EA2AD7622000529BE4 /* SoundClient.swift in Sources */,
 				D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */,
 				D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */,
 				D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */,
