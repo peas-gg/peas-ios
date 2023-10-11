@@ -30,8 +30,10 @@ struct PEASApp: App {
 			case .active:
 				NotificationCenter.default.post(Notification(name: .refreshApp, userInfo: [:]))
 				self.hubClient.initializeConnection()
-			case .inactive, .background:
+			case .inactive:
 				return
+			case .background:
+				self.hubClient.stopConnection()
 			@unknown default:
 				return
 			}
