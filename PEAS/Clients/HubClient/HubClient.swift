@@ -34,10 +34,12 @@ class HubClient: HubConnectionDelegate {
 				})
 				
 				connection?.on(method: "OrderReceived", callback: { (message: String) in
+					NotificationCenter.default.post(Notification(name: .refreshOrders, userInfo: [:]))
 					self.showAppNotification(message: message, sound: "")
 				})
 				
 				connection?.on(method: "PaymentReceived") { (message: String) in
+					NotificationCenter.default.post(Notification(name: .refreshWallet, userInfo: [:]))
 					self.showAppNotification(message: message, sound: "")
 				}
 				connection?.start()
