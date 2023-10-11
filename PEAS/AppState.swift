@@ -170,7 +170,7 @@ import SwiftUI
 		self.bannerData = BannerData(isSuccess: true, detail: "Server set to \(ServerUrl.shared.server)")
 	}
 	
-	func showNotification(message: String, sound: String) {
+	func showNotification(message: String) {
 		self.bannerData = BannerData(isSuccess: true, detail: message)
 	}
 }

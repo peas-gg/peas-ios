@@ -35,12 +35,12 @@ class HubClient: HubConnectionDelegate {
 				
 				connection?.on(method: "OrderReceived", callback: { (message: String) in
 					NotificationCenter.default.post(Notification(name: .refreshOrders, userInfo: [:]))
-					self.showAppNotification(message: message, sound: "")
+					self.showAppNotification(message: message, sound: .order)
 				})
 				
-				connection?.on(method: "PaymentReceived") { (message: String) in
+				connection?.on(method: "PaymentReceived") { (message: String, sound: String) in
 					NotificationCenter.default.post(Notification(name: .refreshWallet, userInfo: [:]))
-					self.showAppNotification(message: message, sound: "")
+					self.showAppNotification(message: message, sound: .cash)
 				}
 				connection?.start()
 			}
@@ -76,10 +76,11 @@ class HubClient: HubConnectionDelegate {
 		}
 	}
 	
-	private func showAppNotification(message: String, sound: String) {
+	private func showAppNotification(message: String, sound: SoundClient.Sound) {
 		Task {
 			Task {
-				await AppState.shared.showNotification(message: message, sound: sound)
+				await AppState.shared.showNotification(message: message)
+				await SoundClient.shared.playSound(sound)
 			}
 		}
 	}
