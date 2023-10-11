@@ -34,12 +34,11 @@ class HubClient: HubConnectionDelegate {
 				})
 				
 				connection?.on(method: "OrderReceived", callback: { (message: String) in
-					//Update Orders
-					print(message)
+					self.showAppNotification(message: message, sound: "")
 				})
 				
 				connection?.on(method: "PaymentReceived") { (message: String) in
-					//Update Wallet
+					self.showAppNotification(message: message, sound: "")
 				}
 				connection?.start()
 			}
@@ -72,6 +71,14 @@ class HubClient: HubConnectionDelegate {
 	func unsubscribe() {
 		if let userId = KeychainClient.shared.get(key: .user)?.id {
 			self.connection?.invoke(method: "UnSubscribe", userId) { _ in }
+		}
+	}
+	
+	private func showAppNotification(message: String, sound: String) {
+		Task {
+			Task {
+				await AppState.shared.showNotification(message: message, sound: sound)
+			}
 		}
 	}
 }
