@@ -8,6 +8,7 @@
 import Foundation
 
 struct User: Codable {
+	let id: String
 	let firstName: String
 	let lastName: String
 	let email: String
@@ -21,6 +22,7 @@ struct User: Codable {
 extension User {
 	static let mock1: Self = {
 		return User (
+			id: UUID().uuidString,
 			firstName: "Melissa",
 			lastName: "Kournikova",
 			email: "mel.kournikova@gmail.com",

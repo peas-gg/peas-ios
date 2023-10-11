@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		071633F52AB3B7D300FB2B94 /* CardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071633F42AB3B7D300FB2B94 /* CardBackground.swift */; };
 		D012F3662AAAE75600269DA1 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D012F3652AAAE75600269DA1 /* WebView.swift */; };
+		D013D4DB2AD63E900085C726 /* SignalRClient in Frameworks */ = {isa = PBXBuildFile; productRef = D013D4DA2AD63E900085C726 /* SignalRClient */; };
+		D013D4DE2AD63F040085C726 /* HubClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D013D4DD2AD63F040085C726 /* HubClient.swift */; };
 		D017617E2A86216600926960 /* PEASApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017617D2A86216600926960 /* PEASApp.swift */; };
 		D01761802A86216600926960 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D017617F2A86216600926960 /* AppView.swift */; };
 		D01761822A86216700926960 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D01761812A86216700926960 /* Assets.xcassets */; };
@@ -91,6 +93,7 @@
 		D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D312AA2A1FD00139783 /* AppProgressView.swift */; };
 		D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D342AA2B0DF00139783 /* WelcomeView.swift */; };
 		D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D362AA2B0F700139783 /* WelcomeVM.swift */; };
+		D07F59EA2AD7622000529BE4 /* SoundClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F59E92AD7622000529BE4 /* SoundClient.swift */; };
 		D08060B52AD4FB3900D58228 /* ServerUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08060B42AD4FB3900D58228 /* ServerUrl.swift */; };
 		D09371142AC0F6E900FF7C9F /* CashOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09371132AC0F6E900FF7C9F /* CashOutView.swift */; };
 		D09371162AC0F6FC00FF7C9F /* CashOutVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09371152AC0F6FC00FF7C9F /* CashOutVM.swift */; };
@@ -127,6 +130,7 @@
 /* Begin PBXFileReference section */
 		071633F42AB3B7D300FB2B94 /* CardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackground.swift; sourceTree = "<group>"; };
 		D012F3652AAAE75600269DA1 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		D013D4DD2AD63F040085C726 /* HubClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubClient.swift; sourceTree = "<group>"; };
 		D017617A2A86216600926960 /* PEAS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PEAS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D017617D2A86216600926960 /* PEASApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PEASApp.swift; sourceTree = "<group>"; };
 		D017617F2A86216600926960 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -209,6 +213,7 @@
 		D0793D312AA2A1FD00139783 /* AppProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProgressView.swift; sourceTree = "<group>"; };
 		D0793D342AA2B0DF00139783 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D0793D362AA2B0F700139783 /* WelcomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVM.swift; sourceTree = "<group>"; };
+		D07F59E92AD7622000529BE4 /* SoundClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundClient.swift; sourceTree = "<group>"; };
 		D08060B42AD4FB3900D58228 /* ServerUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUrl.swift; sourceTree = "<group>"; };
 		D09371132AC0F6E900FF7C9F /* CashOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutView.swift; sourceTree = "<group>"; };
 		D09371152AC0F6FC00FF7C9F /* CashOutVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutVM.swift; sourceTree = "<group>"; };
@@ -247,6 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D013D4DB2AD63E900085C726 /* SignalRClient in Frameworks */,
 				D0FB0AFC2A8FEDE500C56178 /* SwiftKeychainWrapper in Frameworks */,
 				D066F82E2A9571C300B65CA4 /* IdentifiedCollections in Frameworks */,
 				D0332A242AA4DBE1000E7515 /* iPhoneNumberField in Frameworks */,
@@ -256,6 +262,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D013D4DC2AD63EF70085C726 /* HubClient */ = {
+			isa = PBXGroup;
+			children = (
+				D013D4DD2AD63F040085C726 /* HubClient.swift */,
+			);
+			path = HubClient;
+			sourceTree = "<group>";
+		};
 		D01761712A86216600926960 = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +319,7 @@
 		D02659912A868D8F00655C23 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				D013D4DC2AD63EF70085C726 /* HubClient */,
 				D066F8242A956D9500B65CA4 /* CacheClient */,
 				D0FB0AFD2A8FEF5E00C56178 /* APIClient */,
 				D026599A2A8731D000655C23 /* FeedbackClient.swift */,
@@ -314,6 +329,7 @@
 				D0B23CA62AA7A76600CBDA26 /* KeyboardClient.swift */,
 				D0B23CAC2AA840A300CBDA26 /* LocationClient.swift */,
 				D0B23CB12AA9770600CBDA26 /* PermissionClient.swift */,
+				D07F59E92AD7622000529BE4 /* SoundClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -661,6 +677,7 @@
 				D0FB0AFB2A8FEDE500C56178 /* SwiftKeychainWrapper */,
 				D066F82D2A9571C300B65CA4 /* IdentifiedCollections */,
 				D0332A232AA4DBE1000E7515 /* iPhoneNumberField */,
+				D013D4DA2AD63E900085C726 /* SignalRClient */,
 			);
 			productName = PEAS;
 			productReference = D017617A2A86216600926960 /* PEAS.app */;
@@ -694,6 +711,7 @@
 				D0FB0AFA2A8FEDE500C56178 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 				D066F82C2A9571C300B65CA4 /* XCRemoteSwiftPackageReference "swift-identified-collections" */,
 				D0332A222AA4DBE1000E7515 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
+				D013D4D92AD63E900085C726 /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */,
 			);
 			productRefGroup = D017617B2A86216600926960 /* Products */;
 			projectDirPath = "";
@@ -761,6 +779,7 @@
 				D09371162AC0F6FC00FF7C9F /* CashOutVM.swift in Sources */,
 				D0332A182AA3AC31000E7515 /* UpdateBusiness.swift in Sources */,
 				D02659AD2A87369C00655C23 /* SiteView.swift in Sources */,
+				D07F59EA2AD7622000529BE4 /* SoundClient.swift in Sources */,
 				D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */,
 				D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */,
 				D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */,
@@ -796,6 +815,7 @@
 				D0BF26DB2A88927C001FCC05 /* View+Overlay.swift in Sources */,
 				D0B23CA72AA7A76600CBDA26 /* KeyboardClient.swift in Sources */,
 				D0987D642A8825C900C2CBC5 /* CalendarClient.swift in Sources */,
+				D013D4DE2AD63F040085C726 /* HubClient.swift in Sources */,
 				D068F34A2ACBBF32003E8BC5 /* AppDelegate.swift in Sources */,
 				D03D8C002AC1EBBC007656F4 /* ShimmerTextView.swift in Sources */,
 				D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */,
@@ -1053,6 +1073,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D013D4D92AD63E900085C726 /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/moozzyk/SignalR-Client-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		D0332A222AA4DBE1000E7515 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MojtabaHs/iPhoneNumberField";
@@ -1080,6 +1108,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D013D4DA2AD63E900085C726 /* SignalRClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D013D4D92AD63E900085C726 /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */;
+			productName = SignalRClient;
+		};
 		D0332A232AA4DBE1000E7515 /* iPhoneNumberField */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D0332A222AA4DBE1000E7515 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;

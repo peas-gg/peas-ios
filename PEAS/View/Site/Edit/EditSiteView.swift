@@ -73,6 +73,8 @@ struct EditSiteView: View {
 							textField(hint: "Your Sign", leadingHint: "/", text: $viewModel.sign)
 								.font(Font.app.bodySemiBold)
 								.focused($focusedField, equals: .sign)
+								.autocorrectionDisabled()
+								.textInputAutocapitalization(.never)
 						}
 						.padding(.bottom, 40)
 						hintText(content: "Feel free to get a little creative with your business name")
@@ -80,6 +82,7 @@ struct EditSiteView: View {
 						textField(hint: "Business Name", text: $viewModel.name)
 							.font(Font.app.bodySemiBold)
 							.focused($focusedField, equals: .name)
+							.autocorrectionDisabled()
 						Spacer(minLength: 0)
 					}
 					.padding(.top)

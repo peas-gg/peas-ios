@@ -129,6 +129,7 @@ import SwiftUI
 	
 	func logUserIn(_ authenticateResponse: AuthenticateResponse) {
 		let user: User = User(
+			id: authenticateResponse.id,
 			firstName: authenticateResponse.firstName,
 			lastName: authenticateResponse.lastName,
 			email: authenticateResponse.email,
@@ -167,5 +168,9 @@ import SwiftUI
 		}
 		self.defaultsClient.set(key: .server, value: ServerUrl.shared.server)
 		self.bannerData = BannerData(isSuccess: true, detail: "Server set to \(ServerUrl.shared.server)")
+	}
+	
+	func showNotification(message: String) {
+		self.bannerData = BannerData(isSuccess: true, detail: message)
 	}
 }

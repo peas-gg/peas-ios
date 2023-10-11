@@ -166,9 +166,6 @@ struct DashboardView: View {
 				viewModel.didCloseCashOutOnboarding()
 			}
 		}
-		.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-			viewModel.refresh()
-		}
 	}
 	
 	@ViewBuilder

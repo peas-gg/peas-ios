@@ -68,6 +68,7 @@ extension APIClient {
 									}
 								}, receiveValue: { authResponse in
 									let user = User(
+										id: authResponse.id,
 										firstName: authResponse.firstName,
 										lastName: authResponse.lastName,
 										email: authResponse.email,

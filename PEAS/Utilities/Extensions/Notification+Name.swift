@@ -9,4 +9,7 @@ import Foundation
 
 extension Notification.Name {
 	static let updateAppState = Notification.Name("updateAppState")
+	static let refreshApp = Notification.Name("refreshApp")
+	static let refreshOrders = Notification.Name("refreshOrder")
+	static let refreshWallet = Notification.Name("refreshWallet")
 }

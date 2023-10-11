@@ -94,6 +94,31 @@ extension DashboardView {
 					self.unSortedOrders = orders
 				}
 				.store(in: &cancellableBag)
+			
+			//Register for Notifications
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(refresh),
+					name: .refreshApp,
+					object: nil
+				)
+			
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(refreshOrders),
+					name: .refreshOrders,
+					object: nil
+				)
+			
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(refreshWallet),
+					name: .refreshWallet,
+					object: nil
+				)
 		}
 		
 		func setUp() {
@@ -123,7 +148,7 @@ extension DashboardView {
 			}
 		}
 		
-		func refreshWallet() {
+		@objc func refreshWallet() {
 			self.apiClient
 				.getWallet(businessId: business.id)
 				.receive(on: DispatchQueue.main)
@@ -143,7 +168,7 @@ extension DashboardView {
 				.store(in: &cancellableBag)
 		}
 		
-		func refreshOrders() {
+		@objc func refreshOrders() {
 			self.apiClient
 				.getOrders(businessId: business.id)
 				.receive(on: DispatchQueue.main)
@@ -163,7 +188,7 @@ extension DashboardView {
 				.store(in: &cancellableBag)
 		}
 		
-		func refresh() {
+		@objc func refresh() {
 			if let user = keychainClient.get(key: .user) {
 				self.user = user
 			}
