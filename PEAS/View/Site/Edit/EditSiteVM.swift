@@ -487,7 +487,7 @@ extension EditSiteView {
 							if let imageUrl = await apiClient.uploadImage(localUrl: currentBlockImage) {
 								let newBlock = Business.Block(
 									id: UUID().uuidString,
-									index: 0,
+									index: self.business.blocks.count,
 									blockType: .Genesis,
 									image: imageUrl,
 									price: Int(self.blockPriceText) ?? 0,
