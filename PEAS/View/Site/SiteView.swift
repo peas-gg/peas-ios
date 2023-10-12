@@ -12,8 +12,6 @@ struct SiteView: View {
 	let blockHeight: CGFloat = SizeConstants.screenSize.height / 3.5
 	let linksMenuId: String = "LinksMenu"
 	
-	@State var headerRect: CGRect = .zero
-	
 	@StateObject var viewModel: ViewModel
 	
 	@Environment(\.openURL) var openURL
@@ -31,165 +29,159 @@ struct SiteView: View {
 	}
 	
 	var body: some View {
-		ScrollView(showsIndicators: false) {
-			VStack {
-				VStack(alignment: .leading) {
-					HStack(spacing: 0) {
-						Image("SiteLogo")
-							.resizable()
-							.scaledToFit()
-							.frame(dimension: 40)
-						labelContainer(action: { viewModel.setEditModeContext(.sign) }) {
-							Group {
-								if business.sign.isEmpty {
-									hintText("Peas sign")
-								} else {
-									Text("/\(business.sign)")
-								}
-							}
-							.font(Font.app.title2)
-							.textCase(.lowercase)
-						}
-					}
-					.padding(.bottom, 30)
-					HStack(alignment: .center) {
-						Button(action: {
-							if viewModel.isInEditMode {
-								viewModel.setEditModeContext(.photo)
-							}
-						}) {
-							CachedAvatar(url: business.profilePhoto, height: SizeConstants.avatarHeight)
-								.overlay(isShown: viewModel.isInEditMode) {
-									RoundedRectangle(cornerRadius: 50)
-										.fill(Color.black.opacity(0.6))
-										.overlay {
-											Image(systemName: "square.on.square.intersection.dashed")
-												.font(Font.app.bodySemiBold)
-												.foregroundColor(Color.app.secondaryText)
-										}
-								}
-						}
-						.background {
-							RoundedRectangle(cornerRadius: 50)
-								.fill(Color.white.opacity(0.2))
-								.padding(-4)
-								.opacity(viewModel.isInEditMode ? 1.0 : 0.0)
-						}
-						.buttonStyle(.plain)
-						VStack(alignment: .leading) {
-							labelContainer(action: { viewModel.setEditModeContext(.name) }) {
+		GeometryReader { geometry in
+			ScrollView(showsIndicators: false) {
+				VStack {
+					VStack(alignment: .leading) {
+						HStack(spacing: 0) {
+							Image("SiteLogo")
+								.resizable()
+								.scaledToFit()
+								.frame(dimension: 40)
+							labelContainer(action: { viewModel.setEditModeContext(.sign) }) {
 								Group {
-									if business.name.isEmpty {
-										hintText("Business Name")
+									if business.sign.isEmpty {
+										hintText("Peas sign")
 									} else {
-										Text("\(business.name)")
+										Text("/\(business.sign)")
 									}
 								}
-								.font(Font.app.title2Display)
+								.font(Font.app.title2)
+								.textCase(.lowercase)
 							}
-							HStack {
+						}
+						.padding(.bottom, 30)
+						HStack(alignment: .center) {
+							Button(action: {
 								if viewModel.isInEditMode {
-									ScrollView(.horizontal, showsIndicators: false) {
-										HStack {
-											ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
-												colorButton(colorName: colorName)
+									viewModel.setEditModeContext(.photo)
+								}
+							}) {
+								CachedAvatar(url: business.profilePhoto, height: SizeConstants.avatarHeight)
+									.overlay(isShown: viewModel.isInEditMode) {
+										RoundedRectangle(cornerRadius: 50)
+											.fill(Color.black.opacity(0.6))
+											.overlay {
+												Image(systemName: "square.on.square.intersection.dashed")
+													.font(Font.app.bodySemiBold)
+													.foregroundColor(Color.app.secondaryText)
+											}
+									}
+							}
+							.background {
+								RoundedRectangle(cornerRadius: 50)
+									.fill(Color.white.opacity(0.2))
+									.padding(-4)
+									.opacity(viewModel.isInEditMode ? 1.0 : 0.0)
+							}
+							.buttonStyle(.plain)
+							VStack(alignment: .leading) {
+								labelContainer(action: { viewModel.setEditModeContext(.name) }) {
+									Group {
+										if business.name.isEmpty {
+											hintText("Business Name")
+										} else {
+											Text("\(business.name)")
+										}
+									}
+									.font(Font.app.title2Display)
+								}
+								HStack {
+									if viewModel.isInEditMode {
+										ScrollView(.horizontal, showsIndicators: false) {
+											HStack {
+												ForEach(Array(viewModel.colours.keys), id: \.self) { colorName in
+													colorButton(colorName: colorName)
+												}
 											}
 										}
+									} else {
+										HStack {
+											Image(systemName: "person.crop.circle.badge.checkmark")
+											Text("\(viewModel.business.orderCount)")
+										}
+										.font(Font.app.bodySemiBold)
+										.foregroundColor(Color.app.primaryText)
+										.padding(.horizontal)
+										.background(
+											RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
+												.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 1.0))
+												.frame(height: profileTextHeight)
+										)
+										.padding(.horizontal, 8)
 									}
-								} else {
-									HStack {
-										Image(systemName: "person.crop.circle.badge.checkmark")
-										Text("\(viewModel.business.orderCount)")
-									}
-									.font(Font.app.bodySemiBold)
-									.foregroundColor(Color.app.primaryText)
-									.padding(.horizontal)
-									.background(
-										RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
-											.fill(Color.white.opacity(viewModel.isInEditMode ? 0.5 : 1.0))
-											.frame(height: profileTextHeight)
-									)
-									.padding(.horizontal, 8)
+									linksButton()
+									Spacer(minLength: 0)
 								}
-								linksButton()
-								Spacer(minLength: 0)
+							}
+							.padding(.top, 4)
+						}
+						labelContainer(action: { viewModel.setEditModeContext(.description) }) {
+							Group {
+								if business.description.isEmpty {
+									hintText("Business Description")
+								} else {
+									Text(business.description)
+								}
+							}
+							.font(.system(size: FontSizes.body, weight: .regular, design: .default))
+							.multilineTextAlignment(.leading)
+						}
+						labelContainer(action: { viewModel.setEditModeContext(.location) }) {
+							HStack {
+								Image(systemName: "mappin.and.ellipse")
+									.font(Font.app.bodySemiBold)
+								Text(business.location)
+									.font(.system(size: FontSizes.body, weight: .semibold, design: .default))
 							}
 						}
-						.padding(.top, 4)
+						.padding(.vertical, 2)
 					}
-					labelContainer(action: { viewModel.setEditModeContext(.description) }) {
-						Group {
-							if business.description.isEmpty {
-								hintText("Business Description")
-							} else {
-								Text(business.description)
+					.padding(.horizontal)
+					VStack {
+						LazyVGrid(columns: Array(repeating: GridItem(spacing: 15), count: 2), spacing: 15) {
+							ForEach(business.blocks.sorted(by: { $0.index < $1.index })) { block in
+								blockView(block)
+							}
+							if viewModel.isInEditMode {
+								Button(action: { viewModel.setEditModeContext(.block(nil)) }) {
+									ZStack {
+										RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
+											.fill(Color.white.opacity(0.2))
+										RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
+											.stroke(Color.white, lineWidth: 2)
+									}
+									.overlay(
+										Image(systemName: "plus.circle.fill")
+											.font(Font.app.largeTitle)
+											.foregroundColor(Color.app.secondaryText)
+									)
+								}
+								.frame(height: blockHeight)
+								.buttonStyle(.plain)
 							}
 						}
-						.font(.system(size: FontSizes.body, weight: .regular, design: .default))
-						.multilineTextAlignment(.leading)
+						.padding(14)
+						.padding(.bottom, SizeConstants.scrollViewBottomPadding)
+						Spacer()
 					}
-					labelContainer(action: { viewModel.setEditModeContext(.location) }) {
-						HStack {
-							Image(systemName: "mappin.and.ellipse")
-								.font(Font.app.bodySemiBold)
-							Text(business.location)
-								.font(.system(size: FontSizes.body, weight: .semibold, design: .default))
-						}
+					.background {
+						Color.white.opacity(viewModel.isInEditMode ? 0.0 : 1.0)
+							.ignoresSafeArea(edges: [.bottom])
+							.cornerRadius(30, corners: [.topLeft, .topRight])
 					}
-					.padding(.vertical, 2)
+					.padding(.top, 10)
 				}
-				.padding(.horizontal)
-				.readRect {
-					self.headerRect = $0
-				}
-				LazyVGrid(columns: Array(repeating: GridItem(spacing: 15), count: 2), spacing: 15) {
-					ForEach(business.blocks.sorted(by: { $0.index < $1.index })) { block in
-						blockView(block)
-					}
-					if viewModel.isInEditMode {
-						Button(action: { viewModel.setEditModeContext(.block(nil)) }) {
-							ZStack {
-								RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
-									.fill(Color.white.opacity(0.2))
-								RoundedRectangle(cornerRadius: SizeConstants.blockCornerRadius)
-									.stroke(Color.white, lineWidth: 2)
-							}
-							.overlay(
-								Image(systemName: "plus.circle.fill")
-									.font(Font.app.largeTitle)
-									.foregroundColor(Color.app.secondaryText)
-							)
-						}
-						.frame(height: blockHeight)
-						.buttonStyle(.plain)
-					}
-				}
-				.padding(14)
-				.background {
-					Color.white.opacity(viewModel.isInEditMode ? 0.0 : 1.0)
-						.cornerRadius(30, corners: [.topLeft, .topRight])
-						.edgesIgnoringSafeArea(.bottom)
-				}
-				.padding(.top, 10)
-				.padding(.bottom, SizeConstants.scrollViewBottomPadding)
-			}
+				.frame(minHeight: geometry.size.height)
+			}.frame(width: geometry.size.width)
 		}
 		.foregroundColor(Color.app.primaryText)
 		.overlay (alignment: .bottom){
 			toolbar()
 				.padding(.bottom)
 		}
-		.background {
-			ZStack {
-				backgroundColour
-				if !viewModel.isInEditMode {
-					Color.white
-						.offset(y: headerRect.maxY + 120)
-				}
-			}
-			.ignoresSafeArea()
-			.animation(.easeOut, value: backgroundColour)
-		}
+		.background(backgroundColour.ignoresSafeArea(edges: .top))
+		.animation(.easeOut, value: backgroundColour)
 		.appMenu(id: linksMenuId, isShowing: $viewModel.isShowingSocialLinksMenu) {
 			VStack {
 				if let twitter = getSocialLink(handle: business.twitter) {
