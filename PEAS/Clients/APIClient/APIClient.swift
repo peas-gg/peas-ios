@@ -380,16 +380,11 @@ final class APIClient: APIRequests {
 					let failedPublisher: AnyPublisher<Data, Error> = Fail(error: error).eraseToAnyPublisher()
 					if let error  = error as? APIClientError {
 						if error == .authExpired {
-							return TokenManager.shared.refreshToken()
-								.flatMap { isSuccess -> AnyPublisher<Data, Error> in
-									let request = try! appRequest.urlRequest
-									if isSuccess {
-										return self.urlRequest(urlRequest: request)
-											.eraseToAnyPublisher()
-									} else {
-										return failedPublisher
-									}
-								}
+							Task {
+								await TokenManager.shared.refreshToken()
+							}
+							let request = try! appRequest.urlRequest
+							return self.urlRequest(urlRequest: request)
 								.eraseToAnyPublisher()
 						} else {
 							return failedPublisher
