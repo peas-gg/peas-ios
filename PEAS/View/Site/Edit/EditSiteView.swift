@@ -355,6 +355,13 @@ struct EditSiteView: View {
 					.font(.system(size: FontSizes.body, weight: .regular, design: .default))
 					.lineLimit(4, reservesSpace: true)
 					.focused($focusedField, equals: .description)
+					.submitLabel(.done)
+					.onChange(of: text.wrappedValue) { newText in
+						if newText.contains("\n") {
+							text.wrappedValue.removeAll(where: { $0 == "\n" } )
+							self.focusedField = nil
+						}
+					}
 				HStack {
 					Spacer()
 					Text("\(text.wrappedValue.count)/\(textLimit)")
