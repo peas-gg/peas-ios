@@ -23,7 +23,6 @@ struct TransactionsView: View {
 						}
 					}
 					.padding()
-					.padding(.bottom, 30)
 				}
 				.background {
 					Color.app.primaryBackground
