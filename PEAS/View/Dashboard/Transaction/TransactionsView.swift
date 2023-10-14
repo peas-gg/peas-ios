@@ -15,7 +15,7 @@ struct TransactionsView: View {
 			VStack {
 				Spacer()
 					.frame(height: 20)
-				ScrollView {
+				ScrollView(showsIndicators: false) {
 					LazyVStack {
 						ForEach(viewModel.transactions.indices, id: \.self) { index in
 							transactionView(viewModel.transactions[index])
@@ -23,12 +23,13 @@ struct TransactionsView: View {
 						}
 					}
 					.padding()
+					.padding(.bottom, 30)
 				}
 				.background {
 					Color.app.primaryBackground
 						.cornerRadius(10, corners: [.topLeft, .topRight])
+						.ignoresSafeArea(edges: [.bottom])
 				}
-				.edgesIgnoringSafeArea(.bottom)
 			}
 			.padding(.horizontal)
 		}
