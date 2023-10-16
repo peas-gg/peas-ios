@@ -375,7 +375,7 @@ final class APIClient: APIRequests {
 	
 	private func apiRequest<Output: Decodable>(appRequest: APPUrlRequest, output: Output.Type) -> AnyPublisher<Output, APIClientError> {
 		do {
-			return try urlRequest(urlRequest: appRequest.urlRequest)
+			return try urlRequest(urlRequest: appRequest.urlRequest())
 				.catch { error -> AnyPublisher<Data, Error> in
 					let failedPublisher: AnyPublisher<Data, Error> = Fail(error: error).eraseToAnyPublisher()
 					if let error  = error as? APIClientError {
@@ -383,7 +383,7 @@ final class APIClient: APIRequests {
 							Task {
 								await TokenManager.shared.refreshToken()
 							}
-							let request = try! appRequest.urlRequest
+							let request = try! appRequest.urlRequest()
 							return self.urlRequest(urlRequest: request)
 								.eraseToAnyPublisher()
 						} else {

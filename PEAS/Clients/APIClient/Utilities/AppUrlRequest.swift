@@ -14,32 +14,30 @@ struct APPUrlRequest {
 	let body: Encodable?
 	let requiresAuth: Bool
 	
-	var urlRequest: URLRequest {
-		get throws {
-			let baseUrl = URL(string: "https://\(ServerUrl.shared.server.domain)/")
-			guard var url = baseUrl else { throw AppError.apiClientError(.invalidURL) }
-			for pathComponent in pathComponents {
-				url.appendPathComponent(pathComponent)
-			}
-			var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-			components?.queryItems = query
-			guard let url = components?.url else { throw AppError.apiClientError(.invalidURL) }
-			
-			var request = URLRequest(url: url)
-			request.httpMethod = httpMethod.rawValue
-			request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-			request.addValue("application/json", forHTTPHeaderField: "Accept")
-			
-			if requiresAuth, let accessToken = KeychainClient.shared.get(key: .user)?.accessToken {
-				request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-			}
-			
-			if let body = body, httpMethod != .get {
-				request.httpBody = try JSONEncoder().encode(body)
-			}
-			
-			return request
+	func urlRequest() throws -> URLRequest {
+		let baseUrl = URL(string: "https://\(ServerUrl.shared.server.domain)/")
+		guard var url = baseUrl else { throw AppError.apiClientError(.invalidURL) }
+		for pathComponent in pathComponents {
+			url.appendPathComponent(pathComponent)
 		}
+		var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+		components?.queryItems = query
+		guard let url = components?.url else { throw AppError.apiClientError(.invalidURL) }
+		
+		var request = URLRequest(url: url)
+		request.httpMethod = httpMethod.rawValue
+		request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.addValue("application/json", forHTTPHeaderField: "Accept")
+		
+		if requiresAuth, let accessToken = KeychainClient.shared.get(key: .user)?.accessToken {
+			request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+		}
+		
+		if let body = body, httpMethod != .get {
+			request.httpBody = try JSONEncoder().encode(body)
+		}
+		
+		return request
 	}
 	
 	init(

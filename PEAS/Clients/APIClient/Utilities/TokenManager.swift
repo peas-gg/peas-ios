@@ -51,7 +51,7 @@ extension APIClient {
 					]) {
 						HTTPCookieStorage.shared.setCookie(cookie)
 					}
-					let tokenRequest: URLRequest = try APPUrlRequest(httpMethod: .post, pathComponents: ["account", "refresh"]).urlRequest
+					let tokenRequest: URLRequest = try APPUrlRequest(httpMethod: .post, pathComponents: ["account", "refresh"]).urlRequest()
 					
 					APIClient.shared.urlRequest(urlRequest: tokenRequest)
 						.receive(on: DispatchQueue.main)
