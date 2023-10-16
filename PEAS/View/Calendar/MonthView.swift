@@ -72,36 +72,35 @@ struct MonthView: View {
 		let isDateSelected: Bool = selectedDate == date
 		let foregroundColor: Color = Color.app.secondaryText
 		let isShowingHighlight: Bool = daysToHighlight.contains(date)
-		Button(action: { self.dateTapped(date) }) {
-			ZStack {
-				let cornerRadius: CGFloat = 10
+		ZStack {
+			let cornerRadius: CGFloat = 10
+			RoundedRectangle(cornerRadius: cornerRadius)
+				.fill(Color.clear)
+			
+			if Calendar.current.isDateInToday(date) {
 				RoundedRectangle(cornerRadius: cornerRadius)
-					.fill(Color.clear)
-				
-				if Calendar.current.isDateInToday(date) {
-					RoundedRectangle(cornerRadius: cornerRadius)
-						.stroke(Color.app.darkGreen, lineWidth: 2)
-				}
-				
-				if isDateSelected {
-					RoundedRectangle(cornerRadius: cornerRadius)
-						.fill(Color.app.darkGreen)
-				}
+					.stroke(Color.app.darkGreen, lineWidth: 2)
 			}
-			.frame(dimension: 35)
-			.overlay (
-				Text("\(date.dayOfMonth)")
-					.strikethrough(date < dateNow, color: foregroundColor)
-					.font(Font.app.bodySemiBold)
-					.foregroundColor(foregroundColor)
-			)
-			.overlay(isShown: isShowingHighlight, alignment: .bottom) {
-				Circle()
-					.fill(isDateSelected ? Color.white : Color.app.darkGreen)
-					.frame(dimension: 6)
-					.padding(.bottom, 3)
+			
+			if isDateSelected {
+				RoundedRectangle(cornerRadius: cornerRadius)
+					.fill(Color.app.darkGreen)
 			}
 		}
+		.frame(dimension: 35)
+		.overlay (
+			Text("\(date.dayOfMonth)")
+				.strikethrough(date < dateNow, color: foregroundColor)
+				.font(Font.app.bodySemiBold)
+				.foregroundColor(foregroundColor)
+		)
+		.overlay(isShown: isShowingHighlight, alignment: .bottom) {
+			Circle()
+				.fill(isDateSelected ? Color.white : Color.app.darkGreen)
+				.frame(dimension: 6)
+				.padding(.bottom, 3)
+		}
+		.onTapGesture { self.dateTapped(date) }
 	}
 	
 	@ViewBuilder
