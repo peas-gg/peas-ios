@@ -22,7 +22,7 @@ struct CalendarView: View {
 	var body: some View {
 		NavigationStack(path: $viewModel.navStack) {
 			ZStack {
-				VerticalTabView(selection: $viewModel.selectedDateIndex, hasOffset: yOffset > 0) {
+				VerticalTabView(selectionValue: $viewModel.selectedDateIndex, hasOffset: yOffset > 0) {
 					ForEach(0..<viewModel.months.count, id: \.self) {
 						monthsView(currentIndex: $0)
 							.tag($0 / 2)

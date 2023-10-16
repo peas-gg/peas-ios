@@ -9,19 +9,21 @@
 
 import SwiftUI
 
-struct VerticalTabView<Content, SelectionValue>: View where Content: View, SelectionValue: Hashable {
-	
-	var selection: Binding<SelectionValue>?
-	
+struct VerticalTabView<Content>: View where Content: View {
 	var indexPosition: IndexPosition
 	var hasOffset: Bool
 	
 	var content: () -> Content
 	
+	@Binding var selectionValue: Int
+	
+	@State var selection: Int
+	
 	/// Creates an instance that selects from content associated with
 	/// `Selection` values.
-	init(selection: Binding<SelectionValue>?, indexPosition: IndexPosition = .leading, hasOffset: Bool, @ViewBuilder content: @escaping () -> Content) {
-		self.selection = selection
+	init(selectionValue: Binding<Int>, indexPosition: IndexPosition = .leading, hasOffset: Bool, @ViewBuilder content: @escaping () -> Content) {
+		self._selection = State(initialValue: selectionValue.wrappedValue)
+		self._selectionValue = selectionValue
 		self.indexPosition = indexPosition
 		self.hasOffset = hasOffset
 		self.content = content
@@ -38,7 +40,7 @@ struct VerticalTabView<Content, SelectionValue>: View where Content: View, Selec
 	
 	var body: some View {
 		GeometryReader { proxy in
-			TabView(selection: selection) {
+			TabView(selection: $selection) {
 				Group {
 					content()
 				}
@@ -55,6 +57,12 @@ struct VerticalTabView<Content, SelectionValue>: View where Content: View, Selec
 			 But somehow, when a y offset is added to this view for animation purposes, it behave really weird where the xOffset is displaced.
 			 */
 		}
+		.onChange(of: self.selectionValue) { newValue in
+			self.selection = newValue
+		}
+//		.onChange(of: hasOffset) { _ in
+//			self.selection = selectionValue
+//		}
 	}
 	
 	enum IndexPosition {
@@ -63,9 +71,10 @@ struct VerticalTabView<Content, SelectionValue>: View where Content: View, Selec
 	}
 }
 
-extension VerticalTabView where SelectionValue == Int {
+extension VerticalTabView {
 	init(indexPosition: IndexPosition = .leading, hasOffset: Bool, @ViewBuilder content: @escaping () -> Content) {
-		self.selection = nil
+		self._selection = State(initialValue: 0)
+		self._selectionValue = Binding.constant(0)
 		self.indexPosition = indexPosition
 		self.hasOffset = hasOffset
 		self.content = content
