@@ -60,9 +60,9 @@ struct VerticalTabView<Content>: View where Content: View {
 		.onChange(of: self.selectionValue) { newValue in
 			self.selection = newValue
 		}
-//		.onChange(of: hasOffset) { _ in
-//			self.selection = selectionValue
-//		}
+		.onChange(of: hasOffset) { _ in
+			self.selection = selectionValue
+		}
 	}
 	
 	enum IndexPosition {

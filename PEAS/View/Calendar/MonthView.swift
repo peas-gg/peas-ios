@@ -74,11 +74,14 @@ struct MonthView: View {
 		let isShowingHighlight: Bool = daysToHighlight.contains(date)
 		ZStack {
 			let cornerRadius: CGFloat = 10
-			RoundedRectangle(cornerRadius: cornerRadius)
-				.stroke(Color.app.darkGreen, lineWidth: 2)
-				.opacity(Calendar.current.isDateInToday(date) ? 1.0 : 0.0)
-			RoundedRectangle(cornerRadius: cornerRadius)
-				.fill(isDateSelected ? Color.app.darkGreen : Color.clear)
+			if Calendar.current.isDateInToday(date) {
+				RoundedRectangle(cornerRadius: cornerRadius)
+					.stroke(Color.app.darkGreen, lineWidth: 2)
+			}
+			if isDateSelected {
+				RoundedRectangle(cornerRadius: cornerRadius)
+					.fill(Color.app.darkGreen)
+			}
 		}
 		.frame(dimension: 35)
 		.overlay (
