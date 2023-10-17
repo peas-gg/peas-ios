@@ -385,6 +385,7 @@ final class APIClient: APIRequests {
 							}
 							let request = try! appRequest.urlRequest()
 							return self.urlRequest(urlRequest: request)
+								.delay(for: .seconds(2.0), scheduler: RunLoop.current)
 								.eraseToAnyPublisher()
 						} else {
 							return failedPublisher
