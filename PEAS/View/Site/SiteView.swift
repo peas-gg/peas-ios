@@ -113,6 +113,7 @@ struct SiteView: View {
 									linksButton()
 									Spacer(minLength: 0)
 								}
+								.padding(.vertical, 8)
 							}
 							.padding(.top, 4)
 						}
@@ -245,7 +246,7 @@ struct SiteView: View {
 					.fill(color)
 					.padding(isCurrentColor ? 2 : 0.2)
 			}
-			.frame(dimension: 36)
+			.frame(dimension: 38)
 		}
 		.buttonStyle(.insideScaling)
 	}
@@ -407,7 +408,7 @@ struct SiteView: View {
 	func labelContainer<Content: View>(action: @escaping () -> (), content: () -> Content) -> some View {
 		Button(action: { action() }) {
 			content()
-				.padding(.vertical, 8)
+				.padding(.vertical, 6)
 				.padding(.horizontal, 8)
 				.background(
 					RoundedRectangle(cornerRadius: SizeConstants.textCornerRadius)
