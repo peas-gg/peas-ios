@@ -41,7 +41,7 @@ struct WelcomeView: View {
 			VStack {
 				Spacer()
 				pageIndicator()
-				Text("Accepting payments and bookings made easy")
+				Text("Accepting bookings and payments made easy")
 					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.bottom, 40)
