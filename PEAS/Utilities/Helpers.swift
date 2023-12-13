@@ -17,7 +17,7 @@ struct SizeConstants {
 	static let blockCornerRadius: CGFloat = 20
 	static let textCornerRadius: CGFloat = 10
 	static let businessDescriptionLimit: Int = 160
-	static let descriptionLimit: Int = 120
+	static let descriptionLimit: Int = 400
 	static let detentHeight: CGFloat = 400
 	static let scrollViewBottomPadding: CGFloat = 60
 	static let otpCodeCount: Int = 6
