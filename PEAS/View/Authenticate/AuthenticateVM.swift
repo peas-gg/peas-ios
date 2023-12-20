@@ -143,11 +143,11 @@ extension AuthenticateView {
 		func resendOtpCode(context: Context) {
 			switch context {
 			case .signUp(.otpCode):
-				requestOtpCodeSignUp()
+				requestOtpCodeSignUp(shouldAdvanceNav: false)
 			case .login(.otpCode):
-				requestOtpCodeLogin()
+				requestOtpCodeLogin(shouldAdvanceNav: false)
 			case .forgotPassword(.otpCode):
-				requestOtpCodeForgotPassword()
+				requestOtpCodeForgotPassword(shouldAdvanceNav: false)
 			default: return
 			}
 		}
@@ -222,7 +222,7 @@ extension AuthenticateView {
 				case .emailAndPassword:
 					self.navStack.append(.signUp(.phone))
 				case .phone:
-					requestOtpCodeSignUp()
+					requestOtpCodeSignUp(shouldAdvanceNav: true)
 				case .otpCode:
 					if let phoneNumber = self.phoneNumberToString {
 						self.isLoading = true
@@ -259,7 +259,7 @@ extension AuthenticateView {
 			case .login(let loginFlow):
 				switch loginFlow {
 				case .emailAndPassword:
-					requestOtpCodeLogin()
+					requestOtpCodeLogin(shouldAdvanceNav: true)
 				case .otpCode:
 					self.isLoading = true
 					let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
@@ -290,7 +290,7 @@ extension AuthenticateView {
 			case .forgotPassword(let forgotPasswordFlow):
 				switch forgotPasswordFlow {
 				case .email:
-					requestOtpCodeForgotPassword()
+					requestOtpCodeForgotPassword(shouldAdvanceNav: true)
 				case .otpCode:
 					self.navStack.append(.forgotPassword(.password))
 				case .password:
@@ -348,7 +348,7 @@ extension AuthenticateView {
 			self.otpCode = ""
 		}
 		
-		private func requestOtpCodeSignUp() {
+		private func requestOtpCodeSignUp(shouldAdvanceNav: Bool) {
 			if let phoneNumber = self.phoneNumberToString {
 				self.isLoading = true
 				self.apiClient
@@ -365,14 +365,16 @@ extension AuthenticateView {
 						},
 						receiveValue: { _ in
 							self.isLoading = false
-							self.navStack.append(.signUp(.otpCode))
+							if shouldAdvanceNav {
+								self.navStack.append(.signUp(.otpCode))
+							}
 						}
 					)
 					.store(in: &cancellableBag)
 			}
 		}
 		
-		private func requestOtpCodeLogin() {
+		private func requestOtpCodeLogin(shouldAdvanceNav: Bool) {
 			self.isLoading = true
 			let authenticateRequest: AuthenticateRequest = AuthenticateRequest(
 				email: self.email,
@@ -393,13 +395,15 @@ extension AuthenticateView {
 					},
 					receiveValue: { authenticateResponse in
 						self.isLoading = false
-						self.navStack.append(.login(.otpCode))
+						if shouldAdvanceNav {
+							self.navStack.append(.login(.otpCode))
+						}
 					}
 				)
 				.store(in: &cancellableBag)
 		}
 		
-		private func requestOtpCodeForgotPassword() {
+		private func requestOtpCodeForgotPassword(shouldAdvanceNav: Bool) {
 			self.isLoading = true
 			self.apiClient
 				.requestPasswordReset(email: self.email)
@@ -415,7 +419,9 @@ extension AuthenticateView {
 					},
 					receiveValue: { _ in
 						self.isLoading = false
-						self.navStack.append(.forgotPassword(.otpCode))
+						if shouldAdvanceNav {
+							self.navStack.append(.forgotPassword(.otpCode))
+						}
 					}
 				)
 				.store(in: &cancellableBag)
