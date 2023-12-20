@@ -68,10 +68,12 @@ extension EditSiteView {
 		
 		//Schedule
 		@Published var weekDays: [String]
-		@Published var selectedDay: Int?
+		@Published var dayToEdit: Int?
 		@Published var startDateForPicker: Date
 		@Published var endDateForPicker: Date
 		@Published var schedules: IdentifiedArrayOf<Business.Schedule>?
+		
+		@Published var isEditingSchedule: Bool = false
 		
 		@Published var photoItem: PhotosPickerItem?
 		@Published var isShowingDeleteBlockAlert: Bool = false
@@ -252,8 +254,8 @@ extension EditSiteView {
 			Calendar.current.date(from: endComponents)!
 		}
 		
-		func setSelectedDay(dayIndex: Int) {
-			if let currentSelectedDayIndex: Int = self.selectedDay {
+		func setDayToEdit(dayIndex: Int) {
+			if let currentSelectedDayIndex: Int = self.dayToEdit {
 				let existingSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == currentSelectedDayIndex })
 				if startDateForPicker >= endDateForPicker {
 					if let existingSchedule = existingSchedule {
@@ -282,8 +284,8 @@ extension EditSiteView {
 				}
 			}
 			
-			if self.selectedDay == dayIndex {
-				self.selectedDay = nil
+			if self.dayToEdit == dayIndex {
+				self.dayToEdit = nil
 				self.setPickerDates(start: calendarClient.startOfDay, end: calendarClient.endOfDay)
 			} else {
 				//Set the time picker for the dayIndex passed
@@ -294,7 +296,7 @@ extension EditSiteView {
 				} else {
 					self.setPickerDates(start: calendarClient.startOfDay, end: calendarClient.endOfDay)
 				}
-				self.selectedDay = dayIndex
+				self.dayToEdit = dayIndex
 			}
 		}
 		

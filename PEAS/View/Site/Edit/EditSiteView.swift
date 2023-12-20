@@ -205,7 +205,7 @@ struct EditSiteView: View {
 					.presentationDetents([.height(SizeConstants.detentHeight)])
 				case .schedule:
 					VStack(spacing: spacing) {
-						let isInEditMode: Bool = viewModel.selectedDay != nil
+						let isInEditMode: Bool = viewModel.dayToEdit != nil
 						VStack(alignment: .leading) {
 							HStack {
 								Text("Availability")
@@ -226,9 +226,6 @@ struct EditSiteView: View {
 								HStack {
 									timeSelection(date: $viewModel.startDateForPicker)
 									Spacer()
-									Image(systemName: "arrow.right")
-										.font(Font.app.bodySemiBold)
-										.foregroundColor(Color.app.primaryText)
 									Spacer()
 									timeSelection(date: $viewModel.endDateForPicker)
 								}
@@ -464,13 +461,13 @@ struct EditSiteView: View {
 		let isActive: Bool = viewModel.schedules?.contains(where: { $0.dayOfWeek == dayIndex}) ?? false
 		let foregroundColor: Color = isActive ? Color.app.secondaryText : Color.app.primaryText
 		let opacity: CGFloat = {
-			if let selectedDay = viewModel.selectedDay {
+			if let selectedDay = viewModel.dayToEdit {
 				return selectedDay == dayIndex ? 1.0 : 0.2
 			} else {
 				return 1.0
 			}
 		}()
-		Button(action: { viewModel.setSelectedDay(dayIndex: dayIndex) }) {
+		Button(action: { viewModel.setDayToEdit(dayIndex: dayIndex) }) {
 			Color.clear
 				.overlay {
 					Group {
@@ -494,20 +491,32 @@ struct EditSiteView: View {
 				.transition(.opacity)
 				.animation(.easeInOut, value: opacity)
 		}
-		.disabled(viewModel.selectedDay != nil && viewModel.selectedDay != dayIndex)
+		.disabled(viewModel.dayToEdit != nil && viewModel.dayToEdit != dayIndex)
 	}
 	
 	@ViewBuilder
 	func timeSelection(date: Binding<Date>) -> some View {
 		HStack {
 			Image(systemName: "clock")
-				.font(Font.app.title2)
+				.font(Font.app.title3)
 				.foregroundColor(Color.app.tertiaryText)
-			DatePicker("", selection: date, displayedComponents: .hourAndMinute)
-				.labelsHidden()
+			Spacer()
+			Text("\(date.wrappedValue.localTimeOnly)")
+			Spacer()
+			Image(systemName: "chevron.down")
+				.foregroundColor(Color.app.tertiaryText)
 		}
 		.font(Font.app.bodySemiBold)
-		.foregroundColor(Color.app.primaryText)
+		.foregroundColor(Color.black)
+		.padding(12)
+		.padding(.vertical, 4)
+		.background(CardBackground(style: .white))
+		.overlay {
+			DatePicker("", selection: date, displayedComponents: .hourAndMinute)
+				.font(.largeTitle)
+				.labelsHidden()
+				.blendMode(.destinationOver)
+		}
 	}
 	
 	@ViewBuilder
@@ -516,11 +525,11 @@ struct EditSiteView: View {
 			Group {
 				if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
 					HStack {
-						scheduleTimeText(schedule.startTimeDate.timeOnly)
+						scheduleTimeText(schedule.startTimeDate.serverTimeOnly)
 						Image(systemName: "arrow.right")
 							.font(Font.app.bodySemiBold)
 							.foregroundColor(Color.app.tertiaryText)
-						scheduleTimeText(schedule.endTimeDate.timeOnly)
+						scheduleTimeText(schedule.endTimeDate.serverTimeOnly)
 					}
 				} else {
 					HStack {

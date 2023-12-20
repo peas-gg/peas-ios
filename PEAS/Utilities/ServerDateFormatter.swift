@@ -43,14 +43,25 @@ class ServerDateFormatter {
 }
 
 struct TimeFormatter {
-	static let timeFormatter: DateFormatter = {
+	static let serverTimeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = ServerDateFormatter.serverTimeZone
 		formatter.dateFormat = "h:mm a"
 		return formatter
 	}()
 	
-	static func getTime(date: Date) -> String {
-		return timeFormatter.string(from: date)
+	static let localTimeFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.timeZone = Calendar.current.timeZone
+		formatter.dateFormat = "h:mm a"
+		return formatter
+	}()
+	
+	static func getServerTime(date: Date) -> String {
+		return serverTimeFormatter.string(from: date)
+	}
+	
+	static func getLocalTime(date: Date) -> String {
+		return localTimeFormatter.string(from: date)
 	}
 }
