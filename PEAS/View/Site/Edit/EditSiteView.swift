@@ -205,10 +205,9 @@ struct EditSiteView: View {
 					.presentationDetents([.height(SizeConstants.detentHeight)])
 				case .schedule:
 					VStack(spacing: spacing) {
-						let isInEditMode: Bool = viewModel.dayToEdit != nil
 						VStack(alignment: .leading) {
 							HStack {
-								Text("Availability")
+								Text("Your Availability")
 								Spacer()
 							}
 							HStack {
@@ -221,8 +220,7 @@ struct EditSiteView: View {
 							}
 						}
 						VStack(alignment: .leading) {
-							if isInEditMode {
-								Text(isInEditMode ? "Select time" : "Time")
+							if viewModel.isEditingSchedule {
 								HStack {
 									timeSelection(date: $viewModel.startDateForPicker)
 									Spacer()
@@ -254,22 +252,12 @@ struct EditSiteView: View {
 							}
 							Spacer(minLength: 0)
 						}
-						HStack {
-							Spacer(minLength: 0)
-							Text("Please note that updating your schedule does not change the time for existing appointments")
-								.font(Font.app.footnote)
-								.multilineTextAlignment(.center)
-								.fixedSize(horizontal: false, vertical: true)
-							Spacer(minLength: 0)
-						}
-						.padding(.top, 30)
-						.padding(.bottom, 10)
 					}
 					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
-					.presentationDetents([.height(600)])
+					.presentationDetents([.height(viewModel.isEditingSchedule ? 400 : 600)])
 				}
 			}
 			.background(viewModel.context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
@@ -278,11 +266,10 @@ struct EditSiteView: View {
 				Spacer()
 			}
 			
-			let isSchedule: Bool = viewModel.context == .schedule
-			Button(action: { viewModel.saveChanges() }) {
-				Text(isSchedule ? "Set Schedule" : "Save")
+			Button(action: { viewModel.advance() }) {
+				Text(viewModel.advanceButtonTitle)
 			}
-			.buttonStyle(.expanded(style: isSchedule ? .green : .black))
+			.buttonStyle(.expanded(style: .black))
 			.padding()
 		}
 		.multilineTextAlignment(.leading)

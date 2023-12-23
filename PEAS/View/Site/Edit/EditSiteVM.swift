@@ -93,6 +93,15 @@ extension EditSiteView {
 			startDateForPicker < endDateForPicker
 		}
 		
+		var advanceButtonTitle: String {
+			switch context {
+			case .photo, .sign, .name, .description, .links, .location, .block:
+				return "Save"
+			case .schedule:
+				return isEditingSchedule ? "View your schedule" : "Edit"
+			}
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
@@ -386,6 +395,26 @@ extension EditSiteView {
 			AppState.shared.updateBusiness(business: business)
 			self.isLoading = false
 			self.onSave(business)
+		}
+		
+		func advance() {
+			switch context {
+			case .photo, .sign, .name, .description, .links, .location, .block:
+				saveChanges()
+			case .schedule:
+				if isEditingSchedule {
+					if dayToEdit == nil {
+						//View the schedule
+						self.isEditingSchedule = false
+					} else {
+						//Save the schedule changes
+						saveChanges()
+					}
+				} else {
+					//Edit the schedule
+					self.isEditingSchedule = true
+				}
+			}
 		}
 		
 		func saveChanges() {
