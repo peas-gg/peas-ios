@@ -205,65 +205,43 @@ struct EditSiteView: View {
 					.presentationDetents([.height(SizeConstants.detentHeight)])
 				case .schedule:
 					VStack(spacing: spacing) {
-						VStack(alignment: .leading) {
+						Spacer(minLength: 0)
+						if viewModel.isEditingSchedule {
 							HStack {
-								Text("Your Availability")
+								timeSelection(date: $viewModel.startDateForPicker)
 								Spacer()
+								Spacer()
+								timeSelection(date: $viewModel.endDateForPicker)
 							}
-							HStack {
-								ForEach(viewModel.weekDays.indices, id: \.self) { index in
-									dayView(dayIndex: index)
-									if index != viewModel.weekDays.count - 1 {
-										Spacer(minLength: 0)
+							invalidTimeHint()
+								.opacity(viewModel.isValidTimeRange ? 0.0 : 1.0)
+								.animation(.easeInOut, value: viewModel.isValidTimeRange)
+						} else {
+							VStack(alignment: .leading, spacing: 20) {
+								HStack(spacing: 20) {
+									VStack(spacing: 30) {
+										scheduleDaysView()
 									}
 								}
 							}
+							.font(Font.app.body)
 						}
-						VStack(alignment: .leading) {
-							if viewModel.isEditingSchedule {
-								HStack {
-									timeSelection(date: $viewModel.startDateForPicker)
-									Spacer()
-									Spacer()
-									timeSelection(date: $viewModel.endDateForPicker)
-								}
-								invalidTimeHint()
-									.opacity(viewModel.isValidTimeRange ? 0.0 : 1.0)
-									.animation(.easeInOut, value: viewModel.isValidTimeRange)
-							} else {
-								VStack(alignment: .leading, spacing: 20) {
-									HStack(spacing: 20) {
-										let verticalSpacing: CGFloat = 20
-										Spacer(minLength: 0)
-										VStack(alignment: .trailing, spacing: verticalSpacing) {
-											ForEach(viewModel.weekDays.indices, id: \.self) { index in
-												Text("\(viewModel.weekDays[index]):")
-													.font(Font.app.body)
-													.foregroundColor(getCurrentDayForegroundColor(weekDay: index))
-											}
-										}
-										VStack(spacing: verticalSpacing) {
-											scheduleTimeView()
-										}
-										Spacer(minLength: 0)
-									}
-								}
-								.font(Font.app.body)
-							}
-							Spacer(minLength: 0)
-						}
+						Spacer(minLength: 0)
 					}
 					.font(Font.app.body)
 					.foregroundColor(Color.app.tertiaryText)
 					.padding(.top)
 					.padding(.horizontal, horizontalPadding)
-					.presentationDetents([.height(viewModel.isEditingSchedule ? 400 : 600)])
+					.presentationDetents([.height(viewModel.isEditingSchedule ? 400 : 500)])
 				}
 			}
-			.background(viewModel.context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
+			.background(viewModel.backgroundColor)
 			
-			if viewModel.context != .location {
+			switch viewModel.context {
+			case .photo, .sign, .name, .description, .links, .block:
 				Spacer()
+			case .location, .schedule:
+				EmptyView()
 			}
 			
 			Button(action: { viewModel.advance() }) {
@@ -489,6 +467,7 @@ struct EditSiteView: View {
 				.foregroundColor(Color.app.tertiaryText)
 			Spacer()
 			Text("\(date.wrappedValue.localTimeOnly)")
+				.textCase(.lowercase)
 			Spacer()
 			Image(systemName: "chevron.down")
 				.foregroundColor(Color.app.tertiaryText)
@@ -507,34 +486,52 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func scheduleTimeView() -> some View {
+	func scheduleDaysView() -> some View {
 		ForEach(viewModel.weekDays.indices, id: \.self) { weekDayIndex in
-			Group {
-				if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
-					HStack {
-						scheduleTimeText(schedule.startTimeDate.serverTimeOnly)
-						Image(systemName: "arrow.right")
-							.font(Font.app.bodySemiBold)
-							.foregroundColor(Color.app.tertiaryText)
-						scheduleTimeText(schedule.endTimeDate.serverTimeOnly)
-					}
-				} else {
-					HStack {
-						Spacer()
-						Text("Unavailable")
-						Spacer()
+			let weekDaySchedule: Business.Schedule? = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex })
+			SymmetricHStack(
+				content: {
+					Image(systemName: weekDaySchedule == nil ? "minus" : "checkmark")
+						.font(Font.app.title3)
+						.foregroundStyle(weekDaySchedule == nil ? Color.app.tertiaryText : Color.app.accent)
+						.padding(.trailing, 30)
+				},
+				leading: {
+					scheduleDayText(viewModel.weekDays[weekDayIndex])
+						.foregroundStyle(weekDaySchedule == nil ? Color.app.tertiaryText : Color.app.primaryText)
+				},
+				trailing: {
+					Group {
+						if let schedule = weekDaySchedule {
+							HStack(spacing: 0) {
+								scheduleTimeText(schedule.startTimeDate.serverTimeOnly)
+								Text("-")
+								scheduleTimeText(schedule.endTimeDate.serverTimeOnly)
+							}
+						}
 					}
 				}
-			}
-			.foregroundColor(getCurrentDayForegroundColor(weekDay: weekDayIndex))
+			)
 		}
 	}
 	
 	@ViewBuilder
-	func scheduleTimeText(_ content: String) -> some View {
-		Text("  11:11 PM  ")
+	func scheduleDayText(_ content: String) -> some View {
+		Text("  \(viewModel.weekDayMaxString)  ")
 			.opacity(0)
 			.overlay(Text(content))
+			.font(Font.app.bodySemiBold)
+	}
+	
+	@ViewBuilder
+	func scheduleTimeText(_ content: String) -> some View {
+		Text(" 11:11 PM ")
+			.opacity(0)
+			.overlay {
+				Text(content)
+					.textCase(.lowercase)
+			}
+			.font(Font.app.body)
 	}
 	
 	@ViewBuilder
@@ -569,9 +566,9 @@ struct EditSiteView: View {
 		.padding(.top)
 	}
 	
-	func getCurrentDayForegroundColor(weekDay: Int) -> Color {
+	func getCurrentDayBackgroundColor(weekDay: Int) -> Color {
 		let isCurrentDay: Bool = Calendar.current.component(.weekday, from: Date()) - 1 == weekDay
-		return isCurrentDay ? Color.app.primaryText : Color.app.tertiaryText
+		return isCurrentDay ? Color.app.tertiaryText : Color.clear
 	}
 }
 

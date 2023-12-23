@@ -46,14 +46,14 @@ struct TimeFormatter {
 	static let serverTimeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = ServerDateFormatter.serverTimeZone
-		formatter.dateFormat = "h:mm a"
+		formatter.dateFormat = "h:mma"
 		return formatter
 	}()
 	
 	static let localTimeFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeZone = Calendar.current.timeZone
-		formatter.dateFormat = "h:mm a"
+		formatter.dateFormat = "h:mma"
 		return formatter
 	}()
 	

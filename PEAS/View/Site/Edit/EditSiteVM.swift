@@ -81,6 +81,24 @@ extension EditSiteView {
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
 		
+		var advanceButtonTitle: String {
+			switch context {
+			case .photo, .sign, .name, .description, .links, .location, .block:
+				return "Save"
+			case .schedule:
+				return isEditingSchedule ? "View your schedule" : "Edit"
+			}
+		}
+		
+		var backgroundColor: Color {
+			switch context {
+			case .photo, .sign, .name, .description, .links, .block:
+				return Color.app.secondaryBackground
+			case .location, .schedule:
+				return Color.app.primaryBackground
+			}
+		}
+		
 		var locationPermissionState: PermissionState {
 			locationClient.permissionState
 		}
@@ -93,13 +111,8 @@ extension EditSiteView {
 			startDateForPicker < endDateForPicker
 		}
 		
-		var advanceButtonTitle: String {
-			switch context {
-			case .photo, .sign, .name, .description, .links, .location, .block:
-				return "Save"
-			case .schedule:
-				return isEditingSchedule ? "View your schedule" : "Edit"
-			}
+		var weekDayMaxString: String {
+			weekDays.max(by: { $0.count < $1.count }) ?? ""
 		}
 		
 		//Clients
