@@ -204,35 +204,59 @@ struct EditSiteView: View {
 					.padding(.top)
 					.presentationDetents([.height(SizeConstants.detentHeight)])
 				case .schedule:
-					VStack(spacing: spacing) {
-						Spacer(minLength: 0)
-						if viewModel.isEditingSchedule {
-							HStack {
-								timeSelection(date: $viewModel.startDateForPicker)
-								Spacer()
-								Spacer()
-								timeSelection(date: $viewModel.endDateForPicker)
-							}
-							invalidTimeHint()
-								.opacity(viewModel.isValidTimeRange ? 0.0 : 1.0)
-								.animation(.easeInOut, value: viewModel.isValidTimeRange)
-						} else {
-							VStack(alignment: .leading, spacing: 20) {
-								HStack(spacing: 20) {
-									VStack(spacing: 30) {
-										scheduleDaysView()
+					VStack {
+						VStack(spacing: 30) {
+							if viewModel.isEditingSchedule {
+								VStack {
+									Spacer(minLength: 0)
+									HStack {
+										timeSelection(date: $viewModel.startDateForPicker)
+										Spacer()
+										Spacer()
+										timeSelection(date: $viewModel.endDateForPicker)
 									}
+									invalidTimeHint()
+										.opacity(viewModel.isValidTimeRange ? 0.0 : 1.0)
+										.animation(.easeInOut, value: viewModel.isValidTimeRange)
+									Spacer(minLength: 0)
+								}
+								.padding(.horizontal, horizontalPadding)
+								/**
+								 HACK: Bottom button bounces around  when switching between the edit mode
+								 and the schedule view so a temnporary fix is to overlay the button here and align it at the bottom
+								 */
+								.overlay {
+									Color.clear
+										.pushOutFrame()
+										.overlay(alignment: .bottom) {
+											advanceButton()
+										}
+								}
+							} else {
+								VStack(spacing: 30) {
+									Spacer(minLength: 0)
+									scheduleDaysView()
+										.padding(.horizontal, horizontalPadding)
+									Spacer(minLength: 0)
+									Spacer(minLength: 0)
+								}
+								/**
+								 HACK: Bottom button bounces around  when switching between the edit mode
+								 and the schedule view so a temnporary fix is to overlay the button here and align it at the bottom
+								 */
+								.overlay {
+									Color.clear
+										.pushOutFrame()
+										.overlay(alignment: .bottom) {
+											advanceButton()
+										}
 								}
 							}
-							.font(Font.app.body)
 						}
-						Spacer(minLength: 0)
+						.font(Font.app.body)
+						.foregroundColor(Color.app.tertiaryText)
 					}
-					.font(Font.app.body)
-					.foregroundColor(Color.app.tertiaryText)
-					.padding(.top)
-					.padding(.horizontal, horizontalPadding)
-					.presentationDetents([.height(viewModel.isEditingSchedule ? 400 : 500)])
+					.presentationDetents([.height(viewModel.isEditingSchedule ? 400 : 540)])
 				}
 			}
 			.background(viewModel.backgroundColor)
@@ -244,11 +268,9 @@ struct EditSiteView: View {
 				EmptyView()
 			}
 			
-			Button(action: { viewModel.advance() }) {
-				Text(viewModel.advanceButtonTitle)
+			if viewModel.context != .schedule {
+				advanceButton()
 			}
-			.buttonStyle(.expanded(style: .black))
-			.padding()
 		}
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
@@ -280,6 +302,15 @@ struct EditSiteView: View {
 				return
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func advanceButton() -> some View {
+		Button(action: { viewModel.advance() }) {
+			Text(viewModel.advanceButtonTitle)
+		}
+		.buttonStyle(.expanded(style: .black))
+		.padding()
 	}
 	
 	@ViewBuilder
