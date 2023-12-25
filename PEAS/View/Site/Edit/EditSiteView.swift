@@ -207,31 +207,19 @@ struct EditSiteView: View {
 					VStack {
 						VStack(spacing: 30) {
 							if viewModel.isEditingSchedule {
-								VStack {
-									Spacer(minLength: 0)
-									HStack {
-										timeSelection(date: $viewModel.startDateForPicker)
-										Spacer()
-										Spacer()
-										timeSelection(date: $viewModel.endDateForPicker)
+								editScheduleView()
+									.padding(.horizontal, horizontalPadding)
+									/**
+								 	HACK: Bottom button bounces around  when switching between the edit mode
+								 	and the schedule view so a temnporary fix is to overlay the button here and align it at the bottom
+								 	*/
+									.overlay {
+										Color.clear
+											.pushOutFrame()
+											.overlay(alignment: .bottom) {
+												advanceButton()
+											}
 									}
-									invalidTimeHint()
-										.opacity(viewModel.isValidTimeRange ? 0.0 : 1.0)
-										.animation(.easeInOut, value: viewModel.isValidTimeRange)
-									Spacer(minLength: 0)
-								}
-								.padding(.horizontal, horizontalPadding)
-								/**
-								 HACK: Bottom button bounces around  when switching between the edit mode
-								 and the schedule view so a temnporary fix is to overlay the button here and align it at the bottom
-								 */
-								.overlay {
-									Color.clear
-										.pushOutFrame()
-										.overlay(alignment: .bottom) {
-											advanceButton()
-										}
-								}
 							} else {
 								VStack(spacing: 30) {
 									Spacer(minLength: 0)
@@ -518,7 +506,7 @@ struct EditSiteView: View {
 	@ViewBuilder
 	func scheduleDaysView(horizontalPadding: CGFloat) -> some View {
 		ForEach(viewModel.weekDays.indices, id: \.self) { weekDayIndex in
-			let weekDaySchedule: Business.Schedule? = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex })
+			let weekDaySchedule: Business.Schedule? = weekDaySchedule(weekDayIndex: weekDayIndex)
 			HStack {
 				HStack {
 					SymmetricHStack(
@@ -553,6 +541,77 @@ struct EditSiteView: View {
 			}
 		}
 	}
+	
+	@ViewBuilder
+	func editScheduleView() -> some View  {
+		VStack(spacing: 0) {
+			HStack {
+				hintText(content: "Day")
+					.padding(.vertical)
+				Spacer()
+			}
+			HStack {
+				ForEach(viewModel.weekDays.indices, id: \.self) { index in
+					dayView(dayIndex: index)
+					if index != viewModel.weekDays.count - 1 {
+						Spacer(minLength: 0)
+					}
+				}
+			}
+			Group {
+				if let dayToEdit = viewModel.dayToEdit {
+					let hasActiveSchedule: Bool = weekDaySchedule(weekDayIndex: dayToEdit) != nil
+					VStack {
+						HStack {
+							hintText(content: "Time & Availability")
+							Spacer()
+						}
+						.padding(.vertical)
+						HStack {
+							selectedAvailabilityButton("Available", isSelected: hasActiveSchedule)
+							Spacer()
+							selectedAvailabilityButton("Unavailable", isSelected: !hasActiveSchedule)
+						}
+					}
+				} else {
+					HStack {
+						Spacer()
+						Image("ScheduleCalendarHint")
+							.resizable()
+							.scaledToFit()
+							.frame(dimension: 100)
+							.padding(.leading, 20)
+						Spacer()
+					}
+					.padding(.top)
+					hintText(content: "Select a day to set your availability and time.")
+				}
+			}
+			Spacer(minLength: 0)
+		}
+	}
+	
+	@ViewBuilder
+	func selectedAvailabilityButton(_ title: String, isSelected: Bool) -> some View {
+		Button(action: {}) {
+			HStack {
+				Text(title)
+					.font(Font.app.title2)
+					.foregroundStyle(Color.app.primaryText)
+				ZStack {
+					RoundedRectangle(cornerRadius: 8)
+						.stroke(Color.gray.opacity(0.2), lineWidth: 2)
+					if isSelected {
+						Image(systemName: "checkmark")
+							.font(Font.app.bodySemiBold)
+							.foregroundStyle(Color.app.primaryText)
+					}
+				}
+				.frame(dimension: 24)
+			}
+		}
+	}
+	
 	
 	@ViewBuilder
 	func scheduleDayText(_ content: String) -> some View {
@@ -604,6 +663,10 @@ struct EditSiteView: View {
 		}
 		.multilineTextAlignment(.center)
 		.padding(.top)
+	}
+	
+	func weekDaySchedule(weekDayIndex: Int) -> Business.Schedule? {
+		return viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex })
 	}
 	
 	func currentDayBackgroundColor(weekDay: Int) -> Color {
