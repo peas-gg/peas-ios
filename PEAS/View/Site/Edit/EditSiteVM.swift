@@ -81,12 +81,11 @@ extension EditSiteView {
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
 		
-		var advanceButtonTitle: String {
-			switch context {
-			case .photo, .sign, .name, .description, .links, .location, .block:
-				return "Save"
-			case .schedule:
-				return isEditingSchedule ? "View your schedule" : "Edit"
+		var calendarAdvanceButtonTitle: String {
+			if isEditingSchedule {
+				return dayToEdit == nil ? "View your schedule" : "Save"
+			} else {
+				return "Edit"
 			}
 		}
 		
@@ -277,54 +276,35 @@ extension EditSiteView {
 		}
 		
 		func setDayToEdit(dayIndex: Int) {
-			if let currentSelectedDayIndex: Int = self.dayToEdit {
-				let existingSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == currentSelectedDayIndex })
-				if startDateForPicker >= endDateForPicker {
-					if let existingSchedule = existingSchedule {
-						self.schedules?.remove(id: existingSchedule.id)
-					}
-				} else {
-					let startTime: String = ServerDateFormatter.formatToUTC(from: startDateForPicker)
-					let endTime: String = ServerDateFormatter.formatToUTC(from: endDateForPicker)
-					if var existingSchedule = existingSchedule {
-						existingSchedule.startTime = startTime
-						existingSchedule.endTime = endTime
-						self.schedules?[id: existingSchedule.id] = existingSchedule
-					} else {
-						let newSchedule: Business.Schedule = Business.Schedule(
-							id: UUID().uuidString,
-							dayOfWeek: dayIndex,
-							startTime: startTime,
-							endTime: endTime
-						)
-						if self.schedules == nil {
-							self.schedules = IdentifiedArray(uniqueElements: [newSchedule])
-						} else {
-							self.schedules?.append(newSchedule)
-						}
-					}
-				}
-			}
-			
-			if self.dayToEdit == dayIndex {
-				self.dayToEdit = nil
-				self.setPickerDates(start: calendarClient.startOfDay, end: calendarClient.endOfDay)
-			} else {
-				//Set the time picker for the dayIndex passed
-				if let existingSchedule = schedules?.first(where: { $0.dayOfWeek == dayIndex }) {
-					let startDate = ServerDateFormatter.formatToDate(from: existingSchedule.startTime)
-					let endDate = ServerDateFormatter.formatToDate(from: existingSchedule.endTime)
-					self.setPickerDates(start: startDate, end: endDate)
-				} else {
-					self.setPickerDates(start: calendarClient.startOfDay, end: calendarClient.endOfDay)
-				}
+			if self.dayToEdit == nil {
 				self.dayToEdit = dayIndex
+			} else {
+				self.dayToEdit = nil
 			}
 		}
 		
 		func setPickerDates(start: Date, end: Date) {
 			self.startDateForPicker = start
 			self.endDateForPicker = end
+		}
+		
+		func toggleDayAvailability(isAvailable: Bool) {
+			guard let dayToEdit = self.dayToEdit else { return }
+			if isAvailable {
+				let startTime: Date = calendarClient.startOfDay
+				let endTime: Date = calendarClient.endOfDay
+				let newSchedule: Business.Schedule = Business.Schedule(
+					id: UUID().uuidString,
+					dayOfWeek: dayToEdit,
+					startTime: ServerDateFormatter.formatToUTC(from: startTime),
+					endTime: ServerDateFormatter.formatToUTC(from: endTime)
+				)
+				self.setPickerDates(start: startTime, end: endTime)
+				self.schedules?.removeAll(where: { $0.dayOfWeek == dayToEdit })
+				self.schedules?.append(newSchedule)
+			} else {
+				self.schedules?.removeAll(where: { $0.dayOfWeek == dayToEdit })
+			}
 		}
 		
 		func updateBusiness(_ model: UpdateBusiness) {
