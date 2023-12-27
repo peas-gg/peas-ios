@@ -217,7 +217,7 @@ struct EditSiteView: View {
 										Color.clear
 											.pushOutFrame()
 											.overlay(alignment: .bottom) {
-												advanceButton()
+												calendarAdvanceButton()
 											}
 									}
 							} else {
@@ -235,7 +235,7 @@ struct EditSiteView: View {
 									Color.clear
 										.pushOutFrame()
 										.overlay(alignment: .bottom) {
-											advanceButton()
+											calendarAdvanceButton()
 										}
 								}
 							}
@@ -256,7 +256,11 @@ struct EditSiteView: View {
 			}
 			
 			if viewModel.context != .schedule {
-				advanceButton()
+				Button(action: { viewModel.advance() }) {
+					Text("Save")
+				}
+				.buttonStyle(.expanded(style: .black))
+				.padding()
 			}
 		}
 		.multilineTextAlignment(.leading)
@@ -292,11 +296,20 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func advanceButton() -> some View {
+	func calendarAdvanceButton() -> some View {
+		let isDisabled: Bool = {
+			if let dayToEdit = viewModel.dayToEdit,
+			   let editedSchedule: Business.Schedule? = viewModel.schedules?.first(where: { $0.dayOfWeek == dayToEdit }),
+			   let exisitngSchedule: Business.Schedule? = viewModel.business.schedules?.first(where: { $0.dayOfWeek == dayToEdit }){
+				return editedSchedule == exisitngSchedule
+			}
+			return false
+		}()
 		Button(action: { viewModel.advance() }) {
-			Text(viewModel.advanceButtonTitle)
+			Text(viewModel.calendarAdvanceButtonTitle)
 		}
 		.buttonStyle(.expanded(style: .black))
+		.disabled(isDisabled)
 		.padding()
 	}
 	
@@ -568,9 +581,9 @@ struct EditSiteView: View {
 						}
 						.padding(.vertical)
 						HStack {
-							selectedAvailabilityButton("Available", isSelected: hasActiveSchedule)
+							selectedAvailabilityButton(isAvailable: true, isSelected: hasActiveSchedule)
 							Spacer()
-							selectedAvailabilityButton("Unavailable", isSelected: !hasActiveSchedule)
+							selectedAvailabilityButton(isAvailable: false, isSelected: !hasActiveSchedule)
 						}
 					}
 				} else {
@@ -592,19 +605,22 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func selectedAvailabilityButton(_ title: String, isSelected: Bool) -> some View {
-		Button(action: {}) {
+	func selectedAvailabilityButton(isAvailable: Bool, isSelected: Bool) -> some View {
+		Button(action: { viewModel.toggleDayAvailability(isAvailable: isSelected) }) {
 			HStack {
-				Text(title)
+				Text(isAvailable ? "Available" : "Unavailable")
 					.font(Font.app.title2)
 					.foregroundStyle(Color.app.primaryText)
 				ZStack {
-					RoundedRectangle(cornerRadius: 8)
+					let cornerRadius: CGFloat = 8
+					RoundedRectangle(cornerRadius: cornerRadius)
+						.fill(isAvailable && isSelected ? Color.app.accent : Color.clear)
+					RoundedRectangle(cornerRadius: cornerRadius)
 						.stroke(Color.gray.opacity(0.2), lineWidth: 2)
 					if isSelected {
 						Image(systemName: "checkmark")
 							.font(Font.app.bodySemiBold)
-							.foregroundStyle(Color.app.primaryText)
+							.foregroundStyle(isAvailable && isSelected ? Color.app.secondaryText : Color.app.primaryText)
 					}
 				}
 				.frame(dimension: 24)
