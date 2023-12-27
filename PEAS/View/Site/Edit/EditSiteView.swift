@@ -606,21 +606,22 @@ struct EditSiteView: View {
 	
 	@ViewBuilder
 	func selectedAvailabilityButton(isAvailable: Bool, isSelected: Bool) -> some View {
-		Button(action: { viewModel.toggleDayAvailability(isAvailable: isSelected) }) {
+		Button(action: { viewModel.toggleDayAvailability(isAvailable: isAvailable) }) {
 			HStack {
 				Text(isAvailable ? "Available" : "Unavailable")
 					.font(Font.app.title2)
 					.foregroundStyle(Color.app.primaryText)
 				ZStack {
 					let cornerRadius: CGFloat = 8
+					let isAvailableSelected: Bool = isAvailable && isSelected
 					RoundedRectangle(cornerRadius: cornerRadius)
-						.fill(isAvailable && isSelected ? Color.app.accent : Color.clear)
+						.fill(isAvailableSelected ? Color.app.accent : Color.clear)
 					RoundedRectangle(cornerRadius: cornerRadius)
-						.stroke(Color.gray.opacity(0.2), lineWidth: 2)
+						.stroke(Color.gray.opacity(isAvailableSelected ? 0.0 : 0.2), lineWidth: 2)
 					if isSelected {
 						Image(systemName: "checkmark")
 							.font(Font.app.bodySemiBold)
-							.foregroundStyle(isAvailable && isSelected ? Color.app.secondaryText : Color.app.primaryText)
+							.foregroundStyle(isAvailableSelected ? Color.app.secondaryText : Color.app.primaryText)
 					}
 				}
 				.frame(dimension: 24)
