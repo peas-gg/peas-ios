@@ -69,8 +69,15 @@ extension EditSiteView {
 		//Schedule
 		@Published var weekDays: [String]
 		@Published var dayToEdit: Int?
-		@Published var startDateForPicker: Date
-		@Published var endDateForPicker: Date
+		
+		@Published var startDateForPicker: Date{
+			didSet { updateScheduleTime() }
+		}
+		
+		@Published var endDateForPicker: Date {
+			didSet { updateScheduleTime() }
+		}
+		
 		@Published var schedules: IdentifiedArrayOf<Business.Schedule>?
 		
 		@Published var isEditingSchedule: Bool = false
@@ -115,10 +122,12 @@ extension EditSiteView {
 		}
 		
 		var didCurrentDayScheduleChange: Bool {
-			if let dayToEdit = dayToEdit,
-			   let editedSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == dayToEdit }),
-			   let exisitngSchedule: Business.Schedule? = business.schedules?.first(where: { $0.dayOfWeek == dayToEdit }){
-				return editedSchedule != exisitngSchedule
+			if let dayToEdit = dayToEdit {
+				let editedSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == dayToEdit })
+				let exisitngSchedule: Business.Schedule? = business.schedules?.first(where: { $0.dayOfWeek == dayToEdit })
+				if editedSchedule != exisitngSchedule {
+					return true
+				}
 			}
 			return false
 		}
@@ -227,6 +236,17 @@ extension EditSiteView {
 				}
 			)
 			.store(in: &cancellableBag)
+		}
+		
+		func updateScheduleTime() {
+			//Update the current selected schedule with the current time in the time picker
+			if let dayToEdit = self.dayToEdit,
+			   let scheduleId: Business.Schedule.ID = schedules?.first(where: { $0.dayOfWeek == dayToEdit})?.id {
+				let startTime: String = ServerDateFormatter.formatToUTC(from: startDateForPicker)
+				let endTime: String = ServerDateFormatter.formatToUTC(from: endDateForPicker)
+				self.schedules?[id: scheduleId]?.startTime = startTime
+				self.schedules?[id: scheduleId]?.endTime = endTime
+			}
 		}
 		
 		func imageSelected(_ imageData: Data) {
