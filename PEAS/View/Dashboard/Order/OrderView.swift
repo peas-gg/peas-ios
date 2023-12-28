@@ -74,8 +74,8 @@ struct OrderView: View {
 			case .calendar:
 				HStack(spacing: 10) {
 					VStack(spacing: 2) {
-						let startTime: String = TimeFormatter.getTime(date: viewModel.order.startTimeDateLocal)
-						let endTime: String = TimeFormatter.getTime(date: viewModel.order.endTimeDateLocal)
+						let startTime: String = TimeFormatter.getServerTime(date: viewModel.order.startTimeDateLocal)
+						let endTime: String = TimeFormatter.getServerTime(date: viewModel.order.endTimeDateLocal)
 						Text(startTime)
 						ForEach(0..<3) {
 							Circle()
@@ -353,7 +353,7 @@ struct OrderView: View {
 		let date: Date = viewModel.order.startTimeDateLocal
 		let components = Calendar.current.dateComponents([.month, .day, .weekday], from: date)
 		
-		let time: String = TimeFormatter.getTime(date: date)
+		let time: String = TimeFormatter.getServerTime(date: date)
 		let weekDay: String = {
 			if let weekDay = components.weekday {
 				return calendarClient.weekDaysShort[weekDay - 1]

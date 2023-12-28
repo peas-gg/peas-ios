@@ -204,89 +204,64 @@ struct EditSiteView: View {
 					.padding(.top)
 					.presentationDetents([.height(SizeConstants.detentHeight)])
 				case .schedule:
-					VStack(spacing: spacing) {
-						let isInEditMode: Bool = viewModel.selectedDay != nil
-						VStack(alignment: .leading) {
-							HStack {
-								Text("Availability")
-								Spacer()
-							}
-							HStack {
-								ForEach(viewModel.weekDays.indices, id: \.self) { index in
-									dayView(dayIndex: index)
-									if index != viewModel.weekDays.count - 1 {
-										Spacer(minLength: 0)
-									}
-								}
-							}
-						}
-						VStack(alignment: .leading) {
-							if isInEditMode {
-								Text(isInEditMode ? "Select time" : "Time")
-								HStack {
-									timeSelection(date: $viewModel.startDateForPicker)
-									Spacer()
-									Image(systemName: "arrow.right")
-										.font(Font.app.bodySemiBold)
-										.foregroundColor(Color.app.primaryText)
-									Spacer()
-									timeSelection(date: $viewModel.endDateForPicker)
-								}
-								invalidTimeHint()
-									.opacity(viewModel.isValidTimeRange ? 0.0 : 1.0)
-									.animation(.easeInOut, value: viewModel.isValidTimeRange)
-							} else {
-								VStack(alignment: .leading, spacing: 20) {
-									HStack(spacing: 20) {
-										let verticalSpacing: CGFloat = 20
-										Spacer(minLength: 0)
-										VStack(alignment: .trailing, spacing: verticalSpacing) {
-											ForEach(viewModel.weekDays.indices, id: \.self) { index in
-												Text("\(viewModel.weekDays[index]):")
-													.font(Font.app.body)
-													.foregroundColor(getCurrentDayForegroundColor(weekDay: index))
+					VStack {
+						VStack(spacing: 30) {
+							if viewModel.isEditingSchedule {
+								editScheduleView()
+									.padding(.horizontal, horizontalPadding)
+									/**
+								 	HACK: Bottom button bounces around  when switching between the edit mode
+								 	and the schedule view so a temnporary fix is to overlay the button here and align it at the bottom
+								 	*/
+									.overlay {
+										Color.clear
+											.pushOutFrame()
+											.overlay(alignment: .bottom) {
+												calendarAdvanceButton()
 											}
-										}
-										VStack(spacing: verticalSpacing) {
-											scheduleTimeView()
-										}
-										Spacer(minLength: 0)
 									}
+							} else {
+								VStack(spacing: 30) {
+									Spacer(minLength: 0)
+									scheduleDaysView(horizontalPadding: horizontalPadding)
+									Spacer(minLength: 0)
+									Spacer(minLength: 0)
 								}
-								.font(Font.app.body)
+								/**
+								 HACK: Bottom button bounces around  when switching between the edit mode
+								 and the schedule view so a temnporary fix is to overlay the button here and align it at the bottom
+								 */
+								.overlay {
+									Color.clear
+										.pushOutFrame()
+										.overlay(alignment: .bottom) {
+											calendarAdvanceButton()
+										}
+								}
 							}
-							Spacer(minLength: 0)
 						}
-						HStack {
-							Spacer(minLength: 0)
-							Text("Please note that updating your schedule does not change the time for existing appointments")
-								.font(Font.app.footnote)
-								.multilineTextAlignment(.center)
-								.fixedSize(horizontal: false, vertical: true)
-							Spacer(minLength: 0)
-						}
-						.padding(.top, 30)
-						.padding(.bottom, 10)
+						.font(Font.app.body)
+						.foregroundColor(Color.app.tertiaryText)
 					}
-					.font(Font.app.body)
-					.foregroundColor(Color.app.tertiaryText)
-					.padding(.top)
-					.padding(.horizontal, horizontalPadding)
-					.presentationDetents([.height(600)])
+					.presentationDetents([.height(viewModel.isEditingSchedule ? 400 : 540)])
 				}
 			}
-			.background(viewModel.context == .location ? Color.app.primaryBackground : Color.app.secondaryBackground)
+			.background(viewModel.backgroundColor)
 			
-			if viewModel.context != .location {
+			switch viewModel.context {
+			case .photo, .sign, .name, .description, .links, .block:
 				Spacer()
+			case .location, .schedule:
+				EmptyView()
 			}
 			
-			let isSchedule: Bool = viewModel.context == .schedule
-			Button(action: { viewModel.saveChanges() }) {
-				Text(isSchedule ? "Set Schedule" : "Save")
+			if viewModel.context != .schedule {
+				Button(action: { viewModel.advance() }) {
+					Text("Save")
+				}
+				.buttonStyle(.expanded(style: .black))
+				.padding()
 			}
-			.buttonStyle(.expanded(style: isSchedule ? .green : .black))
-			.padding()
 		}
 		.multilineTextAlignment(.leading)
 		.tint(Color.app.primaryText)
@@ -318,6 +293,16 @@ struct EditSiteView: View {
 				return
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func calendarAdvanceButton() -> some View {
+		Button(action: { viewModel.advance() }) {
+			Text(viewModel.calendarAdvanceButtonTitle)
+		}
+		.buttonStyle(.expanded(style: .black))
+		.disabled(!viewModel.didCurrentDayScheduleChange && viewModel.dayToEdit != nil)
+		.padding()
 	}
 	
 	@ViewBuilder
@@ -464,13 +449,13 @@ struct EditSiteView: View {
 		let isActive: Bool = viewModel.schedules?.contains(where: { $0.dayOfWeek == dayIndex}) ?? false
 		let foregroundColor: Color = isActive ? Color.app.secondaryText : Color.app.primaryText
 		let opacity: CGFloat = {
-			if let selectedDay = viewModel.selectedDay {
+			if let selectedDay = viewModel.dayToEdit {
 				return selectedDay == dayIndex ? 1.0 : 0.2
 			} else {
 				return 1.0
 			}
 		}()
-		Button(action: { viewModel.setSelectedDay(dayIndex: dayIndex) }) {
+		Button(action: { viewModel.setDayToEdit(dayIndex: dayIndex) }) {
 			Color.clear
 				.overlay {
 					Group {
@@ -494,51 +479,174 @@ struct EditSiteView: View {
 				.transition(.opacity)
 				.animation(.easeInOut, value: opacity)
 		}
-		.disabled(viewModel.selectedDay != nil && viewModel.selectedDay != dayIndex)
+		.disabled(viewModel.dayToEdit != nil && viewModel.dayToEdit != dayIndex)
 	}
 	
 	@ViewBuilder
 	func timeSelection(date: Binding<Date>) -> some View {
 		HStack {
 			Image(systemName: "clock")
-				.font(Font.app.title2)
+				.font(Font.app.title3)
 				.foregroundColor(Color.app.tertiaryText)
-			DatePicker("", selection: date, displayedComponents: .hourAndMinute)
-				.labelsHidden()
+			Spacer()
+			Text("\(date.wrappedValue.localTimeOnly)")
+				.textCase(.lowercase)
+			Spacer()
+			Image(systemName: "chevron.down")
+				.foregroundColor(Color.app.tertiaryText)
 		}
 		.font(Font.app.bodySemiBold)
-		.foregroundColor(Color.app.primaryText)
+		.foregroundColor(Color.black)
+		.padding(12)
+		.padding(.vertical, 4)
+		.background(CardBackground(style: .white))
+		.overlay {
+			DatePicker("", selection: date, displayedComponents: .hourAndMinute)
+				.font(.largeTitle)
+				.labelsHidden()
+				.blendMode(.destinationOver)
+		}
 	}
 	
 	@ViewBuilder
-	func scheduleTimeView() -> some View {
+	func scheduleDaysView(horizontalPadding: CGFloat) -> some View {
 		ForEach(viewModel.weekDays.indices, id: \.self) { weekDayIndex in
+			let weekDaySchedule: Business.Schedule? = weekDaySchedule(weekDayIndex: weekDayIndex)
+			HStack {
+				HStack {
+					SymmetricHStack(
+						content: {
+							Image(systemName: weekDaySchedule == nil ? "minus" : "checkmark")
+								.font(Font.app.title3)
+								.foregroundStyle(weekDaySchedule == nil ? Color.app.tertiaryText : Color.app.accent)
+								.padding(.trailing, 30)
+						},
+						leading: {
+							scheduleDayText(viewModel.weekDays[weekDayIndex])
+								.foregroundStyle(weekDaySchedule == nil ? Color.app.tertiaryText : Color.app.primaryText)
+						},
+						trailing: {
+							Group {
+								if let schedule = weekDaySchedule {
+									HStack(spacing: 0) {
+										scheduleTimeText(schedule.startTimeDate.serverTimeOnly)
+										Text("-")
+										scheduleTimeText(schedule.endTimeDate.serverTimeOnly)
+									}
+								}
+							}
+						}
+					)
+					.padding(.horizontal, horizontalPadding)
+				}
+				.background {
+					currentDayBackgroundColor(weekDay: weekDayIndex)
+						.padding(.vertical, -16)
+				}
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func editScheduleView() -> some View  {
+		VStack(spacing: 0) {
+			HStack {
+				hintText(content: "Day")
+					.padding(.vertical)
+				Spacer()
+			}
+			HStack {
+				ForEach(viewModel.weekDays.indices, id: \.self) { index in
+					dayView(dayIndex: index)
+					if index != viewModel.weekDays.count - 1 {
+						Spacer(minLength: 0)
+					}
+				}
+			}
 			Group {
-				if let schedule = viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex }) {
-					HStack {
-						scheduleTimeText(schedule.startTimeDate.timeOnly)
-						Image(systemName: "arrow.right")
-							.font(Font.app.bodySemiBold)
-							.foregroundColor(Color.app.tertiaryText)
-						scheduleTimeText(schedule.endTimeDate.timeOnly)
+				if let dayToEdit = viewModel.dayToEdit {
+					let hasActiveSchedule: Bool = weekDaySchedule(weekDayIndex: dayToEdit) != nil
+					VStack {
+						HStack {
+							hintText(content: "Time & Availability")
+							Spacer()
+						}
+						.padding(.vertical)
+						HStack {
+							selectedAvailabilityButton(isAvailable: true, isSelected: hasActiveSchedule)
+							Spacer()
+							selectedAvailabilityButton(isAvailable: false, isSelected: !hasActiveSchedule)
+						}
+						HStack {
+							timeSelection(date: $viewModel.startDateForPicker)
+							Spacer()
+							timeSelection(date: $viewModel.endDateForPicker)
+						}
+						.disabled(!hasActiveSchedule)
+						.opacity(hasActiveSchedule ? 1.0 : 0.5)
 					}
 				} else {
 					HStack {
 						Spacer()
-						Text("Unavailable")
+						Image("ScheduleCalendarHint")
+							.resizable()
+							.scaledToFit()
+							.frame(dimension: 100)
+							.padding(.leading, 20)
 						Spacer()
 					}
+					.padding(.top)
+					hintText(content: "Select a day to set your availability and time.")
 				}
 			}
-			.foregroundColor(getCurrentDayForegroundColor(weekDay: weekDayIndex))
+			Spacer(minLength: 0)
 		}
 	}
 	
 	@ViewBuilder
-	func scheduleTimeText(_ content: String) -> some View {
-		Text("  11:11 PM  ")
+	func selectedAvailabilityButton(isAvailable: Bool, isSelected: Bool) -> some View {
+		Button(action: { viewModel.toggleDayAvailability(isAvailable: isAvailable) }) {
+			HStack {
+				Text(isAvailable ? "Available" : "Unavailable")
+					.font(Font.app.title2)
+					.foregroundStyle(Color.app.primaryText)
+				ZStack {
+					let cornerRadius: CGFloat = 8
+					let isAvailableSelected: Bool = isAvailable && isSelected
+					RoundedRectangle(cornerRadius: cornerRadius)
+						.fill(isAvailableSelected ? Color.app.accent : Color.clear)
+					RoundedRectangle(cornerRadius: cornerRadius)
+						.stroke(Color.gray.opacity(isAvailableSelected ? 0.0 : 0.2), lineWidth: 2)
+					if isSelected {
+						Image(systemName: "checkmark")
+							.font(Font.app.bodySemiBold)
+							.foregroundStyle(isAvailableSelected ? Color.app.secondaryText : Color.app.primaryText)
+					}
+				}
+				.frame(dimension: 24)
+			}
+		}
+	}
+	
+	
+	@ViewBuilder
+	func scheduleDayText(_ content: String) -> some View {
+		Text("  \(viewModel.weekDayMaxString)  ")
 			.opacity(0)
 			.overlay(Text(content))
+			.font(Font.app.bodySemiBold)
+	}
+	
+	@ViewBuilder
+	func scheduleTimeText(_ content: String) -> some View {
+		Text(" 11:11 PM ")
+			.opacity(0)
+			.overlay {
+				Text(content)
+					.textCase(.lowercase)
+			}
+			.font(Font.app.body)
+			.foregroundStyle(Color.app.primaryText)
 	}
 	
 	@ViewBuilder
@@ -573,9 +681,13 @@ struct EditSiteView: View {
 		.padding(.top)
 	}
 	
-	func getCurrentDayForegroundColor(weekDay: Int) -> Color {
+	func weekDaySchedule(weekDayIndex: Int) -> Business.Schedule? {
+		return viewModel.schedules?.first(where: { $0.dayOfWeek == weekDayIndex })
+	}
+	
+	func currentDayBackgroundColor(weekDay: Int) -> Color {
 		let isCurrentDay: Bool = Calendar.current.component(.weekday, from: Date()) - 1 == weekDay
-		return isCurrentDay ? Color.app.primaryText : Color.app.tertiaryText
+		return isCurrentDay ? Color.app.tertiaryText.opacity(0.4) : Color.clear
 	}
 }
 

@@ -42,9 +42,18 @@ extension SiteView {
 				.sink(
 					receiveCompletion: { _ in },
 					receiveValue: { colours in
-					self.colours = colours
-				})
+						self.colours = colours
+					})
 				.store(in: &cancellableBag)
+			
+			//Register for Notifications
+			NotificationCenter
+				.default.addObserver(
+					self,
+					selector: #selector(updateBusiness),
+					name: .updateBusiness,
+					object: nil
+				)
 		}
 		
 		func setBackgroundColor(colorName: String) {
@@ -86,9 +95,16 @@ extension SiteView {
 			}
 		}
 		
-		func dismissEditContext(_ business: Business) {
-			self.business = business
+		func dismissEditContext() {
 			self.editModeContext = nil
+		}
+		
+		@objc func updateBusiness(_ notification: Notification) {
+			if let userInfo = notification.userInfo as? [String : Business],
+			   let business: Business = userInfo[NotificationKey.business]
+			{
+				self.business = business
+			}
 		}
 	}
 }

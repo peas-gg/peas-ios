@@ -39,7 +39,7 @@ extension EditSiteView {
 		
 		let isTemplate: Bool
 		let context: Context
-		let onSave: (Business) -> ()
+		let onSave: () -> ()
 		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
@@ -68,16 +68,42 @@ extension EditSiteView {
 		
 		//Schedule
 		@Published var weekDays: [String]
-		@Published var selectedDay: Int?
-		@Published var startDateForPicker: Date
-		@Published var endDateForPicker: Date
+		@Published var dayToEdit: Int?
+		
+		@Published var startDateForPicker: Date{
+			didSet { updateScheduleTime() }
+		}
+		
+		@Published var endDateForPicker: Date {
+			didSet { updateScheduleTime() }
+		}
+		
 		@Published var schedules: IdentifiedArrayOf<Business.Schedule>?
+		
+		@Published var isEditingSchedule: Bool = false
 		
 		@Published var photoItem: PhotosPickerItem?
 		@Published var isShowingDeleteBlockAlert: Bool = false
 		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
+		
+		var calendarAdvanceButtonTitle: String {
+			if isEditingSchedule {
+				return dayToEdit == nil ? "View your schedule" : "Save"
+			} else {
+				return "Edit"
+			}
+		}
+		
+		var backgroundColor: Color {
+			switch context {
+			case .photo, .sign, .name, .description, .links, .block:
+				return Color.app.secondaryBackground
+			case .location, .schedule:
+				return Color.app.primaryBackground
+			}
+		}
 		
 		var locationPermissionState: PermissionState {
 			locationClient.permissionState
@@ -91,6 +117,21 @@ extension EditSiteView {
 			startDateForPicker < endDateForPicker
 		}
 		
+		var weekDayMaxString: String {
+			weekDays.max(by: { $0.count < $1.count }) ?? ""
+		}
+		
+		var didCurrentDayScheduleChange: Bool {
+			if let dayToEdit = dayToEdit {
+				let editedSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == dayToEdit })
+				let exisitngSchedule: Business.Schedule? = business.schedules?.first(where: { $0.dayOfWeek == dayToEdit })
+				if editedSchedule != exisitngSchedule {
+					return true
+				}
+			}
+			return false
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
@@ -98,7 +139,7 @@ extension EditSiteView {
 		private let locationClient: LocationClient = LocationClient.shared
 		private let permissionClient: PermissionClient = PermissionClient.shared
 		
-		init(isTemplate: Bool, business: Business, context: Context, onSave: @escaping (Business) -> () = { _ in }) {
+		init(isTemplate: Bool, business: Business, context: Context, onSave: @escaping () -> () = { }) {
 			self.isTemplate = isTemplate
 			self.context = context
 			self.onSave = onSave
@@ -197,6 +238,17 @@ extension EditSiteView {
 			.store(in: &cancellableBag)
 		}
 		
+		func updateScheduleTime() {
+			//Update the current selected schedule with the current time in the time picker
+			if let dayToEdit = self.dayToEdit,
+			   let scheduleId: Business.Schedule.ID = schedules?.first(where: { $0.dayOfWeek == dayToEdit})?.id {
+				let startTime: String = ServerDateFormatter.formatToUTC(from: startDateForPicker)
+				let endTime: String = ServerDateFormatter.formatToUTC(from: endDateForPicker)
+				self.schedules?[id: scheduleId]?.startTime = startTime
+				self.schedules?[id: scheduleId]?.endTime = endTime
+			}
+		}
+		
 		func imageSelected(_ imageData: Data) {
 			Task {
 				self.isLoading = true
@@ -252,55 +304,45 @@ extension EditSiteView {
 			Calendar.current.date(from: endComponents)!
 		}
 		
-		func setSelectedDay(dayIndex: Int) {
-			if let currentSelectedDayIndex: Int = self.selectedDay {
-				let existingSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == currentSelectedDayIndex })
-				if startDateForPicker >= endDateForPicker {
-					if let existingSchedule = existingSchedule {
-						self.schedules?.remove(id: existingSchedule.id)
-					}
-				} else {
-					let startTime: String = ServerDateFormatter.formatToUTC(from: startDateForPicker)
-					let endTime: String = ServerDateFormatter.formatToUTC(from: endDateForPicker)
-					if var existingSchedule = existingSchedule {
-						existingSchedule.startTime = startTime
-						existingSchedule.endTime = endTime
-						self.schedules?[id: existingSchedule.id] = existingSchedule
-					} else {
-						let newSchedule: Business.Schedule = Business.Schedule(
-							id: UUID().uuidString,
-							dayOfWeek: dayIndex,
-							startTime: startTime,
-							endTime: endTime
-						)
-						if self.schedules == nil {
-							self.schedules = IdentifiedArray(uniqueElements: [newSchedule])
-						} else {
-							self.schedules?.append(newSchedule)
-						}
-					}
-				}
-			}
-			
-			if self.selectedDay == dayIndex {
-				self.selectedDay = nil
-				self.setPickerDates(start: calendarClient.startOfDay, end: calendarClient.endOfDay)
-			} else {
+		func setDayToEdit(dayIndex: Int) {
+			if self.dayToEdit == nil {
 				//Set the time picker for the dayIndex passed
 				if let existingSchedule = schedules?.first(where: { $0.dayOfWeek == dayIndex }) {
 					let startDate = ServerDateFormatter.formatToDate(from: existingSchedule.startTime)
 					let endDate = ServerDateFormatter.formatToDate(from: existingSchedule.endTime)
 					self.setPickerDates(start: startDate, end: endDate)
-				} else {
-					self.setPickerDates(start: calendarClient.startOfDay, end: calendarClient.endOfDay)
 				}
-				self.selectedDay = dayIndex
+				self.dayToEdit = dayIndex
+			} else {
+				if self.dayToEdit == dayIndex && didCurrentDayScheduleChange {
+					saveChanges()
+				}
+				self.dayToEdit = nil
 			}
 		}
 		
 		func setPickerDates(start: Date, end: Date) {
 			self.startDateForPicker = start
 			self.endDateForPicker = end
+		}
+		
+		func toggleDayAvailability(isAvailable: Bool) {
+			guard let dayToEdit = self.dayToEdit else { return }
+			if isAvailable {
+				let startTime: Date = calendarClient.startOfDay
+				let endTime: Date = calendarClient.endOfDay
+				let newSchedule: Business.Schedule = Business.Schedule(
+					id: UUID().uuidString,
+					dayOfWeek: dayToEdit,
+					startTime: ServerDateFormatter.formatToUTC(from: startTime),
+					endTime: ServerDateFormatter.formatToUTC(from: endTime)
+				)
+				self.setPickerDates(start: startTime, end: endTime)
+				self.schedules?.removeAll(where: { $0.dayOfWeek == dayToEdit })
+				self.schedules?.append(newSchedule)
+			} else {
+				self.schedules?.removeAll(where: { $0.dayOfWeek == dayToEdit })
+			}
 		}
 		
 		func updateBusiness(_ model: UpdateBusiness) {
@@ -379,11 +421,38 @@ extension EditSiteView {
 				.store(in: &cancellableBag)
 		}
 		
-		func updateBusiness(_ business: Business) {
+		func updateBusiness(_ business: Business, shouldCallOnSave: Bool = true) {
 			self.business = business
+			self.schedules = business.schedules
 			AppState.shared.updateBusiness(business: business)
+			NotificationCenter.default.post(
+				name: .updateBusiness, object: nil,
+				userInfo: [NotificationKey.business : business]
+			)
 			self.isLoading = false
-			self.onSave(business)
+			if shouldCallOnSave {
+				self.onSave()
+			}
+		}
+		
+		func advance() {
+			switch context {
+			case .photo, .sign, .name, .description, .links, .location, .block:
+				saveChanges()
+			case .schedule:
+				if isEditingSchedule {
+					if dayToEdit == nil {
+						//View the schedule
+						self.isEditingSchedule = false
+					} else {
+						//Save the schedule changes
+						saveChanges()
+					}
+				} else {
+					//Edit the schedule
+					self.isEditingSchedule = true
+				}
+			}
 		}
 		
 		func saveChanges() {
@@ -431,7 +500,7 @@ extension EditSiteView {
 					}
 					self.isLoading = false
 					await cacheClient.setData(key: .businessDraft, value: self.business)
-					self.onSave(self.business)
+					self.onSave()
 				} else {
 					self.isLoading = true
 					var updateBusinessModel: UpdateBusiness = UpdateBusiness(id: self.business.id)
@@ -516,7 +585,8 @@ extension EditSiteView {
 									}
 								},
 								receiveValue: { business in
-									self.updateBusiness(business)
+									self.updateBusiness(business, shouldCallOnSave: false)
+									self.dayToEdit = nil
 								}
 							)
 							.store(in: &cancellableBag)

@@ -21,8 +21,12 @@ extension Date {
 		return components.day ?? -1
 	}
 	
-	var timeOnly: String {
-		TimeFormatter.getTime(date: self)
+	var serverTimeOnly: String {
+		TimeFormatter.getServerTime(date: self)
+	}
+	
+	var localTimeOnly: String {
+		TimeFormatter.getLocalTime(date: self)
 	}
 }
 
