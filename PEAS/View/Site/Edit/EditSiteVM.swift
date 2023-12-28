@@ -114,6 +114,15 @@ extension EditSiteView {
 			weekDays.max(by: { $0.count < $1.count }) ?? ""
 		}
 		
+		var didCurrentDayScheduleChange: Bool {
+			if let dayToEdit = dayToEdit,
+			   let editedSchedule: Business.Schedule? = schedules?.first(where: { $0.dayOfWeek == dayToEdit }),
+			   let exisitngSchedule: Business.Schedule? = business.schedules?.first(where: { $0.dayOfWeek == dayToEdit }){
+				return editedSchedule != exisitngSchedule
+			}
+			return false
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		private let cacheClient: CacheClient = CacheClient.shared
@@ -285,6 +294,9 @@ extension EditSiteView {
 				}
 				self.dayToEdit = dayIndex
 			} else {
+				if self.dayToEdit == dayIndex && didCurrentDayScheduleChange {
+					saveChanges()
+				}
 				self.dayToEdit = nil
 			}
 		}
@@ -391,6 +403,7 @@ extension EditSiteView {
 		
 		func updateBusiness(_ business: Business, shouldCallOnSave: Bool = true) {
 			self.business = business
+			self.schedules = business.schedules
 			AppState.shared.updateBusiness(business: business)
 			NotificationCenter.default.post(
 				name: .updateBusiness, object: nil,

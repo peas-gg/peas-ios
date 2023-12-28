@@ -297,19 +297,11 @@ struct EditSiteView: View {
 	
 	@ViewBuilder
 	func calendarAdvanceButton() -> some View {
-		let isDisabled: Bool = {
-			if let dayToEdit = viewModel.dayToEdit,
-			   let editedSchedule: Business.Schedule? = viewModel.schedules?.first(where: { $0.dayOfWeek == dayToEdit }),
-			   let exisitngSchedule: Business.Schedule? = viewModel.business.schedules?.first(where: { $0.dayOfWeek == dayToEdit }){
-				return editedSchedule == exisitngSchedule
-			}
-			return false
-		}()
 		Button(action: { viewModel.advance() }) {
 			Text(viewModel.calendarAdvanceButtonTitle)
 		}
 		.buttonStyle(.expanded(style: .black))
-		.disabled(isDisabled)
+		.disabled(!viewModel.didCurrentDayScheduleChange && viewModel.dayToEdit != nil)
 		.padding()
 	}
 	
