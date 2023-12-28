@@ -553,6 +553,7 @@ extension EditSiteView {
 								},
 								receiveValue: { business in
 									self.updateBusiness(business, shouldCallOnSave: false)
+									self.dayToEdit = nil
 								}
 							)
 							.store(in: &cancellableBag)
