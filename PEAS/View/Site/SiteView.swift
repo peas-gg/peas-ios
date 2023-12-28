@@ -219,9 +219,7 @@ struct SiteView: View {
 						isTemplate: viewModel.isTemplate,
 						business: viewModel.business,
 						context: context,
-						onSave: { business in
-							viewModel.dismissEditContext(business)
-						}
+						onSave: { viewModel.dismissEditContext() }
 					)
 				)
 			}

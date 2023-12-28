@@ -39,7 +39,7 @@ extension EditSiteView {
 		
 		let isTemplate: Bool
 		let context: Context
-		let onSave: (Business) -> ()
+		let onSave: () -> ()
 		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
@@ -121,7 +121,7 @@ extension EditSiteView {
 		private let locationClient: LocationClient = LocationClient.shared
 		private let permissionClient: PermissionClient = PermissionClient.shared
 		
-		init(isTemplate: Bool, business: Business, context: Context, onSave: @escaping (Business) -> () = { _ in }) {
+		init(isTemplate: Bool, business: Business, context: Context, onSave: @escaping () -> () = { }) {
 			self.isTemplate = isTemplate
 			self.context = context
 			self.onSave = onSave
@@ -277,6 +277,12 @@ extension EditSiteView {
 		
 		func setDayToEdit(dayIndex: Int) {
 			if self.dayToEdit == nil {
+				//Set the time picker for the dayIndex passed
+				if let existingSchedule = schedules?.first(where: { $0.dayOfWeek == dayIndex }) {
+					let startDate = ServerDateFormatter.formatToDate(from: existingSchedule.startTime)
+					let endDate = ServerDateFormatter.formatToDate(from: existingSchedule.endTime)
+					self.setPickerDates(start: startDate, end: endDate)
+				}
 				self.dayToEdit = dayIndex
 			} else {
 				self.dayToEdit = nil
@@ -383,11 +389,17 @@ extension EditSiteView {
 				.store(in: &cancellableBag)
 		}
 		
-		func updateBusiness(_ business: Business) {
+		func updateBusiness(_ business: Business, shouldCallOnSave: Bool = true) {
 			self.business = business
 			AppState.shared.updateBusiness(business: business)
+			NotificationCenter.default.post(
+				name: .updateBusiness, object: nil,
+				userInfo: [NotificationKey.business : business]
+			)
 			self.isLoading = false
-			self.onSave(business)
+			if shouldCallOnSave {
+				self.onSave()
+			}
 		}
 		
 		func advance() {
@@ -455,7 +467,7 @@ extension EditSiteView {
 					}
 					self.isLoading = false
 					await cacheClient.setData(key: .businessDraft, value: self.business)
-					self.onSave(self.business)
+					self.onSave()
 				} else {
 					self.isLoading = true
 					var updateBusinessModel: UpdateBusiness = UpdateBusiness(id: self.business.id)
@@ -540,7 +552,7 @@ extension EditSiteView {
 									}
 								},
 								receiveValue: { business in
-									self.updateBusiness(business)
+									self.updateBusiness(business, shouldCallOnSave: false)
 								}
 							)
 							.store(in: &cancellableBag)

@@ -585,6 +585,13 @@ struct EditSiteView: View {
 							Spacer()
 							selectedAvailabilityButton(isAvailable: false, isSelected: !hasActiveSchedule)
 						}
+						HStack {
+							timeSelection(date: $viewModel.startDateForPicker)
+							Spacer()
+							timeSelection(date: $viewModel.endDateForPicker)
+						}
+						.disabled(!hasActiveSchedule)
+						.opacity(hasActiveSchedule ? 1.0 : 0.5)
 					}
 				} else {
 					HStack {
