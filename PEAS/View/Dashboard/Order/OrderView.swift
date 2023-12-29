@@ -189,7 +189,7 @@ struct OrderView: View {
 	func label(_ content: String) -> some View {
 		Text(content)
 			.font(Font.app.bodySemiBold)
-			.foregroundColor(Color.app.primaryText)
+			.foregroundStyle(Color.app.primaryText)
 			.lineLimit(1)
 	}
 	
@@ -258,7 +258,16 @@ struct OrderView: View {
 		let orderStatus: Order.Status = viewModel.order.orderStatus
 		VStack {
 			switch orderStatus {
-			case .Pending, .Approved:
+			case .Pending:
+				Divider()
+					.padding(.vertical)
+			case .Approved:
+				HStack {
+					Spacer()
+					button(isProminent: true, symbol: "clock", title: "Update Time", cardStyle: .white) {
+					}
+				}
+				.padding(.top)
 				Divider()
 					.padding(.vertical)
 			case .Declined, .Completed:
