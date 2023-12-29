@@ -21,32 +21,7 @@ struct DateTimePicker: View {
 	var body: some View {
 		switch context {
 		case .day:
-			HStack {
-				Image(systemName: "calendar")
-					.font(.system(size: FontSizes.title2, weight: .regular, design: .rounded))
-					.foregroundStyle(Color.app.tertiaryText)
-				Spacer(minLength: 0)
-				Text("\(weekDay(style: .wide))")
-				Spacer(minLength: 0)
-				Text("\(date.dayOfMonth)")
-				Spacer(minLength: 0)
-				Text("\(month())")
-				Spacer(minLength: 0)
-				Text("\(year())")
-				Spacer(minLength: 0)
-				Image(systemName: "chevron.down")
-					.foregroundColor(Color.app.tertiaryText)
-			}
-			.font(Font.app.bodySemiBold)
-			.padding()
-			.background(CardBackground())
-			.overlay(alignment: .center) {
-				HStack(spacing: 0) {
-					//HACK: We need two dayPickers here to cover enough tappable area
-					dayPicker()
-					dayPicker()
-				}
-			}
+			dayPickerDetailView(isShortWeekDay: false)
 		case .time:
 			HStack {
 				Image(systemName: "clock")
@@ -68,7 +43,55 @@ struct DateTimePicker: View {
 				timePicker()
 			}
 		case .dayAndTime:
-			EmptyView()
+			HStack(spacing: 10) {
+				dayPickerDetailView(isShortWeekDay: true)
+				Spacer(minLength: 0)
+				HStack(spacing: 10) {
+					Text("\(date.localTimeOnly)")
+						.textCase(.lowercase)
+					Image(systemName: "chevron.down")
+						.foregroundColor(Color.app.tertiaryText)
+				}
+				.font(Font.app.bodySemiBold)
+				.foregroundColor(Color.black)
+				.padding()
+				.background(CardBackground())
+				.overlay {
+					timePicker()
+				}
+			}
+		}
+	}
+	
+	@ViewBuilder
+	func dayPickerDetailView(isShortWeekDay: Bool) -> some View {
+		HStack {
+			Image(systemName: "calendar")
+				.font(.system(size: FontSizes.title2, weight: .regular, design: .rounded))
+				.foregroundStyle(Color.app.tertiaryText)
+			Spacer(minLength: 0)
+			Text(isShortWeekDay ? "\(weekDay(style: .abbreviated))" : "\(weekDay(style: .wide))")
+			Spacer(minLength: 0)
+			Text("\(date.dayOfMonth)")
+			Spacer(minLength: 0)
+			Text("\(month())")
+			Spacer(minLength: 0)
+			Text("\(year())")
+			Spacer(minLength: 0)
+			Image(systemName: "chevron.down")
+				.foregroundColor(Color.app.tertiaryText)
+		}
+		.font(Font.app.bodySemiBold)
+		.padding()
+		.background(CardBackground())
+		.overlay(alignment: .center) {
+			HStack(spacing: 0) {
+				//HACK: We need two dayPickers here to cover enough tappable area
+				dayPicker()
+				if !isShortWeekDay {
+					dayPicker()
+				}
+			}
 		}
 	}
 	
@@ -122,6 +145,15 @@ struct DateTimePicker: View {
 			Spacer()
 		}
 		.padding(.horizontal)
+		Spacer()
+	}
+}
+
+#Preview("Day & Time") {
+	VStack {
+		Spacer()
+		DateTimePicker(context: .dayAndTime, date: Binding.constant(Date()))
+			.padding(.horizontal)
 		Spacer()
 	}
 }
