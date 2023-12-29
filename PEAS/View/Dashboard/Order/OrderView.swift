@@ -148,36 +148,49 @@ struct OrderView: View {
 	
 	@ViewBuilder
 	func datePickerView() -> some View {
-		VStack {
+		VStack(spacing: 0) {
 			SheetHeaderView(title: "Update Time")
-			VStack(alignment: .leading) {
-				hintText("Day")
-				DateTimePicker(context: .day, date: $viewModel.startDateForPicker)
-				hintText("Time")
+			VStack {
+				VStack(alignment: .leading) {
+					hintText("Day")
+					DateTimePicker(context: .day, date: $viewModel.startDateForPicker)
+					hintText("Time")
+						.padding(.top)
+					HStack {
+						Spacer()
+						subTitleText("Starts")
+						Spacer()
+						Spacer()
+						subTitleText("Ends")
+						Spacer()
+					}
+					HStack {
+						DateTimePicker(context: .time, date: $viewModel.startDateForPicker)
+						Spacer()
+						Spacer()
+						DateTimePicker(context: .time, date: $viewModel.endDateForPicker)
+					}
+					HStack {
+						Spacer(minLength: 0)
+						let startDate: Date = viewModel.startDateForPicker
+						let endDate: Date = viewModel.endDateForPicker
+						Text("\(endDate.getTimeSpan(from: startDate).timeSpan)")
+							.font(Font.app.title2)
+							.foregroundStyle(Color.app.primaryText)
+						Spacer(minLength: 0)
+					}
 					.padding(.top)
-				HStack {
-					Spacer()
-					subTitleText("Starts")
-					Spacer()
-					Spacer()
-					subTitleText("Ends")
-					Spacer()
+					Spacer(minLength: 0)
 				}
-				HStack {
-					DateTimePicker(context: .time, date: $viewModel.startDateForPicker)
-					Spacer()
-					Spacer()
-					DateTimePicker(context: .time, date: $viewModel.endDateForPicker)
+				.padding(.horizontal, SizeConstants.horizontalPadding)
+				.padding(.top)
+				Button(action: {}) {
+					Text("Save")
 				}
-				Spacer(minLength: 0)
+				.buttonStyle(.expanded)
+				.padding(.horizontal, 10)
 			}
-			.padding(.horizontal, SizeConstants.horizontalPadding)
-			.padding(.top)
-			Button(action: {}) {
-				Text("Save")
-			}
-			.buttonStyle(.expanded)
-			.padding(.horizontal, 10)
+			.background(Color.app.secondaryBackground)
 		}
 		.presentationDetents([.height(400)])
 	}
