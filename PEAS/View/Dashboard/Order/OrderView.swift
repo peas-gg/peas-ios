@@ -177,6 +177,7 @@ struct OrderView: View {
 				Text("Save")
 			}
 			.buttonStyle(.expanded)
+			.padding(.horizontal, 10)
 		}
 		.presentationDetents([.height(400)])
 	}
