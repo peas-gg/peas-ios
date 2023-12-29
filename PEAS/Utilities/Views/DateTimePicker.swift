@@ -45,12 +45,28 @@ struct DateTimePicker: View {
 					//HACK: We need two dayPickers here to cover enough tappable area
 					dayPicker()
 					dayPicker()
-						.padding(.trailing, 42)
-						.offset(x: -10)
 				}
 			}
 		case .time:
-			EmptyView()
+			HStack {
+				Image(systemName: "clock")
+					.font(Font.app.title3)
+					.foregroundColor(Color.app.tertiaryText)
+				Spacer()
+				Text("\(date.localTimeOnly)")
+					.textCase(.lowercase)
+				Spacer()
+				Image(systemName: "chevron.down")
+					.foregroundColor(Color.app.tertiaryText)
+			}
+			.font(Font.app.bodySemiBold)
+			.foregroundColor(Color.black)
+			.padding(12)
+			.padding(.vertical, 4)
+			.background(CardBackground())
+			.overlay {
+				timePicker()
+			}
 		case .dayAndTime:
 			EmptyView()
 		}
@@ -60,6 +76,15 @@ struct DateTimePicker: View {
 	func dayPicker() -> some View {
 		DatePicker("", selection: $date, displayedComponents: .date)
 			.tint(Color.black)
+			.labelsHidden()
+			.blendMode(.destinationOver)
+	}
+	
+	@ViewBuilder
+	func timePicker() -> some View {
+		DatePicker("", selection: $date, displayedComponents: .hourAndMinute)
+			.tint(Color.black)
+			.labelsHidden()
 			.blendMode(.destinationOver)
 	}
 	
@@ -81,6 +106,22 @@ struct DateTimePicker: View {
 		Spacer()
 		DateTimePicker(context: .day, date: Binding.constant(Date()))
 			.padding(.horizontal)
+		Spacer()
+	}
+}
+
+#Preview("Time") {
+	VStack {
+		Spacer()
+		HStack {
+			Spacer()
+			DateTimePicker(context: .time, date: Binding.constant(Date()))
+			Spacer()
+			Spacer()
+			DateTimePicker(context: .time, date: Binding.constant(Date()))
+			Spacer()
+		}
+		.padding(.horizontal)
 		Spacer()
 	}
 }
