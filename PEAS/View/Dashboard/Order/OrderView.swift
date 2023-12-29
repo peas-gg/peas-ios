@@ -173,11 +173,12 @@ struct OrderView: View {
 			}
 			.padding(.horizontal, SizeConstants.horizontalPadding)
 			.padding(.top)
-			Button(action: {}) {
+			Button(action: {}) {Da
 				Text("Save")
 			}
 			.buttonStyle(.expanded)
 		}
+		.presentationDetents([.height(400)])
 	}
 	
 	@ViewBuilder
@@ -322,6 +323,7 @@ struct OrderView: View {
 				HStack {
 					Spacer()
 					button(isProminent: true, symbol: "clock", title: "Update Time", cardStyle: .white) {
+						viewModel.setSheet(.datePicker)
 					}
 				}
 				.padding(.top)
