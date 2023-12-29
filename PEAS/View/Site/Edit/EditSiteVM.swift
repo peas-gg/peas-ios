@@ -70,7 +70,7 @@ extension EditSiteView {
 		@Published var weekDays: [String]
 		@Published var dayToEdit: Int?
 		
-		@Published var startDateForPicker: Date{
+		@Published var startDateForPicker: Date {
 			didSet { updateScheduleTime() }
 		}
 		

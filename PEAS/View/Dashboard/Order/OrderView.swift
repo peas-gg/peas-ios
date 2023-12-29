@@ -140,10 +140,44 @@ struct OrderView: View {
 				case .customer:
 					CustomerView(customer: viewModel.order.customer, context: .detail)
 				case .datePicker:
-					EmptyView()
+					datePickerView()
 				}
 			}
 		)
+	}
+	
+	@ViewBuilder
+	func datePickerView() -> some View {
+		VStack {
+			SheetHeaderView(title: "Update Time")
+			VStack(alignment: .leading) {
+				hintText("Day")
+				DateTimePicker(context: .day, date: $viewModel.startDateForPicker)
+				hintText("Time")
+					.padding(.top)
+				HStack {
+					Spacer()
+					subTitleText("Starts")
+					Spacer()
+					Spacer()
+					subTitleText("Ends")
+					Spacer()
+				}
+				HStack {
+					DateTimePicker(context: .time, date: $viewModel.startDateForPicker)
+					Spacer()
+					Spacer()
+					DateTimePicker(context: .time, date: $viewModel.endDateForPicker)
+				}
+				Spacer(minLength: 0)
+			}
+			.padding(.horizontal, SizeConstants.horizontalPadding)
+			.padding(.top)
+			Button(action: {}) {
+				Text("Save")
+			}
+			.buttonStyle(.expanded)
+		}
 	}
 	
 	@ViewBuilder
@@ -192,6 +226,20 @@ struct OrderView: View {
 			.font(Font.app.footnote)
 			.foregroundColor(Color.app.tertiaryText)
 			.lineLimit(1)
+	}
+	
+	@ViewBuilder
+	func hintText(_ content: String) -> some View {
+		Text(content)
+			.font(Font.app.body)
+			.foregroundColor(Color.app.tertiaryText)
+	}
+	
+	@ViewBuilder
+	func subTitleText(_ content: String) -> some View {
+		Text(content)
+			.font(Font.system(size: 16, weight: .semibold, design: .rounded))
+			.foregroundColor(Color.app.tertiaryText)
 	}
 	
 	@ViewBuilder

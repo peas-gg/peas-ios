@@ -38,6 +38,9 @@ extension OrderView {
 		@Published var action: OrderStatusAction?
 		@Published var sheet: Sheet?
 		
+		@Published var startDateForPicker: Date
+		@Published var endDateForPicker: Date
+		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
 		
@@ -76,6 +79,8 @@ extension OrderView {
 			self.context = context
 			self.business = business
 			self.order = order
+			self.startDateForPicker = order.startTimeDate
+			self.endDateForPicker = order.endTimeDate
 			
 			//Register for updates
 			OrderRepository.shared
