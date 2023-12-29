@@ -40,11 +40,27 @@ struct DateTimePicker: View {
 			.font(Font.app.bodySemiBold)
 			.padding()
 			.background(CardBackground())
+			.overlay(alignment: .center) {
+				HStack(spacing: 0) {
+					//HACK: We need two dayPickers here to cover enough tappable area
+					dayPicker()
+					dayPicker()
+						.padding(.trailing, 42)
+						.offset(x: -10)
+				}
+			}
 		case .time:
 			EmptyView()
 		case .dayAndTime:
 			EmptyView()
 		}
+	}
+	
+	@ViewBuilder
+	func dayPicker() -> some View {
+		DatePicker("", selection: $date, displayedComponents: .date)
+			.tint(Color.black)
+			.blendMode(.destinationOver)
 	}
 	
 	func weekDay(style: Date.FormatStyle.Symbol.Weekday) -> String {
