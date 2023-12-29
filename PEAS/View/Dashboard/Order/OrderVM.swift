@@ -22,14 +22,21 @@ extension OrderView {
 			case complete
 		}
 		
+		enum Sheet: String, Equatable, Identifiable {
+			case customer
+			case datePicker
+			
+			var id: String { self.rawValue }
+		}
+		
 		let context: Context
 		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
 		
 		@Published var business: Business
 		@Published var order: Order
-		@Published var isShowingCustomerCard: Bool = false
 		@Published var action: OrderStatusAction?
+		@Published var sheet: Sheet?
 		
 		@Published var isLoading: Bool = false
 		@Published var bannerData: BannerData?
@@ -133,8 +140,8 @@ extension OrderView {
 			AppState.shared.setRequestPaymentVM(RequestPaymentView.ViewModel(business: business, order: order))
 		}
 		
-		func openCustomerView() {
-			self.isShowingCustomerCard = true
+		func setSheet(_ sheet: Sheet) {
+			self.sheet = sheet
 		}
 	}
 }

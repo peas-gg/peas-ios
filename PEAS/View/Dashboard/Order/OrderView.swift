@@ -41,7 +41,7 @@ struct OrderView: View {
 								}
 								VStack(alignment: alignment) {
 									title("Customer:")
-									Button(action: { viewModel.openCustomerView() }) {
+									Button(action: { viewModel.setSheet(.customer) }) {
 										label(customerName())
 											.underline()
 									}
@@ -132,9 +132,18 @@ struct OrderView: View {
 			}
 			return Alert(title: Text("Something went wrong"))
 		}
-		.sheet(isPresented: $viewModel.isShowingCustomerCard) {
-			CustomerView(customer: viewModel.order.customer, context: .detail)
-		}
+		.sheet(
+			item: $viewModel.sheet,
+			onDismiss: {},
+			content: { sheet in
+				switch sheet {
+				case .customer:
+					CustomerView(customer: viewModel.order.customer, context: .detail)
+				case .datePicker:
+					EmptyView()
+				}
+			}
+		)
 	}
 	
 	@ViewBuilder
@@ -159,7 +168,7 @@ struct OrderView: View {
 					timeView()
 				}
 				HStack(spacing: 6) {
-					Button(action: { viewModel.openCustomerView() }) {
+					Button(action: { viewModel.setSheet(.customer) }) {
 						Text(customerName())
 							.foregroundColor(Color.app.primaryText)
 							.underline()
