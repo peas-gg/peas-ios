@@ -30,13 +30,8 @@ struct EditSiteView: View {
 	
 	var body: some View {
 		VStack(spacing: 0) {
-			let horizontalPadding: CGFloat = 25
-			Text(viewModel.context.title)
-				.font(Font.app.title2)
-				.foregroundColor(Color.app.primaryText)
-				.padding(.top)
-			Divider()
-				.padding(.top)
+			let horizontalPadding: CGFloat = SizeConstants.horizontalPadding
+			SheetHeaderView(title: viewModel.context.title)
 			VStack {
 				let spacing: CGFloat = 20
 				switch viewModel.context {

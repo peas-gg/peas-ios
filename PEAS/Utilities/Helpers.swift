@@ -22,6 +22,7 @@ struct SizeConstants {
 	static let scrollViewBottomPadding: CGFloat = 60
 	static let otpCodeCount: Int = 6
 	static let minimumPasswordCharactersCount: Int = 8
+	static let horizontalPadding: CGFloat = 25
 }
 
 struct AppConstants {
