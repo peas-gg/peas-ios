@@ -184,7 +184,7 @@ struct OrderView: View {
 				}
 				.padding(.horizontal, SizeConstants.horizontalPadding)
 				.padding(.top)
-				Button(action: {}) {
+				Button(action: { viewModel.updateOrderTime() }) {
 					Text("Save")
 				}
 				.buttonStyle(.expanded)
