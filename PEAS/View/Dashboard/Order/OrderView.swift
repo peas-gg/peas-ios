@@ -432,10 +432,10 @@ struct OrderView: View {
 	}
 	
 	func formattedTime() -> String {
-		let date: Date = viewModel.order.startTimeDateLocal
+		let date: Date = viewModel.order.startTimeDate
 		let components = Calendar.current.dateComponents([.month, .day, .weekday], from: date)
 		
-		let time: String = TimeFormatter.getServerTime(date: date)
+		let time: String = TimeFormatter.getLocalTime(date: date)
 		let weekDay: String = {
 			if let weekDay = components.weekday {
 				return calendarClient.weekDaysShort[weekDay - 1]
