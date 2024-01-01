@@ -38,6 +38,12 @@ extension OrderView {
 		@Published var action: OrderStatusAction?
 		@Published var sheet: Sheet?
 		
+		@Published var dayForPicker: Date {
+			didSet {
+				updateTimePickers()
+			}
+		}
+		
 		@Published var startDateForPicker: Date
 		@Published var endDateForPicker: Date
 		
@@ -73,6 +79,10 @@ extension OrderView {
 			}
 		}
 		
+		var isOrderTimeValid: Bool {
+			endDateForPicker > startDateForPicker
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		
@@ -80,6 +90,7 @@ extension OrderView {
 			self.context = context
 			self.business = business
 			self.order = order
+			self.dayForPicker = order.startTimeDate
 			self.startDateForPicker = order.startTimeDate
 			self.endDateForPicker = order.endTimeDate
 			
@@ -110,6 +121,10 @@ extension OrderView {
 		
 		func completeOrder() {
 			updateOrder(orderStatus: .Completed)
+		}
+		
+		func updateTimePickers() {
+			
 		}
 		
 		func updateOrderTime() {

@@ -189,6 +189,7 @@ struct OrderView: View {
 					Text("Save")
 				}
 				.buttonStyle(.expanded)
+				.disabled(!viewModel.isOrderTimeValid)
 				.padding(.horizontal, 10)
 			}
 			.background(Color.app.secondaryBackground)
