@@ -111,11 +111,18 @@ extension OrderView {
 			updateOrder(orderStatus: .Completed)
 		}
 		
-		func updateOrder(orderStatus: Order.Status) {
+		func updateOrderTime() {
+			let startTime: String = ServerDateFormatter.formatToUTC(from: startDateForPicker)
+			let endTime: String = ServerDateFormatter.formatToUTC(from: endDateForPicker)
+			updateOrder(dateRange: DateRange(start: startTime, end: endTime))
+		}
+		
+		func updateOrder(orderStatus: Order.Status? = nil, dateRange: DateRange? = nil) {
 			self.isLoading = true
 			let updateOrder: UpdateOrder = UpdateOrder(
 				orderId: order.id,
-				orderStatus: orderStatus
+				orderStatus: orderStatus,
+				dateRange: dateRange
 			)
 			self.apiClient
 				.updateOrder(businessId: business.id, updateOrder)

@@ -9,5 +9,6 @@ import Foundation
 
 struct UpdateOrder: Encodable {
 	let orderId: Order.ID
-	let orderStatus: Order.Status
+	let orderStatus: Order.Status?
+	let dateRange: DateRange?
 }
