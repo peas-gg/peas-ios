@@ -141,6 +141,7 @@ struct OrderView: View {
 					CustomerView(customer: viewModel.order.customer, context: .detail)
 				case .datePicker:
 					datePickerView()
+						.progressView(isShowing: viewModel.isProcessingDateChange, style: .black)
 				}
 			}
 		)
