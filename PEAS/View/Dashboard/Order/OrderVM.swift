@@ -127,8 +127,8 @@ extension OrderView {
 			let dayComponents: DateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: dayForPicker)
 			let timeComponents: Set<Calendar.Component> = [.hour, .minute]
 			
-			var startTimeComponents: DateComponents = Calendar.current.dateComponents(timeComponents, from: startDateForPicker)
-			var endTimeComponents: DateComponents = Calendar.current.dateComponents(timeComponents, from: endDateForPicker)
+			let startTimeComponents: DateComponents = Calendar.current.dateComponents(timeComponents, from: startDateForPicker)
+			let endTimeComponents: DateComponents = Calendar.current.dateComponents(timeComponents, from: endDateForPicker)
 			
 			var startDateComponents: DateComponents = dayComponents
 			var endDateComponents: DateComponents = dayComponents
