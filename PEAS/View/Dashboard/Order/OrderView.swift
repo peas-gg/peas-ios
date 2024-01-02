@@ -154,7 +154,7 @@ struct OrderView: View {
 			VStack {
 				VStack(alignment: .leading) {
 					hintText("Day")
-					DateTimePicker(context: .day, date: $viewModel.startDateForPicker)
+					DateTimePicker(context: .day, date: $viewModel.dayForPicker)
 					hintText("Time")
 						.padding(.top)
 					HStack {

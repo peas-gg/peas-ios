@@ -124,7 +124,15 @@ extension OrderView {
 		}
 		
 		func updateTimePickers() {
+			let components: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
+			var startTimeComponents: DateComponents = Calendar.current.dateComponents(components, from: startDateForPicker)
+			var endTimeComponents: DateComponents = Calendar.current.dateComponents(components, from: endDateForPicker)
 			
+			startTimeComponents.day = dayForPicker.dayOfMonth
+			endTimeComponents.day = dayForPicker.dayOfMonth
+			
+			self.startDateForPicker = Calendar.current.date(from: startTimeComponents) ?? Date.now
+			self.endDateForPicker = Calendar.current.date(from: endTimeComponents) ?? Date.now
 		}
 		
 		func updateOrderTime() {
