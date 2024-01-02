@@ -30,13 +30,8 @@ struct EditSiteView: View {
 	
 	var body: some View {
 		VStack(spacing: 0) {
-			let horizontalPadding: CGFloat = 25
-			Text(viewModel.context.title)
-				.font(Font.app.title2)
-				.foregroundColor(Color.app.primaryText)
-				.padding(.top)
-			Divider()
-				.padding(.top)
+			let horizontalPadding: CGFloat = SizeConstants.horizontalPadding
+			SheetHeaderView(title: viewModel.context.title)
 			VStack {
 				let spacing: CGFloat = 20
 				switch viewModel.context {
@@ -483,32 +478,6 @@ struct EditSiteView: View {
 	}
 	
 	@ViewBuilder
-	func timeSelection(date: Binding<Date>) -> some View {
-		HStack {
-			Image(systemName: "clock")
-				.font(Font.app.title3)
-				.foregroundColor(Color.app.tertiaryText)
-			Spacer()
-			Text("\(date.wrappedValue.localTimeOnly)")
-				.textCase(.lowercase)
-			Spacer()
-			Image(systemName: "chevron.down")
-				.foregroundColor(Color.app.tertiaryText)
-		}
-		.font(Font.app.bodySemiBold)
-		.foregroundColor(Color.black)
-		.padding(12)
-		.padding(.vertical, 4)
-		.background(CardBackground(style: .white))
-		.overlay {
-			DatePicker("", selection: date, displayedComponents: .hourAndMinute)
-				.font(.largeTitle)
-				.labelsHidden()
-				.blendMode(.destinationOver)
-		}
-	}
-	
-	@ViewBuilder
 	func scheduleDaysView(horizontalPadding: CGFloat) -> some View {
 		ForEach(viewModel.weekDays.indices, id: \.self) { weekDayIndex in
 			let weekDaySchedule: Business.Schedule? = weekDaySchedule(weekDayIndex: weekDayIndex)
@@ -578,9 +547,9 @@ struct EditSiteView: View {
 							selectedAvailabilityButton(isAvailable: false, isSelected: !hasActiveSchedule)
 						}
 						HStack {
-							timeSelection(date: $viewModel.startDateForPicker)
+							DateTimePicker(context: .time, date: $viewModel.startDateForPicker)
 							Spacer()
-							timeSelection(date: $viewModel.endDateForPicker)
+							DateTimePicker(context: .time, date: $viewModel.endDateForPicker)
 						}
 						.disabled(!hasActiveSchedule)
 						.opacity(hasActiveSchedule ? 1.0 : 0.5)

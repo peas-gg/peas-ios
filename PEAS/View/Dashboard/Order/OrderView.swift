@@ -41,7 +41,7 @@ struct OrderView: View {
 								}
 								VStack(alignment: alignment) {
 									title("Customer:")
-									Button(action: { viewModel.openCustomerView() }) {
+									Button(action: { viewModel.setSheet(.customer) }) {
 										label(customerName())
 											.underline()
 									}
@@ -132,9 +132,72 @@ struct OrderView: View {
 			}
 			return Alert(title: Text("Something went wrong"))
 		}
-		.sheet(isPresented: $viewModel.isShowingCustomerCard) {
-			CustomerView(customer: viewModel.order.customer, context: .detail)
+		.sheet(
+			item: $viewModel.sheet,
+			onDismiss: {},
+			content: { sheet in
+				Group {
+					switch sheet {
+					case .customer:
+						CustomerView(customer: viewModel.order.customer, context: .detail)
+					case .datePicker:
+						datePickerView()
+					}
+				}
+				.progressView(isShowing: viewModel.isProcessingSheetRequest, style: .black)
+				.banner(data: $viewModel.sheetBannerData)
+			}
+		)
+	}
+	
+	@ViewBuilder
+	func datePickerView() -> some View {
+		VStack(spacing: 0) {
+			SheetHeaderView(title: "Update Time")
+			VStack {
+				VStack(alignment: .leading) {
+					hintText("Day")
+					DateTimePicker(context: .day, date: $viewModel.dayForPicker)
+					hintText("Time")
+						.padding(.top)
+					HStack {
+						Spacer()
+						subTitleText("Starts")
+						Spacer()
+						Spacer()
+						subTitleText("Ends")
+						Spacer()
+					}
+					HStack {
+						DateTimePicker(context: .time, date: $viewModel.startDateForPicker)
+						Spacer()
+						Spacer()
+						DateTimePicker(context: .time, date: $viewModel.endDateForPicker)
+					}
+					HStack {
+						Spacer(minLength: 0)
+						let startDate: Date = viewModel.startDateForPicker
+						let endDate: Date = viewModel.endDateForPicker
+						Text("\(endDate.getTimeSpan(from: startDate).timeSpan)")
+							.font(Font.app.title2)
+							.foregroundStyle(Color.app.primaryText)
+						Spacer(minLength: 0)
+					}
+					.padding(.top)
+					Spacer(minLength: 0)
+				}
+				.padding(.horizontal, SizeConstants.horizontalPadding)
+				.padding(.top)
+				Button(action: { viewModel.updateOrderTime() }) {
+					Text("Save")
+				}
+				.buttonStyle(.expanded)
+				.disabled(!viewModel.isOrderTimeValid)
+				.padding(.horizontal, 10)
+			}
+			.background(Color.app.secondaryBackground)
 		}
+		.presentationDetents([.height(400)])
 	}
 	
 	@ViewBuilder
@@ -159,7 +222,7 @@ struct OrderView: View {
 					timeView()
 				}
 				HStack(spacing: 6) {
-					Button(action: { viewModel.openCustomerView() }) {
+					Button(action: { viewModel.setSheet(.customer) }) {
 						Text(customerName())
 							.foregroundColor(Color.app.primaryText)
 							.underline()
@@ -186,10 +249,24 @@ struct OrderView: View {
 	}
 	
 	@ViewBuilder
+	func hintText(_ content: String) -> some View {
+		Text(content)
+			.font(Font.app.body)
+			.foregroundColor(Color.app.tertiaryText)
+	}
+	
+	@ViewBuilder
+	func subTitleText(_ content: String) -> some View {
+		Text(content)
+			.font(Font.system(size: 16, weight: .semibold, design: .rounded))
+			.foregroundColor(Color.app.tertiaryText)
+	}
+	
+	@ViewBuilder
 	func label(_ content: String) -> some View {
 		Text(content)
 			.font(Font.app.bodySemiBold)
-			.foregroundColor(Color.app.primaryText)
+			.foregroundStyle(Color.app.primaryText)
 			.lineLimit(1)
 	}
 	
@@ -258,7 +335,17 @@ struct OrderView: View {
 		let orderStatus: Order.Status = viewModel.order.orderStatus
 		VStack {
 			switch orderStatus {
-			case .Pending, .Approved:
+			case .Pending:
+				Divider()
+					.padding(.vertical)
+			case .Approved:
+				HStack {
+					Spacer()
+					button(isProminent: true, symbol: "clock", title: "Update Time", cardStyle: .white) {
+						viewModel.setSheet(.datePicker)
+					}
+				}
+				.padding(.top)
 				Divider()
 					.padding(.vertical)
 			case .Declined, .Completed:
@@ -350,10 +437,10 @@ struct OrderView: View {
 	}
 	
 	func formattedTime() -> String {
-		let date: Date = viewModel.order.startTimeDateLocal
+		let date: Date = viewModel.order.startTimeDate
 		let components = Calendar.current.dateComponents([.month, .day, .weekday], from: date)
 		
-		let time: String = TimeFormatter.getServerTime(date: date)
+		let time: String = TimeFormatter.getLocalTime(date: date)
 		let weekDay: String = {
 			if let weekDay = components.weekday {
 				return calendarClient.weekDaysShort[weekDay - 1]

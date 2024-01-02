@@ -29,4 +29,26 @@ extension Int {
 		
 		return result
 	}
+	
+	var timeSpanDay: String {
+		let day: Int = self / 86400
+		let hour: Int = (self / 3600) % 24
+		let dayDescription = day > 1 ? "days" : "day"
+		let hourDescription = hour > 1 ? "hrs" : "hr"
+		var result: String = ""
+		
+		if day > 0 {
+			result += "\(day) \(dayDescription)"
+		}
+		
+		if day > 0 && hour > 0 {
+			result += ", \(hour) \(hourDescription)"
+		}
+		
+		if day <= 0 && hour >= 0 {
+			result += "\(hour) \(hourDescription)"
+		}
+		
+		return result
+	}
 }
