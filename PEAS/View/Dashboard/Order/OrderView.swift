@@ -136,13 +136,16 @@ struct OrderView: View {
 			item: $viewModel.sheet,
 			onDismiss: {},
 			content: { sheet in
-				switch sheet {
-				case .customer:
-					CustomerView(customer: viewModel.order.customer, context: .detail)
-				case .datePicker:
-					datePickerView()
-						.progressView(isShowing: viewModel.isProcessingDateChange, style: .black)
+				Group {
+					switch sheet {
+					case .customer:
+						CustomerView(customer: viewModel.order.customer, context: .detail)
+					case .datePicker:
+						datePickerView()
+					}
 				}
+				.progressView(isShowing: viewModel.isProcessingSheetRequest, style: .black)
+				.banner(data: $viewModel.sheetBannerData)
 			}
 		)
 	}

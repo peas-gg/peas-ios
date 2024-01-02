@@ -48,8 +48,9 @@ extension OrderView {
 		@Published var endDateForPicker: Date
 		
 		@Published var isLoading: Bool = false
-		@Published var isProcessingDateChange: Bool = false
+		@Published var isProcessingSheetRequest: Bool = false
 		@Published var bannerData: BannerData?
+		@Published var sheetBannerData: BannerData?
 		
 		var orderAmount: Int {
 			if isOrderPaidFor {
@@ -149,10 +150,10 @@ extension OrderView {
 		}
 		
 		func updateOrder(orderStatus: Order.Status? = nil, dateRange: DateRange? = nil) {
-			if dateRange == nil {
+			if sheet == nil {
 				self.isLoading = true
 			} else {
-				self.isProcessingDateChange = true
+				self.isProcessingSheetRequest = true
 			}
 			let updateOrder: UpdateOrder = UpdateOrder(
 				orderId: order.id,
@@ -168,13 +169,17 @@ extension OrderView {
 						case .finished: return
 						case .failure(let error):
 							self.isLoading = false
-							self.isProcessingDateChange = false
-							self.bannerData = BannerData(error: error)
+							self.isProcessingSheetRequest = false
+							if self.sheet == nil {
+								self.bannerData = BannerData(error: error)
+							} else {
+								self.sheetBannerData = BannerData(error: error)
+							}
 						}
 					},
 					receiveValue: { orderResponse in
 						self.isLoading = false
-						self.isProcessingDateChange = false
+						self.isProcessingSheetRequest = false
 						OrderRepository.shared.update(order: Order(orderResponse: orderResponse))
 					}
 				)
