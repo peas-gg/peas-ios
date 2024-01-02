@@ -124,15 +124,22 @@ extension OrderView {
 		}
 		
 		func updateTimePickers() {
-			let components: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
-			var startTimeComponents: DateComponents = Calendar.current.dateComponents(components, from: startDateForPicker)
-			var endTimeComponents: DateComponents = Calendar.current.dateComponents(components, from: endDateForPicker)
+			let dayComponents: DateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: dayForPicker)
+			let timeComponents: Set<Calendar.Component> = [.hour, .minute]
 			
-			startTimeComponents.day = dayForPicker.dayOfMonth
-			endTimeComponents.day = dayForPicker.dayOfMonth
+			var startTimeComponents: DateComponents = Calendar.current.dateComponents(timeComponents, from: startDateForPicker)
+			var endTimeComponents: DateComponents = Calendar.current.dateComponents(timeComponents, from: endDateForPicker)
 			
-			self.startDateForPicker = Calendar.current.date(from: startTimeComponents) ?? Date.now
-			self.endDateForPicker = Calendar.current.date(from: endTimeComponents) ?? Date.now
+			var startDateComponents: DateComponents = dayComponents
+			var endDateComponents: DateComponents = dayComponents
+			
+			startDateComponents.hour = startTimeComponents.hour
+			startDateComponents.minute = startTimeComponents.minute
+			endDateComponents.hour = endTimeComponents.hour
+			endDateComponents.minute = endTimeComponents.minute
+			
+			self.startDateForPicker = Calendar.current.date(from: startDateComponents) ?? Date.now
+			self.endDateForPicker = Calendar.current.date(from: endDateComponents) ?? Date.now
 		}
 		
 		func updateOrderTime() {
