@@ -44,6 +44,8 @@ extension CalendarView {
 		@Published var isProcessingSheetRequest: Bool = false
 		@Published var sheetBannerData: BannerData?
 		
+		@Published var bannerData: BannerData?
+		
 		@Published var sheet: Sheet?
 		@Published var navStack: [Route] = []
 		
@@ -142,6 +144,25 @@ extension CalendarView {
 			return orders.filter { $0.orderStatus == .Approved || $0.orderStatus == .Completed }
 		}
 		
+		func getTimeBlocks() {
+			self.apiClient.getTimeBlocks(businessId: self.business.id)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.bannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { timeBlocksResponse in
+						TimeBlockRepository.shared
+							.update(timeBlocks: timeBlocksResponse.compactMap({ TimeBlock($0) } ))
+					}
+				)
+				.store(in: &self.cancellableBag)
+		}
+		
 		func createTimeBlock() {
 			let createTimeBlockModel: CreateTimeBlock = CreateTimeBlock(
 				title: self.timeBlockTitle,
@@ -168,7 +189,6 @@ extension CalendarView {
 					}
 				)
 				.store(in: &self.cancellableBag)
-			
 		}
 	}
 }
