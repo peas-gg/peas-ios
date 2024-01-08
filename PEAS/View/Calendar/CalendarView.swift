@@ -63,7 +63,7 @@ struct CalendarView: View {
 							}
 						}
 						.padding(.top, 40)
-						.padding(.bottom, SizeConstants.scrollViewBottomPadding)
+						.padding(.bottom, SizeConstants.scrollViewBottomPadding + 20)
 					}
 					Spacer(minLength: 0)
 				}
@@ -84,6 +84,25 @@ struct CalendarView: View {
 						.animation(.easeInOut, value: viewModel.isExpanded)
 				}
 				.padding(.trailing)
+			}
+			.overlay(alignment: .bottomTrailing) {
+				Button(action: {}) {
+					Image(systemName: "plus")
+						.font(Font.app.largeTitle)
+						.foregroundColor(Color.app.accent)
+						.padding()
+						.background {
+							ZStack {
+								Circle()
+									.fill(Color.app.primaryBackground)
+								Circle()
+									.stroke(Color.gray.opacity(0.4), lineWidth: 1)
+							}
+						}
+						.shadow(color: Color.gray.opacity(0.2), radius: 2, x: 1, y: 2)
+				}
+				.buttonStyle(.insideScaling)
+				.padding([.bottom, .trailing], 30)
 			}
 			.navigationTitle("")
 			.navigationDestination(for: ViewModel.Route.self) { route in
@@ -144,7 +163,7 @@ struct CalendarView: View {
 struct CalendarView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			CalendarView(viewModel: .init(business: Business.mock1, orders: [Order.mock1, Order.mock2, Order.mock3]))
+			CalendarView(viewModel: .init(business: Business.mock1, orders: [Order.mock1, Order.mock2, Order.mock3, Order.mock4, Order.mock5, Order.mock6, Order.mock7, Order.mock8]))
 		}
 	}
 }
