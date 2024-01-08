@@ -95,6 +95,8 @@
 		D0793D372AA2B0F700139783 /* WelcomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0793D362AA2B0F700139783 /* WelcomeVM.swift */; };
 		D07F59EA2AD7622000529BE4 /* SoundClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F59E92AD7622000529BE4 /* SoundClient.swift */; };
 		D08060B52AD4FB3900D58228 /* ServerUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08060B42AD4FB3900D58228 /* ServerUrl.swift */; };
+		D081182F2B4C9148009BC21F /* TimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D081182E2B4C9148009BC21F /* TimeBlock.swift */; };
+		D08118312B4C9325009BC21F /* TimeBlockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08118302B4C9325009BC21F /* TimeBlockResponse.swift */; };
 		D08805AD2B3EBBA600274429 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08805AC2B3EBBA600274429 /* DateTimePicker.swift */; };
 		D08805AF2B3EDD4300274429 /* SheetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08805AE2B3EDD4300274429 /* SheetHeaderView.swift */; };
 		D09371142AC0F6E900FF7C9F /* CashOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09371132AC0F6E900FF7C9F /* CashOutView.swift */; };
@@ -218,6 +220,8 @@
 		D0793D362AA2B0F700139783 /* WelcomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVM.swift; sourceTree = "<group>"; };
 		D07F59E92AD7622000529BE4 /* SoundClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundClient.swift; sourceTree = "<group>"; };
 		D08060B42AD4FB3900D58228 /* ServerUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUrl.swift; sourceTree = "<group>"; };
+		D081182E2B4C9148009BC21F /* TimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlock.swift; sourceTree = "<group>"; };
+		D08118302B4C9325009BC21F /* TimeBlockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockResponse.swift; sourceTree = "<group>"; };
 		D08805AC2B3EBBA600274429 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		D08805AE2B3EDD4300274429 /* SheetHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHeaderView.swift; sourceTree = "<group>"; };
 		D09371132AC0F6E900FF7C9F /* CashOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutView.swift; sourceTree = "<group>"; };
@@ -552,6 +556,7 @@
 				D0AE1E4E2AC4F7FD004F0A67 /* RequestPayment.swift */,
 				D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */,
 				D0BBDF462B43343600D6DA66 /* DateRange.swift */,
+				D081182E2B4C9148009BC21F /* TimeBlock.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -662,6 +667,7 @@
 				D066F81C2A948F8D00B65CA4 /* Authenticate.swift */,
 				D034B80E2ACB42CA00A99A6F /* OrderResponse.swift */,
 				D068F36A2AD1CAD2003E8BC5 /* WalletResponse.swift */,
+				D08118302B4C9325009BC21F /* TimeBlockResponse.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -797,6 +803,7 @@
 				D0E220F72A9BA456003864E3 /* Int+Extension.swift in Sources */,
 				D04F11632A9F2F750011242C /* PulseView.swift in Sources */,
 				D04F11592A9D22B90011242C /* PriceTextField.swift in Sources */,
+				D08118312B4C9325009BC21F /* TimeBlockResponse.swift in Sources */,
 				D068F36B2AD1CAD2003E8BC5 /* WalletResponse.swift in Sources */,
 				D066F82A2A95716800B65CA4 /* DefaultsClient.swift in Sources */,
 				D068F37A2AD20F45003E8BC5 /* TransactionsView.swift in Sources */,
@@ -831,6 +838,7 @@
 				D08805AD2B3EBBA600274429 /* DateTimePicker.swift in Sources */,
 				D066F8302A95723500B65CA4 /* CacheTrimmer.swift in Sources */,
 				D04F11572A9D0E840011242C /* Helpers.swift in Sources */,
+				D081182F2B4C9148009BC21F /* TimeBlock.swift in Sources */,
 				D0987D622A880DAC00C2CBC5 /* Date+Extension.swift in Sources */,
 				D0F0895A2AAFB6640043EEE3 /* UserView.swift in Sources */,
 				D0793D322AA2A1FD00139783 /* AppProgressView.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OrderResponse : Decodable {
+struct OrderResponse: Decodable {
 	let id: String
 	let customer: Customer
 	let currency: Currency
