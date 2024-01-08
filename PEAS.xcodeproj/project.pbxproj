@@ -98,6 +98,7 @@
 		D081182F2B4C9148009BC21F /* TimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D081182E2B4C9148009BC21F /* TimeBlock.swift */; };
 		D08118312B4C9325009BC21F /* TimeBlockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08118302B4C9325009BC21F /* TimeBlockResponse.swift */; };
 		D08118332B4C9BD6009BC21F /* CalendarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08118322B4C9BD6009BC21F /* CalendarActivity.swift */; };
+		D08118352B4C9D60009BC21F /* TimeBlockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08118342B4C9D60009BC21F /* TimeBlockRepository.swift */; };
 		D08805AD2B3EBBA600274429 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08805AC2B3EBBA600274429 /* DateTimePicker.swift */; };
 		D08805AF2B3EDD4300274429 /* SheetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08805AE2B3EDD4300274429 /* SheetHeaderView.swift */; };
 		D09371142AC0F6E900FF7C9F /* CashOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09371132AC0F6E900FF7C9F /* CashOutView.swift */; };
@@ -224,6 +225,7 @@
 		D081182E2B4C9148009BC21F /* TimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlock.swift; sourceTree = "<group>"; };
 		D08118302B4C9325009BC21F /* TimeBlockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockResponse.swift; sourceTree = "<group>"; };
 		D08118322B4C9BD6009BC21F /* CalendarActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarActivity.swift; sourceTree = "<group>"; };
+		D08118342B4C9D60009BC21F /* TimeBlockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockRepository.swift; sourceTree = "<group>"; };
 		D08805AC2B3EBBA600274429 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		D08805AE2B3EDD4300274429 /* SheetHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHeaderView.swift; sourceTree = "<group>"; };
 		D09371132AC0F6E900FF7C9F /* CashOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutView.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			children = (
 				D042E5AF2AC63B9D0057DC91 /* OrderRepository.swift */,
 				D068F37B2AD224BD003E8BC5 /* WalletRepository.swift */,
+				D08118342B4C9D60009BC21F /* TimeBlockRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -800,6 +803,7 @@
 				D0332A182AA3AC31000E7515 /* UpdateBusiness.swift in Sources */,
 				D02659AD2A87369C00655C23 /* SiteView.swift in Sources */,
 				D07F59EA2AD7622000529BE4 /* SoundClient.swift in Sources */,
+				D08118352B4C9D60009BC21F /* TimeBlockRepository.swift in Sources */,
 				D0793D272AA0554400139783 /* MenuViewModifier.swift in Sources */,
 				D0793D352AA2B0DF00139783 /* WelcomeView.swift in Sources */,
 				D066F8342A957A4800B65CA4 /* ButtonStyles.swift in Sources */,
