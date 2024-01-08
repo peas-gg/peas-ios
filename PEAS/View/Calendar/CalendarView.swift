@@ -126,8 +126,8 @@ struct CalendarView: View {
 							blockTimeView()
 						}
 					}
-//					.progressView(isShowing: viewModel.isProcessingSheetRequest, style: .black)
-//					.banner(data: $viewModel.sheetBannerData)
+					.progressView(isShowing: viewModel.isProcessingSheetRequest, style: .black)
+					.banner(data: $viewModel.sheetBannerData)
 				}
 			)
 			.onAppear { self.viewModel.didAppear() }
@@ -151,7 +151,7 @@ struct CalendarView: View {
 						Spacer()
 					}
 					.padding(.top)
-					TextField("e.g Vacation with besties", text: $viewModel.blockTimeTitle.max(60))
+					TextField("e.g Vacation with besties", text: $viewModel.timeBlockTitle.max(60))
 						.submitLabel(.done)
 						.font(Font.app.bodySemiBold)
 						.foregroundColor(Color.app.primaryText)
@@ -163,15 +163,15 @@ struct CalendarView: View {
 				.padding(.horizontal, SizeConstants.horizontalPadding)
 				VStack(alignment: .leading) {
 					subTitleText("From:")
-					DateTimePicker(context: .dayAndTime, date: $viewModel.startBlockTime)
+					DateTimePicker(context: .dayAndTime, date: $viewModel.timeBlockStartTime)
 					subTitleText("To:")
 						.padding(.top)
-					DateTimePicker(context: .dayAndTime, date: $viewModel.endBlockTime)
+					DateTimePicker(context: .dayAndTime, date: $viewModel.timeBlockEndTime)
 					Spacer(minLength: 0)
 					HStack {
 						Spacer(minLength: 0)
-						let startDate: Date = viewModel.startBlockTime
-						let endDate: Date = viewModel.endBlockTime
+						let startDate: Date = viewModel.timeBlockStartTime
+						let endDate: Date = viewModel.timeBlockEndTime
 						Text("\(endDate.getTimeSpan(from: startDate).timeSpan)")
 							.font(Font.app.title2)
 							.foregroundStyle(Color.app.primaryText)

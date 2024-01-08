@@ -37,16 +37,19 @@ extension CalendarView {
 		@Published var selectedDate: Date
 		@Published var selectedDateIndex: Int
 		
-		@Published var startBlockTime: Date = Date.now
-		@Published var endBlockTime: Date = Date.now
-		@Published var blockTimeTitle: String = ""
+		@Published var timeBlockStartTime: Date = Date.now
+		@Published var timeBlockEndTime: Date = Date.now
+		@Published var timeBlockTitle: String = ""
+		
+		@Published var isProcessingSheetRequest: Bool = false
+		@Published var sheetBannerData: BannerData?
 		
 		@Published var sheet: Sheet?
 		@Published var navStack: [Route] = []
 		
 		var canSaveTheBlockedTime: Bool {
-			!blockTimeTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-			&& (endBlockTime > startBlockTime)
+			!timeBlockTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+			&& (timeBlockEndTime > timeBlockStartTime)
 		}
 		
 		//Clients
@@ -127,7 +130,7 @@ extension CalendarView {
 			}
 		}
 		
-		func setSheet(_ sheet: Sheet) {
+		func setSheet(_ sheet: Sheet?) {
 			self.sheet = sheet
 		}
 		
@@ -137,6 +140,35 @@ extension CalendarView {
 		
 		func filteredOrders(orders: IdentifiedArrayOf<Order>) -> IdentifiedArrayOf<Order> {
 			return orders.filter { $0.orderStatus == .Approved || $0.orderStatus == .Completed }
+		}
+		
+		func createTimeBlock() {
+			let createTimeBlockModel: CreateTimeBlock = CreateTimeBlock(
+				title: self.timeBlockTitle,
+				startTime: ServerDateFormatter.formatToUTC(from: self.timeBlockStartTime),
+				endTime: ServerDateFormatter.formatToUTC(from: self.timeBlockEndTime)
+			)
+			
+			self.apiClient
+				.createTimeBlock(businessId: business.id, createTimeBlockModel)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isProcessingSheetRequest = false
+							self.sheetBannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { timeBlockResponse in
+						TimeBlockRepository.shared.update(timeBlock: TimeBlock(timeBlockResponse))
+						self.isProcessingSheetRequest = false
+						self.setSheet(nil)
+					}
+				)
+				.store(in: &self.cancellableBag)
+			
 		}
 	}
 }
