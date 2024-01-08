@@ -39,6 +39,7 @@ extension CalendarView {
 		
 		@Published var startBlockTime: Date = Date.now
 		@Published var endBlockTime: Date = Date.now
+		@Published var blockTimeTitle: String = ""
 		
 		@Published var sheet: Sheet?
 		@Published var navStack: [Route] = []
