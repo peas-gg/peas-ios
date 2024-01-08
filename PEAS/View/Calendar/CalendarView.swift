@@ -102,6 +102,8 @@ struct CalendarView: View {
 						.shadow(color: Color.gray.opacity(0.2), radius: 2, x: 1, y: 2)
 				}
 				.buttonStyle(.insideScaling)
+				.opacity(viewModel.isExpanded ? 0.0 : 1.0)
+				.animation(.easeIn.speed(2.0), value: viewModel.isExpanded)
 				.padding([.bottom, .trailing], 30)
 			}
 			.navigationTitle("")
