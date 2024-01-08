@@ -45,7 +45,8 @@ extension CalendarView {
 		@Published var navStack: [Route] = []
 		
 		var canSaveTheBlockedTime: Bool {
-			endBlockTime > startBlockTime
+			!blockTimeTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+			&& (endBlockTime > startBlockTime)
 		}
 		
 		//Clients

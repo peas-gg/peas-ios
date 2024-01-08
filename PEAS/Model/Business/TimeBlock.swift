@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TimeBlock {
+struct TimeBlock: Decodable, Identifiable {
 	let id: String
 	let title: String
 	let startTimeDate: Date
