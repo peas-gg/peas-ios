@@ -43,6 +43,10 @@ extension CalendarView {
 		@Published var sheet: Sheet?
 		@Published var navStack: [Route] = []
 		
+		var canSaveTheBlockedTime: Bool {
+			endBlockTime > startBlockTime
+		}
+		
 		//Clients
 		let apiClient: APIClient = APIClient.shared
 		let cacheClient: CacheClient = CacheClient.shared

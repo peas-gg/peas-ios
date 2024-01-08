@@ -168,6 +168,7 @@ struct CalendarView: View {
 				}
 				.buttonStyle(.expanded)
 				.padding(.horizontal, 10)
+				.disabled(!viewModel.canSaveTheBlockedTime)
 			}
 			.background(Color.app.secondaryBackground)
 		}
