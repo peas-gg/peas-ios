@@ -16,6 +16,12 @@ extension CalendarView {
 			case order(Order)
 		}
 		
+		enum Sheet: String, Equatable, Identifiable {
+			case blockTime
+			
+			var id: String { self.rawValue }
+		}
+		
 		let months: [Date]
 		
 		private var cancellableBag: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -31,6 +37,10 @@ extension CalendarView {
 		@Published var selectedDate: Date
 		@Published var selectedDateIndex: Int
 		
+		@Published var startBlockTime: Date = Date.now
+		@Published var endBlockTime: Date = Date.now
+		
+		@Published var sheet: Sheet?
 		@Published var navStack: [Route] = []
 		
 		//Clients
@@ -109,6 +119,10 @@ extension CalendarView {
 					self.isExpanded.toggle()
 				}
 			}
+		}
+		
+		func setSheet(_ sheet: Sheet) {
+			self.sheet = sheet
 		}
 		
 		func pushStack(_ route: Route) {

@@ -86,7 +86,7 @@ struct CalendarView: View {
 				.padding(.trailing)
 			}
 			.overlay(alignment: .bottomTrailing) {
-				Button(action: {}) {
+				Button(action: { viewModel.setSheet(.blockTime) }) {
 					Image(systemName: "plus")
 						.font(Font.app.largeTitle)
 						.foregroundColor(Color.app.accent)
@@ -96,7 +96,7 @@ struct CalendarView: View {
 								Circle()
 									.fill(Color.app.primaryBackground)
 								Circle()
-									.stroke(Color.gray.opacity(0.4), lineWidth: 1)
+									.stroke(Color.gray.opacity(0.2), lineWidth: 1)
 							}
 						}
 						.shadow(color: Color.gray.opacity(0.2), radius: 2, x: 1, y: 2)
@@ -114,6 +114,20 @@ struct CalendarView: View {
 				}
 				.navigationBarTitleDisplayMode(.inline)
 			}
+			.sheet(
+				item: $viewModel.sheet,
+				onDismiss: {},
+				content: { sheet in
+					Group {
+						switch sheet {
+						case .blockTime:
+							blockTimeView()
+						}
+					}
+//					.progressView(isShowing: viewModel.isProcessingSheetRequest, style: .black)
+//					.banner(data: $viewModel.sheetBannerData)
+				}
+			)
 			.onAppear { self.viewModel.didAppear() }
 			.onChange(of: self.viewModel.selectedDate) { _ in
 				self.viewModel.setSelectedDateIndex()
@@ -122,6 +136,42 @@ struct CalendarView: View {
 				setYOffset()
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func blockTimeView() -> some View {
+		VStack(spacing: 0) {
+			SheetHeaderView(title: "Block Time")
+			VStack {
+				VStack(alignment: .leading) {
+					subTitleText("From:")
+					DateTimePicker(context: .dayAndTime, date: $viewModel.startBlockTime)
+					subTitleText("To:")
+						.padding(.top)
+					DateTimePicker(context: .dayAndTime, date: $viewModel.endBlockTime)
+					HStack {
+						Spacer(minLength: 0)
+						let startDate: Date = viewModel.startBlockTime
+						let endDate: Date = viewModel.endBlockTime
+						Text("\(endDate.getTimeSpan(from: startDate).timeSpanDay)")
+							.font(Font.app.title2)
+							.foregroundStyle(Color.app.primaryText)
+						Spacer(minLength: 0)
+					}
+					.padding(.top)
+					Spacer(minLength: 0)
+				}
+				.padding(.horizontal, SizeConstants.horizontalPadding)
+				.padding(.top)
+				Button(action: {  }) {
+					Text("Save")
+				}
+				.buttonStyle(.expanded)
+				.padding(.horizontal, 10)
+			}
+			.background(Color.app.secondaryBackground)
+		}
+		.presentationDetents([.height(400)])
 	}
 	
 	@ViewBuilder
@@ -149,6 +199,13 @@ struct CalendarView: View {
 				}
 			}
 		}
+	}
+	
+	@ViewBuilder
+	func subTitleText(_ content: String) -> some View {
+		Text(content)
+			.font(Font.system(size: 16, weight: .semibold, design: .rounded))
+			.foregroundColor(Color.app.tertiaryText)
 	}
 	
 	func setYOffset() {
