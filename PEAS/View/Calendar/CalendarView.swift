@@ -145,12 +145,29 @@ struct CalendarView: View {
 		VStack(spacing: 0) {
 			SheetHeaderView(title: "Block Time")
 			VStack {
+				VStack {
+					HStack {
+						subTitleText("Title")
+						Spacer()
+					}
+					.padding(.top)
+					TextField("e.g Vacation with besties", text: $viewModel.blockTimeTitle.max(60))
+						.submitLabel(.done)
+						.font(Font.app.bodySemiBold)
+						.foregroundColor(Color.app.primaryText)
+						.padding(.horizontal)
+						.padding(.vertical, 12)
+						.tint(Color.app.primaryText)
+						.background(CardBackground())
+				}
+				.padding(.horizontal, SizeConstants.horizontalPadding)
 				VStack(alignment: .leading) {
 					subTitleText("From:")
 					DateTimePicker(context: .dayAndTime, date: $viewModel.startBlockTime)
 					subTitleText("To:")
 						.padding(.top)
 					DateTimePicker(context: .dayAndTime, date: $viewModel.endBlockTime)
+					Spacer(minLength: 0)
 					HStack {
 						Spacer(minLength: 0)
 						let startDate: Date = viewModel.startBlockTime
@@ -160,7 +177,6 @@ struct CalendarView: View {
 							.foregroundStyle(Color.app.primaryText)
 						Spacer(minLength: 0)
 					}
-					.padding(.top)
 					Spacer(minLength: 0)
 				}
 				.padding(.horizontal, SizeConstants.horizontalPadding)
@@ -171,10 +187,10 @@ struct CalendarView: View {
 				.buttonStyle(.expanded)
 				.padding(.horizontal, 10)
 				.disabled(!viewModel.canSaveTheBlockedTime)
+				.padding(.bottom)
 			}
 			.background(Color.app.secondaryBackground)
 		}
-		.presentationDetents([.height(400)])
 	}
 	
 	@ViewBuilder
