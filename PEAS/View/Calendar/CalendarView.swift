@@ -155,7 +155,7 @@ struct CalendarView: View {
 						Spacer(minLength: 0)
 						let startDate: Date = viewModel.startBlockTime
 						let endDate: Date = viewModel.endBlockTime
-						Text("\(endDate.getTimeSpan(from: startDate).timeSpanDay)")
+						Text("\(endDate.getTimeSpan(from: startDate).timeSpan)")
 							.font(Font.app.title2)
 							.foregroundStyle(Color.app.primaryText)
 						Spacer(minLength: 0)
