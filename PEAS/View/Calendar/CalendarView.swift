@@ -62,8 +62,8 @@ struct CalendarView: View {
 											)
 										}
 										.buttonStyle(.plain)
-									case .timeBlock:
-										Color.red
+									case .timeBlock(let timeBlock):
+										timeBlockView(timeBlock)
 									}
 								}
 								.padding(.bottom, 20)
@@ -201,6 +201,45 @@ struct CalendarView: View {
 	}
 	
 	@ViewBuilder
+	func timeBlockView(_ timeBlock: TimeBlock) -> some View {
+		HStack(spacing: 8) {
+			let size: CGSize = CGSize(width: 50, height: 70)
+			let cornerRadius: CGFloat = 6
+			RoundedRectangle(cornerRadius: cornerRadius)
+				.fill(Color.app.accent.opacity(0.6))
+				.frame(size: size)
+				.overlay {
+					Image(systemName: "slash.circle")
+						.font(Font.app.title1)
+						.foregroundStyle(Color.app.darkGreen)
+				}
+			VStack(alignment: .leading, spacing: 8) {
+				Text(timeBlock.title)
+					.font(Font.app.bodySemiBold)
+					.foregroundStyle(Color.app.primaryText)
+					.lineLimit(1)
+				HStack {
+					Text("Blocked Time")
+						.foregroundStyle(Color.app.primaryText)
+					Spacer(minLength: 0)
+				}
+				HStack {
+					Text("(9:00am) 29 Mar")
+					Image(systemName: "ellipsis")
+						.font(Font.app.title2)
+						.padding(.horizontal)
+					Text("(10:00am) 30 Mar")
+				}
+				.foregroundStyle(Color.app.tertiaryText)
+			}
+			.font(Font.app.caption)
+		}
+		.padding(6)
+		.background(CardBackground())
+		.padding(.horizontal, SizeConstants.horizontalPadding)
+	}
+	
+	@ViewBuilder
 	func monthsView(currentIndex: Int) -> some View {
 		let nextIndex = currentIndex + 1
 		if currentIndex % 2 == 0 || currentIndex == 0 {
@@ -246,7 +285,22 @@ struct CalendarView: View {
 struct CalendarView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			CalendarView(viewModel: .init(business: Business.mock1, orders: [Order.mock1, Order.mock2, Order.mock3, Order.mock4, Order.mock5, Order.mock6, Order.mock7, Order.mock8]))
+			CalendarView(
+				viewModel: .init(
+					business: Business.mock1,
+					orders: [
+						Order.mock1,
+						Order.mock2,
+						Order.mock3,
+						Order.mock4,
+						Order.mock5,
+						Order.mock6,
+						Order.mock7,
+						Order.mock8
+					],
+					timeBlocks: [TimeBlock.mock1]
+				)
+			)
 		}
 	}
 }
