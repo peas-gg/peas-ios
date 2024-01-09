@@ -119,8 +119,7 @@ extension CalendarView {
 			Task {
 				self.orders = OrderRepository.shared.orders
 				self.timeBlocks = TimeBlockRepository.shared.timeBlocks
-				setCurrentEvents()
-				updateDaysWithEvents()
+				self.getTimeBlocks()
 			}
 		}
 		
@@ -134,6 +133,7 @@ extension CalendarView {
 			
 			self.events = calendarEvents
 			self.updateDaysWithEvents()
+			setCurrentEvents()
 		}
 		
 		func updateDaysWithEvents() {
