@@ -84,6 +84,10 @@ extension OrderView {
 			endDateForPicker > startDateForPicker
 		}
 		
+		var didOrderTimeChange: Bool {
+			startDateForPicker != order.startTimeDate || endDateForPicker != order.endTimeDate
+		}
+		
 		//Clients
 		private let apiClient: APIClient = APIClient.shared
 		

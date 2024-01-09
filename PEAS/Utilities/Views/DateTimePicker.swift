@@ -43,12 +43,18 @@ struct DateTimePicker: View {
 				timePicker()
 			}
 		case .dayAndTime:
-			HStack(spacing: 10) {
+			HStack(spacing: 4) {
 				dayPickerDetailView(isShortWeekDay: true)
 				Spacer(minLength: 0)
 				HStack(spacing: 10) {
-					Text("\(date.localTimeOnly)")
-						.textCase(.lowercase)
+					Text(" 4:44pm ")
+						.foregroundStyle(Color.app.primaryBackground)
+						.opacity(0)
+						.overlay {
+							Text(" \(date.localTimeOnly) ")
+								.textCase(.lowercase)
+								.fixedSize(horizontal: true, vertical: false)
+						}
 					Image(systemName: "chevron.down")
 						.foregroundColor(Color.app.tertiaryText)
 				}

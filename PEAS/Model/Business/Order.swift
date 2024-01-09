@@ -97,8 +97,8 @@ extension Order {
 				description: "I could offer you some discounts if you have shorter hair",
 				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
 				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
-				startTime: "2023-09-22T07:00:00Z",
-				endTime: "2023-09-22T07:10:00Z",
+				startTime: "2024-01-22T07:00:00Z",
+				endTime: "2024-01-22T07:10:00Z",
 				orderStatus: .Approved,
 				didRequestPayment: false,
 				payment: nil,
@@ -119,8 +119,8 @@ extension Order {
 				description: "I could offer you some discounts if you have shorter hair",
 				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
 				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
-				startTime: "2023-09-23T22:00:00Z",
-				endTime: "2023-09-23T23:10:00Z",
+				startTime: "2024-01-22T22:00:00Z",
+				endTime: "2024-01-22T23:10:00Z",
 				orderStatus: .Pending,
 				didRequestPayment: false,
 				payment: nil,
@@ -141,8 +141,118 @@ extension Order {
 				description: "I could offer you some discounts if you have shorter hair",
 				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
 				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
-				startTime: "2023-09-28T22:00:00Z",
-				endTime: "2023-09-28T23:10:00Z",
+				startTime: "2024-01-22T22:00:00Z",
+				endTime: "2024-01-22T23:10:00Z",
+				orderStatus: .Pending,
+				didRequestPayment: false,
+				payment: nil,
+				created: "2023-09-22T07:10:00Z",
+				lastUpdated: "2023-09-22T07:10:00Z"
+			)
+		)
+	}
+	
+	static var mock4: Self {
+		return Order(
+			orderResponse: OrderResponse(
+				id: UUID().uuidString,
+				customer: Customer.mock1,
+				currency: .CAD,
+				price: 12000,
+				title: "Box Braids",
+				description: "I could offer you some discounts if you have shorter hair",
+				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
+				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
+				startTime: "2024-01-22T22:00:00Z",
+				endTime: "2024-01-22T23:10:00Z",
+				orderStatus: .Pending,
+				didRequestPayment: false,
+				payment: nil,
+				created: "2023-09-22T07:10:00Z",
+				lastUpdated: "2023-09-22T07:10:00Z"
+			)
+		)
+	}
+	
+	static var mock5: Self {
+		return Order(
+			orderResponse: OrderResponse(
+				id: UUID().uuidString,
+				customer: Customer.mock1,
+				currency: .CAD,
+				price: 12000,
+				title: "Box Braids",
+				description: "I could offer you some discounts if you have shorter hair",
+				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
+				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
+				startTime: "2024-01-22T22:00:00Z",
+				endTime: "2024-01-22T23:10:00Z",
+				orderStatus: .Pending,
+				didRequestPayment: false,
+				payment: nil,
+				created: "2023-09-22T07:10:00Z",
+				lastUpdated: "2023-09-22T07:10:00Z"
+			)
+		)
+	}
+	
+	static var mock6: Self {
+		return Order(
+			orderResponse: OrderResponse(
+				id: UUID().uuidString,
+				customer: Customer.mock1,
+				currency: .CAD,
+				price: 12000,
+				title: "Box Braids",
+				description: "I could offer you some discounts if you have shorter hair",
+				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
+				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
+				startTime: "2024-01-22T22:00:00Z",
+				endTime: "2024-01-22T23:10:00Z",
+				orderStatus: .Pending,
+				didRequestPayment: false,
+				payment: nil,
+				created: "2023-09-22T07:10:00Z",
+				lastUpdated: "2023-09-22T07:10:00Z"
+			)
+		)
+	}
+	
+	static var mock7: Self {
+		return Order(
+			orderResponse: OrderResponse(
+				id: UUID().uuidString,
+				customer: Customer.mock1,
+				currency: .CAD,
+				price: 12000,
+				title: "Box Braids",
+				description: "I could offer you some discounts if you have shorter hair",
+				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
+				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
+				startTime: "2024-01-22T22:00:00Z",
+				endTime: "2024-01-22T23:10:00Z",
+				orderStatus: .Pending,
+				didRequestPayment: false,
+				payment: nil,
+				created: "2023-09-22T07:10:00Z",
+				lastUpdated: "2023-09-22T07:10:00Z"
+			)
+		)
+	}
+	
+	static var mock8: Self {
+		return Order(
+			orderResponse: OrderResponse(
+				id: UUID().uuidString,
+				customer: Customer.mock1,
+				currency: .CAD,
+				price: 12000,
+				title: "Box Braids",
+				description: "I could offer you some discounts if you have shorter hair",
+				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
+				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
+				startTime: "2024-01-22T22:00:00Z",
+				endTime: "2024-01-22T23:10:00Z",
 				orderStatus: .Pending,
 				didRequestPayment: false,
 				payment: nil,
