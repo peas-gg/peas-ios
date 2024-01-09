@@ -166,6 +166,9 @@ extension CalendarView {
 		
 		func setSheet(_ sheet: Sheet?) {
 			self.sheet = sheet
+			if sheet == nil {
+				self.resetTimeBlockSheet()
+			}
 		}
 		
 		func pushStack(_ route: Route) {
@@ -174,6 +177,12 @@ extension CalendarView {
 		
 		func filteredOrders(orders: IdentifiedArrayOf<Order>) -> IdentifiedArrayOf<Order> {
 			return orders.filter { $0.orderStatus == .Approved || $0.orderStatus == .Completed }
+		}
+		
+		func resetTimeBlockSheet() {
+			self.timeBlockTitle = ""
+			self.timeBlockStartTime = Date.now
+			self.timeBlockEndTime = Date.now
 		}
 		
 		func getTimeBlocks() {
@@ -217,9 +226,7 @@ extension CalendarView {
 					},
 					receiveValue: { timeBlockResponse in
 						TimeBlockRepository.shared.update(timeBlock: TimeBlock(timeBlockResponse))
-						self.timeBlockTitle = ""
-						self.timeBlockStartTime = Date.now
-						self.timeBlockEndTime = Date.now
+						self.resetTimeBlockSheet()
 						self.isProcessingSheetRequest = false
 						self.setSheet(nil)
 					}
