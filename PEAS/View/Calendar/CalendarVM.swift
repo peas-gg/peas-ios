@@ -85,6 +85,14 @@ extension CalendarView {
 				.sink { _ in self.updateEvents() }
 				.store(in: &cancellableBag)
 			
+			$sheet
+				.sink { sheet in
+					if sheet == nil {
+						self.resetTimeBlockSheet()
+					}
+				}
+				.store(in: &cancellableBag)
+			
 			//Register for updates
 			OrderRepository.shared
 				.$orders
@@ -166,9 +174,6 @@ extension CalendarView {
 		
 		func setSheet(_ sheet: Sheet?) {
 			self.sheet = sheet
-			if sheet == nil {
-				self.resetTimeBlockSheet()
-			}
 		}
 		
 		func pushStack(_ route: Route) {
