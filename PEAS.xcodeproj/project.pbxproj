@@ -97,7 +97,7 @@
 		D08060B52AD4FB3900D58228 /* ServerUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08060B42AD4FB3900D58228 /* ServerUrl.swift */; };
 		D081182F2B4C9148009BC21F /* TimeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D081182E2B4C9148009BC21F /* TimeBlock.swift */; };
 		D08118312B4C9325009BC21F /* TimeBlockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08118302B4C9325009BC21F /* TimeBlockResponse.swift */; };
-		D08118332B4C9BD6009BC21F /* CalendarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08118322B4C9BD6009BC21F /* CalendarActivity.swift */; };
+		D08118332B4C9BD6009BC21F /* CalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08118322B4C9BD6009BC21F /* CalendarEvent.swift */; };
 		D08118352B4C9D60009BC21F /* TimeBlockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08118342B4C9D60009BC21F /* TimeBlockRepository.swift */; };
 		D08805AD2B3EBBA600274429 /* DateTimePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08805AC2B3EBBA600274429 /* DateTimePicker.swift */; };
 		D08805AF2B3EDD4300274429 /* SheetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08805AE2B3EDD4300274429 /* SheetHeaderView.swift */; };
@@ -224,7 +224,7 @@
 		D08060B42AD4FB3900D58228 /* ServerUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUrl.swift; sourceTree = "<group>"; };
 		D081182E2B4C9148009BC21F /* TimeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlock.swift; sourceTree = "<group>"; };
 		D08118302B4C9325009BC21F /* TimeBlockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockResponse.swift; sourceTree = "<group>"; };
-		D08118322B4C9BD6009BC21F /* CalendarActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarActivity.swift; sourceTree = "<group>"; };
+		D08118322B4C9BD6009BC21F /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
 		D08118342B4C9D60009BC21F /* TimeBlockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBlockRepository.swift; sourceTree = "<group>"; };
 		D08805AC2B3EBBA600274429 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		D08805AE2B3EDD4300274429 /* SheetHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHeaderView.swift; sourceTree = "<group>"; };
@@ -562,7 +562,7 @@
 				D068F36C2AD1CE3B003E8BC5 /* Wallet.swift */,
 				D0BBDF462B43343600D6DA66 /* DateRange.swift */,
 				D081182E2B4C9148009BC21F /* TimeBlock.swift */,
-				D08118322B4C9BD6009BC21F /* CalendarActivity.swift */,
+				D08118322B4C9BD6009BC21F /* CalendarEvent.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -792,7 +792,7 @@
 				D0BF26D82A888A9F001FCC05 /* VerticalTabView.swift in Sources */,
 				D066F8282A956E4400B65CA4 /* Cache.swift in Sources */,
 				D0FB0B0D2A8FFC9500C56178 /* ResponseTypes.swift in Sources */,
-				D08118332B4C9BD6009BC21F /* CalendarActivity.swift in Sources */,
+				D08118332B4C9BD6009BC21F /* CalendarEvent.swift in Sources */,
 				D034B80F2ACB42CA00A99A6F /* OrderResponse.swift in Sources */,
 				D068F3782AD20F36003E8BC5 /* TransactionsVM.swift in Sources */,
 				D04F115D2A9E4A0B0011242C /* StepperView.swift in Sources */,

@@ -40,7 +40,7 @@ struct CalendarView: View {
 						month: viewModel.selectedDate,
 						selectedDate: viewModel.selectedDate,
 						isCollapsed: true,
-						daysToHighlight: viewModel.daysWithOrders
+						daysToHighlight: viewModel.daysWithEvents
 					) { date in
 						self.viewModel.dateSelected(date: date)
 					}
@@ -48,17 +48,24 @@ struct CalendarView: View {
 					.background(Color.app.accent.edgesIgnoringSafeArea(.top))
 					ScrollView {
 						LazyVStack {
-							ForEach(viewModel.currentShowingOrders) { order in
-								Button(action: { viewModel.pushStack(.order(order)) }) {
-									OrderView(
-										viewModel: OrderView.ViewModel(
-											context: .calendar,
-											business: viewModel.business,
-											order: order
-										)
-									)
+							ForEach(viewModel.currentShowingEvents) { calendarEvent in
+								Group {
+									switch calendarEvent.event {
+									case .order(let order):
+										Button(action: { viewModel.pushStack(.order(order)) }) {
+											OrderView(
+												viewModel: OrderView.ViewModel(
+													context: .calendar,
+													business: viewModel.business,
+													order: order
+												)
+											)
+										}
+										.buttonStyle(.plain)
+									case .timeBlock:
+										Color.red
+									}
 								}
-								.buttonStyle(.plain)
 								.padding(.bottom, 20)
 							}
 						}
@@ -201,7 +208,7 @@ struct CalendarView: View {
 				MonthView(
 					month: viewModel.months[currentIndex],
 					selectedDate: viewModel.selectedDate,
-					daysToHighlight: viewModel.daysWithOrders
+					daysToHighlight: viewModel.daysWithEvents
 				) { date in
 					viewModel.dateSelected(date: date)
 				}
@@ -210,7 +217,7 @@ struct CalendarView: View {
 					MonthView(
 						month: viewModel.months[nextIndex],
 						selectedDate: viewModel.selectedDate,
-						daysToHighlight: viewModel.daysWithOrders
+						daysToHighlight: viewModel.daysWithEvents
 					) { date in
 						viewModel.dateSelected(date: date)
 					}
