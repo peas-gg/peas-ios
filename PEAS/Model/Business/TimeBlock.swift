@@ -20,3 +20,16 @@ struct TimeBlock: Codable, Identifiable, Hashable {
 		self.endTimeDate = ServerDateFormatter.formatToDate(from: timeBlockResponse.endTime)
 	}
 }
+
+extension TimeBlock {
+	static var mock1: Self {
+		return TimeBlock(
+			TimeBlockResponse(
+				id: UUID().uuidString,
+				title: "Vacation with the girls 🛫🏖️",
+				startTime: "2024-01-08T07:10:00Z",
+				endTime: "2024-01-10T07:10:00Z"
+			)
+		)
+	}
+}
