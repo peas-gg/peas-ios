@@ -188,7 +188,7 @@ struct CalendarView: View {
 				}
 				.padding(.horizontal, SizeConstants.horizontalPadding)
 				.padding(.top)
-				Button(action: {  }) {
+				Button(action: { viewModel.createTimeBlock() }) {
 					Text("Save")
 				}
 				.buttonStyle(.expanded)

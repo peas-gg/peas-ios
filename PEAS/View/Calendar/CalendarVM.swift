@@ -196,6 +196,7 @@ extension CalendarView {
 		}
 		
 		func createTimeBlock() {
+			self.isProcessingSheetRequest = true
 			let createTimeBlockModel: CreateTimeBlock = CreateTimeBlock(
 				title: self.timeBlockTitle,
 				startTime: ServerDateFormatter.formatToUTC(from: self.timeBlockStartTime),
@@ -216,6 +217,9 @@ extension CalendarView {
 					},
 					receiveValue: { timeBlockResponse in
 						TimeBlockRepository.shared.update(timeBlock: TimeBlock(timeBlockResponse))
+						self.timeBlockTitle = ""
+						self.timeBlockStartTime = Date.now
+						self.timeBlockEndTime = Date.now
 						self.isProcessingSheetRequest = false
 						self.setSheet(nil)
 					}
