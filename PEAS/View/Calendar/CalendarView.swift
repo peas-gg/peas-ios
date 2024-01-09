@@ -10,6 +10,12 @@ import SwiftUI
 struct CalendarView: View {
 	let yOffsetPadding: CGFloat = 200
 	
+	let timeBlockFormatter: DateFormatter = {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "(h:mma)  DD MMM"
+		return dateFormatter
+	}()
+	
 	@StateObject var viewModel: ViewModel
 	
 	@State var yOffset: CGFloat
@@ -224,11 +230,11 @@ struct CalendarView: View {
 					Spacer(minLength: 0)
 				}
 				HStack {
-					Text("(9:00am) 29 Mar")
+					Text("\(self.timeBlockFormatter.string(from: timeBlock.startTimeDate))")
 					Image(systemName: "ellipsis")
 						.font(Font.app.title2)
 						.padding(.horizontal)
-					Text("(10:00am) 30 Mar")
+					Text("\(self.timeBlockFormatter.string(from: timeBlock.endTimeDate))")
 				}
 				.foregroundStyle(Color.app.tertiaryText)
 			}
