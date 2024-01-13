@@ -14,23 +14,28 @@ struct SiteOnboardingView: View {
 	var body: some View {
 		VStack {
 			if let businessDraft = viewModel.businessDraft {
-				VStack {
+				ZStack {
 					SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: businessDraft))
-					Spacer()
 					VStack {
-						Button(action: { viewModel.showResetWarning() }) {
-							Image(systemName: "arrow.counterclockwise")
-							Text("Reset")
+						Spacer()
+						VStack {
+							Button(action: { viewModel.showResetWarning() }) {
+								Image(systemName: "arrow.counterclockwise")
+								Text("Reset")
+							}
+							.font(Font.app.title3)
+							.foregroundColor(Color.app.tertiaryText)
+							Button(action: { viewModel.proceed() }) {
+								Text(viewModel.isUserLoggedIn ? "Publish" : "Create")
+							}
+							.buttonStyle(.expanded(style: .black))
+							.padding(.bottom, 40)
 						}
-						.font(Font.app.title3)
-						.foregroundColor(Color.app.tertiaryText)
-						Button(action: { viewModel.proceed() }) {
-							Text(viewModel.isUserLoggedIn ? "Publish" : "Create")
-						}
-						.buttonStyle(.expanded(style: .black))
+						.padding(.top, 8)
+						.background(Color.app.primaryBackground)
 					}
-					.padding(.top, 8)
 				}
+				.edgesIgnoringSafeArea(.bottom)
 				.transition(
 					.asymmetric(
 						insertion: .scale,

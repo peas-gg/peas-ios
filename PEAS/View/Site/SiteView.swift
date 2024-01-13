@@ -164,6 +164,7 @@ struct SiteView: View {
 						}
 						.padding(14)
 						.padding(.bottom, SizeConstants.scrollViewBottomPadding)
+						.padding(.bottom, viewModel.isTemplate ? 80.0 : 0.0)
 						Spacer()
 					}
 					.background {
@@ -180,6 +181,7 @@ struct SiteView: View {
 		.overlay (alignment: .bottom){
 			toolbar()
 				.padding(.bottom)
+				.padding(.bottom, viewModel.isTemplate ? 140.0 : 0.0)
 		}
 		.background(backgroundColour.ignoresSafeArea(edges: .top))
 		.animation(.easeOut, value: backgroundColour)
@@ -457,7 +459,7 @@ struct SiteView: View {
 struct SiteView_Previews: PreviewProvider {
 	static var previews: some View {
 		VStack {
-			SiteView(viewModel: .init(isTemplate: false, business: Business.mock1))
+			SiteView(viewModel: .init(isTemplate: true, business: Business.mock1))
 		}
 	}
 }
