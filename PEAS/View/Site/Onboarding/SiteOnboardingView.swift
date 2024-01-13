@@ -16,20 +16,22 @@ struct SiteOnboardingView: View {
 			if let businessDraft = viewModel.businessDraft {
 				VStack {
 					SiteView(viewModel: SiteView.ViewModel(isTemplate: true, business: businessDraft))
-					Spacer()
-					VStack {
-						Button(action: { viewModel.showResetWarning() }) {
-							Image(systemName: "arrow.counterclockwise")
-							Text("Reset")
+						.overlay(alignment: .bottom) {
+							VStack {
+								Button(action: { viewModel.showResetWarning() }) {
+									Image(systemName: "arrow.counterclockwise")
+									Text("Reset")
+								}
+								.font(Font.app.title3)
+								.foregroundColor(Color.app.tertiaryText)
+								Button(action: { viewModel.proceed() }) {
+									Text(viewModel.isUserLoggedIn ? "Publish" : "Create")
+								}
+								.buttonStyle(.expanded(style: .black))
+							}
+							.padding(.top, 8)
+							.background(Color.app.primaryBackground)
 						}
-						.font(Font.app.title3)
-						.foregroundColor(Color.app.tertiaryText)
-						Button(action: { viewModel.proceed() }) {
-							Text(viewModel.isUserLoggedIn ? "Publish" : "Create")
-						}
-						.buttonStyle(.expanded(style: .black))
-					}
-					.padding(.top, 8)
 				}
 				.transition(
 					.asymmetric(

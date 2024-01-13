@@ -96,7 +96,13 @@ extension SiteView {
 		}
 		
 		func dismissEditContext() {
-			self.editModeContext = nil
+			Task {
+				if let business = await self.cacheClient.getData(key: .businessDraft),
+				   isTemplate {
+					self.business = business
+				}
+				self.editModeContext = nil
+			}
 		}
 		
 		@objc func updateBusiness(_ notification: Notification) {
