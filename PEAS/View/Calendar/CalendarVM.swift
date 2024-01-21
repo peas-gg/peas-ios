@@ -145,13 +145,17 @@ extension CalendarView {
 		}
 		
 		func updateDaysWithEvents() {
-			self.daysWithEvents = Set(self.events.map { self.calendarClient.getStartOfDay($0.startTimeDate) })
+			var dates: [Date] = []
+			self.events.forEach {
+				dates.append(contentsOf: self.uniqueDaysBetween(startDate: $0.startTimeDate, endDate: $0.endTimeDate))
+			}
+			self.daysWithEvents = Set(dates)
 		}
 		
 		func setCurrentEvents() {
 			//Sort orders based on dates then sort them in descending order
 			let sortedEvents: [CalendarEvent] = events
-				.filter { calendarClient.getStartOfDay($0.startTimeDate) == self.selectedDate }
+				.filter { uniqueDaysBetween(startDate: $0.startTimeDate, endDate: $0.endTimeDate).contains(self.selectedDate) }
 				.sorted(by: { $0.startTimeDate < $1.startTimeDate })
 			self.currentShowingEvents = IdentifiedArray(uniqueElements: sortedEvents)
 		}
@@ -160,6 +164,22 @@ extension CalendarView {
 			let month: Date = self.selectedDate.startOfMonth()
 			let index = (self.months.firstIndex(of: month) ?? 0)
 			self.selectedDateIndex = index / 2
+		}
+		
+		func uniqueDaysBetween(startDate: Date, endDate: Date) -> [Date] {
+			var uniqueDays: [Date] = []
+			
+			var currentDate = startDate
+			let calendar = Calendar.current
+			
+			while currentDate <= endDate {
+				uniqueDays.append(calendarClient.getStartOfDay(currentDate))
+				guard let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) else {
+					break
+				}
+				currentDate = nextDate
+			}
+			return uniqueDays
 		}
 		
 		func dateSelected(date: Date) {
