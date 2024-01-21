@@ -82,6 +82,7 @@ extension CalendarView {
 				.store(in: &cancellableBag)
 			
 			$timeBlocks
+				.receive(on: DispatchQueue.main)
 				.sink { _ in self.updateEvents() }
 				.store(in: &cancellableBag)
 			
