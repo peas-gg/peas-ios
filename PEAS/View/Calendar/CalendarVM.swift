@@ -243,6 +243,30 @@ extension CalendarView {
 			
 		}
 		
+		func deleteTimeBlock(timeBlock: TimeBlock) {
+			self.isProcessingSheetRequest = true
+			self.apiClient
+				.deleteTimeBlock(businessId: business.id, timeBlock.id)
+				.receive(on: DispatchQueue.main)
+				.sink(
+					receiveCompletion: { completion in
+						switch completion {
+						case .finished: return
+						case .failure(let error):
+							self.isProcessingSheetRequest = false
+							self.sheetBannerData = BannerData(error: error)
+						}
+					},
+					receiveValue: { _ in
+						TimeBlockRepository.shared.delete(timeBlock: timeBlock)
+						self.resetTimeBlockSheet()
+						self.isProcessingSheetRequest = false
+						self.setSheet(nil)
+					}
+				)
+				.store(in: &self.cancellableBag)
+		}
+		
 		func onSaveTimeBlock() {
 			self.isProcessingSheetRequest = true
 			let createTimeBlockModel: CreateTimeBlock = CreateTimeBlock(
