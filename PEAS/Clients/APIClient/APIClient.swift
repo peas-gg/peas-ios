@@ -37,6 +37,7 @@ protocol APIRequests {
 	func updateOrder(businessId: Business.ID, _ model: UpdateOrder) -> AnyPublisher<OrderResponse, APIClientError>
 	func getTimeBlocks(businessId: Business.ID) -> AnyPublisher<[TimeBlockResponse], APIClientError>
 	func createTimeBlock(businessId: Business.ID, _ model: CreateTimeBlock) -> AnyPublisher<TimeBlockResponse, APIClientError>
+	func deleteTimeBlock(businessId: Business.ID, _ timeBlockId: TimeBlock.ID) -> AnyPublisher<EmptyResponse, APIClientError>
 	func requestPayment(businessId: Business.ID, _ model: RequestPayment) -> AnyPublisher<OrderResponse, APIClientError>
 	func getCustomers(businessId: Business.ID) -> AnyPublisher<[Customer], APIClientError>
 	func getWallet(businessId: Business.ID) -> AnyPublisher<WalletResponse, APIClientError>
@@ -243,6 +244,19 @@ final class APIClient: APIRequests {
 			requiresAuth: true
 		)
 		return apiRequest(appRequest: createTimeBlock, output: TimeBlockResponse.self)
+	}
+	
+	func deleteTimeBlock(businessId: Business.ID, _ timeBlockId: TimeBlock.ID) -> AnyPublisher<EmptyResponse, APIClientError> {
+		let deleteTimeBlock = APPUrlRequest(
+			httpMethod: .delete,
+			pathComponents: ["business", "time", "block"],
+			query: [
+				URLQueryItem(name: "businessId", value: businessId),
+				URLQueryItem(name: "timeBlockId", value: timeBlockId),
+			],
+			requiresAuth: true
+		)
+		return apiRequest(appRequest: deleteTimeBlock, output: EmptyResponse.self)
 	}
 	
 	func requestPayment(businessId: Business.ID, _ model: RequestPayment) -> AnyPublisher<OrderResponse, APIClientError> {
