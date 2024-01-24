@@ -199,7 +199,7 @@ struct CalendarView: View {
 		}
 		.padding(6)
 		.background(CardBackground())
-		.padding(.horizontal, SizeConstants.horizontalPadding)
+		.padding(.horizontal)
 	}
 	
 	@ViewBuilder

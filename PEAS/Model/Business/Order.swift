@@ -98,7 +98,7 @@ extension Order {
 				image: URL(string: "https://peasfiles.blob.core.windows.net/templates/jenny_block_1.jpg")!,
 				note: "Would it be possible to add some coloured extensions as well? I am happy to pay a little extra for the extensions",
 				startTime: "2024-01-22T07:00:00Z",
-				endTime: "2024-01-22T07:10:00Z",
+				endTime: "2024-01-24T07:10:00Z",
 				orderStatus: .Approved,
 				didRequestPayment: false,
 				payment: nil,

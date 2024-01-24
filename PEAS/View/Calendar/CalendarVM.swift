@@ -87,14 +87,6 @@ extension CalendarView {
 				.sink { _ in self.updateEvents() }
 				.store(in: &cancellableBag)
 			
-			$sheet
-				.sink { sheet in
-					if sheet == nil {
-						self.resetTimeBlockSheet()
-					}
-				}
-				.store(in: &cancellableBag)
-			
 			//Register for updates
 			OrderRepository.shared
 				.$orders
