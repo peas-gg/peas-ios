@@ -67,11 +67,13 @@ struct CalendarView: View {
 												)
 											)
 										}
-										.buttonStyle(.plain)
 									case .timeBlock(let timeBlock):
-										timeBlockView(timeBlock)
+										Button(action: { viewModel.timeBlockTapped(timeBlock) }) {
+											timeBlockMiniView(timeBlock)
+										}
 									}
 								}
+								.buttonStyle(.plain)
 								.padding(.bottom, 20)
 							}
 						}
@@ -99,7 +101,7 @@ struct CalendarView: View {
 				.padding(.trailing)
 			}
 			.overlay(alignment: .bottomTrailing) {
-				Button(action: { viewModel.setSheet(.blockTime) }) {
+				Button(action: { viewModel.addNewTimeBlock() }) {
 					Image(systemName: "plus")
 						.font(Font.app.largeTitle)
 						.foregroundColor(Color.app.accent)
@@ -135,8 +137,16 @@ struct CalendarView: View {
 				content: { sheet in
 					Group {
 						switch sheet {
-						case .blockTime:
-							blockTimeView()
+						case .timeBlock:
+							TimeBlockView(
+								context: viewModel.timeBlockContext,
+								canSaveChanges: viewModel.canSaveTheBlockedTime,
+								title: $viewModel.timeBlockTitle,
+								startTime: $viewModel.timeBlockStartTime,
+								endTime: $viewModel.timeBlockEndTime,
+								onDelete: { viewModel.onDeleteTimeBlock() },
+								onSave: { viewModel.onSaveTimeBlock() }
+							)
 						}
 					}
 					.progressView(isShowing: viewModel.isProcessingSheetRequest, style: .black)
@@ -154,60 +164,7 @@ struct CalendarView: View {
 	}
 	
 	@ViewBuilder
-	func blockTimeView() -> some View {
-		VStack(spacing: 0) {
-			SheetHeaderView(title: "Block Time")
-			VStack {
-				VStack {
-					HStack {
-						subTitleText("Title")
-						Spacer()
-					}
-					.padding(.top)
-					TextField("e.g Vacation with besties", text: $viewModel.timeBlockTitle.max(60))
-						.submitLabel(.done)
-						.font(Font.app.bodySemiBold)
-						.foregroundColor(Color.app.primaryText)
-						.padding(.horizontal)
-						.padding(.vertical, 12)
-						.tint(Color.app.primaryText)
-						.background(CardBackground())
-				}
-				.padding(.horizontal, SizeConstants.horizontalPadding)
-				VStack(alignment: .leading) {
-					subTitleText("From:")
-					DateTimePicker(context: .dayAndTime, date: $viewModel.timeBlockStartTime)
-					subTitleText("To:")
-						.padding(.top)
-					DateTimePicker(context: .dayAndTime, date: $viewModel.timeBlockEndTime)
-					Spacer(minLength: 0)
-					HStack {
-						Spacer(minLength: 0)
-						let startDate: Date = viewModel.timeBlockStartTime
-						let endDate: Date = viewModel.timeBlockEndTime
-						Text("\(endDate.getTimeSpan(from: startDate).timeSpan)")
-							.font(Font.app.title2)
-							.foregroundStyle(Color.app.primaryText)
-						Spacer(minLength: 0)
-					}
-					Spacer(minLength: 0)
-				}
-				.padding(.horizontal, SizeConstants.horizontalPadding)
-				.padding(.top)
-				Button(action: { viewModel.createTimeBlock() }) {
-					Text("Save")
-				}
-				.buttonStyle(.expanded)
-				.padding(.horizontal, 10)
-				.disabled(!viewModel.canSaveTheBlockedTime)
-				.padding(.bottom)
-			}
-			.background(Color.app.secondaryBackground)
-		}
-	}
-	
-	@ViewBuilder
-	func timeBlockView(_ timeBlock: TimeBlock) -> some View {
+	func timeBlockMiniView(_ timeBlock: TimeBlock) -> some View {
 		HStack(spacing: 8) {
 			let size: CGSize = CGSize(width: 50, height: 70)
 			let cornerRadius: CGFloat = 6

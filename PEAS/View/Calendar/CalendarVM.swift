@@ -17,7 +17,7 @@ extension CalendarView {
 		}
 		
 		enum Sheet: String, Equatable, Identifiable {
-			case blockTime
+			case timeBlock
 			
 			var id: String { self.rawValue }
 		}
@@ -39,6 +39,7 @@ extension CalendarView {
 		@Published var selectedDate: Date
 		@Published var selectedDateIndex: Int
 		
+		@Published var timeBlockContext: TimeBlockView.Context = .add
 		@Published var timeBlockStartTime: Date = Date.now
 		@Published var timeBlockEndTime: Date = Date.now
 		@Published var timeBlockTitle: String = ""
@@ -193,6 +194,22 @@ extension CalendarView {
 			}
 		}
 		
+		func addNewTimeBlock() {
+			self.timeBlockContext = .add
+			self.timeBlockTitle = ""
+			self.timeBlockStartTime = Date.now
+			self.timeBlockEndTime = Date.now
+			self.setSheet(.timeBlock)
+		}
+		
+		func timeBlockTapped(_ timeBlock: TimeBlock) {
+			self.timeBlockContext = .edit
+			self.timeBlockTitle = timeBlock.title
+			self.timeBlockStartTime = timeBlock.startTimeDate
+			self.timeBlockEndTime = timeBlock.endTimeDate
+			self.setSheet(.timeBlock)
+		}
+		
 		func setSheet(_ sheet: Sheet?) {
 			self.sheet = sheet
 		}
@@ -230,7 +247,11 @@ extension CalendarView {
 				.store(in: &self.cancellableBag)
 		}
 		
-		func createTimeBlock() {
+		func onDeleteTimeBlock() {
+			
+		}
+		
+		func onSaveTimeBlock() {
 			self.isProcessingSheetRequest = true
 			let createTimeBlockModel: CreateTimeBlock = CreateTimeBlock(
 				title: self.timeBlockTitle,
