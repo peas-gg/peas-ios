@@ -151,6 +151,16 @@ struct CalendarView: View {
 					}
 					.progressView(isShowing: viewModel.isProcessingSheetRequest, style: .black)
 					.banner(data: $viewModel.sheetBannerData)
+					.alert(isPresented: $viewModel.isShowingTimeBlockDeleteAlert) {
+						Alert(
+							title: Text("Are you sure you want to delete this time block?"),
+							message: Text("You cannot undo this. The blocked time will be deleted from your calendar."),
+							primaryButton: .destructive(Text("Delete")) {
+								viewModel.deleteTimeBlock()
+							},
+							secondaryButton: .cancel()
+						)
+					}
 				}
 			)
 			.onAppear { self.viewModel.didAppear() }

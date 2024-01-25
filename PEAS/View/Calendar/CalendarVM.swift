@@ -43,6 +43,8 @@ extension CalendarView {
 		@Published var timeBlockStartTime: Date = Date.now
 		@Published var timeBlockEndTime: Date = Date.now
 		@Published var timeBlockTitle: String = ""
+		@Published var currentShowingTimeBlock: TimeBlock?
+		@Published var isShowingTimeBlockDeleteAlert: Bool = false
 		
 		@Published var isProcessingSheetRequest: Bool = false
 		@Published var sheetBannerData: BannerData?
@@ -199,6 +201,7 @@ extension CalendarView {
 			self.timeBlockTitle = timeBlock.title
 			self.timeBlockStartTime = timeBlock.startTimeDate
 			self.timeBlockEndTime = timeBlock.endTimeDate
+			self.currentShowingTimeBlock = timeBlock
 			self.setSheet(.timeBlock)
 		}
 		
@@ -212,12 +215,6 @@ extension CalendarView {
 		
 		func filteredOrders(orders: IdentifiedArrayOf<Order>) -> IdentifiedArrayOf<Order> {
 			return orders.filter { $0.orderStatus == .Approved || $0.orderStatus == .Completed }
-		}
-		
-		func resetTimeBlockSheet() {
-			self.timeBlockTitle = ""
-			self.timeBlockStartTime = Date.now
-			self.timeBlockEndTime = Date.now
 		}
 		
 		func getTimeBlocks() {
@@ -240,31 +237,32 @@ extension CalendarView {
 		}
 		
 		func onDeleteTimeBlock() {
-			
+			self.isShowingTimeBlockDeleteAlert = true
 		}
 		
-		func deleteTimeBlock(timeBlock: TimeBlock) {
-			self.isProcessingSheetRequest = true
-			self.apiClient
-				.deleteTimeBlock(businessId: business.id, timeBlock.id)
-				.receive(on: DispatchQueue.main)
-				.sink(
-					receiveCompletion: { completion in
-						switch completion {
-						case .finished: return
-						case .failure(let error):
+		func deleteTimeBlock() {
+			if let timeBlockToDelete = self.currentShowingTimeBlock {
+				self.isProcessingSheetRequest = true
+				self.apiClient
+					.deleteTimeBlock(businessId: business.id, timeBlockToDelete.id)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { completion in
+							switch completion {
+							case .finished: return
+							case .failure(let error):
+								self.isProcessingSheetRequest = false
+								self.sheetBannerData = BannerData(error: error)
+							}
+						},
+						receiveValue: { _ in
+							TimeBlockRepository.shared.delete(timeBlock: timeBlockToDelete)
 							self.isProcessingSheetRequest = false
-							self.sheetBannerData = BannerData(error: error)
+							self.setSheet(nil)
 						}
-					},
-					receiveValue: { _ in
-						TimeBlockRepository.shared.delete(timeBlock: timeBlock)
-						self.resetTimeBlockSheet()
-						self.isProcessingSheetRequest = false
-						self.setSheet(nil)
-					}
-				)
-				.store(in: &self.cancellableBag)
+					)
+					.store(in: &self.cancellableBag)
+			}
 		}
 		
 		func onSaveTimeBlock() {
@@ -289,7 +287,6 @@ extension CalendarView {
 					},
 					receiveValue: { timeBlockResponse in
 						TimeBlockRepository.shared.update(timeBlock: TimeBlock(timeBlockResponse))
-						self.resetTimeBlockSheet()
 						self.isProcessingSheetRequest = false
 						self.setSheet(nil)
 					}
