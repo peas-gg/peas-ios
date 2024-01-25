@@ -173,7 +173,7 @@ extension CalendarView {
 				guard let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) else {
 					break
 				}
-				currentDate = nextDate
+				currentDate = calendarClient.getStartOfDay(nextDate)
 			}
 			return uniqueDays
 		}
