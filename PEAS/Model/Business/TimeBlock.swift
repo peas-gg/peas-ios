@@ -27,8 +27,8 @@ extension TimeBlock {
 			TimeBlockResponse(
 				id: UUID().uuidString,
 				title: "Vacation with the girls 🛫🏖️",
-				startTime: "2024-01-08T07:10:00Z",
-				endTime: "2024-01-10T07:10:00Z"
+				startTime: "2024-01-24T07:10:00Z",
+				endTime: "2024-01-30T07:10:00Z"
 			)
 		)
 	}

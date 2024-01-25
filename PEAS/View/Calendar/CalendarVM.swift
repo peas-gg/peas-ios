@@ -17,7 +17,7 @@ extension CalendarView {
 		}
 		
 		enum Sheet: String, Equatable, Identifiable {
-			case blockTime
+			case timeBlock
 			
 			var id: String { self.rawValue }
 		}
@@ -39,9 +39,12 @@ extension CalendarView {
 		@Published var selectedDate: Date
 		@Published var selectedDateIndex: Int
 		
+		@Published var timeBlockContext: TimeBlockView.Context = .add
 		@Published var timeBlockStartTime: Date = Date.now
 		@Published var timeBlockEndTime: Date = Date.now
 		@Published var timeBlockTitle: String = ""
+		@Published var currentShowingTimeBlock: TimeBlock?
+		@Published var isShowingTimeBlockDeleteAlert: Bool = false
 		
 		@Published var isProcessingSheetRequest: Bool = false
 		@Published var sheetBannerData: BannerData?
@@ -82,15 +85,8 @@ extension CalendarView {
 				.store(in: &cancellableBag)
 			
 			$timeBlocks
+				.receive(on: DispatchQueue.main)
 				.sink { _ in self.updateEvents() }
-				.store(in: &cancellableBag)
-			
-			$sheet
-				.sink { sheet in
-					if sheet == nil {
-						self.resetTimeBlockSheet()
-					}
-				}
 				.store(in: &cancellableBag)
 			
 			//Register for updates
@@ -145,13 +141,17 @@ extension CalendarView {
 		}
 		
 		func updateDaysWithEvents() {
-			self.daysWithEvents = Set(self.events.map { self.calendarClient.getStartOfDay($0.startTimeDate) })
+			var dates: [Date] = []
+			self.events.forEach {
+				dates.append(contentsOf: self.uniqueDaysBetween(startDate: $0.startTimeDate, endDate: $0.endTimeDate))
+			}
+			self.daysWithEvents = Set(dates)
 		}
 		
 		func setCurrentEvents() {
 			//Sort orders based on dates then sort them in descending order
 			let sortedEvents: [CalendarEvent] = events
-				.filter { calendarClient.getStartOfDay($0.startTimeDate) == self.selectedDate }
+				.filter { uniqueDaysBetween(startDate: $0.startTimeDate, endDate: $0.endTimeDate).contains(self.selectedDate) }
 				.sorted(by: { $0.startTimeDate < $1.startTimeDate })
 			self.currentShowingEvents = IdentifiedArray(uniqueElements: sortedEvents)
 		}
@@ -160,6 +160,22 @@ extension CalendarView {
 			let month: Date = self.selectedDate.startOfMonth()
 			let index = (self.months.firstIndex(of: month) ?? 0)
 			self.selectedDateIndex = index / 2
+		}
+		
+		func uniqueDaysBetween(startDate: Date, endDate: Date) -> [Date] {
+			var uniqueDays: [Date] = []
+			
+			var currentDate = startDate
+			let calendar = Calendar.current
+			
+			while currentDate <= endDate {
+				uniqueDays.append(calendarClient.getStartOfDay(currentDate))
+				guard let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) else {
+					break
+				}
+				currentDate = calendarClient.getStartOfDay(nextDate)
+			}
+			return uniqueDays
 		}
 		
 		func dateSelected(date: Date) {
@@ -172,6 +188,23 @@ extension CalendarView {
 			}
 		}
 		
+		func addNewTimeBlock() {
+			self.timeBlockContext = .add
+			self.timeBlockTitle = ""
+			self.timeBlockStartTime = Date.now
+			self.timeBlockEndTime = Date.now
+			self.setSheet(.timeBlock)
+		}
+		
+		func timeBlockTapped(_ timeBlock: TimeBlock) {
+			self.timeBlockContext = .edit
+			self.timeBlockTitle = timeBlock.title
+			self.timeBlockStartTime = timeBlock.startTimeDate
+			self.timeBlockEndTime = timeBlock.endTimeDate
+			self.currentShowingTimeBlock = timeBlock
+			self.setSheet(.timeBlock)
+		}
+		
 		func setSheet(_ sheet: Sheet?) {
 			self.sheet = sheet
 		}
@@ -182,12 +215,6 @@ extension CalendarView {
 		
 		func filteredOrders(orders: IdentifiedArrayOf<Order>) -> IdentifiedArrayOf<Order> {
 			return orders.filter { $0.orderStatus == .Approved || $0.orderStatus == .Completed }
-		}
-		
-		func resetTimeBlockSheet() {
-			self.timeBlockTitle = ""
-			self.timeBlockStartTime = Date.now
-			self.timeBlockEndTime = Date.now
 		}
 		
 		func getTimeBlocks() {
@@ -209,7 +236,36 @@ extension CalendarView {
 				.store(in: &self.cancellableBag)
 		}
 		
-		func createTimeBlock() {
+		func onDeleteTimeBlock() {
+			self.isShowingTimeBlockDeleteAlert = true
+		}
+		
+		func deleteTimeBlock() {
+			if let timeBlockToDelete = self.currentShowingTimeBlock {
+				self.isProcessingSheetRequest = true
+				self.apiClient
+					.deleteTimeBlock(businessId: business.id, timeBlockToDelete.id)
+					.receive(on: DispatchQueue.main)
+					.sink(
+						receiveCompletion: { completion in
+							switch completion {
+							case .finished: return
+							case .failure(let error):
+								self.isProcessingSheetRequest = false
+								self.sheetBannerData = BannerData(error: error)
+							}
+						},
+						receiveValue: { _ in
+							TimeBlockRepository.shared.delete(timeBlock: timeBlockToDelete)
+							self.isProcessingSheetRequest = false
+							self.setSheet(nil)
+						}
+					)
+					.store(in: &self.cancellableBag)
+			}
+		}
+		
+		func onSaveTimeBlock() {
 			self.isProcessingSheetRequest = true
 			let createTimeBlockModel: CreateTimeBlock = CreateTimeBlock(
 				title: self.timeBlockTitle,
@@ -231,7 +287,6 @@ extension CalendarView {
 					},
 					receiveValue: { timeBlockResponse in
 						TimeBlockRepository.shared.update(timeBlock: TimeBlock(timeBlockResponse))
-						self.resetTimeBlockSheet()
 						self.isProcessingSheetRequest = false
 						self.setSheet(nil)
 					}

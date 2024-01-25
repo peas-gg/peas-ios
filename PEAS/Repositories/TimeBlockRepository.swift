@@ -30,6 +30,11 @@ import IdentifiedCollections
 		update()
 	}
 	
+	func delete(timeBlock: TimeBlock) {
+		self.timeBlocks.remove(id: timeBlock.id)
+		update()
+	}
+	
 	private func setUp() {
 		Task {
 			if let timeBlocks = await cacheClient.getData(key: .timeBlocks) {
