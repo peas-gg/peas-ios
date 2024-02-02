@@ -66,7 +66,8 @@ struct OrderView: View {
 					}
 					.buttonStyle(.expanded(style: .green))
 					.padding(.bottom)
-					.opacity(viewModel.canRequestPayment ? 1.0 : 0.0)
+					.opacity(0.0)
+					.disabled(true)
 				}
 				.background(Color.app.secondaryBackground)
 			case .dashboard:
